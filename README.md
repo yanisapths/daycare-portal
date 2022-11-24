@@ -9,7 +9,8 @@ npm i next-transpile-modules
 
 ## Environment Variables
 
-add a file ####.env.local
+add a file
+### .env.local
 ```bash
 NEXTAUTH_URL=
 NEXTAUTH_SECRET= go to https://generate-secret.now.sh/32
