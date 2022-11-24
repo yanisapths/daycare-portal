@@ -1,5 +1,4 @@
-import React, { useState,Fragment, useEffect, useRef } from 'react'
-import Head from "next/head";
+import React, { useState,Fragment} from 'react'
 import Image from 'next/image';
 import { Menu, Transition } from '@headlessui/react'
 import {
@@ -87,15 +86,6 @@ function Header({ placeholder }) {
                         </Link>
             </>
              )}
-              {session && (
-                     <> 
-                        <Link href="/daycares/dashboard/">
-                            <p  className="hidden md:inline text-teal-900 cursor-pointer">
-                               ศูนย์ดูแลของคุณ <GlobeAltIcon className="h-6  md:inline " />
-                            </p>
-                        </Link>
-                     </>
-            )}
             <Menu as="div" className="relative inline-block text-left">
                 <div>
                     <Menu.Button className="flex items-center space-x-2 border-2 p-1 rounded-full">
@@ -158,13 +148,7 @@ function Header({ placeholder }) {
                                 )}
                                     {session && (
                                     <> 
-                                            <Menu.Item>
-                                                <Link href="/daycares/dashboard/">
-                                               <button   className=" text-gray-900 group flex rounded-md items-center w-full px-4 py-2 text-sm md:text-lg">                    
-                                                    Daycare dashboard
-                                                </button>
-                                                </Link>
-                                            </Menu.Item>
+                                           
                                         <Menu.Item>
                                         {({ active }) => (
                                         <button
