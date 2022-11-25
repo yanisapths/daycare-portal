@@ -135,7 +135,7 @@ function DaycareLists({data}) {
                     </thead>
 
                     <tbody className="divide-y divide-gray-100">
-                    {data?.map(_,daycare => 
+                    {data?.map(daycare => 
                     <tr key={daycare.name}>
                         <td className="sticky left-0 p-4 bg-white">
                         <label className="sr-only" htmlFor="row_1">Row 1</label>
@@ -174,7 +174,7 @@ function DaycareLists({data}) {
 export async function getServerSideProps(context) {
   const session = await getSession(context);
    // Fetch data from external API
-   const res = await fetch(process.env.baseUrl)
+   const res = await fetch(`https://wjdf0xeju5.execute-api.ap-northeast-1.amazonaws.com/prod`)
    const data = await res.json()
 
   return {

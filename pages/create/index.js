@@ -49,16 +49,9 @@ function Create( ){
     // Form the request for sending data to the server.
     try {
         const res = await axios.post(
-            process.env.baseUrl,
+           `https://wjdf0xeju5.execute-api.ap-northeast-1.amazonaws.com/prod`,
           {
             data
-          },{
-
-              headers: {
-                  "Access-Control-Allow-Headers" : "Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
-                  "Access-Control-Allow-Origin": process.env.baseUrl,
-                  "Access-Control-Allow-Methods": "OPTIONS,POST,GET"
-              },
           }
         );
         console.log(res)
