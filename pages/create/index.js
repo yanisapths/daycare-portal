@@ -52,6 +52,10 @@ function Create( ){
            `https://wjdf0xeju5.execute-api.ap-northeast-1.amazonaws.com/prod`,
           {
             data
+          },{
+            headers:{
+                'Access-Control-Allow-Origin':'*'
+            }
           }
         );
         console.log(res)
