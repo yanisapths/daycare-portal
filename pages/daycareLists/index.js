@@ -1,19 +1,50 @@
-import React from 'react'
+import React from 'react';
+import Head from 'next/head'
+import {getSession} from "next-auth/react";
+import { useSession} from "next-auth/react";
+import { useRouter } from "next/router";
+import { useEffect } from 'react'
+import Header from '../../components/Header';
+import { ArrowLeftIcon } from  '@heroicons/react/solid';
+import Link from "next/link"
 
-function Table() {
-  return (
-    <div className="mt-12 bg-white shadow-lg">
+
+function DaycareLists({data}) {
+
+  const {data: session,status} = useSession();
+  const router = useRouter();
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+          router.push("/auth/signin/");
+        }
+      }, [status])
+
+        return (
+        <div className="">
+          <Head>
+            <title>Olive | Daycare Dashboard</title>
+            <link rel="icon" href="favicon.ico" />
+          </Head>
+        <Header />
+
+        <main  className="main bg-amber-50">
+          <section className="pt-6">
+          <nav className="flex text-sm font-medium border-b border-gray-100 lg:max-w-xl">
+                <Link href='/'>
+                  <ArrowLeftIcon className="rounded-full w-8 h-8 mb-8 cursor-pointer" />
+                </Link>
+            </nav>
+          </section>
+            <h1 className="text-3xl font-bold align-center item-center">Daycare Lists</h1>
+            <div className="mt-12 bg-white shadow-lg">
         <div className="overflow-x-auto">
                 <table className="min-w-full text-sm divide-y divide-gray-200">
                     <thead>
                     <tr>
                         <th className="sticky left-0 p-4 text-left bg-white">
                         <label className="sr-only" htmlFor="row_all">Select All</label>
-                        <input
-                            className="w-5 h-5 border-gray-200 rounded"
-                            type="checkbox"
-                            id="row_all"
-                        />
+                      
                         </th>
                         <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
                         <div className="flex items-center">
@@ -34,7 +65,7 @@ function Table() {
                         </th>
                         <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
                         <div className="flex items-center">
-                            Email Address
+                            Address
                             <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-4 h-4 ml-1.5 text-gray-700"
@@ -51,7 +82,7 @@ function Table() {
                         </th>
                         <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
                         <div className="flex items-center">
-                            Status
+                            Owner
                             <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-4 h-4 ml-1.5 text-gray-700"
@@ -85,7 +116,7 @@ function Table() {
                         </th>
                         <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
                         <div className="flex items-center">
-                            Order Number
+                           Email Address
                             <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="w-4 h-4 ml-1.5 text-gray-700"
@@ -104,6 +135,7 @@ function Table() {
                     </thead>
 
                     <tbody className="divide-y divide-gray-100">
+                    {data?.map(daycare => 
                     <tr>
                         <td className="sticky left-0 p-4 bg-white">
                         <label className="sr-only" htmlFor="row_1">Row 1</label>
@@ -114,70 +146,39 @@ function Table() {
                         />
                         </td>
                         <td className="p-4 font-medium text-gray-900 whitespace-nowrap">
-                        John Doe
+                        {daycare.name}
                         </td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">john.doe@email.com</td>
+                        <td className="p-4 text-gray-700 whitespace-nowrap"> {daycare.address}</td>
                         <td className="p-4 text-gray-700 whitespace-nowrap">
                         <strong
                             className="bg-red-100 text-red-700 px-3 py-1.5 rounded text-xs font-medium"
                         >
-                            Cancelled
+                             {daycare.owner}
                         </strong>
                         </td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">(+44) 2198 450650</td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">SHOP-1268-8910</td>
+                        <td className="p-4 text-gray-700 whitespace-nowrap"> {daycare.phoneNumber}</td>
+                        <td className="p-4 text-gray-700 whitespace-nowrap"> {daycare.email}</td>
                     </tr>
-
-                    <tr>
-                        <td className="sticky left-0 p-4 bg-white">
-                        <label className="sr-only" htmlFor="row_2">Row 2</label>
-                        <input
-                            className="w-5 h-5 border-gray-200 rounded"
-                            type="checkbox"
-                            id="row_2"
-                        />
-                        </td>
-                        <td className="p-4 font-medium whitespace-nowrap">Jane Doe</td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">jane.doe@email.com</td>
-                        <td className="p-4 whitespace-nowrap">
-                        <strong
-                            className="bg-green-100 text-green-700 px-3 py-1.5 rounded text-xs font-medium"
-                        >
-                            Paid
-                        </strong>
-                        </td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">(+44) 1928 450650</td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">SHOP-4235-1526</td>
-                    </tr>
-
-                    <tr>
-                        <td className="sticky left-0 p-4 bg-white">
-                        <label className="sr-only" htmlFor="row_3">Row 3</label>
-                        <input
-                            className="w-5 h-5 border-gray-200 rounded"
-                            type="checkbox"
-                            id="row_3"
-                        />
-                        </td>
-                        <td className="p-4 font-medium whitespace-nowrap">Gary Barlow</td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">
-                        gary.barlow@email.com
-                        </td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">
-                        <strong
-                            className="bg-amber-100 text-amber-700 px-3 py-1.5 rounded text-xs font-medium"
-                        >
-                            Partially Refunded
-                        </strong>
-                        </td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">(+44) 2819 450650</td>
-                        <td className="p-4 text-gray-700 whitespace-nowrap">SHOP-1573-2468</td>
-                    </tr>
+                    )}
                     </tbody>
                 </table>
                 </div>
     </div>
-  )
+        </main>
+
+        </div>
+      );
+
 }
 
-export default Table
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+   // Fetch data from external API
+   const res = await fetch(process.env.baseUrl)
+   const data = await res.json()
+
+  return {
+    props: { data, session}
+  }
+}
+export default DaycareLists;
