@@ -135,8 +135,8 @@ function DaycareLists({data}) {
                     </thead>
 
                     <tbody className="divide-y divide-gray-100">
-                    {data?.map(daycare => 
-                    <tr>
+                    {data?.map(_,daycare => 
+                    <tr key={daycare.name}>
                         <td className="sticky left-0 p-4 bg-white">
                         <label className="sr-only" htmlFor="row_1">Row 1</label>
                         <input
