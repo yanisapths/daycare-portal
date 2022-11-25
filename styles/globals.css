@@ -38,6 +38,12 @@ a {
   .main {
     @apply mx-auto px-8 sm:px-16 bg-teal-50;
   }
+  .inputBox {
+    @apply block w-full px-5 py-3 text-xl font-medium  border-blue-500 border-2 rounded-lg;
+  }
+  .inputLabel {
+    @apply block pb-2 font-medium text-black/70;
+  }
 }
 
 
