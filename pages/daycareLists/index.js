@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Head from "next/head";
 import { getSession } from "next-auth/react";
 import { useSession } from "next-auth/react";
@@ -7,10 +7,18 @@ import { useEffect } from "react";
 import Header from "../../components/Header";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Link from "next/link";
+import DCModal from "../../components/common/DCDeleteModal";
 
 function DaycareLists({ data }) {
-  const { data: session, status } = useSession();
+  const { data: status } = useSession();
   const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  function closeModal() {
+    setIsOpen(false);
+  }
+  function openModal() {
+    setIsOpen(true);
+  }
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -132,6 +140,13 @@ function DaycareLists({ data }) {
                       </svg>
                     </div>
                   </th>
+                  <th className="p-4 font-medium text-gray-900 whitespace-nowrap">
+                    <div className="flex items-center">Approval Status</div>
+                  </th>
+
+                  <th className="p-4 font-medium text-gray-900 whitespace-nowrap">
+                    <div className="flex items-center"></div>
+                  </th>
                 </tr>
               </thead>
 
@@ -156,7 +171,7 @@ function DaycareLists({ data }) {
                       {daycare.address}
                     </td>
                     <td className="p-4 text-gray-700 whitespace-nowrap">
-                      <strong className="bg-red-100 text-red-700 px-3 py-1.5 rounded text-xs font-medium">
+                      <strong className="text-xs font-medium">
                         {daycare.owner}
                       </strong>
                     </td>
@@ -168,6 +183,26 @@ function DaycareLists({ data }) {
                       {" "}
                       {daycare.email}
                     </td>
+                    <td className="p-4 text-gray-700 whitespace-nowrap">
+                      <strong className="bg-lime-100  px-3 py-1.5 rounded text-xs font-medium mx-2">
+                        Authorized
+                      </strong>
+                    </td>
+
+                    <td className="p-4 text-gray-700 whitespace-nowrap">
+                      <strong
+                        onClick={openModal}
+                        className="cursor-pointer bg-red-100  text-red-700 px-3 py-1.5 rounded text-xs font-medium mx-2"
+                      >
+                        Delete
+                      </strong>
+                    </td>
+                    <DCModal
+                      show={isOpen}
+                      closeModal={closeModal}
+                      daycareName={daycare.name}
+                      // deleteRequestHandler={deleteRequestHandler(daycare.name)}
+                    />
                   </tr>
                 ))}
               </tbody>
@@ -183,7 +218,7 @@ export async function getServerSideProps(context) {
   const session = await getSession(context);
   // Fetch data from external API
   const res = await fetch(
-    `https://tvda8762ih.execute-api.ap-northeast-1.amazonaws.com/prod`
+    `https://tvda8762ih.execute-api.ap-northeast-1.amazonaws.com/prod/daycare`
   );
   const data = await res.json();
 
