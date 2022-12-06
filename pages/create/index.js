@@ -1,36 +1,32 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import { useSession, getSession } from "next-auth/react";
-import FooterSocial from "../../components/FooterSocial";
-import Link from "next/link";
+import { useSession} from "next-auth/react";
 import { toast } from "react-hot-toast";
-import { Controller, useForm } from "react-hook-form";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl, { useFormControl } from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import Grid from "@mui/material/Grid";
-import {
-  collection,
-  onSnapshot,
-  orderBy,
-  query,
-  where,
-  addDoc,
-  serverTimestamp,
-} from "@firebase/firestore";
-import { db } from "../../lib/firebase";
-import Stack from "@mui/material/Stack";
-import Chip from "@mui/material/Chip";
-import { ArrowLeftIcon } from "@heroicons/react/solid";
-import Autocomplete from "@mui/material/Autocomplete";
-import axios from "axios";
+import { useForm } from "react-hook-form";
+
 
 function Create() {
   const { data: session, status } = useSession();
+  const [daycareImageProfile, setDaycareImageProfile] = useState("");
+  const [createObjectURL, setCreateObjectURL] = useState("");
+
+  const uploadToClient = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const i = event.target.files[0];
+      setDaycareImageProfile(i);
+      var reader = new FileReader();
+      reader.onload = imageIsLoaded;
+      reader.readAsDataURL(i);
+      // setCreateObjectURL(URL.createObjectURL(i));
+    }
+  };
+
+  function imageIsLoaded(e) {
+    $('div.withBckImage').css({ 'background-image': "url(" + e.target.result + ")" });
+
+}
+
   const {
     watch,
     formState: { isValid },
@@ -50,6 +46,7 @@ function Create() {
       phoneNumber: event.target.phoneNumber.value,
       owner: event.target.owner.value,
       email: event.target.email.value,
+      imageUrl: event.target.imageUrl.value,
     };
 
     // Send the data to the server in JSON format.
@@ -63,14 +60,14 @@ function Create() {
     };
     // Send the form data to our forms API on Vercel and get a response.
     const response = await fetch(
-      `https://tvda8762ih.execute-api.ap-northeast-1.amazonaws.com/prod/daycare`,
+      `https://tvda8762ih.execute-api.ap-northeast-1.amazonaws.com/prod/daycare/create`,
       options
     );
 
     // Get the response data from server as JSON.
     // If server returns the name submitted, that means the form works.
     const result = await response.json();
-    alert(`Is this your full name: ${result.data}`);
+    alert(`${data.name} has been created successfully, please wait for admin to approve your profile.`);
   };
 
   if (status === "loading") {
@@ -158,6 +155,18 @@ function Create() {
                 type="email"
                 id="email"
                 name="email"
+                required
+              />
+            </div>
+            <div>
+              <label className="inputLabel" htmlFor="imageUrl" onChange={uploadToClient}>
+                Upload Your Daycare Image
+              </label>
+              <input
+                className="inputBox"
+                type="file"
+                id="imageUrl"
+                name="imageUrl"
                 required
               />
             </div>

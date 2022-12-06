@@ -8,11 +8,14 @@ import Header from "../../components/Header";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import DCModal from "../../components/common/DCDeleteModal";
+import axios from "axios";
 
 function DaycareLists({ data }) {
   const { data: status } = useSession();
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
+  const [error, setErrorMessage] = useState("");
+  const [statusMessage, setStatusMessage] = useState("");
   function closeModal() {
     setIsOpen(false);
   }
@@ -191,18 +194,18 @@ function DaycareLists({ data }) {
 
                     <td className="p-4 text-gray-700 whitespace-nowrap">
                       <strong
-                        onClick={openModal}
+                        onClick={(e) => deleteRequestHandler(daycare.name)}
                         className="cursor-pointer bg-red-100  text-red-700 px-3 py-1.5 rounded text-xs font-medium mx-2"
                       >
                         Delete
                       </strong>
                     </td>
-                    <DCModal
+                    {/* <DCModal
                       show={isOpen}
                       closeModal={closeModal}
                       daycareName={daycare.name}
-                      // deleteRequestHandler={deleteRequestHandler(daycare.name)}
-                    />
+                      deleteRequestHandler={deleteRequestHandler(daycare.name)}
+                    /> */}
                   </tr>
                 ))}
               </tbody>
@@ -213,6 +216,17 @@ function DaycareLists({ data }) {
     </div>
   );
 }
+
+const deleteRequestHandler = async (daycareName) => {
+  await axios
+    .delete(
+      `https://tvda8762ih.execute-api.ap-northeast-1.amazonaws.com/prod/daycare/delete?name=${daycareName}`
+    )
+    .then(() => setStatusMessage("success"))
+    .catch((error) => {
+      console.error("There was an error!", error);
+    });
+};
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
