@@ -18,7 +18,6 @@ function Create() {
       var reader = new FileReader();
       reader.onload = imageIsLoaded;
       reader.readAsDataURL(i);
-      // setCreateObjectURL(URL.createObjectURL(i));
     }
   };
 
@@ -46,11 +45,14 @@ function Create() {
       phoneNumber: event.target.phoneNumber.value,
       owner: event.target.owner.value,
       email: event.target.email.value,
-      imageUrl: event.target.imageUrl.value,
+      imageUrl: event.target.imageUrl.files,
     };
-
-    // Send the data to the server in JSON format.
-    const JSONdata = JSON.stringify(data);
+    
+    let imgBase64 = '';
+    await getBase64(data.imageUrl[0], async (result) => {
+      console.log(result)
+      data.imageUrl = result;
+      const JSONdata = JSON.stringify(data);
 
     const options = {
       // The method is POST because we are sending data.
@@ -63,15 +65,22 @@ function Create() {
       `https://tvda8762ih.execute-api.ap-northeast-1.amazonaws.com/prod/daycare/create`,
       options
     );
-
-    // Get the response data from server as JSON.
-    // If server returns the name submitted, that means the form works.
-    const result = await response.json();
-    alert(`${data.name} has been created successfully, please wait for admin to approve your profile.`);
+    })
   };
 
   if (status === "loading") {
     return <p>Loading...</p>;
+  }
+
+  async function getBase64(file, cb) {
+    let reader = new FileReader();
+    await reader.readAsDataURL(file);
+    reader.onload = function () {
+        cb(reader.result)
+    };
+    reader.onerror = function (error) {
+        console.log('Error: ', error);
+    };
   }
 
   console.log(
