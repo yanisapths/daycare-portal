@@ -28,7 +28,7 @@ function Header({ placeholder }) {
       <div className=" items-end justify-between text-teal-900">
         {/* Right */}
         <Menu as="div" className="relative inline-block text-left">
-          <div className="justify-end pt-2 right-0 justify-end">
+          <div className="pt-2 right-0 justify-end">
             <Menu.Button className="flex border-2 p-1 rounded-full">
               {/* Profile Pic */}
               {!session && (

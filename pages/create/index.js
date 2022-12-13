@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import Header from "../../components/Header";
-import { useSession} from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-
 
 function Create() {
   const { data: session, status } = useSession();
@@ -22,9 +21,10 @@ function Create() {
   };
 
   function imageIsLoaded(e) {
-    $('div.withBckImage').css({ 'background-image': "url(" + e.target.result + ")" });
-
-}
+    $("div.withBckImage").css({
+      "background-image": "url(" + e.target.result + ")",
+    });
+  }
 
   const {
     watch,
@@ -46,26 +46,37 @@ function Create() {
       owner: event.target.owner.value,
       email: event.target.email.value,
       imageUrl: event.target.imageUrl.files,
+      price: event.target.price.value,
+      description: event.target.description.value,
     };
-    
-    let imgBase64 = '';
+
+    let imgBase64 = "";
     await getBase64(data.imageUrl[0], async (result) => {
-      console.log(result)
+      console.log(result);
       data.imageUrl = result;
       const JSONdata = JSON.stringify(data);
 
-    const options = {
-      // The method is POST because we are sending data.
-      method: "POST",
-      // Body of the request is the JSON data we created above.
-      body: JSONdata,
-    };
-    // Send the form data to our forms API on Vercel and get a response.
-    const response = await fetch(
-      `https://tvda8762ih.execute-api.ap-northeast-1.amazonaws.com/prod/daycare/create`,
-      options
-    );
-    })
+      const options = {
+        // The method is POST because we are sending data.
+        method: "POST",
+        // Body of the request is the JSON data we created above.
+        body: JSONdata,
+      };
+      // Send the form data to our forms API on Vercel and get a response.
+      const response = await fetch(
+        `https://jnbxcl9cr3.execute-api.ap-northeast-1.amazonaws.com/dev/daycare/create`,
+        options
+      ).then(
+        toast.promise(
+          response,
+           {
+             loading: 'Creating...',
+             success: <b>Daycare is created! Please wait for approval.</b>,
+             error: <b>Could not create.</b>,
+           }
+         )
+      )
+    });
   };
 
   if (status === "loading") {
@@ -76,10 +87,10 @@ function Create() {
     let reader = new FileReader();
     await reader.readAsDataURL(file);
     reader.onload = function () {
-        cb(reader.result)
+      cb(reader.result);
     };
     reader.onerror = function (error) {
-        console.log('Error: ', error);
+      console.log("Error: ", error);
     };
   }
 
@@ -90,24 +101,21 @@ function Create() {
   return (
     <div>
       <Head>
-        <title>Olive | Create </title>
+        <title>Daycare | Create </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
-      <Header />
-      <main className="main bg-teal-50 md:h-full overflow-hidden">
-        <div className="flex-grow pt-10  md:pt-30 mt-5   px-4 py-16 mx-auto sm:px-6 lg:px-8 bg-white rounded-md ">
+        <Header/>
+      <main className="main bg-yellow-50 md:h-full overflow-hidden ">
+        <div className="flex-grow pt-10  md:pt-30 mt-5 px-4 py-16 mx-auto sm:px-6 lg:px-8 bg-white rounded-md ">
           <section className="pt-6">
-            <div className="max-w-lg mx-auto text-center pb-8 ">
-              <h1 className="font-bold  text-3xl text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-green-300 via-blue-500 to-purple-600">
+            <div className="max-w-xl pb-8 mx-24">
+              <h1 className="font-bold text-3xl text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-yellow-300 via-rose-400 to-amber-400">
                 Create Daycare Center
               </h1>
             </div>
           </section>
-          <form
-            className="max-w-md mx-auto mt-8 mb-0 space-y-4"
-            onSubmit={handleSubmit}
-          >
-            <div>
+          <form className="mt-8 mx-24 grid grid-cols-2 gap-2 md:grid md:grid-cols-6 md:gap-8" onSubmit={handleSubmit}>
+            <div className="md:col-span-2 col-span-3">
               <label className="inputLabel" htmlFor="daycareName">
                 Daycare Name
               </label>
@@ -119,19 +127,7 @@ function Create() {
                 required
               />
             </div>
-            <div>
-              <label className="inputLabel" htmlFor="address">
-                Address
-              </label>
-              <input
-                className="inputBox"
-                type="text"
-                id="address"
-                name="address"
-                required
-              />
-            </div>
-            <div>
+            <div className="md:col-span-2 col-span-3">
               <label className="inputLabel" htmlFor="owner">
                 Owner Name
               </label>
@@ -143,7 +139,19 @@ function Create() {
                 required
               />
             </div>
-            <div>
+            <div className="md:col-span-4">
+              <label className="inputLabel" htmlFor="address">
+                Address
+              </label>
+              <input
+                className="inputBox"
+                type="text"
+                id="address"
+                name="address"
+                required
+              />
+            </div>
+            <div className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="phoneNumber">
                 phone number
               </label>
@@ -155,7 +163,7 @@ function Create() {
                 required
               />
             </div>
-            <div>
+            <div className="md:col-span-2 sm:col-span-3 ">
               <label className="inputLabel" htmlFor="email">
                 Email
               </label>
@@ -167,27 +175,55 @@ function Create() {
                 required
               />
             </div>
-            <div>
-              <label className="inputLabel" htmlFor="imageUrl" onChange={uploadToClient}>
-                Upload Your Daycare Image
+            <div className="md:col-span-2 sm:col-span-3">
+              <label className="inputLabel" htmlFor="price">
+                Base Price
               </label>
               <input
                 className="inputBox"
+                type="text"
+                id="price"
+                name="price"
+                required
+              />
+            </div>
+            <div className="md:col-span-2 sm:col-span-6">
+              <label
+                className="inputLabel"
+                htmlFor="imageUrl"
+                onChange={uploadToClient}
+              >
+                Upload Your Daycare Image
+              </label>
+              <input
+                className="inputBox py-2"
                 type="file"
                 id="imageUrl"
                 name="imageUrl"
                 required
               />
             </div>
+            <div className="md:col-span-5">
+              <label className="inputLabel" htmlFor="description">
+                Describe your daycare
+              </label>
+              <input
+                className="inputBox flex flex-wrap py-10"
+                type="text"
+                id="description"
+                name="description"
+                required
+              />
+            </div>
 
-            <div className="relative text-center">
-              <button
+            <div className="absolute items-center text-center pt-[60vh]">
+              <div
                 type="submit"
-                className="block w-full px-5 py-3 text-sm font-medium text-white bg-indigo-600 rounded-lg"
+                className="buttonPrimary bg-[#AD8259] cursor-pointer font-bold text-lg"
                 disabled={!isValid}
               >
-                Submit
-              </button>
+                Create
+              </div>
             </div>
           </form>
         </div>

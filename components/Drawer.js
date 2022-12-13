@@ -17,7 +17,7 @@ function Drawer() {
         <div>
           <MenuIcon
             onClick={() => setIsOpen(!isOpen)}
-            className="cursor-pointer text-yellow-800 pr-6 w-20 h-20"
+            className="cursor-pointer top-0 sticky text-yellow-800 pr-6 w-20 h-20"
           />
         </div>
       ) : (
