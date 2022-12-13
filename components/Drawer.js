@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Link from "next/link";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import { HomeIcon } from "@heroicons/react/solid";
@@ -33,10 +34,12 @@ function Drawer() {
           {/* home */}
           <div className="pt-24 bg-[#FFEAB2]"></div>
           <div className="divide-y divide-yellow-700">
+            <Link href="/">
             <div className="sideBarTabContainer">
               <HomeIcon className=" sideBarTabIcon" />
               <h2 className="sideBarTabText">หน้าหลัก</h2>
             </div>
+            </Link>
             {/* Request */}
             <div className="sideBarTabContainer">
               <PersonAddIcon className="sideBarTabIcon " />

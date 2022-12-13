@@ -5,7 +5,6 @@ import "react-date-range/dist/styles.css"; // main style file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useRouter } from "next/dist/client/router";
 import { signIn, signOut, useSession } from "next-auth/react";
-import Link from "next/link";
 import Drawer from "./Drawer";
 
 function Header({ placeholder }) {
