@@ -13,7 +13,7 @@ import "@fullcalendar/timegrid/main.css";
 
 const progress = new ProgressBar({
   size: 5,
-  color: "#7BC6B7",
+  color: "#ECE656",
   className: "z-50",
   delay: 100,
 });
