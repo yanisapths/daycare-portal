@@ -36,13 +36,22 @@ a {
     @apply font-noto md:w-8 md:h-8 mb-2 mx-auto text-teal-600  w-6 h-6;
   }
   .main {
-    @apply mx-auto px-8 sm:px-16 bg-teal-50;
+    @apply mx-auto px-8 sm:px-16 bg-white;
   }
   .inputBox {
     @apply block w-full px-5 py-3 text-xl font-medium  border-blue-500 border-2 rounded-lg;
   }
   .inputLabel {
     @apply block pb-2 font-medium text-black/70;
+  }
+  .sideBarTabContainer{
+    @apply flex h-24 pr-2 m-auto bg-[#FFEAB2] items-center cursor-pointer hover:text-white hover:bg-[#AD8259]; 
+  }
+  .sideBarTabIcon{
+    @apply text-black/70 ml-6 mt-2 w-10 h-10;
+  }
+  .sideBarTabText{
+    @apply text-2xl pt-2 pl-6 ;
   }
 }
 

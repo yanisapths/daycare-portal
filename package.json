@@ -21,7 +21,7 @@
     "@fullcalendar/timegrid": "^5.11.0",
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.5",
-    "@mui/icons-material": "^5.8.4",
+    "@mui/icons-material": "^5.11.0",
     "@mui/material": "^5.7.0",
     "@mui/styles": "^5.9.0",
     "@tailwindcss/forms": "^0.4.0",
