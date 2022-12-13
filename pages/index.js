@@ -4,6 +4,7 @@ import Header from "../components/Header";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import AddHomeIcon from "@mui/icons-material/AddHome";
+import Link from "next/link";
 
 export default function Home() {
   const { data: session, status } = useSession();
@@ -29,14 +30,12 @@ export default function Home() {
               You have no daycare
             </h2>
 
-            <a
-              className="inline-flex items-center buttonPrimary"
-              href="/create"
-            >
-              <span class="text-xl font-medium"> Add Daycare </span>
-
-              <AddHomeIcon className="ml-3 h-8 w-8" />
-            </a>
+            <Link href="/create">
+              <div className="cursor-pointer inline-flex items-center buttonPrimary">
+                <span className="text-xl font-medium"> Add Daycare </span>
+                <AddHomeIcon className="ml-3 h-8 w-8" />
+              </div>
+            </Link>
           </section>
         </div>
       </main>
