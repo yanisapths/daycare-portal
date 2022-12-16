@@ -31,20 +31,23 @@ function Drawer() {
           />
 
           {/* Tabs */}
-          {/* home */}
           <div className="pt-24 bg-[#FFEAB2]"></div>
           <div className="divide-y divide-yellow-700">
+
+            {/* home */}
             <Link href="/">
-            <div className="sideBarTabContainer">
-              <HomeIcon className=" sideBarTabIcon" />
-              <h2 className="sideBarTabText">หน้าหลัก</h2>
-            </div>
+              <div className="sideBarTabContainer">
+                <HomeIcon className="sideBarTabIcon" />
+                <h2 className="sideBarTabText">หน้าหลัก</h2>
+              </div>
             </Link>
             {/* Request */}
-            <div className="sideBarTabContainer">
-              <PersonAddIcon className="sideBarTabIcon " />
-              <h2 className="sideBarTabText">คำขอรับเข้าบริการ</h2>
-            </div>
+            <Link href="/request">
+              <div className="sideBarTabContainer">
+                  <PersonAddIcon className="sideBarTabIcon" />
+                  <h2 className="sideBarTabText">คำขอรับเข้าบริการ</h2>
+              </div>
+            </Link>
             {/* Appointment */}
             <div className="sideBarTabContainer">
               <CalendarMonthIcon className=" sideBarTabIcon" />
