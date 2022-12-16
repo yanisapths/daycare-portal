@@ -14,7 +14,7 @@ function Header({ placeholder }) {
   return (
     <header className="font-noto justify-between flex flex-wrap sticky top-0 z-50  shadow-2xl shadow-black/10 p-1 md:px-10 rounded-b-2xl bg-[#FFEAB2]">
       {/* Left */}
-      <div className="flex pt-2">
+      <div className="flex">
         <div>
           <Drawer />
         </div>
