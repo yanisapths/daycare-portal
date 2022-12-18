@@ -51,9 +51,7 @@ a {
     @apply text-[#6C5137] ml-6 mt-2 w-10 h-10;
   }
   .sideBarTabText{
-    @apply font-noto text-2xl pt-2 pl-6 text-[#6C5137] ;
-    
-
+    @apply font-noto text-2xl pt-2 pl-6 text-[#6C5137];
   }
   .buttonPrimary{
     @apply rounded-full border border-[#AD8259] bg-[#AD8259] px-36 py-5 shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
