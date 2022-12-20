@@ -21,18 +21,18 @@ export default function Home() {
         <title>Olive | Happy places for Elders</title>
         <link rel="icon" href="favicon.ico" />
       </Head>
-      <Header />
+      
 
       <main className="main h-screen overflow-scroll scrollbar-hide">
-        <div className="flex space-x-3 justify-center overflow-scroll scrollbar-hide p-3 -ml-3 lg:pt-12">
-          <section className="pt-28">
-            <h2 className="text-5xl py-8 text-gray-400 ">
-              You have no daycare
+        <div className="flex  space-x-3 justify-center   overflow-scroll scrollbar-hide lg:pt-12">
+          <section className="pt-20">
+            <h2 className="text-5xl text-center  text-gray-400 ">
+              You have no Clinic
             </h2>
 
             <Link href="/create">
-              <div className="cursor-pointer inline-flex items-center buttonPrimary">
-                <span className="text-xl font-medium"> Add Daycare </span>
+              <div className="cursor-pointer flex justify-center items-center  buttonPrimary">
+                <span className="text-xl font-medium">Add Daycare</span>
                 <AddHomeIcon className="ml-3 h-8 w-8" />
               </div>
             </Link>

@@ -9,7 +9,7 @@ html,
 body {
   padding: 0;
   margin: 0;
-  margin-bottom: 100px;
+  font-family: "Noto Sans", sans-serif;
 }
 
 a {
@@ -36,32 +36,51 @@ a {
     @apply font-noto md:w-8 md:h-8 mb-2 mx-auto text-teal-600  w-6 h-6;
   }
   .main {
-    @apply mx-auto px-8 sm:px-16 bg-white;
+    @apply ml-40 px-8 sm:px-16 bg-[#ffffff];
   }
   .inputBox {
-    @apply block w-full px-5 py-3 text-xl font-medium  border-[#AD8259] border-2 rounded-lg;
+    @apply block w-full h-8 px-5 py-3 text-xl font-medium  border-[#AD8259] border-2 rounded-lg;
   }
+  
   .inputLabel {
     @apply block pb-2 font-medium text-gray-400;
   }
   .sideBarTabContainer{
-    @apply flex h-24 pr-2 m-auto bg-[#FFEAB2] items-center cursor-pointer hover:text-white hover:bg-[#AD8259]; 
+    @apply flex h-24 pb-3 pr-2  bg-[#FFEAB2] items-center cursor-pointer hover:text-white hover:bg-[#AD8259]; 
   }
   .sideBarTabIcon{
     @apply text-[#6C5137] ml-6 mt-2 w-10 h-10;
   }
   .sideBarTabText{
     @apply font-noto text-2xl pt-2 pl-6 text-[#6C5137] ;
-    
 
   }
+  .sideBarTabContainer2{
+    @apply flex gap-2 bg-[#FFEAB2]  items-center h-10  
+    cursor-pointer hover:text-white hover:bg-[#AD8259] 
+    hover:bg-opacity-75  ; 
+  }
+
+  .sideBarTabContainer2 .active{
+    @apply flex gap-2  text-[#372B20] bg-opacity-75 active:bg-[#A17851]  items-center h-10  
+    cursor-pointer hover:text-white hover:bg-[#AD8259] 
+    hover:bg-opacity-75  ; 
+  }
+  .sideBarTabIcon2{
+    @apply text-[#6C5137] ml-3  w-5 h-5;
+  }
+  .sideBarTabText2{
+    @apply font-noto text-sm  text-[#6C5137] ;
+  }
+  
   .buttonPrimary{
-    @apply rounded-full border border-[#AD8259] bg-[#AD8259] px-36 py-5 shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
+    @apply m-4  rounded-full border  border-[#AD8259] bg-[#AD8259] px-0 py-3 shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
   }
 
   .pageTitle {
     @apply font-noto font-bold text-[#6C5137] text-2xl text-center pt-4
   }
+
   
 }
 
