@@ -104,18 +104,18 @@ function Create() {
         <title>Daycare | Create </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
-        <Header/>
-      <main className="main bg-yellow-50 md:h-full overflow-hidden ">
-        <div className="flex-grow pt-10  md:pt-30 mt-5 px-4 py-16 mx-auto sm:px-6 lg:px-8 bg-white rounded-md ">
+     
+      <main className="main bg-white md:h-full overflow-hidden ">
+        <div className="flex-grow  md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
           <section className="pt-6">
-            <div className="max-w-xl pb-8 mx-24">
-              <h1 className="font-bold text-3xl text-transparent sm:text-5xl bg-clip-text bg-gradient-to-r from-yellow-300 via-rose-400 to-amber-400">
-                Create Daycare Center
+            <div className="text-center max-w-2xl pb-3 mx-24">
+              <h1 className="font-bold font-noto text-2xl text-[#6C5137] ">
+                สร้างคลีนิค
               </h1>
             </div>
           </section>
-          <form className="mt-8 mx-24 grid grid-cols-2 gap-2 md:grid md:grid-cols-6 md:gap-8" onSubmit={handleSubmit}>
-            <div className="md:col-span-2 col-span-3">
+          <form className="mt-0 grid grid-cols-2 gap-2 md:grid md:grid-cols-6 md:gap-2" onSubmit={handleSubmit}>
+            <div className="md:col-span-3  col-span-2">
               <label className="inputLabel" htmlFor="daycareName">
                 Daycare Name
               </label>
@@ -127,7 +127,7 @@ function Create() {
                 required
               />
             </div>
-            <div className="md:col-span-2 col-span-3">
+            <div className="md:col-span-3 col-span-2">
               <label className="inputLabel" htmlFor="owner">
                 Owner Name
               </label>
@@ -196,19 +196,19 @@ function Create() {
                 Upload Your Daycare Image
               </label>
               <input
-                className="inputBox py-2"
+                className="inputBox border-0 pb-10 "
                 type="file"
                 id="imageUrl"
                 name="imageUrl"
                 required
               />
             </div>
-            <div className="md:col-span-5">
+            <div className="md:col-span-6">
               <label className="inputLabel" htmlFor="description">
                 Describe your daycare
               </label>
               <input
-                className="inputBox flex flex-wrap py-10"
+                className="inputBox flex flex-wrap py-20 "
                 type="text"
                 id="description"
                 name="description"
@@ -216,7 +216,7 @@ function Create() {
               />
             </div>
 
-            <div className="absolute items-center text-center pt-[60vh]">
+            <div className="md:col-start-3 md:col-span-2 items-center text-center ">
               <div
                 type="submit"
                 className="buttonPrimary bg-[#AD8259] cursor-pointer font-bold text-lg"
