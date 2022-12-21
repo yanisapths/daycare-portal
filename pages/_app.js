@@ -11,6 +11,7 @@ import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 
+
 const progress = new ProgressBar({
   size: 5,
   color: "#ECE656",
@@ -27,6 +28,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <RecoilRoot>
         <Toaster />
+
         <Component {...pageProps} />
       </RecoilRoot>
     </SessionProvider>
