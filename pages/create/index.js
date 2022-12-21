@@ -67,15 +67,12 @@ function Create() {
         `https://jnbxcl9cr3.execute-api.ap-northeast-1.amazonaws.com/dev/daycare/create`,
         options
       ).then(
-        toast.promise(
-          response,
-           {
-             loading: 'Creating...',
-             success: <b>Daycare is created! Please wait for approval.</b>,
-             error: <b>Could not create.</b>,
-           }
-         )
-      )
+        toast.promise(response, {
+          loading: "Creating...",
+          success: <b>Daycare is created! Please wait for approval.</b>,
+          error: <b>Could not create.</b>,
+        })
+      );
     });
   };
 
@@ -104,7 +101,8 @@ function Create() {
         <title>Daycare | Create </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
-     
+      <Header />
+
       <main className="main bg-white md:h-full overflow-hidden ">
         <div className="flex-grow  md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
           <section className="pt-6">
@@ -114,7 +112,10 @@ function Create() {
               </h1>
             </div>
           </section>
-          <form className="mt-0 grid grid-cols-2 gap-2 md:grid md:grid-cols-6 md:gap-2" onSubmit={handleSubmit}>
+          <form
+            className="mt-0 grid grid-cols-2 gap-2 md:grid md:grid-cols-6 md:gap-2"
+            onSubmit={handleSubmit}
+          >
             <div className="md:col-span-3  col-span-2">
               <label className="inputLabel" htmlFor="daycareName">
                 Daycare Name

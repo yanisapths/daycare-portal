@@ -8,6 +8,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import RateReviewIcon from "@mui/icons-material/RateReview";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useRouter } from "next/router";
+import  BookOnlineIcon  from "@mui/icons-material/BookOnline";
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -37,6 +38,13 @@ const SideBar = () => {
                 <div className={'sideBarTabContainer2 ${currentRoute === "/" ? "active":""}'}>
                   <HomeIcon className="sideBarTabIcon2" />
                   <h2 className="sideBarTabText2">หน้าหลัก</h2>
+                </div>
+              </Link>
+               {/* Appointment */}
+               <Link href="/appointment">
+                <div className="sideBarTabContainer2">
+                  <BookOnlineIcon className="sideBarTabIcon2" />
+                  <h2 className="sideBarTabText2">นัดหมายดูแล</h2>
                 </div>
               </Link>
               {/* Request */}
