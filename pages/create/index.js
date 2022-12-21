@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from "react";
+import { getSession, useSession } from "next-auth/react";
+import axios from "axios";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "../../components/Header";
-import { useSession } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
 
 function Create() {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [daycareImageProfile, setDaycareImageProfile] = useState("");
-  const [createObjectURL, setCreateObjectURL] = useState("");
+  const [input, setInput] = useState({});
+
+  const handleInputChange = (e) => {
+    setInput((prevState) => ({
+      ...prevState,
+      [e.target.name]: e.target.value,
+    }));
+  };
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -27,52 +37,78 @@ function Create() {
   }
 
   const {
+    register,
     watch,
     formState: { isValid },
   } = useForm({
     mode: "onSubmit",
     reValidateMode: "onChange",
+    defaultValues: {
+      clinic_name: "",
+      address: "",
+      phoneNumber: "",
+      owner: session.user.name,
+      email: "",
+      price: "",
+      description: "",
+    },
   });
   // Handles the submit event on form submit.
   const handleSubmit = async (event) => {
-    // Stop the form from submitting and refreshing the page.
     event.preventDefault();
-
-    // Get data from the form.
     const data = {
-      name: event.target.daycareName.value,
+      clinic_name: event.target.clinic_name.value,
       address: event.target.address.value,
       phoneNumber: event.target.phoneNumber.value,
-      owner: event.target.owner.value,
+      owner: session.user.name,
       email: event.target.email.value,
       imageUrl: event.target.imageUrl.files,
       price: event.target.price.value,
       description: event.target.description.value,
     };
 
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+
     let imgBase64 = "";
     await getBase64(data.imageUrl[0], async (result) => {
-      console.log(result);
       data.imageUrl = result;
-      const JSONdata = JSON.stringify(data);
 
-      const options = {
-        // The method is POST because we are sending data.
-        method: "POST",
-        // Body of the request is the JSON data we created above.
-        body: JSONdata,
-      };
-      // Send the form data to our forms API on Vercel and get a response.
-      const response = await fetch(
-        `https://jnbxcl9cr3.execute-api.ap-northeast-1.amazonaws.com/dev/daycare/create`,
-        options
-      ).then(
-        toast.promise(response, {
-          loading: "Creating...",
-          success: <b>Daycare is created! Please wait for approval.</b>,
-          error: <b>Could not create.</b>,
+      const response = await axios
+        .post(
+          `https://olive-service-api.vercel.app/clinic/create`,
+          data,
+          axiosConfig
+        )
+        .then(async (res) => {
+          console.log("RESPONSE RECEIVED: ", res.data);
+          const { owner } = res.data.owner;
+          const { cid } = res.data._id;
+
+          localStorage.setItem("cid", res.data._id);
+          localStorage.getItem("cid", cid);
+
+          localStorage.setItem("owner", res.data.owner);
+          localStorage.getItem("owner", owner);
+
+          router.push(
+            {
+              pathname: "/",
+              query: {
+                cid: localStorage.getItem("cid", cid),
+                owner: localStorage.getItem("owner", owner),
+              },
+            },
+            "/"
+          );
         })
-      );
+        .catch((err) => {
+          console.log("AXIOS ERROR: ", err);
+        });
     });
   };
 
@@ -86,13 +122,10 @@ function Create() {
     reader.onload = function () {
       cb(reader.result);
     };
-    reader.onerror = function (error) {
-      console.log("Error: ", error);
-    };
   }
 
   console.log(
-    watch(["daycareName", "address", "phoneNumber", "owner", "email"])
+    watch(["clinic_name", "address", "phoneNumber", "owner", "email"])
   );
 
   return (
@@ -102,7 +135,6 @@ function Create() {
         <link rel="icon" href="favicon.ico" />
       </Head>
       <Header />
-
       <main className="main bg-white md:h-full overflow-hidden ">
         <div className="flex-grow  md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
           <section className="pt-6">
@@ -117,15 +149,18 @@ function Create() {
             onSubmit={handleSubmit}
           >
             <div className="md:col-span-3  col-span-2">
-              <label className="inputLabel" htmlFor="daycareName">
-                Daycare Name
+              <label className="inputLabel" htmlFor="clinic_name">
+                Clinic Name
               </label>
               <input
                 className="inputBox"
                 type="text"
-                id="daycareName"
-                name="daycareName"
-                required
+                id="clinic_name"
+                name="clinic_name"
+                onChange={handleInputChange}
+                {...register("clinic_name", {
+                  required: "Required",
+                })}
               />
             </div>
             <div className="md:col-span-3 col-span-2">
@@ -136,8 +171,11 @@ function Create() {
                 className="inputBox"
                 type="text"
                 id="owner"
+                value={session.user.name}
                 name="owner"
-                required
+                {...register("owner", {
+                  required: "Required",
+                })}
               />
             </div>
             <div className="md:col-span-4">
@@ -149,7 +187,9 @@ function Create() {
                 type="text"
                 id="address"
                 name="address"
-                required
+                {...register("address", {
+                  required: "Required",
+                })}
               />
             </div>
             <div className="md:col-span-2 sm:col-span-3">
@@ -161,10 +201,12 @@ function Create() {
                 type="text"
                 id="phoneNumber"
                 name="phoneNumber"
-                required
+                {...register("phoneNumber", {
+                  required: "Required",
+                })}
               />
             </div>
-            <div className="md:col-span-2 sm:col-span-3 ">
+            <div  className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="email">
                 Email
               </label>
@@ -173,19 +215,23 @@ function Create() {
                 type="email"
                 id="email"
                 name="email"
-                required
+                {...register("email", {
+                  required: "Required",
+                })}
               />
             </div>
             <div className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="price">
-                Base Price
+                Base Price (฿/hour)
               </label>
               <input
                 className="inputBox"
                 type="text"
                 id="price"
                 name="price"
-                required
+                {...register("price", {
+                  required: "Required",
+                })}
               />
             </div>
             <div className="md:col-span-2 sm:col-span-6">
@@ -201,7 +247,9 @@ function Create() {
                 type="file"
                 id="imageUrl"
                 name="imageUrl"
-                required
+                {...register("imageUrl", {
+                  required: "Required",
+                })}
               />
             </div>
             <div className="md:col-span-6">
@@ -209,22 +257,18 @@ function Create() {
                 Describe your daycare
               </label>
               <input
-                className="inputBox flex flex-wrap py-20 "
+                className="inputBox flex flex-wrap py-20"
                 type="text"
                 id="description"
                 name="description"
-                required
+                {...register("description", {
+                  required: "Required",
+                })}
               />
             </div>
 
             <div className="md:col-start-3 md:col-span-2 items-center text-center ">
-              <div
-                type="submit"
-                className="buttonPrimary bg-[#AD8259] cursor-pointer font-bold text-lg"
-                disabled={!isValid}
-              >
-                Create
-              </div>
+            <input type="submit" className="buttonPrimary px-20 lg:px-40 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"/>
             </div>
           </form>
         </div>
@@ -234,3 +278,10 @@ function Create() {
 }
 
 export default Create;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  return {
+    props: { session },
+  };
+}

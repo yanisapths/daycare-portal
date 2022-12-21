@@ -1,6 +1,7 @@
 {
   "name": "project-customer",
   "private": true,
+  "proxy":"http://localhost:3000, https://olive-service-api.vercel.app/clinic/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
