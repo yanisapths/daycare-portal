@@ -10,8 +10,7 @@ import { Toaster } from "react-hot-toast";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
-import Header2 from "../components/Header2";
-import Footer from "../components/Footer";
+
 
 const progress = new ProgressBar({
   size: 5,
@@ -29,9 +28,8 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
     <SessionProvider session={session}>
       <RecoilRoot>
         <Toaster />
-        <Header2/>
+
         <Component {...pageProps} />
-        <Footer/>
       </RecoilRoot>
     </SessionProvider>
   );

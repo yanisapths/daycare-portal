@@ -4,10 +4,9 @@ import { getSession } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import Header from "../../components/Header";
 import { ArrowLeftIcon } from "@heroicons/react/solid";
 import Link from "next/link";
-import DCModal from "../../components/common/DCDeleteModal";
+import Header from "../../components/Header";
 import axios from "axios";
 
 function DaycareLists({ data }) {
