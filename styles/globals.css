@@ -74,14 +74,13 @@ a {
   }
   
   .buttonPrimary{
-    @apply m-4  rounded-full border  border-[#AD8259] bg-[#AD8259] px-0 py-3 shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
+    @apply m-4 px-20 py-4 lg:px-36 lg:py-6 rounded-full border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
   }
 
   .pageTitle {
     @apply font-noto font-bold text-[#6C5137] text-2xl text-center pt-4
   }
 
-  
 }
 
 

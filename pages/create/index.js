@@ -4,14 +4,45 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "../../components/Header";
-import { toast } from "react-hot-toast";
-import { useForm } from "react-hook-form";
+import {
+  TextField,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+} from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
+import { makeStyles } from "@mui/styles";
 
-function Create() {
+const useStyles = makeStyles({
+  TextField: {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#FEFCE8",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#FEFCE8",
+      },
+    },
+  },
+});
+
+function Create(props) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [daycareImageProfile, setDaycareImageProfile] = useState("");
   const [input, setInput] = useState({});
+  const [selectedDays, setSelectedDays] = useState([]);
+  const [selectedTime, setSelectedTime] = useState("");
+  const classes = useStyles(props);
+
+  const handleTimeChange = (event) => {
+    setSelectedTime(event.target.value);
+  };
+
+  const handleChange = (event) => {
+    setSelectedDays(event.target.days);
+  };
 
   const handleInputChange = (e) => {
     setInput((prevState) => ({
@@ -19,6 +50,16 @@ function Create() {
       [e.target.name]: e.target.value,
     }));
   };
+
+  const days = [
+    { id: 1, label: "Monday" },
+    { id: 2, label: "Tueday" },
+    { id: 3, label: "Wednesday" },
+    { id: 4, label: "Thursday" },
+    { id: 5, label: "Friday" },
+    { id: 6, label: "Saturday" },
+    { id: 7, label: "Sunday" },
+  ];
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -38,7 +79,9 @@ function Create() {
 
   const {
     register,
+    value,
     watch,
+    control,
     formState: { isValid },
   } = useForm({
     mode: "onSubmit",
@@ -65,6 +108,9 @@ function Create() {
       imageUrl: event.target.imageUrl.files,
       price: event.target.price.value,
       description: event.target.description.value,
+      openDay: event.target.openDay.value,
+      openTime: event.target.openTime.value,
+      closeTime: event.target.closeTime.value,
     };
 
     let axiosConfig = {
@@ -136,11 +182,11 @@ function Create() {
       </Head>
       <Header />
       <main className="main bg-white md:h-full overflow-hidden ">
-        <div className="flex-grow  md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
-          <section className="pt-6">
-            <div className="text-center max-w-2xl pb-3 mx-24">
-              <h1 className="font-bold font-noto text-2xl text-[#6C5137] ">
-                สร้างคลีนิค
+        <div className="flex-grow md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
+          <section className="pt-6 ">
+            <div className="text-center max-w-2xl pb-3 mx-24 lg:mx-96 ">
+              <h1 className="font-bold font-noto text-2xl lg:text-3xl text-[#6C5137] ">
+                สร้างคลินิก
               </h1>
             </div>
           </section>
@@ -150,7 +196,7 @@ function Create() {
           >
             <div className="md:col-span-3  col-span-2">
               <label className="inputLabel" htmlFor="clinic_name">
-                Clinic Name
+                ชื่อคลินิก
               </label>
               <input
                 className="inputBox"
@@ -165,7 +211,7 @@ function Create() {
             </div>
             <div className="md:col-span-3 col-span-2">
               <label className="inputLabel" htmlFor="owner">
-                Owner Name
+                ชื่อเจ้าของ
               </label>
               <input
                 className="inputBox"
@@ -180,7 +226,7 @@ function Create() {
             </div>
             <div className="md:col-span-4">
               <label className="inputLabel" htmlFor="address">
-                Address
+                ที่อยู่
               </label>
               <input
                 className="inputBox"
@@ -194,7 +240,7 @@ function Create() {
             </div>
             <div className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="phoneNumber">
-                phone number
+                เบอร์โทรติดต่อของคลินิก
               </label>
               <input
                 className="inputBox"
@@ -206,9 +252,9 @@ function Create() {
                 })}
               />
             </div>
-            <div  className="md:col-span-2 sm:col-span-3">
+            <div className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="email">
-                Email
+                อีเมล์
               </label>
               <input
                 className="inputBox"
@@ -222,7 +268,7 @@ function Create() {
             </div>
             <div className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="price">
-                Base Price (฿/hour)
+                ราคาเริ่มต้น (฿/ชั่วโมง)
               </label>
               <input
                 className="inputBox"
@@ -240,7 +286,7 @@ function Create() {
                 htmlFor="imageUrl"
                 onChange={uploadToClient}
               >
-                Upload Your Daycare Image
+                อัพโหลดรูปคลินิก
               </label>
               <input
                 className="inputBox border-0 pb-10 "
@@ -252,9 +298,62 @@ function Create() {
                 })}
               />
             </div>
-            <div className="md:col-span-6">
+            <FormControl
+              sx={{
+                background: "white",
+              }}
+              fullWidth
+            >
+              <InputLabel id="openDay-label">วันเปิดของคลินิก</InputLabel>
+              <Controller
+                render={({ value, field }) => (
+                  <Select
+                    {...field}
+                    labelId="openDay"
+                    id="openDay"
+                    label="openDay"
+                    onChange={handleChange}
+                  >
+                    {days.map((input, key) => (
+                      <MenuItem key={input.id} value={input.label}>
+                        {input.label}
+                      </MenuItem>
+                    ))}
+                  </Select>
+                )}
+                control={control}
+                name="openDay"
+              />
+            </FormControl>
+
+            <TextField
+              sx={{backgroundColor:'white'}}
+            variant="outlined"
+              id="openTime"
+              label="เวลาเปิดคลินิก"
+              type="time"
+              onChange={handleTimeChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              className={classes.TextField}
+            />
+
+            <TextField
+            sx={{backgroundColor:'white'}}
+            variant="outlined"
+              id="closeTime"
+              label="เวลาปิดคลินิก"
+              type="time"
+              onChange={handleTimeChange}
+              InputLabelProps={{
+                shrink: true,
+              }}
+              className={classes.TextField}
+            />
+            <div className="md:col-span-6 pt-8">
               <label className="inputLabel" htmlFor="description">
-                Describe your daycare
+                ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊
               </label>
               <input
                 className="inputBox flex flex-wrap py-20"
@@ -268,7 +367,10 @@ function Create() {
             </div>
 
             <div className="md:col-start-3 md:col-span-2 items-center text-center ">
-            <input type="submit" className="buttonPrimary px-20 lg:px-40 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"/>
+              <input
+                type="submit"
+                className="buttonPrimary px-20 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"
+              />
             </div>
           </form>
         </div>
