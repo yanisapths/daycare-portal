@@ -1,8 +1,5 @@
-import { withRouter } from "next/router";
 import { getSession, useSession } from "next-auth/react";
-import React, { useState, useEffect } from "react";
-import AddHomeIcon from "@mui/icons-material/AddHome";
-import Link from "next/link";
+import React from "react";
 
 function Dashboard({ data }) {
   return (

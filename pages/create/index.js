@@ -10,9 +10,32 @@ import {
   MenuItem,
   FormControl,
   Select,
+  OutlinedInput,
+  Checkbox,
+  ListItemText,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@mui/styles";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 const useStyles = makeStyles({
   TextField: {
@@ -41,7 +64,11 @@ function Create(props) {
   };
 
   const handleChange = (event) => {
-    setSelectedDays(event.target.days);
+    const {
+      target: { value },
+    } = event;
+    setSelectedDays(typeof value === "string" ? value.split(",") : value);
+    console.log(value);
   };
 
   const handleInputChange = (e) => {
@@ -50,16 +77,6 @@ function Create(props) {
       [e.target.name]: e.target.value,
     }));
   };
-
-  const days = [
-    { id: 1, label: "Monday" },
-    { id: 2, label: "Tueday" },
-    { id: 3, label: "Wednesday" },
-    { id: 4, label: "Thursday" },
-    { id: 5, label: "Friday" },
-    { id: 6, label: "Saturday" },
-    { id: 7, label: "Sunday" },
-  ];
 
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
@@ -108,7 +125,7 @@ function Create(props) {
       imageUrl: event.target.imageUrl.files,
       price: event.target.price.value,
       description: event.target.description.value,
-      openDay: event.target.openDay.value,
+      openDay: event.target.selectedDays.value,
       openTime: event.target.openTime.value,
       closeTime: event.target.closeTime.value,
     };
@@ -171,7 +188,17 @@ function Create(props) {
   }
 
   console.log(
-    watch(["clinic_name", "address", "phoneNumber", "owner", "email"])
+    watch([
+      "clinic_name",
+      "address",
+      "phoneNumber",
+      "owner",
+      "email",
+      "openDay",
+      "openTime",
+      "closeTime",
+      "selectedDays"
+    ])
   );
 
   return (
@@ -305,30 +332,29 @@ function Create(props) {
               fullWidth
             >
               <InputLabel id="openDay-label">วันเปิดของคลินิก</InputLabel>
-              <Controller
-                render={({ value, field }) => (
-                  <Select
-                    {...field}
-                    labelId="openDay"
-                    id="openDay"
-                    label="openDay"
-                    onChange={handleChange}
-                  >
-                    {days.map((input, key) => (
-                      <MenuItem key={input.id} value={input.label}>
-                        {input.label}
-                      </MenuItem>
-                    ))}
-                  </Select>
-                )}
-                control={control}
-                name="openDay"
-              />
+              <Select
+                labelId="openDay"
+                id="openDay"
+                label="openDay"
+                onChange={handleChange}
+                multiple
+                value={selectedDays}
+                input={<OutlinedInput label="วันเปิดของคลินิก" />}
+                renderValue={(selected) => selected.join(", ")}
+                MenuProps={MenuProps}
+              >
+                {days.map((input) => (
+                  <MenuItem key={input} value={input}>
+                    <Checkbox checked={selectedDays.indexOf(input) > -1} />
+                    <ListItemText primary={input} />
+                  </MenuItem>
+                ))}
+              </Select>
             </FormControl>
 
             <TextField
-              sx={{backgroundColor:'white'}}
-            variant="outlined"
+              sx={{ backgroundColor: "white" }}
+              variant="outlined"
               id="openTime"
               label="เวลาเปิดคลินิก"
               type="time"
@@ -336,12 +362,12 @@ function Create(props) {
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.TextField}
+              {...register("openTime")}
             />
 
             <TextField
-            sx={{backgroundColor:'white'}}
-            variant="outlined"
+              sx={{ backgroundColor: "white" }}
+              variant="outlined"
               id="closeTime"
               label="เวลาปิดคลินิก"
               type="time"
@@ -349,11 +375,12 @@ function Create(props) {
               InputLabelProps={{
                 shrink: true,
               }}
-              className={classes.TextField}
+              {...register("closeTime")}
             />
             <div className="md:col-span-6 pt-8">
               <label className="inputLabel" htmlFor="description">
-                ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊
+                ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ
+                เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊
               </label>
               <input
                 className="inputBox flex flex-wrap py-20"
