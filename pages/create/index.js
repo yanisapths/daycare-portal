@@ -11,8 +11,8 @@ import {
   FormControl,
   Select,
   OutlinedInput,
-  Checkbox,
   ListItemText,
+  Grid,
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@mui/styles";
@@ -35,6 +35,7 @@ const days = [
   "Thursday",
   "Friday",
   "Saturday",
+  "Sunday",
 ];
 
 const useStyles = makeStyles({
@@ -50,25 +51,15 @@ const useStyles = makeStyles({
   },
 });
 
-function Create(props) {
+function Create() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [daycareImageProfile, setDaycareImageProfile] = useState("");
   const [input, setInput] = useState({});
-  const [selectedDays, setSelectedDays] = useState([]);
   const [selectedTime, setSelectedTime] = useState("");
-  const classes = useStyles(props);
 
   const handleTimeChange = (event) => {
     setSelectedTime(event.target.value);
-  };
-
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedDays(typeof value === "string" ? value.split(",") : value);
-    console.log(value);
   };
 
   const handleInputChange = (e) => {
@@ -99,6 +90,8 @@ function Create(props) {
     value,
     watch,
     control,
+    getValues,
+    setValue,
     formState: { isValid },
   } = useForm({
     mode: "onSubmit",
@@ -111,6 +104,7 @@ function Create(props) {
       email: "",
       price: "",
       description: "",
+      openDay: [],
     },
   });
   // Handles the submit event on form submit.
@@ -125,7 +119,7 @@ function Create(props) {
       imageUrl: event.target.imageUrl.files,
       price: event.target.price.value,
       description: event.target.description.value,
-      openDay: event.target.selectedDays.value,
+      openDay: event.target.openDay.value,
       openTime: event.target.openTime.value,
       closeTime: event.target.closeTime.value,
     };
@@ -197,7 +191,6 @@ function Create(props) {
       "openDay",
       "openTime",
       "closeTime",
-      "selectedDays"
     ])
   );
 
@@ -325,58 +318,70 @@ function Create(props) {
                 })}
               />
             </div>
-            <FormControl
-              sx={{
-                background: "white",
-              }}
-              fullWidth
-            >
-              <InputLabel id="openDay-label">วันเปิดของคลินิก</InputLabel>
-              <Select
-                labelId="openDay"
-                id="openDay"
-                label="openDay"
-                onChange={handleChange}
-                multiple
-                value={selectedDays}
-                input={<OutlinedInput label="วันเปิดของคลินิก" />}
-                renderValue={(selected) => selected.join(", ")}
-                MenuProps={MenuProps}
+            <Grid item xs={6} md={8}>
+              <FormControl
+                sx={{ width: "100%", backgroundColor: "white" }}
+                variant="outlined"
+                required
               >
-                {days.map((input) => (
-                  <MenuItem key={input} value={input}>
-                    <Checkbox checked={selectedDays.indexOf(input) > -1} />
-                    <ListItemText primary={input} />
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+                <InputLabel id="openDay-label">วันเปิดของคลินิก</InputLabel>
+                <Controller
+                  name="openDay"
+                  control={control}
+                  rules={{ required: false }}
+                  render={({ field }) => (
+                    <>
+                      <Select
+                        {...field}
+                        input={<OutlinedInput label="วันเปิดของคลินิก" />}
+                        MenuProps={MenuProps}
+                        renderValue={(selected) => selected.join(", ")}
+                        multiple
+                      >
+                        {days.map((input) => (
+                          <MenuItem key={input} value={input}>
+                            <ListItemText primary={input} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
+                  )}
+                />
+              </FormControl>
+            </Grid>
 
-            <TextField
-              sx={{ backgroundColor: "white" }}
-              variant="outlined"
-              id="openTime"
-              label="เวลาเปิดคลินิก"
-              type="time"
-              onChange={handleTimeChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              {...register("openTime")}
-            />
-
-            <TextField
-              sx={{ backgroundColor: "white" }}
-              variant="outlined"
-              id="closeTime"
-              label="เวลาปิดคลินิก"
-              type="time"
-              onChange={handleTimeChange}
-              InputLabelProps={{
-                shrink: true,
-              }}
-              {...register("closeTime")}
-            />
+            <Grid item xs={6} md={8}>
+              <FormControl sx={{ width: "100%" }} variant="outlined" required>
+                <TextField
+                  sx={{ backgroundColor: "white" }}
+                  variant="outlined"
+                  id="openTime"
+                  label="เวลาเปิดคลินิก"
+                  type="time"
+                  onChange={handleTimeChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  {...register("openTime")}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={6} md={8}>
+              <FormControl sx={{ width: "100%" }} variant="outlined" required>
+                <TextField
+                  sx={{ backgroundColor: "white" }}
+                  variant="outlined"
+                  id="closeTime"
+                  label="เวลาปิดคลินิก"
+                  type="time"
+                  onChange={handleTimeChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  {...register("closeTime")}
+                />
+              </FormControl>
+            </Grid>
             <div className="md:col-span-6 pt-8">
               <label className="inputLabel" htmlFor="description">
                 ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ
