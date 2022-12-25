@@ -16,6 +16,7 @@ import {
 } from "@mui/material";
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@mui/styles";
+import toast from "react-hot-toast";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -151,7 +152,7 @@ function Create() {
 
           localStorage.setItem("owner", res.data.owner);
           localStorage.getItem("owner", owner);
-
+          toast.success("กำลังสร้างคลิกนิก...🛠️🚧");
           router.push(
             {
               pathname: "/",
@@ -175,10 +176,18 @@ function Create() {
 
   async function getBase64(file, cb) {
     let reader = new FileReader();
-    await reader.readAsDataURL(file);
-    reader.onload = function () {
-      cb(reader.result);
-    };
+    if(file){
+      try{
+        await reader.readAsDataURL(file);
+        reader.onload = function () {
+          cb(reader.result);
+        };
+      }catch(err){
+        console.log(err);
+      }
+    }else {
+      toast.error("กรุณาใส่รูปภาพคลินิก");
+    }
   }
 
   console.log(
