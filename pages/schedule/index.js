@@ -1,12 +1,9 @@
 import React, { useState, useContext, useEffect } from "react";
 import Header from "../../components/Header";
 import Head from "next/head";
-import Image from "next/image";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import Calendar from "../../components/calendar/OLCalendar";
 
 const Schedule = () => {
-
   return (
     <div>
       <Head>
