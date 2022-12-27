@@ -4,14 +4,64 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "../../components/Header";
-import { toast } from "react-hot-toast";
-import { useForm } from "react-hook-form";
+import {
+  TextField,
+  InputLabel,
+  MenuItem,
+  FormControl,
+  Select,
+  OutlinedInput,
+  ListItemText,
+  Grid,
+} from "@mui/material";
+import { useForm, Controller } from "react-hook-form";
+import { makeStyles } from "@mui/styles";
+import toast from "react-hot-toast";
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
+const days = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
+
+const useStyles = makeStyles({
+  TextField: {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#FEFCE8",
+      },
+      "&.Mui-focused fieldset": {
+        borderColor: "#FEFCE8",
+      },
+    },
+  },
+});
 
 function Create() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [daycareImageProfile, setDaycareImageProfile] = useState("");
   const [input, setInput] = useState({});
+  const [selectedTime, setSelectedTime] = useState("");
+
+  const handleTimeChange = (event) => {
+    setSelectedTime(event.target.value);
+  };
 
   const handleInputChange = (e) => {
     setInput((prevState) => ({
@@ -38,7 +88,11 @@ function Create() {
 
   const {
     register,
+    value,
     watch,
+    control,
+    getValues,
+    setValue,
     formState: { isValid },
   } = useForm({
     mode: "onSubmit",
@@ -51,6 +105,7 @@ function Create() {
       email: "",
       price: "",
       description: "",
+      openDay: [],
     },
   });
   // Handles the submit event on form submit.
@@ -65,6 +120,9 @@ function Create() {
       imageUrl: event.target.imageUrl.files,
       price: event.target.price.value,
       description: event.target.description.value,
+      openDay: event.target.openDay.value,
+      openTime: event.target.openTime.value,
+      closeTime: event.target.closeTime.value,
     };
 
     let axiosConfig = {
@@ -94,7 +152,7 @@ function Create() {
 
           localStorage.setItem("owner", res.data.owner);
           localStorage.getItem("owner", owner);
-
+          toast.success("กำลังสร้างคลิกนิก...🛠️🚧");
           router.push(
             {
               pathname: "/",
@@ -118,14 +176,31 @@ function Create() {
 
   async function getBase64(file, cb) {
     let reader = new FileReader();
-    await reader.readAsDataURL(file);
-    reader.onload = function () {
-      cb(reader.result);
-    };
+    if(file){
+      try{
+        await reader.readAsDataURL(file);
+        reader.onload = function () {
+          cb(reader.result);
+        };
+      }catch(err){
+        console.log(err);
+      }
+    }else {
+      toast.error("กรุณาใส่รูปภาพคลินิก");
+    }
   }
 
   console.log(
-    watch(["clinic_name", "address", "phoneNumber", "owner", "email"])
+    watch([
+      "clinic_name",
+      "address",
+      "phoneNumber",
+      "owner",
+      "email",
+      "openDay",
+      "openTime",
+      "closeTime",
+    ])
   );
 
   return (
@@ -136,11 +211,11 @@ function Create() {
       </Head>
       <Header />
       <main className="main bg-white md:h-full overflow-hidden ">
-        <div className="flex-grow  md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
-          <section className="pt-6">
-            <div className="text-center max-w-2xl pb-3 mx-24">
-              <h1 className="font-bold font-noto text-2xl text-[#6C5137] ">
-                สร้างคลีนิค
+        <div className="flex-grow md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
+          <section className="pt-6 ">
+            <div className="text-center max-w-2xl pb-3 mx-24 lg:mx-96 ">
+              <h1 className="font-bold font-noto text-2xl lg:text-3xl text-[#6C5137] ">
+                สร้างคลินิก
               </h1>
             </div>
           </section>
@@ -150,7 +225,7 @@ function Create() {
           >
             <div className="md:col-span-3  col-span-2">
               <label className="inputLabel" htmlFor="clinic_name">
-                Clinic Name
+                ชื่อคลินิก
               </label>
               <input
                 className="inputBox"
@@ -165,7 +240,7 @@ function Create() {
             </div>
             <div className="md:col-span-3 col-span-2">
               <label className="inputLabel" htmlFor="owner">
-                Owner Name
+                ชื่อเจ้าของ
               </label>
               <input
                 className="inputBox"
@@ -180,7 +255,7 @@ function Create() {
             </div>
             <div className="md:col-span-4">
               <label className="inputLabel" htmlFor="address">
-                Address
+                ที่อยู่
               </label>
               <input
                 className="inputBox"
@@ -194,7 +269,7 @@ function Create() {
             </div>
             <div className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="phoneNumber">
-                phone number
+                เบอร์โทรติดต่อของคลินิก
               </label>
               <input
                 className="inputBox"
@@ -206,9 +281,9 @@ function Create() {
                 })}
               />
             </div>
-            <div  className="md:col-span-2 sm:col-span-3">
+            <div className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="email">
-                Email
+                อีเมล์
               </label>
               <input
                 className="inputBox"
@@ -222,7 +297,7 @@ function Create() {
             </div>
             <div className="md:col-span-2 sm:col-span-3">
               <label className="inputLabel" htmlFor="price">
-                Base Price (฿/hour)
+                ราคาเริ่มต้น (฿/ชั่วโมง)
               </label>
               <input
                 className="inputBox"
@@ -240,7 +315,7 @@ function Create() {
                 htmlFor="imageUrl"
                 onChange={uploadToClient}
               >
-                Upload Your Daycare Image
+                อัพโหลดรูปคลินิก
               </label>
               <input
                 className="inputBox border-0 pb-10 "
@@ -252,9 +327,74 @@ function Create() {
                 })}
               />
             </div>
-            <div className="md:col-span-6">
+            <Grid item xs={6} md={8}>
+              <FormControl
+                sx={{ width: "100%", backgroundColor: "white" }}
+                variant="outlined"
+                required
+              >
+                <InputLabel id="openDay-label">วันเปิดของคลินิก</InputLabel>
+                <Controller
+                  name="openDay"
+                  control={control}
+                  rules={{ required: false }}
+                  render={({ field }) => (
+                    <>
+                      <Select
+                        {...field}
+                        input={<OutlinedInput label="วันเปิดของคลินิก" />}
+                        MenuProps={MenuProps}
+                        renderValue={(selected) => selected.join(", ")}
+                        multiple
+                      >
+                        {days.map((input) => (
+                          <MenuItem key={input} value={input}>
+                            <ListItemText primary={input} />
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </>
+                  )}
+                />
+              </FormControl>
+            </Grid>
+
+            <Grid item xs={6} md={8}>
+              <FormControl sx={{ width: "100%" }} variant="outlined" required>
+                <TextField
+                  sx={{ backgroundColor: "white" }}
+                  variant="outlined"
+                  id="openTime"
+                  label="เวลาเปิดคลินิก"
+                  type="time"
+                  onChange={handleTimeChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  {...register("openTime")}
+                />
+              </FormControl>
+            </Grid>
+            <Grid item xs={6} md={8}>
+              <FormControl sx={{ width: "100%" }} variant="outlined" required>
+                <TextField
+                  sx={{ backgroundColor: "white" }}
+                  variant="outlined"
+                  id="closeTime"
+                  label="เวลาปิดคลินิก"
+                  type="time"
+                  onChange={handleTimeChange}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  {...register("closeTime")}
+                />
+              </FormControl>
+            </Grid>
+            <div className="md:col-span-6 pt-8">
               <label className="inputLabel" htmlFor="description">
-                Describe your daycare
+                ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ
+                เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊
               </label>
               <input
                 className="inputBox flex flex-wrap py-20"
@@ -268,7 +408,10 @@ function Create() {
             </div>
 
             <div className="md:col-start-3 md:col-span-2 items-center text-center ">
-            <input type="submit" className="buttonPrimary px-20 lg:px-40 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"/>
+              <input
+                type="submit"
+                className="buttonPrimary px-20 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"
+              />
             </div>
           </form>
         </div>

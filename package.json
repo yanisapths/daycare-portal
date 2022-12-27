@@ -1,7 +1,7 @@
 {
   "name": "project-customer",
   "private": true,
-  "proxy":"http://localhost:3000, https://olive-service-api.vercel.app/clinic/",
+  "proxy": "http://localhost:3000, https://olive-service-api.vercel.app/clinic/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,8 +13,8 @@
     "@babel/preset-react": "^7.16.7",
     "@badrap/bar-of-progress": "^0.1.2",
     "@clerk/nextjs": "^2.11.1",
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@fullcalendar/common": "^5.11.0",
     "@fullcalendar/daygrid": "^5.11.0",
     "@fullcalendar/interaction": "^5.11.0",
@@ -23,7 +23,7 @@
     "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.5",
     "@mui/icons-material": "^5.11.0",
-    "@mui/material": "^5.7.0",
+    "@mui/material": "^5.11.1",
     "@mui/styles": "^5.9.0",
     "@tailwindcss/forms": "^0.4.0",
     "axios": "^1.2.0",
