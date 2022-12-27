@@ -56,6 +56,9 @@ function Create() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [daycareImageProfile, setDaycareImageProfile] = useState("");
+  const [setOwnerImageUrl] = useState("");
+  const [setBusinessLicense] = useState("");
+  const [setProfessionalLicense] = useState("");
   const [input, setInput] = useState({});
   const [selectedTime, setSelectedTime] = useState("");
 
@@ -123,6 +126,12 @@ function Create() {
       openDay: event.target.openDay.value,
       openTime: event.target.openTime.value,
       closeTime: event.target.closeTime.value,
+      ownerImageUrl: event.target.ownerImageUrl.files,
+      firstName: event.target.firstName.value,
+      lastName: event.target.lastName.value,
+      businessLicense: event.target.businessLicense.files,
+      professionalLicense: event.target.professionalLicense.files,
+      ownerContact: event.target.ownerContact.value,
     };
 
     let axiosConfig = {
@@ -161,20 +170,22 @@ function Create() {
                 owner: localStorage.getItem("owner", owner),
               },
             },
-            "/"
-          );
-        })
-        .catch((err) => {
-          console.log("AXIOS ERROR: ", err);
-        });
-    });
+              "/"
+            );
+          })
+          .catch((err) => {
+            console.log("AXIOS ERROR: ", err);
+          });
+       });
+      
+   
   };
 
   if (status === "loading") {
     return <p>Loading...</p>;
   }
 
-  async function getBase64(file, cb) {
+  async function getBase64(file,cb) {
     let reader = new FileReader();
     if(file){
       try{
@@ -211,14 +222,15 @@ function Create() {
       </Head>
       <Header />
       <main className="main bg-white md:h-full overflow-hidden ">
-        <div className="flex-grow md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
-          <section className="pt-6 ">
-            <div className="text-center max-w-2xl pb-3 mx-24 lg:mx-96 ">
-              <h1 className="font-bold font-noto text-2xl lg:text-3xl text-[#6C5137] ">
-                สร้างคลินิก
-              </h1>
+        <div className="flex-grow  md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
+          <section className="pt-6">
+            <div className="text-start max-w-2xl pb-3 ">
+              <p className="h2 text-[#6C5137] ">สร้างคลีนิค</p>
             </div>
           </section>
+          <div className="pb-4">
+            <p className="h4">ข้อมูลคลินิก</p>
+          </div>
           <form
             className="mt-0 grid grid-cols-2 gap-2 md:grid md:grid-cols-6 md:gap-2"
             onSubmit={handleSubmit}
@@ -234,21 +246,6 @@ function Create() {
                 name="clinic_name"
                 onChange={handleInputChange}
                 {...register("clinic_name", {
-                  required: "Required",
-                })}
-              />
-            </div>
-            <div className="md:col-span-3 col-span-2">
-              <label className="inputLabel" htmlFor="owner">
-                ชื่อเจ้าของ
-              </label>
-              <input
-                className="inputBox"
-                type="text"
-                id="owner"
-                value={session.user.name}
-                name="owner"
-                {...register("owner", {
                   required: "Required",
                 })}
               />
@@ -397,7 +394,7 @@ function Create() {
                 เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊
               </label>
               <input
-                className="inputBox flex flex-wrap py-20"
+                className="inputBox flex flex-wrap py-10"
                 type="text"
                 id="description"
                 name="description"
@@ -407,10 +404,96 @@ function Create() {
               />
             </div>
 
-            <div className="md:col-start-3 md:col-span-2 items-center text-center ">
+            <div className="col-span-6">
+              <p className="h4">ข้อมูลเจ้าของคลินิก</p>
+            </div>
+            <div className="md:col-span-3 col-span-2">
+              <label className="inputLabel" htmlFor="firstName">
+                First Name
+              </label>
+              <input
+                className="inputBox"
+                type="text"
+                id="firstName"
+                name="firstName"
+                {...register("firstName", {
+                  required: "Required",
+                })}
+              />
+            </div>
+
+            <div className="md:col-span-3 col-span-2">
+              <label className="inputLabel" htmlFor="lastName">
+                Last Name
+              </label>
+              <input
+                className="inputBox"
+                type="text"
+                id="lastName"
+                name="lastName"
+                {...register("lastName", {
+                  required: "Required",
+                })}
+              />
+            </div>
+
+            <div className="md:col-span-2 sm:col-span-3">
+              <label className="inputLabel" htmlFor="ownerContact">
+                เบอร์ติดต่อเจ้าของ
+              </label>
+              <input
+                className="inputBox"
+                type="text"
+                id="ownerContact"
+                name="ownerContact"
+                {...register("ownerContact", {
+                  required: "Required",
+                })}
+              />
+            </div>
+
+            <div className="md:col-span-2 sm:col-span-6">
+              <label
+                className="inputLabel"
+                htmlFor="ownerImageUrl"
+                onChange={uploadToClient}
+              >
+                อัพโหลดรูปเจ้าของกิจการ
+              </label>
+              <input
+                className="inputBox border-0 pb-10 "
+                type="file"
+                id="ownerImageUrl"
+                name="ownerImageUrl"
+                {...register("ownerImageUrl", {
+                  required: "Required",
+                })}
+              />
+            </div>
+
+            <div className="md:col-span-2 sm:col-span-6">
+              <label
+                className="inputLabel"
+                htmlFor="professionalLicense"
+                onChange={uploadToClient}
+              >
+                อัพโหลดใบประกอบวิชาชีพ
+              </label>
+              <input
+                className="inputBox border-0 pb-10 "
+                type="file"
+                id="professionalLicense"
+                name="professionalLicense"
+                {...register("professionalLicense", {
+                  required: "Required",
+                })}
+              />
+            </div>
+
+            <div className="pt-2 md:col-start-3 md:col-span-2">
               <input
                 type="submit"
-                className="buttonPrimary px-20 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"
+                className="buttonPrimary px-20 lg:px-40 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"
               />
             </div>
           </form>

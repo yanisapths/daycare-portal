@@ -81,6 +81,37 @@ a {
     @apply font-noto font-bold text-[#6C5137] text-2xl text-center pt-4
   }
 
+  .h1 {
+    @apply font-noto font-extrabold text-5xl
+  }
+
+  .h2 {
+    @apply font-noto font-extrabold text-4xl
+  }
+
+  .h3 {
+    @apply font-noto font-bold text-3xl
+  }
+
+  .h4 {
+    @apply font-noto font-bold text-2xl
+  }
+
+  .h5 {
+    @apply font-noto font-medium text-2xl
+  }
+
+  .body1 {
+    @apply font-noto font-medium text-lg
+  }
+
+  .body2 {
+    @apply font-noto font-light text-base
+  }
+  
+  .caption {
+    @apply font-noto font-light text-sm
+  }
 }
 
 
