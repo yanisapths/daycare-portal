@@ -126,11 +126,8 @@ function Create() {
       openDay: event.target.openDay.value,
       openTime: event.target.openTime.value,
       closeTime: event.target.closeTime.value,
-      ownerImageUrl: event.target.ownerImageUrl.files,
       firstName: event.target.firstName.value,
       lastName: event.target.lastName.value,
-      businessLicense: event.target.businessLicense.files,
-      professionalLicense: event.target.professionalLicense.files,
       ownerContact: event.target.ownerContact.value,
     };
 
@@ -141,44 +138,43 @@ function Create() {
       },
     };
 
-    let imgBase64 = "";
     await getBase64(data.imageUrl[0], async (result) => {
       data.imageUrl = result;
-
+        
       const response = await axios
-        .post(
+  .post(
           `https://olive-service-api.vercel.app/clinic/create`,
-          data,
-          axiosConfig
-        )
-        .then(async (res) => {
-          console.log("RESPONSE RECEIVED: ", res.data);
-          const { owner } = res.data.owner;
-          const { cid } = res.data._id;
+    data,
+    axiosConfig
+  )
+  .then(async (res) => {
+    console.log("RESPONSE RECEIVED: ", res.data);
+    const { owner } = res.data.owner;
+    const { cid } = res.data._id;
 
-          localStorage.setItem("cid", res.data._id);
-          localStorage.getItem("cid", cid);
+    localStorage.setItem("cid", res.data._id);
+    localStorage.getItem("cid", cid);
 
-          localStorage.setItem("owner", res.data.owner);
-          localStorage.getItem("owner", owner);
-          toast.success("กำลังสร้างคลิกนิก...🛠️🚧");
-          router.push(
-            {
-              pathname: "/",
-              query: {
-                cid: localStorage.getItem("cid", cid),
-                owner: localStorage.getItem("owner", owner),
-              },
-            },
-              "/"
-            );
-          })
-          .catch((err) => {
-            console.log("AXIOS ERROR: ", err);
-          });
+    localStorage.setItem("owner", res.data.owner);
+    localStorage.getItem("owner", owner);
+    toast.success("กำลังสร้างคลิกนิก...🛠️🚧");
+    router.push(
+      {
+        pathname: "/",
+        query: {
+          cid: localStorage.getItem("cid", cid),
+          owner: localStorage.getItem("owner", owner),
+        },
+      },
+        "/"
+      );
+    })
+    .catch((err) => {
+      console.log("AXIOS ERROR: ", err);
+    });
        });
-      
    
+  
   };
 
   if (status === "loading") {
@@ -310,7 +306,6 @@ function Create() {
               <label
                 className="inputLabel"
                 htmlFor="imageUrl"
-                onChange={uploadToClient}
               >
                 อัพโหลดรูปคลินิก
               </label>
@@ -319,6 +314,7 @@ function Create() {
                 type="file"
                 id="imageUrl"
                 name="imageUrl"
+                onChange={uploadToClient}
                 {...register("imageUrl", {
                   required: "Required",
                 })}
@@ -409,7 +405,7 @@ function Create() {
             </div>
             <div className="md:col-span-3 col-span-2">
               <label className="inputLabel" htmlFor="firstName">
-                First Name
+                ชื่อจริง
               </label>
               <input
                 className="inputBox"
@@ -424,7 +420,7 @@ function Create() {
 
             <div className="md:col-span-3 col-span-2">
               <label className="inputLabel" htmlFor="lastName">
-                Last Name
+                นามสกุล
               </label>
               <input
                 className="inputBox"
@@ -437,7 +433,7 @@ function Create() {
               />
             </div>
 
-            <div className="md:col-span-2 sm:col-span-3">
+            <div className="md:col-span-2 sm:col-span-2">
               <label className="inputLabel" htmlFor="ownerContact">
                 เบอร์ติดต่อเจ้าของ
               </label>
@@ -451,49 +447,12 @@ function Create() {
                 })}
               />
             </div>
-
-            <div className="md:col-span-2 sm:col-span-6">
-              <label
-                className="inputLabel"
-                htmlFor="ownerImageUrl"
-                onChange={uploadToClient}
-              >
-                อัพโหลดรูปเจ้าของกิจการ
-              </label>
-              <input
-                className="inputBox border-0 pb-10 "
-                type="file"
-                id="ownerImageUrl"
-                name="ownerImageUrl"
-                {...register("ownerImageUrl", {
-                  required: "Required",
-                })}
-              />
-            </div>
-
-            <div className="md:col-span-2 sm:col-span-6">
-              <label
-                className="inputLabel"
-                htmlFor="professionalLicense"
-                onChange={uploadToClient}
-              >
-                อัพโหลดใบประกอบวิชาชีพ
-              </label>
-              <input
-                className="inputBox border-0 pb-10 "
-                type="file"
-                id="professionalLicense"
-                name="professionalLicense"
-                {...register("professionalLicense", {
-                  required: "Required",
-                })}
-              />
-            </div>
-
-            <div className="pt-2 md:col-start-3 md:col-span-2">
+            <div className="col-span-6"></div>
+            
+            <div className="pt-2 items-center md:col-start-3 md:col-span-2">
               <input
                 type="submit"
-                className="buttonPrimary px-20 lg:px-40 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"
+                className="buttonPrimary py-4 px-20 lg:px-40 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"
               />
             </div>
           </form>
