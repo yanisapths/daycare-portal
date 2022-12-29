@@ -1,14 +1,4 @@
-const withTM = require('next-transpile-modules')([
-  "@fullcalendar/common",
-  "@babel/preset-react",
-  "@fullcalendar/common",
-  "@fullcalendar/daygrid",
-  "@fullcalendar/interaction",
-  "@fullcalendar/react",
-  "@fullcalendar/timegrid",
-])
-
-module.exports = withTM(
+module.exports =
   {
     reactStrictMode: true,
     images: {
@@ -22,7 +12,6 @@ module.exports = withTM(
       GOOGLE_CLIENT_ID: '464057081160-v9if620buvi2g7urr2r72br777k1e4l7.apps.googleusercontent.com',
       GOOGLE_API_KEY:'AIzaSyCd_MCO2NgIyFOmcBSsG36L0HHa0Oq-3ho'
     }
-  },
-)
+  };
 
 
