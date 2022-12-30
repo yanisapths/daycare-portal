@@ -9,7 +9,6 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@aldabil/react-scheduler": "^2.6.3",
     "@aws-sdk/client-dynamodb": "^3.216.0",
     "@babel/preset-react": "^7.16.7",
     "@badrap/bar-of-progress": "^0.1.2",
