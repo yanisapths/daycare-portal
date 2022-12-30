@@ -3,44 +3,40 @@ import Head from "next/head";
 import Header from "../components/Header";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import AddHomeIcon from "@mui/icons-material/AddHome";
-import Link from "next/link";
 import { withRouter } from "next/router";
 import Dashboard from "./dashboard";
-import NoClinic from "../components/NoClinic";
 
 function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [cid, setCid] = useState([]);
   const [clinicData, setData] = useState({});
-  const [owner, setOwner] = useState([]);
 
   useEffect(() => {
-    const ownerName = localStorage.getItem("owner");
-    if (ownerName) {
-      setOwner(ownerName);
-    }
-  }, [owner]);
-
-  useEffect(async () => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin/");
-    } else {
-      const res = await fetch(
+    let isSubscribed = true;
+    const fetchData = async () => {
+       const res = await fetch(
         `https://olive-service-api.vercel.app/clinic/owner/${session.user.name}`
-      );
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
+    );
+      const clinicData = await res.json();
+
+      if (isSubscribed && clinicData) {
+        setData(clinicData);
+        console.log(clinicData);
+      } else {
         return router.push("/noClinic");
       }
     }
-  }, [status]);
+
+    if (status === "unauthenticated") {
+      router.push("/auth/signin/");
+    } else {
+     fetchData()
+      .catch(console.error);
+    }
+
+    return () => isSubscribed = false;
+  }, [status])
 
   if (clinicData) {
     return (
