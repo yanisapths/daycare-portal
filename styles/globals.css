@@ -81,6 +81,10 @@ a {
     @apply font-noto font-bold text-[#6C5137] text-2xl text-center pt-4
   }
 
+  /* Home Landing Link Grid Card */
+  .linkGridCardContainer {
+    @apply block rounded-xl border-[#ECE656] bg-[#ECE656] p-8 shadow-xl transition hover:bg-[#F5F2AA] shadow-[#ECE656]/60
+  }
 }
 
 

@@ -5,6 +5,7 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { withRouter } from "next/router";
 import Dashboard from "./dashboard";
+import BannerCard from "../components/common/BannerCard";
 
 function Home() {
   const { data: session, status } = useSession();
@@ -15,9 +16,9 @@ function Home() {
   useEffect(() => {
     let isSubscribed = true;
     const fetchData = async () => {
-       const res = await fetch(
+      const res = await fetch(
         `https://olive-service-api.vercel.app/clinic/owner/${session.user.name}`
-    );
+      );
       const clinicData = await res.json();
 
       if (isSubscribed && clinicData) {
@@ -26,17 +27,16 @@ function Home() {
       } else {
         return router.push("/noClinic");
       }
-    }
+    };
 
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-     fetchData()
-      .catch(console.error);
+      fetchData().catch(console.error);
     }
 
-    return () => isSubscribed = false;
-  }, [status])
+    return () => (isSubscribed = false);
+  }, [status]);
 
   if (clinicData) {
     return (
@@ -48,7 +48,9 @@ function Home() {
         <Header />
 
         <main className="main h-screen overflow-scroll scrollbar-hide">
-          <div className="flex space-x-3 justify-center overflow-scroll scrollbar-hide p-3 -ml-3 lg:pt-12">
+          <div className="overflow-scroll scrollbar-hide p-3 -ml-3 lg:pt-12 h-screen">
+            <BannerCard username={session.user.name} />
+            <div className="pb-10"/>
             <Dashboard data={clinicData} />
           </div>
         </main>

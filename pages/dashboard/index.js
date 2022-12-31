@@ -1,14 +1,12 @@
 import { getSession, useSession } from "next-auth/react";
 import React from "react";
+import LinkGridCard from "../../components/LinkGridCard";
 
 function Dashboard({ data }) {
+  console.log(data);
   return (
     <>
-      <section className="pt-28">
-        <div>
-          <h2 className="text-5xl py-8 text-gray-400 ">{data.clinic_name}</h2>
-        </div>
-      </section>
+      <LinkGridCard data={data} />
     </>
   );
 }
