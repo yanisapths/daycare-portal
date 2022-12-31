@@ -106,6 +106,7 @@ function Create() {
       price: "",
       description: "",
       openDay: [],
+      owner_id: session.user.id,
     },
   });
   // Handles the submit event on form submit.
@@ -123,6 +124,7 @@ function Create() {
       openDay: event.target.openDay.value,
       openTime: event.target.openTime.value,
       closeTime: event.target.closeTime.value,
+      owner_id: session.user.id,
     };
 
     let axiosConfig = {

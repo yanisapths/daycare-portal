@@ -7,33 +7,32 @@ import { withRouter } from "next/router";
 import Dashboard from "./dashboard";
 import BannerCard from "../components/common/BannerCard";
 import FooterSocial from "../components/FooterSocial";
+const delay = ms => new Promise(
+  resolve => setTimeout(resolve, ms)
+);
 
 function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [cid, setCid] = useState([]);
   const [clinicData, setData] = useState({});
-  const [owner, setOwner] = useState([]);
-
-  useEffect(() => {
-    const ownerName = localStorage.getItem("owner");
-    if (ownerName) {
-      setOwner(ownerName);
-    }
-  }, [owner]);
 
   async function fetchData() {
-    const res = await fetch(
-      `https://olive-service-api.vercel.app/clinic/owner/${session.user.name}`
-    );
-    try {
-      const clinicData = await res.json();
-      if (clinicData) {
-        setData(clinicData);
-      } else return;
-    } catch (err) {
-      console.log(err);
-      return router.push("/noClinic");
+    await delay(1000);
+    if(session.user.id) {
+      const res = await fetch(
+        `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
+      );
+      try {
+        const clinicData = await res.json();
+        if (clinicData) {
+          setData(clinicData);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
+      }
+    }else {
+      await delay(3000);
     }
   }
 

@@ -4,35 +4,26 @@ import LinkGridCard from "../../components/LinkGridCard";
 import AmountCard from "../../components/AmountCard";
 
 function Dashboard({ data }) {
-  console.log(data);
-  const [cid, setCid] = useState([]);
+  const { data: session, status } = useSession();
   const [requestData, setRequestData] = useState({});
-
-  useEffect(() => {
-    const cid = localStorage.getItem("cid");
-    if (cid) {
-      setCid(cid);
-    }
-  }, [cid]);
 
   useEffect(() => {
     let isSubscribed = true;
     const fetchRequest = async () => {
       const res = await fetch(
-        `https://olive-service-api.vercel.app/appointment/match/${cid}`
+        `https://olive-service-api.vercel.app/appointment/match/owner/${session.user.id}`
       );
       const requestData = await res.json();
 
       if (isSubscribed) {
         setRequestData(requestData);
-        console.log(requestData);
       }
     };
 
     fetchRequest().catch(console.error);
 
     return () => (isSubscribed = false);
-  }, [cid]);
+  },);
 
   return (
     <>

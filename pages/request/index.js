@@ -8,28 +8,18 @@ import ListView from "./request_view/ListView";
 const Request = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [cid, setCid] = useState([]);
   const [clinicData, setData] = useState([]);
-  const [owner, setOwner] = useState([]);
-
-  useEffect(() => {
-    const cid = localStorage.getItem("cid");
-    if (cid) {
-      setCid(cid);
-    }
-  }, [cid]);
 
   useEffect(() => {
     let isSubscribed = true;
     const fetchData = async () => {
        const res = await fetch(
-      `https://olive-service-api.vercel.app/appointment/match/${cid}`
+      `https://olive-service-api.vercel.app/appointment/match/owner/${session.user.id}`
     );
       const clinicData = await res.json();
 
       if (isSubscribed) {
         setData(clinicData);
-        console.log(clinicData);
       }
     }
 
@@ -41,7 +31,7 @@ const Request = () => {
     }
 
     return () => isSubscribed = false;
-  }, [status,cid])
+  }, [status])
 
   return (
     <div>

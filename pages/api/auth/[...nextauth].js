@@ -50,6 +50,23 @@ export default NextAuth({
   pages: {
     signIn: "/auth/signin",
   },
+  callbacks: {
+    session: async ({ session, token }) => {
+      if (session?.user) {
+        session.user.id = token.uid;
+      }
+      return session;
+    },
+    jwt: async ({ user, token }) => {
+      if (user) {
+        token.uid = user.id;
+      }
+      return token;
+    },
+  },
+  session: {
+    strategy: 'jwt',
+  },
 
   // Enable debug messages in the console if you are having problems
   debug: true,
