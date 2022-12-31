@@ -6,12 +6,21 @@ import { useRouter } from "next/router";
 import { withRouter } from "next/router";
 import Dashboard from "./dashboard";
 import BannerCard from "../components/common/BannerCard";
+import FooterSocial from "../components/FooterSocial";
 
 function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [cid, setCid] = useState([]);
   const [clinicData, setData] = useState({});
+  const [requestData, setRequestData] = useState({});
+
+  useEffect(() => {
+    const cid = localStorage.getItem("cid");
+    if (cid) {
+      setCid(cid);
+    }
+  }, [cid]);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -20,6 +29,8 @@ function Home() {
         `https://olive-service-api.vercel.app/clinic/owner/${session.user.name}`
       );
       const clinicData = await res.json();
+
+
 
       if (isSubscribed && clinicData) {
         setData(clinicData);
@@ -47,12 +58,13 @@ function Home() {
         </Head>
         <Header />
 
-        <main className="main h-screen overflow-scroll scrollbar-hide">
-          <div className="overflow-scroll scrollbar-hide p-3 -ml-3 lg:pt-12 h-screen">
+        <main className="h-screen overflow-scroll scrollbar-hide">
+          <div className="overflow-scroll scrollbar-hide p-3 -ml-3 h-screen mx-auto px-6 lg:px-8">
             <BannerCard username={session.user.name} />
-            <div className="pb-10"/>
+            <div className="pb-6"/>
             <Dashboard data={clinicData} />
           </div>
+        <FooterSocial />
         </main>
       </div>
     );

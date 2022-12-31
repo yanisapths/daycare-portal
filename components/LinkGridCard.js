@@ -9,11 +9,10 @@ import BookOnlineIcon from "@mui/icons-material/BookOnline";
 
 function LinkGridCard({ data }) {
   return (
-    <section className="">
-      <div className="mx-auto max-w-screen-xl sm:px-6 lg:px-8">
-        <h2 className="text-3xl font-bold sm:text-4xl">{data.clinic_name}</h2>
-        <p className="mt-4 text-xl font-bold text-black/75">{data.address}</p>
-        <p className="mt-4 text-lg text-black/75">{data.description}</p>
+    <section className="px-4 pt-8">
+      <p className="h2">{data.clinic_name}</p>
+        <p className="mt-2 text-xl font-bold text-black/75">{data.address}</p>
+        <p className="mt-4 text-lg text-black/75 sm:truncate ">{data.description}</p>
         <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <Link href="/appointment">
             <a className="linkGridCardContainer">
@@ -21,7 +20,7 @@ function LinkGridCard({ data }) {
               <h2 className="mt-4 text-xl font-bold ">
                 Upcoming Appointment
               </h2>
-              <p className="mt-4 text-md text-black/60">
+              <p className="mt-4 h6 text-black/60">
                 ดูนัดที่กำลังมาถึง
               </p>
             </a>
@@ -33,7 +32,7 @@ function LinkGridCard({ data }) {
               <h2 className="mt-4 text-xl font-bold ">
                 New Request
               </h2>
-              <p className="mt-4 text-md text-black/60">
+              <p className="mt-4 h6 text-black/60">
                 คำขอใหม่
               </p>
             </a>
@@ -44,13 +43,12 @@ function LinkGridCard({ data }) {
               <h2 className="mt-4 text-xl font-bold ">
                  Clinic Staff
               </h2>
-              <p className="mt-4 text-md text-black/60">
+              <p className="mt-4 h6 text-black/60">
                 ดูรายชื่อพนักงานคลินิก
               </p>
             </a>
           </Link>
         </div>
-      </div>
     </section>
   );
 }
