@@ -41,7 +41,7 @@ function Dashboard({ data }) {
 
       {/* Clinic Hours */}
       <div className="px-4 pt-24 sm:px-6 lg:col-span-3 lg:px-8">
-        <p>
+        <div>
           <span className="caption tracking-wide text-gray-500 uppercase">
             เบอร์ติดต่อคลินิก
           </span>
@@ -49,7 +49,7 @@ function Dashboard({ data }) {
           <p className="block text-2xl font-medium text-gray-900 hover:opacity-75 sm:text-3xl">
             {data.phoneNumber}
           </p>
-        </p>
+        </div>
 
         <ul className="mt-8 space-y-1 text-gray-700">
           <span className="caption tracking-wide text-gray-500 uppercase">

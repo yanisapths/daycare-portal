@@ -13,40 +13,36 @@ function Home() {
   const router = useRouter();
   const [cid, setCid] = useState([]);
   const [clinicData, setData] = useState({});
-  const [requestData, setRequestData] = useState({});
+  const [owner, setOwner] = useState([]);
 
   useEffect(() => {
-    const cid = localStorage.getItem("cid");
-    if (cid) {
-      setCid(cid);
+    const ownerName = localStorage.getItem("owner");
+    if (ownerName) {
+      setOwner(ownerName);
     }
-  }, [cid]);
+  }, [owner]);
+
+  async function fetchData() {
+    const res = await fetch(
+      `https://olive-service-api.vercel.app/clinic/owner/${session.user.name}`
+    );
+    try {
+      const clinicData = await res.json();
+      if (clinicData) {
+        setData(clinicData);
+      } else return;
+    } catch (err) {
+      console.log(err);
+      return router.push("/noClinic");
+    }
+  }
 
   useEffect(() => {
-    let isSubscribed = true;
-    const fetchData = async () => {
-      const res = await fetch(
-        `https://olive-service-api.vercel.app/clinic/owner/${session.user.name}`
-      );
-      const clinicData = await res.json();
-
-
-
-      if (isSubscribed && clinicData) {
-        setData(clinicData);
-        console.log(clinicData);
-      } else {
-        return router.push("/noClinic");
-      }
-    };
-
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData().catch(console.error);
+      fetchData();
     }
-
-    return () => (isSubscribed = false);
   }, [status]);
 
   if (clinicData) {
@@ -60,11 +56,11 @@ function Home() {
 
         <main className="h-screen overflow-scroll scrollbar-hide">
           <div className="overflow-scroll scrollbar-hide p-3 -ml-3 h-screen mx-auto px-6 lg:px-8">
-            <BannerCard username={session.user.name} />
-            <div className="pb-6"/>
+            {session ? <BannerCard username={session.user.name} /> : <></>}
+            <div className="pb-6" />
             <Dashboard data={clinicData} />
           </div>
-        <FooterSocial />
+          <FooterSocial />
         </main>
       </div>
     );
