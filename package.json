@@ -12,7 +12,6 @@
     "@aws-sdk/client-dynamodb": "^3.216.0",
     "@babel/preset-react": "^7.16.7",
     "@badrap/bar-of-progress": "^0.1.2",
-    "@clerk/nextjs": "^2.11.1",
     "@emotion/react": "^11.10.5",
     "@emotion/styled": "^11.10.5",
     "@fullcalendar/common": "^5.11.0",

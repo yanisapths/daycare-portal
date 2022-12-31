@@ -5,38 +5,45 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { withRouter } from "next/router";
 import Dashboard from "./dashboard";
+import BannerCard from "../components/common/BannerCard";
+import FooterSocial from "../components/FooterSocial";
 
 function Home() {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [cid, setCid] = useState([]);
   const [clinicData, setData] = useState({});
+  const [owner, setOwner] = useState([]);
 
   useEffect(() => {
-    let isSubscribed = true;
-    const fetchData = async () => {
-       const res = await fetch(
-        `https://olive-service-api.vercel.app/clinic/owner/${session.user.name}`
-    );
-      const clinicData = await res.json();
-
-      if (isSubscribed && clinicData) {
-        setData(clinicData);
-        console.log(clinicData);
-      } else {
-        return router.push("/noClinic");
-      }
+    const ownerName = localStorage.getItem("owner");
+    if (ownerName) {
+      setOwner(ownerName);
     }
+  }, [owner]);
 
+  async function fetchData() {
+    const res = await fetch(
+      `https://olive-service-api.vercel.app/clinic/owner/${session.user.name}`
+    );
+    try {
+      const clinicData = await res.json();
+      if (clinicData) {
+        setData(clinicData);
+      } else return;
+    } catch (err) {
+      console.log(err);
+      return router.push("/noClinic");
+    }
+  }
+
+  useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-     fetchData()
-      .catch(console.error);
+      fetchData();
     }
-
-    return () => isSubscribed = false;
-  }, [status])
+  }, [status]);
 
   if (clinicData) {
     return (
@@ -47,10 +54,13 @@ function Home() {
         </Head>
         <Header />
 
-        <main className="main h-screen overflow-scroll scrollbar-hide">
-          <div className="flex space-x-3 justify-center overflow-scroll scrollbar-hide p-3 -ml-3 lg:pt-12">
+        <main className="h-screen overflow-scroll scrollbar-hide">
+          <div className="overflow-scroll scrollbar-hide p-3 -ml-3 h-screen mx-auto px-6 lg:px-8">
+            {session ? <BannerCard username={session.user.name} /> : <></>}
+            <div className="pb-6" />
             <Dashboard data={clinicData} />
           </div>
+          <FooterSocial />
         </main>
       </div>
     );

@@ -23,21 +23,53 @@ a {
 
 
 @layer components {
-  .button {
-      @apply px-4 py-2 md:px-1 md:py-5 font-extrabold text-2xl text-teal-500 border rounded-full cursor-pointer 
-      hover:shadow-lg active:scale-95 active:bg-teal-500 active:text-white transition 
-      transform duration-100 ease-out;
+  /*--------------Font Theme----------------- */
+  .h1 {
+    @apply font-noto font-extrabold text-5xl
   }
-  b{
-    @apply w-full block py-5 px-3 text-center hover:bg-teal-100 text-teal-900  rounded-t-full hover:rounded-t-xl md:hover:rounded-t-full  transition 
-    transform duration-100 ease-out;  
+
+  .h2 {
+    @apply font-noto font-extrabold text-4xl
   }
-  .footer-icon {
-    @apply font-noto md:w-8 md:h-8 mb-2 mx-auto text-teal-600  w-6 h-6;
+
+  .h3 {
+    @apply font-noto font-bold text-3xl
   }
+
+  .h4 {
+    @apply font-noto font-bold text-2xl
+  }
+
+  .h5 {
+    @apply font-noto font-medium text-2xl
+  }
+
+  .h6 {
+    @apply font-noto font-medium text-xl
+  }
+
+  .body1 {
+    @apply font-noto font-medium text-lg
+  }
+
+  .body2 {
+    @apply font-noto font-light text-base
+  }
+  
+  .caption {
+    @apply font-noto font-light text-sm
+  }
+  
+  .pageTitle {
+    @apply font-noto font-bold text-[#6C5137] text-2xl text-center pt-4
+  }
+  /*------------------------------------*/
+
   .main {
     @apply ml-40 px-8 sm:px-16 bg-[#ffffff];
   }
+
+  /*----------------Input-----------------*/
   .inputBox {
     @apply block w-full h-8 px-5 py-3 text-xl font-medium  border-[#AD8259] border-2 rounded-lg;
   }
@@ -45,16 +77,8 @@ a {
   .inputLabel {
     @apply block pb-2 font-medium text-gray-400;
   }
-  .sideBarTabContainer{
-    @apply flex h-24 pb-3 pr-2  bg-[#FFEAB2] items-center cursor-pointer hover:text-white hover:bg-[#AD8259]; 
-  }
-  .sideBarTabIcon{
-    @apply text-[#6C5137] ml-6 mt-2 w-10 h-10;
-  }
-  .sideBarTabText{
-    @apply font-noto text-2xl pt-2 pl-6 text-[#6C5137] ;
 
-  }
+  /*----------------SideBar--------------*/
   .sideBarTabContainer2{
     @apply flex gap-2 bg-[#FFEAB2]  items-center h-10  
     cursor-pointer hover:text-white hover:bg-[#AD8259] 
@@ -72,15 +96,18 @@ a {
   .sideBarTabText2{
     @apply font-noto text-sm  text-[#6C5137] ;
   }
+  /*------------------------------------*/
   
+  /* Primary Button */
   .buttonPrimary{
     @apply m-4 px-20 py-4 lg:px-36 lg:py-6 rounded-full border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
   }
 
-  .pageTitle {
-    @apply font-noto font-bold text-[#6C5137] text-2xl text-center pt-4
+  /* Home Landing Link Grid Card */
+  .linkGridCardContainer {
+    @apply block rounded-xl border-[#ECE656] bg-[#ECE656] p-8 shadow-xl transition hover:bg-[#F5F2AA] shadow-[#ECE656]/60
   }
-
+  /*------------------------------------*/
 }
 
 

@@ -16,7 +16,7 @@ function Header({ placeholder }) {
     <>
       <header
         className="sticky t-0 font-noto justify-between flex 
-      flex-wrap  w-full bg-[#FFEAB2]"
+      flex-wrap  w-full bg-[#FFEAB2] shadow-lg" 
       >
         {/*Left */}
         <div className="flex gap-3 m-3 pt-1items-center ">
@@ -28,7 +28,7 @@ function Header({ placeholder }) {
               onClick={() => router.push("/")}
               className="cursor-pointer sticky my-auto text-[#6C5137] text-xl font-bold"
             >
-              Happy Elder
+              Physiotherapy Clinic Portal
             </h1>
           </div>
         </div>
