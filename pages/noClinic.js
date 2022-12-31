@@ -10,7 +10,7 @@ const NoClinic = () => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(async () => {
+  useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     }
