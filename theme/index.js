@@ -31,7 +31,19 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: 'Mitr', //Thai Font
+    fontFamily: ['Mitr','sans-serif'].join(','), 
+  },
+  overrides: {
+    MuiCssBaseline: {
+      "@global": {
+        "@font-face": [
+          {
+            fontFamily: "Mitr",
+            fontDisplay: "swap",
+          },
+        ],
+      },
+    },
   },
 });
 

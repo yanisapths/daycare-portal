@@ -5,11 +5,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,300;0,400;0,500;0,600;0,700;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Chonburi&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Mitr&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Noto Sans", sans-serif;
+  font-family: 'Mitr', sans-serif;
 }
 
 a {
@@ -25,43 +28,43 @@ a {
 @layer components {
   /*--------------Font Theme----------------- */
   .h1 {
-    @apply font-noto font-extrabold text-5xl
+    @apply font-extrabold text-5xl
   }
 
   .h2 {
-    @apply font-noto font-extrabold text-4xl
+    @apply font-extrabold text-4xl
   }
 
   .h3 {
-    @apply font-noto font-bold text-3xl
+    @apply font-bold text-3xl
   }
 
   .h4 {
-    @apply font-noto font-bold text-2xl
+    @apply font-bold text-2xl
   }
 
   .h5 {
-    @apply font-noto font-medium text-2xl
+    @apply font-medium text-2xl
   }
 
   .h6 {
-    @apply font-noto font-medium text-xl
+    @apply font-medium text-xl
   }
 
   .body1 {
-    @apply font-noto font-medium text-lg
+    @apply font-medium text-lg
   }
 
   .body2 {
-    @apply font-noto font-light text-base
+    @apply font-light text-base
   }
   
   .caption {
-    @apply font-noto font-light text-sm
+    @apply font-light text-sm
   }
   
   .pageTitle {
-    @apply font-noto font-bold text-[#6C5137] text-2xl text-center pt-4
+    @apply font-bold text-[#6C5137] text-2xl text-center pt-4
   }
   /*------------------------------------*/
 
@@ -94,7 +97,7 @@ a {
     @apply text-[#6C5137] ml-3  w-5 h-5;
   }
   .sideBarTabText2{
-    @apply font-noto text-sm  text-[#6C5137] ;
+    @apply font-mitr text-sm  text-[#6C5137] ;
   }
   /*------------------------------------*/
   

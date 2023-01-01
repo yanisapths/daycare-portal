@@ -12,6 +12,7 @@ import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
+import Head from "next/head";
 
 const progress = new ProgressBar({
   size: 5,
@@ -28,6 +29,14 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
       <ThemeProvider theme={theme}>
+        <Head>
+          <style>
+            @import
+            url('https://fonts.googleapis.com/css2?family=Mitr&display=swap');
+            @import
+            url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+          </style>
+        </Head>
         <RecoilRoot>
           <Toaster />
           <Component {...pageProps} />
