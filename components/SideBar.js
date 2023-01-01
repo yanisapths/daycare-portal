@@ -9,6 +9,7 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useRouter } from "next/router";
 import  BookOnlineIcon  from "@mui/icons-material/BookOnline";
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -59,6 +60,14 @@ const SideBar = () => {
                 <div className="sideBarTabContainer2">
                   <CalendarMonthIcon className=" sideBarTabIcon2" />
                   <h2 className="sideBarTabText2">ตารางนัด</h2>
+                </div>
+              </Link>
+
+              {/* Courses */}
+              <Link href="/course">
+                <div className="sideBarTabContainer2">
+                  <BookmarksIcon className=" sideBarTabIcon2" />
+                  <h2 className="sideBarTabText2">คอร์ส</h2>
                 </div>
               </Link>
 

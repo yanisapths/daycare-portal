@@ -6,7 +6,7 @@ const index = () => {
   return (
     <div>
       <Head>
-        <title>Daycare | Review </title>
+        <title>Clinic | Review </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
       <Header />

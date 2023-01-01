@@ -7,7 +7,7 @@ const Schedule = () => {
   return (
     <div>
       <Head>
-        <title>Daycare | Schedule </title>
+        <title>Clinic | Schedule </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
       <Header />

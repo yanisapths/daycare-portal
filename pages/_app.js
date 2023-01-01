@@ -10,7 +10,8 @@ import { Toaster } from "react-hot-toast";
 import "@fullcalendar/common/main.css";
 import "@fullcalendar/daygrid/main.css";
 import "@fullcalendar/timegrid/main.css";
-
+import { ThemeProvider } from "@mui/material/styles";
+import theme from "../theme";
 
 const progress = new ProgressBar({
   size: 5,
@@ -26,11 +27,12 @@ Router.events.on("routeChangeError", progress.finish);
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (
     <SessionProvider session={session}>
-      <RecoilRoot>
-        <Toaster />
-
-        <Component {...pageProps} />
-      </RecoilRoot>
+      <ThemeProvider theme={theme}>
+        <RecoilRoot>
+          <Toaster />
+          <Component {...pageProps} />
+        </RecoilRoot>
+      </ThemeProvider>
     </SessionProvider>
   );
 }
