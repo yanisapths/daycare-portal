@@ -32,9 +32,9 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <Head>
           <style>
             @import
-            url('https://fonts.googleapis.com/css2?family=Mitr&display=swap');
+            url(`&#39;`https://fonts.googleapis.com/css2?family=Mitr&display=swap`&#39;`);
             @import
-            url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+            url(`&#39;`https://fonts.googleapis.com/css2?family=Roboto&display=swap`&#39;`);
           </style>
         </Head>
         <RecoilRoot>
