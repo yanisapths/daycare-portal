@@ -208,7 +208,7 @@ function Create() {
   return (
     <div>
       <Head>
-        <title>Daycare | Create </title>
+        <title>Clinic | Create </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
       <Header />

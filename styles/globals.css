@@ -5,11 +5,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,300;0,400;0,500;0,600;0,700;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Chonburi&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Mitr&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: "Noto Sans", sans-serif;
+  font-family: 'Mitr', sans-serif;
 }
 
 a {
@@ -25,43 +28,43 @@ a {
 @layer components {
   /*--------------Font Theme----------------- */
   .h1 {
-    @apply font-noto font-extrabold text-5xl
+    @apply font-extrabold text-5xl
   }
 
   .h2 {
-    @apply font-noto font-extrabold text-4xl
+    @apply font-extrabold text-4xl
   }
 
   .h3 {
-    @apply font-noto font-bold text-3xl
+    @apply font-bold text-3xl
   }
 
   .h4 {
-    @apply font-noto font-bold text-2xl
+    @apply font-bold text-2xl
   }
 
   .h5 {
-    @apply font-noto font-medium text-2xl
+    @apply font-medium text-2xl
   }
 
   .h6 {
-    @apply font-noto font-medium text-xl
+    @apply font-medium text-xl
   }
 
   .body1 {
-    @apply font-noto font-medium text-lg
+    @apply font-medium text-lg
   }
 
   .body2 {
-    @apply font-noto font-light text-base
+    @apply font-light text-base
   }
   
   .caption {
-    @apply font-noto font-light text-sm
+    @apply font-light text-sm
   }
   
   .pageTitle {
-    @apply font-noto font-bold text-[#6C5137] text-2xl text-center pt-4
+    @apply font-bold text-[#6C5137] text-2xl text-center pt-4
   }
   /*------------------------------------*/
 
@@ -76,6 +79,10 @@ a {
   
   .inputLabel {
     @apply block pb-2 font-medium text-gray-400;
+  }
+
+  .inputUnderline {
+    @apply text-[#6C5137] text-3xl w-full py-1 border-b-4 text-center border-[#AD8259]/40 outline-none focus:border-[#A17851] placeholder-[#AD8259]/40 bg-transparent;
   }
 
   /*----------------SideBar--------------*/
@@ -94,13 +101,13 @@ a {
     @apply text-[#6C5137] ml-3  w-5 h-5;
   }
   .sideBarTabText2{
-    @apply font-noto text-sm  text-[#6C5137] ;
+    @apply font-mitr text-sm  text-[#6C5137] ;
   }
   /*------------------------------------*/
   
   /* Primary Button */
   .buttonPrimary{
-    @apply m-4 px-20 py-4 lg:px-36 lg:py-6 rounded-full border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
+    @apply m-4 px-20 py-4 lg:px-36 lg:py-6 rounded-full cursor-pointer border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
   }
 
   /* Home Landing Link Grid Card */

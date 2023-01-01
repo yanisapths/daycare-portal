@@ -36,7 +36,7 @@ const Request = () => {
   return (
     <div>
       <Head>
-        <title>Daycare | Request </title>
+        <title>Clinic | Request </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
       <Header />

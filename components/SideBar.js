@@ -9,6 +9,7 @@ import RateReviewIcon from "@mui/icons-material/RateReview";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useRouter } from "next/router";
 import  BookOnlineIcon  from "@mui/icons-material/BookOnline";
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
 const SideBar = () => {
   const [isOpen, setIsOpen] = useState(true);
@@ -29,7 +30,7 @@ const SideBar = () => {
             className="cursor-pointer bg-transparent text-[#6C5137]"
           />
           <div
-            className="left-0 w-40 h-screen t-0 absolute shadow-2xl bg-[#FFEAB2] 
+            className="left-0 md:w-40 md:h-screen t-0 md:absolute md:shadow-2xl bg-[#FFEAB2] 
         ease-in-out duration-300"
           >
             <div className="divide-y divide-yellow-700 ">
@@ -59,6 +60,14 @@ const SideBar = () => {
                 <div className="sideBarTabContainer2">
                   <CalendarMonthIcon className=" sideBarTabIcon2" />
                   <h2 className="sideBarTabText2">ตารางนัด</h2>
+                </div>
+              </Link>
+
+              {/* Courses */}
+              <Link href="/course">
+                <div className="sideBarTabContainer2">
+                  <BookmarksIcon className=" sideBarTabIcon2" />
+                  <h2 className="sideBarTabText2">คอร์ส</h2>
                 </div>
               </Link>
 

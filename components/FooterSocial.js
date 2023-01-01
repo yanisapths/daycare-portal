@@ -5,7 +5,7 @@ function FooterSocial() {
   return (
     <footer className="bg-[#FFEAB2] text-[#A17851]">
       <div className="max-w-screenl px-4 pb-2 mx-auto sm:px-6 lg:px-14">
-        <div className="pt-6 mt-12 sm:items-center sm:justify-between sm:flex">
+        <div className="pt-6 sm:items-center sm:justify-between sm:flex">
          
           <nav className="flex justify-center space-x-4 text-sm font-medium sm:justify-start">
           <Image src="/asset/logo-nobg.png" width="70px" height="70px" layout="fixed" />

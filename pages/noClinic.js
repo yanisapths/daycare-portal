@@ -19,7 +19,7 @@ const NoClinic = () => {
   return (
     <>
       <Head>
-        <title>Olive | Happy places for Elders</title>
+        <title>Olive | Pysiotherapy Clinic Portal</title>
         <link rel="icon" href="favicon.ico" />
       </Head>
       <Header />

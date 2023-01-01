@@ -10,8 +10,8 @@ module.exports = {
       }
     },
     fontFamily: {
-      noto : " 'Noto Sans Thai', sans-serif ",
-      'display': ['Oswald',],
+      roboto : "'Roboto', sans-serif",
+      mitr : "'Mitr', sans-serif",
     },
     backdropFilter: {
       'none': 'none',
