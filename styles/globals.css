@@ -81,6 +81,10 @@ a {
     @apply block pb-2 font-medium text-gray-400;
   }
 
+  .inputUnderline {
+    @apply text-[#6C5137] text-3xl w-full py-1 border-b-4 text-center border-[#AD8259]/40 outline-none focus:border-[#A17851] placeholder-[#AD8259]/40 bg-transparent;
+  }
+
   /*----------------SideBar--------------*/
   .sideBarTabContainer2{
     @apply flex gap-2 bg-[#FFEAB2]  items-center h-10  
@@ -103,7 +107,7 @@ a {
   
   /* Primary Button */
   .buttonPrimary{
-    @apply m-4 px-20 py-4 lg:px-36 lg:py-6 rounded-full border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
+    @apply m-4 px-20 py-4 lg:px-36 lg:py-6 rounded-full cursor-pointer border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
   }
 
   /* Home Landing Link Grid Card */

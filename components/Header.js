@@ -15,25 +15,25 @@ function Header({ placeholder }) {
   return (
     <>
       <header
-        className="sticky t-0 font-noto justify-between flex 
+        className="sticky t-0 justify-between flex 
       flex-wrap  w-full bg-[#FFEAB2] shadow-lg" 
       >
         {/*Left */}
-        <div className="flex gap-3 m-3 pt-1items-center ">
+        <div className="flex gap-3 m-3">
           <div>
             <SideBar  />
           </div>
-          <div>
+          <div className="sm:w-0">
             <h1
               onClick={() => router.push("/")}
-              className="cursor-pointer sticky my-auto text-[#6C5137] text-xl font-bold"
+              className="cursor-pointer sticky my-auto text-[#6C5137] md:text-xl font-bold sm:invisible"
             >
               Physiotherapy Clinic Portal
             </h1>
           </div>
         </div>
         <div className="pr-3 pt-1 m-1">
-          <Menu as="div" className=" inline-block text-left">
+          <Menu as="div" className="inline-block text-left">
             <div>
               <Menu.Button className="flex border-[#6C5137] border-opacity-70 border-2 p-1 rounded-full">
                 {/* className="flex border-[#6C5137] border-2 w-8 h-8 rounded-full" */}

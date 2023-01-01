@@ -30,7 +30,7 @@ const SideBar = () => {
             className="cursor-pointer bg-transparent text-[#6C5137]"
           />
           <div
-            className="left-0 w-40 h-screen t-0 absolute shadow-2xl bg-[#FFEAB2] 
+            className="left-0 md:w-40 md:h-screen t-0 md:absolute md:shadow-2xl bg-[#FFEAB2] 
         ease-in-out duration-300"
           >
             <div className="divide-y divide-yellow-700 ">
