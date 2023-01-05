@@ -14,7 +14,7 @@ const index = () => {
       </Head>
       <Header />
 
-      <div className="ml-40">
+      <div className="lg:ml-40">
         <h2 className="pageTitle">นัดหมายดูแล</h2>
 
         <div className="font-semibold text-md text-[#6C5137] ml-3 mb-5">

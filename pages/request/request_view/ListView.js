@@ -19,7 +19,7 @@ function ListView({ data }) {
             <div className="basis-1">
               <Image
                 className="rounded-full "
-                src="/User1.jpg"
+                src="/user1.jpg"
                 alt="User1 Request list"
                 width="55"
                 height="55"
@@ -30,7 +30,13 @@ function ListView({ data }) {
               <div className="grid grid-col-6">
                 <div className="col-start-1 col-end-7">
                   <span className="font-bold text-base text-[#6C5137]">
-                    {request.customerName}
+                    {request.firstName}  {request.lastName}
+                  </span>
+                </div>
+                <div className="col-start-1 col-end-7">
+                <span className="font-semibold">ชื่อเล่น:</span>
+                  <span className="font-bold text-base text-[#6C5137]">
+                    {request.nickname}
                   </span>
                 </div>
                 <div className="col-start-1 col-span-3">
@@ -38,8 +44,8 @@ function ListView({ data }) {
                   <span> {request.phoneNumber} </span>
                 </div>
                 <div className="col-start-4 col-span-4">
-                  <span className="font-semibold">ประเภทกายภาพบำบัด:</span>
-                  <span>ระบบประสาท</span>
+                  <span className="font-semibold">คอร์ส:</span>
+                  <span>{request.course} </span>
                 </div>
                 <div className="col-start-1 col-span-3">
                   <span className="font-semibold">สถานที่ดูแล:</span>
@@ -49,6 +55,10 @@ function ListView({ data }) {
                 <div className="col-start-1 col-span-3">
                   <span className="font-semibold ">วันนัดหมาย</span>
                   <span className=" text-[#8E6947]"> {new Date(request.appointmentDate).toDateString()} </span>
+                </div>
+                <div className="col-start-1 col-span-3">
+                  <span className="font-semibold ">เวลานัดหมาย</span>
+                  <span className=" text-[#8E6947]"> {new Date(request.appointmentTime).toLocaleTimeString()} </span>
                 </div>
               </div>
             </div>

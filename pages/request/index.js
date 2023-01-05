@@ -41,7 +41,7 @@ const Request = () => {
       </Head>
       <Header />
 
-      <div className="ml-40">
+      <div className="lg:ml-40">
         <h2 className="pageTitle">คำขอดูแล</h2>
         {clinicData ? <ListView data={clinicData} /> : <div></div>}
       </div>

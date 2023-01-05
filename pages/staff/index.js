@@ -14,7 +14,7 @@ const index = () => {
       </Head>
       <Header />
 
-      <div className="ml-40">
+      <div className="lg:ml-40">
         <h2 className="pageTitle">พนักงาน</h2>
 
         {/*staff list */}
