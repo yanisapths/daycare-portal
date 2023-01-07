@@ -2,38 +2,25 @@ import React, { useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 import SmallInput from "../../../components/common/SmallInput";
 
 function SideView() {
   const theme = useTheme();
-  const [procedureName, setProcedureName] = useState();
-  const [price, setPrice] = useState();
-  const [smallInputList, setSmallInput] = useState([
-    { procedure: "" },
-  ]);
-  console.log(smallInputList);
+  const { register, control, handleSubmit, reset, trigger, setError } = useForm(
+    {
+      // defaultValues: {}; you can populate the fields by this attribute
+    }
+  );
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "test",
+  });
 
-  const addSmallInput = () => {
-    setSmallInput([
-      ...smallInputList,
-      { procedure: "" },
-    ]);
-  };
-  const removeSmallInput = () => {
-    const list = [...smallInputList];
-    list.splice(index, 1);
-    setSmallInput(list);
-  };
-  const handleSmallInputChange = (e, index) => {
-    const { procedure, value } = e.target;
-    const list = [...smallInputList];
-    list[index][procedure] = value;
-    setSmallInput(list);
-  };
   return (
     <Box
-      className="h-full w-full overflow-y-auto"
-      sx={{ bgcolor: theme.palette.primary.main }}
+      className="h-fit w-full overflow-y-auto shadow-2xl rounded-xl xl:pb-4"
+      sx={{ bgcolor: theme.palette.background.main }}
     >
       <form>
         <div className="pt-16 text-center">
@@ -43,7 +30,7 @@ function SideView() {
             type="text"
             name="courseName"
             placeholder="ชื่อคอร์ส"
-            className="w-2/3 inputUnderline"
+            className="w-2/3 bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
           />
           <div className="flex pt-16 items-center px-16">
             <div className="space-y-10">
@@ -56,7 +43,7 @@ function SideView() {
                   type="text"
                   name="amount"
                   placeholder=""
-                  className="inputUnderline"
+                  className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
                 />
                 <Typography variant="h5" className="pt-4">
                   ครั้ง
@@ -71,14 +58,14 @@ function SideView() {
                   type="text"
                   name="duration"
                   placeholder=""
-                  className="inputUnderline"
+                  className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
                 />
                 <Typography variant="h5" className="pt-4">
                   ชั่วโมง
                 </Typography>
               </div>
 
-              <div className="grid grid-cols-3 ">
+              <div className="grid grid-cols-3">
                 {/* Price */}
                 <Typography variant="h5" className="pt-4">
                   ราคา
@@ -87,7 +74,7 @@ function SideView() {
                   type="text"
                   name="totalPrice"
                   placeholder=""
-                  className="inputUnderline"
+                  className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
                 />
                 <Typography variant="h5" className="pt-4">
                   บาท
@@ -96,27 +83,45 @@ function SideView() {
             </div>
           </div>
         </div>
-        <div className="flex justify-between pt-16 px-24">
+        <div className="flex justify-between pt-16 px-24 md:px-24">
           <Typography variant="h5">หัตถการ</Typography>
-          <div
-            onClick={addSmallInput}
-            className="px-4 py-1 md:px-16 md:py-2 rounded-full cursor-pointer border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259]"
+          <button
+            type="button"
+            onClick={() => append({ firstName: "", lastName: "" })}
+            className="rounded-full bg-[#6C5137] text-[#FFECA7] px-6 pt-1"
           >
             <p>เพิ่ม</p>
+          </button>
+        </div>
+        <div className="pt-4">
+          <ul className="space-y-2">
+            {fields.map((item, index) => (
+              <li key={item.id} className="space-y-4 xl:space-y-0 xl:flex xl:justify-between xl:space-x-4 grid grid-cols-1 px-12 md:px-24 xl:px-6">
+                <input {...register(`test.${index}.firstName`)} placeholder="ชื่อหัตถการ..." className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2" />
+                <Controller
+                  render={({ field }) => <input {...field} placeholder="ราคา ฿" className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2" />}
+                  name={`test.${index}.lastName`}
+                  control={control}
+                />
+                <div className="">
+                <button
+                  type="button"
+                  onClick={() => remove(index)}
+                  className="rounded-full bg-[#6C5137] text-[#FFECA7] px-6 py-2 text-center"
+                >
+                  ลบ
+                </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mx-auto px-16 py-2 md:py-4 text-center items-center">
+          <div className=" font-bold bg-[#6C5137] border-[#6C5137] text-[#FFECA7] buttonPrimary">
+            <p>เพิ่ม</p> 
           </div>
         </div>
-        {smallInputList.map((singleInput, index) => (
-          <div key={index}>
-            <SmallInput onChange={(e) => handleSmallInputChange(e,index)} value={singleInput.procedure}/>
-          </div>
-        ))}
-          <div className="px-10 py-2 md:px-48 md:py-10 text-center items-center">
-         <div
-            className="buttonPrimary"
-          >
-            <p>เพิ่ม</p>
-          </div>
-          </div>
       </form>
     </Box>
   );
