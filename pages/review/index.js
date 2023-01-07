@@ -9,7 +9,10 @@ const index = () => {
         <title>Clinic | Review </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
-      <Header />
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
+        <Header />
+        <div className="main"></div>
+      </div>
     </div>
   );
 };

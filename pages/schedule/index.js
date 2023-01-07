@@ -10,15 +10,20 @@ const Schedule = () => {
         <title>Clinic | Schedule </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
+
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
       <Header />
-      <div className="mx-auto max-w-screen-xl px-4 py-6">
-        <div className="mx-auto max-w-3xl text-center">
-          <h1 className="text-[#6C5137] font-extrabold text-3xl md:text-5xl pb-4">
-            Calendar
+
+      <div className="main">
+        <div className="text-center">
+          <h1 className="pageTitle">
+            ตารางนัด
           </h1>
           <Calendar />
         </div>
       </div>
+      </div>
+      
     </div>
   );
 };
