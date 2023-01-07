@@ -1,36 +1,58 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { getSession, useSession } from "next-auth/react";
+import axios from "axios";
 import { useTheme } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
-import SmallInput from "../../../components/common/SmallInput";
+import { useForm, Controller, useFieldArray } from "react-hook-form";
 
-function SideView() {
+function SideView({ clinicData }) {
   const theme = useTheme();
-  const [procedureName, setProcedureName] = useState();
-  const [price, setPrice] = useState();
-  const [smallInputList, setSmallInput] = useState([{ procedure: "" }]);
-  console.log(smallInputList);
+  const { data: session, status } = useSession();
+  const {
+    register,
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({});
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "procedures",
+  });
 
-  const addSmallInput = () => {
-    setSmallInput([...smallInputList, { procedure: "" }]);
+  const onSubmit = async (data) => {
+    console.log(data);
+    data.owner_id = session.user.id;
+    const json = JSON.stringify(data);
+    console.log(data.owner_id);
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    const response = await axios
+      .post(
+        `https://olive-service-api.vercel.app/course/create/${clinicData._id}`,
+        json,
+        axiosConfig
+      )
+      .then(async (res) => {
+        console.log("RESPONSE RECEIVED: ", res.data);
+
+        toast.success("กำลังเพิ่มคอร์ส...🛠️🚧");
+      })
+      .catch((err) => {
+        console.log("AXIOS ERROR: ", err);
+      });
   };
-  const removeSmallInput = () => {
-    const list = [...smallInputList];
-    list.splice(index, 1);
-    setSmallInput(list);
-  };
-  const handleSmallInputChange = (e, index) => {
-    const { procedure, value } = e.target;
-    const list = [...smallInputList];
-    list[index][procedure] = value;
-    setSmallInput(list);
-  };
+
   return (
     <Box
-      className="h-full w-full overflow-y-auto"
-      sx={{ bgcolor: theme.palette.primary.main }}
+      className="h-fit w-full md:px-24 overflow-y-auto shadow-2xl rounded-xl xl:pb-4"
+      sx={{ bgcolor: theme.palette.background.main }}
     >
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="pt-16 text-center">
           <Typography variant="h3">เพิ่มคอร์ส</Typography>
           <div className="pb-10" />
@@ -38,8 +60,16 @@ function SideView() {
             type="text"
             name="courseName"
             placeholder="ชื่อคอร์ส"
-            className="w-2/3 inputUnderline"
+            className="w-2/3 bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
+            {...register("courseName", {
+              required: true,
+            })}
           />
+          {errors.courseName && (
+            <Typography sx={{ color: theme.palette.error.main }}>
+              This is required.
+            </Typography>
+          )}
           <div className="flex pt-16 items-center px-16">
             <div className="space-y-10">
               <div className="grid grid-cols-3 ">
@@ -51,12 +81,20 @@ function SideView() {
                   type="text"
                   name="amount"
                   placeholder=""
-                  className="inputUnderline"
+                  className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
+                  {...register("amount", {
+                    required: true,
+                  })}
                 />
                 <Typography variant="h5" className="pt-4">
                   ครั้ง
                 </Typography>
               </div>
+              {errors.amount && (
+                <Typography sx={{ color: theme.palette.error.main }}>
+                  This is required.
+                </Typography>
+              )}
               <div className="grid grid-cols-3 ">
                 {/* Duration */}
                 <Typography variant="h5" className="pt-4">
@@ -66,14 +104,22 @@ function SideView() {
                   type="text"
                   name="duration"
                   placeholder=""
-                  className="inputUnderline"
+                  className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
+                  {...register("duration", {
+                    required: true,
+                  })}
                 />
                 <Typography variant="h5" className="pt-4">
-                  ชั่วโมง
+                  ชั่วโมง/ครั้ง
                 </Typography>
               </div>
+              {errors.duration && (
+                <Typography sx={{ color: theme.palette.error.main }}>
+                  This is required.
+                </Typography>
+              )}
 
-              <div className="grid grid-cols-3 ">
+              <div className="grid grid-cols-3">
                 {/* Price */}
                 <Typography variant="h5" className="pt-4">
                   ราคา
@@ -82,36 +128,75 @@ function SideView() {
                   type="text"
                   name="totalPrice"
                   placeholder=""
-                  className="inputUnderline"
+                  className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
+                  {...register("totalPrice", {
+                    required: true,
+                  })}
                 />
                 <Typography variant="h5" className="pt-4">
                   บาท
                 </Typography>
               </div>
+              {errors.totalPrice && (
+                <Typography sx={{ color: theme.palette.error.main }}>
+                  This is required.
+                </Typography>
+              )}
             </div>
           </div>
         </div>
-        <div className="flex justify-between pt-16 px-24">
+        <div className="flex justify-between pt-16 px-24 md:px-24">
           <Typography variant="h5">หัตถการ</Typography>
-          <div
-            onClick={addSmallInput}
-            className="px-4 py-1 md:px-16 md:py-2 rounded-full cursor-pointer border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259]"
+          <button
+            type="button"
+            onClick={() => append({ procedureName: "", price: "" })}
+            className="rounded-full bg-[#6C5137] text-[#FFECA7] px-6 pt-1"
           >
             <p>เพิ่ม</p>
-          </div>
+          </button>
         </div>
-        {smallInputList.map((singleInput, index) => (
-          <div key={index}>
-            <SmallInput
-              onChange={(e) => handleSmallInputChange(e, index)}
-              value={singleInput.procedure}
-            />
-          </div>
-        ))}
-        <div className="px-10 py-2 md:px-48 md:py-10 text-center items-center">
-          <div className="buttonPrimary">
-            <p>เพิ่ม</p>
-          </div>
+        <div className="pt-4">
+          <ul className="space-y-2">
+            {fields.map((item, index) => (
+              <li
+                key={item.id}
+                className="space-y-4 xl:space-y-0 xl:flex xl:justify-between xl:space-x-4 grid grid-cols-1 px-12 md:px-24 xl:px-4"
+              >
+                <input
+                  {...register(`procedures.${index}.procedureName`)}
+                  placeholder="ชื่อหัตถการ..."
+                  className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2"
+                />
+                <Controller
+                  render={({ field }) => (
+                    <input
+                      {...field}
+                      placeholder="ราคา ฿"
+                      className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2"
+                    />
+                  )}
+                  name={`procedures.${index}.price`}
+                  control={control}
+                />
+                <div className="">
+                  <button
+                    type="button"
+                    onClick={() => remove(index)}
+                    className="rounded-full bg-[#6C5137] text-[#FFECA7] px-6 py-2 text-center"
+                  >
+                    ลบ
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="mx-auto px-16 py-2 md:py-4 text-center items-center">
+          <input
+            type="submit"
+            className="font-bold bg-[#6C5137] border-[#6C5137] text-[#FFECA7] buttonPrimary"
+          />
         </div>
       </form>
     </Box>

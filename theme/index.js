@@ -14,7 +14,7 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: "#FFEAB2",
+      main: "#FFECA7",
       lighter: '#FFFFCA',
       light: "#FBB7C7",
       dark: '#CAB769',
@@ -24,11 +24,20 @@ const theme = createTheme({
       main: "#AD8259",
       light: "#E0B186",
       darker: "#7C552F",
+      variant: "#ffe898"
     },
     neutral: {
       main: "#64748B",
       contrastText: "#fff",
     },
+    background: {
+      main: "#fdfff5",
+      secondary: "#AD8259",
+      dark: "#6C5137",
+    },
+    gray: {
+      main: "#f0f1f2"
+    }
   },
   typography: {
     fontFamily: ['Mitr','sans-serif'].join(','), 

@@ -2,10 +2,8 @@ import React from "react";
 import Link from "next/link";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
-import RateReviewIcon from "@mui/icons-material/RateReview";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
-import { useRouter } from "next/router";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
+import BookmarksIcon from '@mui/icons-material/Bookmarks';
 
 function LinkGridCard({ data }) {
   return (
@@ -37,6 +35,19 @@ function LinkGridCard({ data }) {
               </p>
             </a>
           </Link>
+
+          <Link href="/course">
+            <a className="linkGridCardContainer">
+              <BookmarksIcon className="h-10 w-10" />
+              <h2 className="mt-4 text-xl font-bold ">
+                Course
+              </h2>
+              <p className="mt-4 h6 text-black/60">
+                คอร์สทั้งหมด
+              </p>
+            </a>
+          </Link>
+
           <Link href="/staff">
             <a className="linkGridCardContainer">
               <PeopleIcon className="h-10 w-10" />

@@ -5,12 +5,44 @@ import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import Head from "next/head";
 import { useTheme } from "@mui/material/styles";
-import { Typography } from "@mui/material";
 import ListView from "./course_view/ListView";
 import SideView from "./course_view/SideView";
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Course() {
   const theme = useTheme();
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const [clinicData, setData] = useState({});
+
+  async function fetchData() {
+    await delay(1000);
+    if (session.user.id) {
+      const res = await fetch(
+        `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
+      );
+      try {
+        const clinicData = await res.json();
+        if (clinicData) {
+          setData(clinicData);
+          console.log(clinicData);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
+      }
+    } else {
+      await delay(3000);
+    }
+  }
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin/");
+    } else {
+      fetchData();
+    }
+  }, [status]);
 
   return (
     <div>
