@@ -8,42 +8,9 @@ import { useTheme } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 import ListView from "./course_view/ListView";
 import SideView from "./course_view/SideView";
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Course() {
   const theme = useTheme();
-  const { data: session, status } = useSession();
-  const router = useRouter();
-  const [courseData, setCourseData] = useState({});
-
-  async function fetchData() {
-    await delay(1000);
-    const url = `https://olive-service-api.vercel.app/course/match/owner/${session.user.id}`;
-
-    if (session.user.id) {
-      const res = await fetch(url);
-      try {
-        const courseData = await res.json();
-        if (courseData) {
-          setCourseData(courseData);
-          console.log(url);
-          console.log(courseData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      await delay(3000);
-    }
-  }
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin/");
-    } else {
-      fetchData();
-    }
-  }, [status]);
 
   return (
     <div>
@@ -60,7 +27,7 @@ function Course() {
               <Typography variant="h2">คอร์ส</Typography>
               <div className="pb-10" />
               <div className="md:w-6/6">
-                <ListView courseData={courseData} />
+                <ListView />
               </div>
             </div>
             <div className="md:w-2/6">
