@@ -12,9 +12,9 @@ const index = () => {
         <title>Daycare | Appointment </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
       <Header />
-
-      <div className="lg:ml-40">
+      <div className="main ">
         <h2 className="pageTitle">นัดหมายดูแล</h2>
 
         <div className="font-semibold text-md text-[#6C5137] ml-3 mb-5">
@@ -165,6 +165,10 @@ const index = () => {
           </div>
         </div>
       </div>
+      </div>
+      
+
+      
     </div>
   );
 };

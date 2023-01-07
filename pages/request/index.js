@@ -39,12 +39,18 @@ const Request = () => {
         <title>Clinic | Request </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
+
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
       <Header />
 
-      <div className="lg:ml-40">
+      <div className="main ">
         <h2 className="pageTitle">คำขอดูแล</h2>
         {clinicData ? <ListView data={clinicData} /> : <div></div>}
       </div>
+      </div>
+      
+
+      
     </div>
   );
 };

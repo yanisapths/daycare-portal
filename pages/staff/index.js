@@ -12,9 +12,11 @@ const index = () => {
         <title>Clinic | Staff </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
+
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
       <Header />
 
-      <div className="lg:ml-40">
+      <div className="main">
         <h2 className="pageTitle">พนักงาน</h2>
 
         {/*staff list */}
@@ -189,6 +191,10 @@ const index = () => {
           </div>
         </div>
       </div>
+      </div>
+      
+
+      
     </div>
   );
 };

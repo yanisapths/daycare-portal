@@ -16,14 +16,15 @@ function Course() {
         <title>Clinic | Course </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
+      
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
       <Header />
 
-      <main className="h-screen overflow-scroll scrollbar-hide">
-        <div className="overflow-scroll scrollbar-hide">
-          <div className="md:flex gap-10">
-            <div className="pt-10 p-10 w-full md:pl-60 md:w-4/6">
-              <Typography variant="h2">คอร์ส</Typography>
-              <div className="pb-10" />
+      <main className="main ">
+      <div className="pageTitle">คอร์ส</div>
+        <div className="overflow-scroll scrollbar-hide top-0">
+          <div className="md:flex gap-5">
+            <div className="= px-10 w-full md:pl-60 md:w-4/6">
               <div className="md:w-6/6">
               <ListView />
               </div>
@@ -35,6 +36,8 @@ function Course() {
         </div>
         <FooterSocial />
       </main>
+      </div>
+      
     </div>
   );
 }

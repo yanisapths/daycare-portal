@@ -6,28 +6,29 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        '3xl': '-5px 5px 35px 25px',
-      }
+        "3xl": "-5px 5px 35px 25px",
+      },
     },
     fontFamily: {
-      roboto : "'Roboto', sans-serif",
-      mitr : "'Mitr', sans-serif",
+      roboto: "'Roboto', sans-serif",
+      mitr: "'Mitr', sans-serif",
     },
     backdropFilter: {
-      'none': 'none',
-      'blur': 'blur(10px)',
+      none: "none",
+      blur: "blur(10px)",
     },
     screens: {
-      'sm':   {'min': '320px', 'max': '640px'},
-      'md': '768px',
+      sm: { min: "320px", max: "680px" },
+
+      //md: "768px",
       // => @media (min-width: 768px) { ... }
-      'lg': '1024px',
+      lg: "1024px",
       // => @media (min-width: 1024px) { ... }
-      'xl': '1280px',
+      xl: "1280px",
       // => @media (min-width: 1280px) { ... }
-    }
+
+      tablet: { min: "768px", max: "1000px" },
+    },
   },
-  plugins: [require("tailwind-scrollbar-hide"),
-  require('tailwindcss-filters'),
-], 
-}
+  plugins: [require("tailwind-scrollbar-hide"), require("tailwindcss-filters")],
+};
