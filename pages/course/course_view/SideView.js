@@ -8,16 +8,11 @@ function SideView() {
   const theme = useTheme();
   const [procedureName, setProcedureName] = useState();
   const [price, setPrice] = useState();
-  const [smallInputList, setSmallInput] = useState([
-    { procedure: "" },
-  ]);
+  const [smallInputList, setSmallInput] = useState([{ procedure: "" }]);
   console.log(smallInputList);
 
   const addSmallInput = () => {
-    setSmallInput([
-      ...smallInputList,
-      { procedure: "" },
-    ]);
+    setSmallInput([...smallInputList, { procedure: "" }]);
   };
   const removeSmallInput = () => {
     const list = [...smallInputList];
@@ -107,16 +102,17 @@ function SideView() {
         </div>
         {smallInputList.map((singleInput, index) => (
           <div key={index}>
-            <SmallInput onChange={(e) => handleSmallInputChange(e,index)} value={singleInput.procedure}/>
+            <SmallInput
+              onChange={(e) => handleSmallInputChange(e, index)}
+              value={singleInput.procedure}
+            />
           </div>
         ))}
-          <div className="px-10 py-2 md:px-48 md:py-10 text-center items-center">
-         <div
-            className="buttonPrimary"
-          >
+        <div className="px-10 py-2 md:px-48 md:py-10 text-center items-center">
+          <div className="buttonPrimary">
             <p>เพิ่ม</p>
           </div>
-          </div>
+        </div>
       </form>
     </Box>
   );

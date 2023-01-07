@@ -1,15 +1,20 @@
-import React from 'react'
+import React from "react";
 import HoverCard from "../../../components/common/HoverCard";
 
-function ListView() {
+function ListView({ courseData }) {
   return (
     <div className="overflow-scroll overflow-y-auto space-y-10">
-      <HoverCard />
-      <HoverCard />
-      <HoverCard />
-      <HoverCard />
+      {courseData?.map((course) => (
+        <HoverCard
+          name={course.courseName}
+          amount={course.amount}
+          duration={course.duration}
+          totalPrice={course.totalPrice}
+          procedures={course.procedures}
+        />
+      ))}
     </div>
-  )
+  );
 }
 
-export default ListView
+export default ListView;
