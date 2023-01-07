@@ -3,7 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
 
-function HoverCard({ name, amount, duration, totalPrice, procedures }) {
+function HoverCard({ key,name, amount, duration, totalPrice, procedures }) {
   const theme = useTheme();
   return (
     <div className="group relative block h-[20rem] md:h-[30rem] cursor-pointer">
@@ -26,7 +26,7 @@ function HoverCard({ name, amount, duration, totalPrice, procedures }) {
           <h3 className="text-md md:pb-4 md:text-3xl font-medium">หัตถการ</h3>
           {/* procedure */}
           {procedures?.map((procedure) => (
-            <div className="mb-2 inline-block rounded-full border border-indigo-600 w-full px-4 md:py-2">
+            <div className="mb-2 inline-block rounded-full border border-indigo-600 w-full px-4 md:py-2" key={procedure._id}>
               <div className="flex justify-between truncate">
                 <p className="text-xs md:text-lg">{procedure.procedureName}</p>
                 <p className="text-xs md:text-lg">{procedure.price} บาท</p>
