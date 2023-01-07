@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import Head from "next/head";
@@ -26,11 +28,11 @@ function Course() {
           <div className="md:flex gap-5">
             <div className="= px-10 w-full md:pl-60 md:w-4/6">
               <div className="md:w-6/6">
-              <ListView />
+                <ListView />
               </div>
             </div>
             <div className="md:w-2/6">
-            <SideView />
+              <SideView />
             </div>
           </div>
         </div>
@@ -43,3 +45,11 @@ function Course() {
 }
 
 export default Course;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  return {
+    props: { session },
+  };
+}

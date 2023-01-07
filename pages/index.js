@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
-import Head from "next/head";
-import Header from "../components/Header";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { withRouter } from "next/router";
+import Head from "next/head";
+import Header from "../components/Header";
 import Dashboard from "./dashboard";
 import BannerCard from "../components/common/BannerCard";
 import FooterSocial from "../components/FooterSocial";
-const delay = ms => new Promise(
-  resolve => setTimeout(resolve, ms)
-);
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Home() {
   const { data: session, status } = useSession();
@@ -18,7 +16,7 @@ function Home() {
 
   async function fetchData() {
     await delay(1000);
-    if(session.user.id) {
+    if (session.user.id) {
       const res = await fetch(
         `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
       );
@@ -31,7 +29,7 @@ function Home() {
         console.log(err);
         return router.push("/noClinic");
       }
-    }else {
+    } else {
       await delay(3000);
     }
   }
