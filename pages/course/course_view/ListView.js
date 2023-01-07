@@ -41,7 +41,7 @@ function ListView() {
   if (courseData.length >= 1) {
     console.log(courseData);
     return (
-      <div className="overflow-scroll overflow-y-auto space-y-10">
+      <div className="overflow-scroll overflow-y-auto space-y-10 overflow-x-hidden">
         {courseData?.map((course) => (
           <HoverCard
             name={course.courseName}
