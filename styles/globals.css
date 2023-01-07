@@ -106,14 +106,12 @@ a {
   
   /* Add Daycare Button */
   .buttonPrimary{
-    @apply cursor-pointer relative left-24 flex m-0 w-1/2  py-2 text-center justify-center
+    @apply cursor-pointer relative flex m-0 py-2 text-center justify-center
     rounded-full border-2  hover:border-[#AD8259] bg-[#ffdf8e] drop-shadow-lg 
     hover:bg-transparent text-[#AD8259] 
     active:text-[#AD8259]
     sm:px-8 sm:py-2 
-    tablet:py-2 
-    
-    ;
+    tablet:py-2;
   }
 
   /* Home Landing Link Grid Card */

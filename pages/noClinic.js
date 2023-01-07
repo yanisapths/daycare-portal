@@ -19,41 +19,39 @@ const NoClinic = () => {
   return (
     <>
       <Head>
-        <title>Olive | Pysiotherapy Clinic</title>
+        <title>Olive | Physiotherapy Clinic</title>
         <link rel="icon" href="favicon.ico" />
       </Head>
 
       <div className="divide-y divide-[#A17851] divide-opacity-30">
         <Header />
 
-        <main className="main h-screen overflow-scroll scrollbar-hide">
+        <main className="main w-full h-screen overflow-scroll scrollbar-hide">
           <div
-            className="flex space-x-3 justify-center  items-center overflow-scroll scrollbar-hide    
+            className="h-96 flex justify-center items-center overflow-scroll scrollbar-hide    
         "
           >
-            <section
-              className="pt-28 sm:pt-52 sm:landscape:pt-12 sm:landscape:pr-25 tablet:pt-80
-            lg:pt-72 xl:pt-24"
-            >
+            <section className="">
               <h2
-                className=" items-center text-5xl py-8 text-black text-opacity-30 sm:text-2xl sm:pb-2
-              
+                className="items-center text-5xl py-8 text-black text-opacity-30 sm:text-2xl sm:pb-2
             "
               >
                 You have no Clinic
               </h2>
-              <Link href="/create">
-                <div className="buttonPrimary">
-                  <span
-                    className="text-xl font-medium sm:text-base sm:landscape:text-lg 
-                  tablet:text-md  "
-                  >
-                    {" "}
-                    Add Daycare{" "}
-                  </span>
-                  <AddHomeIcon className=" text-center ml-3 h-8 sm:h-6 sm: w-6 sm:ml-2" />
-                </div>
-              </Link>
+              <div className="items-center lg:px-14">
+                <Link href="/create">
+                  <div className="w-full lg:w-fit lg:px-16 buttonPrimary">
+                    <span
+                      className="text-xl font-medium sm:text-base sm:landscape:text-lg 
+                  tablet:text-md"
+                    >
+                      {" "}
+                      Add Clinic{" "}
+                    </span>
+                    <AddHomeIcon className="text-center ml-3 h-8 sm:h-6 sm: w-6 sm:ml-2" />
+                  </div>
+                </Link>
+              </div>
             </section>
           </div>
         </main>

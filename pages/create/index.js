@@ -178,16 +178,16 @@ function Create() {
 
   async function getBase64(file, cb) {
     let reader = new FileReader();
-    if(file){
-      try{
+    if (file) {
+      try {
         await reader.readAsDataURL(file);
         reader.onload = function () {
           cb(reader.result);
         };
-      }catch(err){
+      } catch (err) {
         console.log(err);
       }
-    }else {
+    } else {
       toast.error("กรุณาใส่รูปภาพคลินิก");
     }
   }
@@ -412,7 +412,9 @@ function Create() {
             <div className="md:col-start-3 md:col-span-2 items-center text-center ">
               <input
                 type="submit"
-                className="buttonPrimary px-20 md:px-30 bg-[#AD8259] cursor-pointer font-bold text-lg"
+                className="buttonPrimary px-20 md:px-30  border-2  hover:border-[#AD8259] bg-[#ffdf8e]
+                hover:bg-transparent text-[#AD8259] 
+                active:text-[#AD8259] cursor-pointer font-bold text-lg"
               />
             </div>
           </form>
