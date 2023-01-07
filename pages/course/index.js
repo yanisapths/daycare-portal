@@ -9,9 +9,7 @@ import SideView from "./course_view/SideView";
 import { getSession, useSession } from "next-auth/react";
 import axios from "axios";
 import { useRouter } from "next/router";
-const delay = ms => new Promise(
-  resolve => setTimeout(resolve, ms)
-);
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Course() {
   const theme = useTheme();
@@ -21,7 +19,7 @@ function Course() {
 
   async function fetchData() {
     await delay(1000);
-    if(session.user.id) {
+    if (session.user.id) {
       const res = await fetch(
         `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
       );
@@ -35,7 +33,7 @@ function Course() {
         console.log(err);
         return router.push("/noClinic");
       }
-    }else {
+    } else {
       await delay(3000);
     }
   }
@@ -47,7 +45,6 @@ function Course() {
       fetchData();
     }
   }, [status]);
-
 
   return (
     <div>
@@ -64,11 +61,11 @@ function Course() {
               <Typography variant="h2">คอร์ส</Typography>
               <div className="pb-10" />
               <div className="xl:w-6/6">
-              <ListView />
+                <ListView />
               </div>
             </div>
-            <div className="xl:w-2/6 xl:pt-40 xl:pr-4">
-            <SideView clinicData={clinicData}/>
+            <div className="xl:w-fit xl:pt-40 xl:pr-10">
+              <SideView clinicData={clinicData} />
             </div>
           </div>
         </div>

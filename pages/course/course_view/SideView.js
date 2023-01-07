@@ -160,7 +160,7 @@ function SideView({ clinicData }) {
             {fields.map((item, index) => (
               <li
                 key={item.id}
-                className="space-y-4 xl:space-y-0 xl:flex xl:justify-between xl:space-x-4 grid grid-cols-1 px-12 md:px-24 xl:px-6"
+                className="space-y-4 xl:space-y-0 xl:flex xl:justify-between xl:space-x-4 grid grid-cols-1 px-12 md:px-24 xl:px-4"
               >
                 <input
                   {...register(`procedures.${index}.procedureName`)}
@@ -193,9 +193,6 @@ function SideView({ clinicData }) {
         </div>
 
         <div className="mx-auto px-16 py-2 md:py-4 text-center items-center">
-          {/* <div className=" font-bold bg-[#6C5137] border-[#6C5137] text-[#FFECA7] buttonPrimary">
-            <p>เพิ่ม</p> 
-          </div> */}
           <input
             type="submit"
             className="font-bold bg-[#6C5137] border-[#6C5137] text-[#FFECA7] buttonPrimary"
