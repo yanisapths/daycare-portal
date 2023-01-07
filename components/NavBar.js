@@ -17,21 +17,17 @@ const NavBar = () => {
           <div className="navbarItem">คำขอรับบริการ</div>
         </Link>
         <Link href="schedule">
-        <div className="navbarItem">ตารางนัด</div>
+          <div className="navbarItem">ตารางนัด</div>
         </Link>
         <Link href="/course">
-        <div className="navbarItem">คอร์ส</div>
+          <div className="navbarItem">คอร์ส</div>
         </Link>
         <Link href="/staff">
-        <div className="navbarItem">พนักงาน</div>
+          <div className="navbarItem">พนักงาน</div>
         </Link>
         <Link href="/review">
-        <div className="navbarItem">รีวิว/คะแนน</div>
+          <div className="navbarItem">รีวิว/คะแนน</div>
         </Link>
-        
-        
-        
-        
       </div>
     </>
   );
