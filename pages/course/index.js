@@ -68,7 +68,7 @@ function Course() {
               </div>
             </div>
             <div className="xl:w-2/6 xl:pt-40 xl:pr-4">
-            <SideView />
+            <SideView clinicData={clinicData}/>
             </div>
           </div>
         </div>
