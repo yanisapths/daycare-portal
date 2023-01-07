@@ -28,7 +28,7 @@ a {
 @layer components {
   /*--------------Font Theme----------------- */
   .h1 {
-    @apply font-extrabold text-5xl
+    @apply font-extrabold text-5xl 
   }
 
   .h2 {
@@ -64,12 +64,12 @@ a {
   }
   
   .pageTitle {
-    @apply font-bold text-[#6C5137] text-2xl text-center pt-4
+    @apply font-bold text-[#6C5137] text-2xl text-center  m-2
   }
   /*------------------------------------*/
 
   .main {
-    @apply ml-40 px-8 sm:px-16 bg-[#ffffff];
+    @apply h-screen overflow-scroll scrollbar-hide    bg-[#FFFBF2] ;
   }
 
   /*----------------Input-----------------*/
@@ -87,27 +87,33 @@ a {
 
   /*----------------SideBar--------------*/
   .sideBarTabContainer2{
-    @apply flex gap-2 bg-[#FFEAB2]  items-center h-10  
-    cursor-pointer hover:text-white hover:bg-[#AD8259] 
-    hover:bg-opacity-75  ; 
+    @apply flex gap-2 bg-white items-center h-10  
+    cursor-pointer  
+    sm:pr-3 
+    tablet:h-20 tablet:w-60 
+     ; 
   }
 
-  .sideBarTabContainer2 .active{
-    @apply flex gap-2  text-[#372B20] bg-opacity-75 active:bg-[#A17851]  items-center h-10  
-    cursor-pointer hover:text-white hover:bg-[#AD8259] 
-    hover:bg-opacity-75  ; 
-  }
+  
   .sideBarTabIcon2{
-    @apply text-[#6C5137] ml-3  w-5 h-5;
+    @apply text-[#6C5137]  ml-3  w-5 h-5 tablet:w-7;
   }
   .sideBarTabText2{
-    @apply font-mitr text-sm  text-[#6C5137] ;
+    @apply font-mitr text-sm  text-[#6C5137] hover:text-[#e0b038] 
+    tablet:text-xl ;
   }
   /*------------------------------------*/
   
-  /* Primary Button */
+  /* Add Daycare Button */
   .buttonPrimary{
-    @apply m-4 px-20 py-4 lg:px-36 lg:py-6 rounded-full cursor-pointer border  border-[#AD8259] bg-[#AD8259] shadow-lg text-white hover:bg-transparent hover:text-[#AD8259] focus:outline-none focus:ring active:text-[#AD8259];
+    @apply cursor-pointer relative left-24 flex m-0 w-1/2  py-2 text-center justify-center
+    rounded-full border-2  hover:border-[#AD8259] bg-[#ffdf8e] drop-shadow-lg 
+    hover:bg-transparent text-[#AD8259] 
+    active:text-[#AD8259]
+    sm:px-8 sm:py-2 
+    tablet:py-2 
+    
+    ;
   }
 
   /* Home Landing Link Grid Card */
@@ -115,6 +121,15 @@ a {
     @apply block rounded-xl border-[#ECE656] bg-[#ECE656] p-8 shadow-xl transition hover:bg-[#F5F2AA] shadow-[#ECE656]/60
   }
   /*------------------------------------*/
+
+  /* Nav Bar*/
+  .navBarContainer{
+    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3
+  }
+  .navbarItem{
+    @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] 
+  }
+  
 }
 
 

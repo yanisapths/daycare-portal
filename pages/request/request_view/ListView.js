@@ -30,11 +30,11 @@ function ListView({ data }) {
               <div className="grid grid-col-6">
                 <div className="col-start-1 col-end-7">
                   <span className="font-bold text-base text-[#6C5137]">
-                    {request.firstName}  {request.lastName}
+                    {request.firstName} {request.lastName}
                   </span>
                 </div>
                 <div className="col-start-1 col-end-7">
-                <span className="font-semibold">ชื่อเล่น:</span>
+                  <span className="font-semibold">ชื่อเล่น:</span>
                   <span className="font-bold text-base text-[#6C5137]">
                     {request.nickname}
                   </span>
@@ -54,11 +54,19 @@ function ListView({ data }) {
 
                 <div className="col-start-1 col-span-3">
                   <span className="font-semibold ">วันนัดหมาย</span>
-                  <span className=" text-[#8E6947]"> {new Date(request.appointmentDate).toDateString()} </span>
+                  <span className=" text-[#8E6947]">
+                    {" "}
+                    {new Date(request.appointmentDate).toDateString()}{" "}
+                  </span>
                 </div>
                 <div className="col-start-1 col-span-3">
                   <span className="font-semibold ">เวลานัดหมาย</span>
-                  <span className=" text-[#8E6947]"> {new Date(request.appointmentTime).toLocaleTimeString()} </span>
+                  <span className=" text-[#8E6947]">
+                    {" "}
+                    {new Date(
+                      request.appointmentTime
+                    ).toLocaleTimeString()}{" "}
+                  </span>
                 </div>
               </div>
             </div>

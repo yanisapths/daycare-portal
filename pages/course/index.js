@@ -1,14 +1,12 @@
 import React, { useState, useEffect } from "react";
+import { getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import Head from "next/head";
 import { useTheme } from "@mui/material/styles";
-import { Typography } from "@mui/material";
 import ListView from "./course_view/ListView";
 import SideView from "./course_view/SideView";
-import { getSession, useSession } from "next-auth/react";
-import axios from "axios";
-import { useRouter } from "next/router";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Course() {
@@ -52,25 +50,28 @@ function Course() {
         <title>Clinic | Course </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
+      
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
       <Header />
 
-      <main className="h-screen overflow-scroll scrollbar-hide">
-        <div className="overflow-scroll scrollbar-hide">
-          <div className="xl:flex gap-4">
-            <div className="pt-10 p-10 w-full xl:pl-60 xl:w-4/6">
-              <Typography variant="h2">คอร์ส</Typography>
-              <div className="pb-10" />
-              <div className="xl:w-6/6">
+      <main className="main ">
+      <div className="pageTitle">คอร์ส</div>
+        <div className="overflow-scroll scrollbar-hide top-0">
+          <div className="md:flex gap-5">
+            <div className="= px-10 w-full md:pl-60 md:w-4/6">
+              <div className="md:w-6/6">
                 <ListView />
               </div>
             </div>
-            <div className="xl:w-fit xl:pt-40 xl:pr-10">
-              <SideView clinicData={clinicData} />
+            <div className="md:w-2/6">
+              <SideView />
             </div>
           </div>
         </div>
         <FooterSocial />
       </main>
+      </div>
+      
     </div>
   );
 }
