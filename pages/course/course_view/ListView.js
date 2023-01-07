@@ -44,6 +44,7 @@ function ListView() {
       <div className="overflow-scroll overflow-y-auto space-y-10 overflow-x-hidden">
         {courseData?.map((course) => (
           <HoverCard
+            key={course._id}
             name={course.courseName}
             amount={course.amount}
             duration={course.duration}
