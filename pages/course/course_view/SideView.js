@@ -5,10 +5,13 @@ import { useTheme } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
+import toast from "react-hot-toast";
+import Router from "next/router";
 
 function SideView({ clinicData }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
+  console.log(clinicData);
   const {
     register,
     control,
@@ -25,6 +28,7 @@ function SideView({ clinicData }) {
     data.owner_id = session.user.id;
     const json = JSON.stringify(data);
     console.log(data.owner_id);
+   
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
@@ -41,6 +45,7 @@ function SideView({ clinicData }) {
         console.log("RESPONSE RECEIVED: ", res.data);
 
         toast.success("กำลังเพิ่มคอร์ส...🛠️🚧");
+        Router.reload();
       })
       .catch((err) => {
         console.log("AXIOS ERROR: ", err);
