@@ -137,7 +137,7 @@ a {
     @apply bg-[#FFFBF2] flex justify-center gap-4 py-3  sm:flex-wrap sm:hidden md:hidden  xxxl:h-16 xxxl:items-center
   }
   .navbarItem{
-    @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] xxxl:text-2xl lg:items-center  lg:text-sm
+    @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] xxxl:text-2xl lg:items-center lg:text-sm
     
   }
   /*------------------------------------*/
