@@ -20,14 +20,19 @@ module.exports = {
     screens: {
       sm: { min: "320px", max: "680px" },
 
-      //md: "768px",
-      // => @media (min-width: 768px) { ... }
+      md: { min: "768px", max: "1020px" },
+
       lg: "1024px",
       // => @media (min-width: 1024px) { ... }
       xl: "1280px",
       // => @media (min-width: 1280px) { ... }
-
-      tablet: { min: "768px", max: "1000px" },
+      scOne: "1366px",
+      xxl: "1440px",
+      scTwo: "1536px",
+      scThree: "1680px",
+      
+      xxxl: "2560px",
+      // => @media (min-width: 2560px) { ... }
     },
   },
   plugins: [require("tailwind-scrollbar-hide"), require("tailwindcss-filters")],

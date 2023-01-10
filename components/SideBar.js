@@ -43,14 +43,14 @@ const SideBar = () => {
   }
 
   return (
-    <div className="Siderbar">
+    <div>
       {!isActive ? (
         <MenuIcon
           onClick={() => {
             setShowSidebar((x) => !x);
             setIsActive(!isActive);
           }}
-          className="cursor-pointer  text-[#6C5137] hover:text-[#AD8259] m-3"
+          className="cursor-pointer  text-[#6C5137] hover:text-[#AD8259] m-3 xxxl:w-12 xxxl:h-12"
         />
       ) : (
         <CloseIcon
@@ -59,19 +59,20 @@ const SideBar = () => {
             setIsActive(!isActive);
           }}
           className="m-3 cursor-pointer bg-transparent
-           text-[#6C5137] hover:text-[#AD8259]"
+           text-[#6C5137] hover:text-[#AD8259 ] xxxl:w-12 xxxl:h-12"
         />
       )}
 
       {showSidebar && (
         <div
-          className="left-0 md:w-40  bg-white
+          className="left-0 md:w-40 absolute bg-white
             ease-in-out duration-300 drop-shadow-lg
-            lg:h-screen t-0 lg:absolute lg:shadow-2xl lg:w-1/4 
-            tablet:absolute  "
+            sm:h-screen sm:w-3/5 sm:landscape:w-2/5
+            lg:h-screen t-0 lg:shadow-2xl lg:w-1/4 
+            "
           ref={sideBar}
         >
-          <div className="divide-y divide-[#AD8259] lg:px-3 ">
+          <div className="divide-y divide-[#AD8259] lg:px-3 xxxl:px-6">
             <Link href="/">
               <div
                 className={

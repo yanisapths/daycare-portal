@@ -25,33 +25,37 @@ const NoClinic = () => {
 
       <div className="divide-y divide-[#A17851] divide-opacity-30">
         <Header />
-
-        <main className="main h-screen overflow-scroll scrollbar-hide">
+        <main className="main ">
           <div
             className="flex space-x-3 justify-center  items-center overflow-scroll scrollbar-hide    
-        "
+          "
           >
             <section
-              className="pt-28 sm:pt-52 sm:landscape:pt-12 sm:landscape:pr-25 tablet:pt-80
-            lg:pt-72 xl:pt-24"
+              className="pt-28 sm:pt-52 sm:landscape:pt-12 sm:landscape:pr-25 md:pt-80
+                lg:pt-24 xl:pt-40 scOne:pt-40 xxxl:pt-56"
             >
               <h2
-                className=" items-center text-5xl py-8 text-black text-opacity-30 sm:text-2xl sm:pb-2
-              
-            "
+                className=" items-center text-5xl py-8 text-black text-opacity-30 
+                  sm:text-2xl sm:pb-2 
+                  md:text-4xl md:pb-3
+                  lg:text-3xl lg:pb-3
+                  xl:text-4xl xl:pb-3
+                  xxl:text-4xl xxl:pb-3 xxxl:text-7xl xxxl:pb-6
+                  "
               >
                 You have no Clinic
               </h2>
               <Link href="/create">
+                
                 <div className="buttonPrimary">
                   <span
-                    className="text-xl font-medium sm:text-base sm:landscape:text-lg 
-                  tablet:text-md  "
+                    className="text-xl font-medium 
+                      sm:landscape:text-base md:text-base sm:text-base lg:text-base xxl:text-lg xxxl:text-3xl   "
                   >
                     {" "}
                     Add Daycare{" "}
                   </span>
-                  <AddHomeIcon className=" text-center ml-3 h-8 sm:h-6 sm: w-6 sm:ml-2" />
+                  <AddHomeIcon className="xxxl:w-10 xxxl:h-10" />
                 </div>
               </Link>
             </section>

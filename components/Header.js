@@ -10,54 +10,46 @@ import SideBar from "./SideBar";
 import NavBar from "./NavBar";
 import { Dropdown } from "react-multi-select-component";
 function Header({ placeholder }) {
-
   const { data: session } = useSession();
   const router = useRouter();
-  
-
 
   return (
     <>
-      <div className="divide-y divide-[#A17851] divide-opacity-30">
+      <div className="flex-row justify-between divide-y divide-[#A17851] divide-opacity-30">
         <header
-          className="sticky t-0 justify-between item-center flex
-      flex-wrap  w-full bg-[#FFFBF2] sm:h-12 sm:landscape:h-12 sm:landscape:items-center tablet:h-16 tablet:items-center 
-       "
+          className="sticky top-0 justify-between item-center flex flex-wrap  w-full 
+          bg-[#FFFBF2]  sm:landscape:h-12 sm:landscape:items-center md:h-16 md:items-center  lg:items-center
+          xxxl:h-20 xxxl:items-center "
         >
           {" "}
           {/* Left */}
-          <div>
-            <div className="sm:landscape:pt-0">
-              <SideBar />
-            </div>
+          <div >
+            <SideBar />
           </div>
-          
           {/* Middle */}
-          <div>
-            <div>
-              <h1
-                onClick={() => router.push("/")}
-                className="cursor-pointer sticky lg:pt-3 lg:text-2xl  text-[#6C5137] sm:invisible sm:landscape:visible w-30  md:text-xl font-bold
-               sm:text-base tablet:text-xl "
-              >
-                Physiotherapy Clinic
-              </h1>
-            </div>
+          <div >
+            <h1
+              onClick={() => router.push("/")}
+              className="cursor-pointer sticky text-[#6C5137] sm:invisible sm:landscape:visible w-30  md:text-xl font-bold
+               sm:text-base lg:text-2xl lg:items-center xxxl:text-4xl "
+            >
+              Physiotherapy Clinic
+            </h1>
           </div>
           {/* Right */}
-          <div className="pr-3 pt-1 m-1">
+          <div className="pr-3 pt-1 m-1 ">
             <Menu as="div" className="inline-block text-left ">
-              <div className="relative ">
-                <Menu.Button className="flex border-[#6C5137] border-opacity-70 border-2 p-1 rounded-full">
+              <div className="relative">
+                <Menu.Button className="flex border-[#6C5137]   border-opacity-70 border-2 p-1 rounded-full items-center">
                   {/*Profile Picture */}
                   {!session && (
                     <>
                       <Image
-                        className="rounded-full cursor-pointer"
+                        className="rounded-full cursor-pointer "
                         src="/Avatar.png"
                         alt="/Avatar.png"
-                        width="40"
-                        height="40"
+                        width="35"
+                        height="35"
                         layout="fixed"
                       />
                     </>
@@ -67,8 +59,8 @@ function Header({ placeholder }) {
                       {session.user.image && (
                         <Image
                           alt="/userLoginImage.png"
-                          className="rounded-full cursor-pointer tablet:w-50 tablet:h-50
-                        "
+                          className="rounded-full cursor-pointer md:w-50 md:h-50 lg:w-30 lg:h-30
+                            "
                           src={session.user.image}
                           layout="fixed"
                           width="35"
