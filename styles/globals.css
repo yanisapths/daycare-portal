@@ -64,12 +64,13 @@ a {
   }
   
   .pageTitle {
-    @apply font-bold text-[#6C5137] text-2xl text-center  m-2
+    @apply font-bold text-[#6C5137] text-2xl text-center  m-2 underline decoration-dashed
   }
   /*------------------------------------*/
 
   .main {
-    @apply h-screen overflow-scroll scrollbar-hide    bg-[#FFFBF2] ;
+    @apply  h-screen overflow-scroll scrollbar-hide bg-[#FFFBF2] 
+     
   }
 
   /*----------------Input-----------------*/
@@ -90,28 +91,37 @@ a {
     @apply flex gap-2 bg-white items-center h-10  
     cursor-pointer  
     sm:pr-3 
-    tablet:h-20 tablet:w-60 
+    md:h-20 md:w-60 
+    xxxl:h-20 xxxl:px-4
      ; 
   }
 
   
   .sideBarTabIcon2{
-    @apply text-[#6C5137]  ml-3  w-5 h-5 tablet:w-7;
+    @apply text-[#6C5137]  ml-3  w-5 h-5 md:w-7 xxxl:w-9 xxxl:h-9;
   }
   .sideBarTabText2{
     @apply font-mitr text-sm  text-[#6C5137] hover:text-[#e0b038] 
-    tablet:text-xl ;
+    md:text-xl xxxl:text-2xl;
   }
   /*------------------------------------*/
   
   /* Add Daycare Button */
   .buttonPrimary{
-    @apply cursor-pointer relative flex m-0 py-2 text-center justify-center
+    @apply cursor-pointer absolute flex gap-1  w-1/2  py-2  justify-center
     rounded-full border-2  hover:border-[#AD8259] bg-[#ffdf8e] drop-shadow-lg 
     hover:bg-transparent text-[#AD8259] 
-    active:text-[#AD8259]
-    sm:px-8 sm:py-2 
-    tablet:py-2;
+    
+    sm:w-3/5 sm:py-1 sm:px-0 sm:left-16 
+    sm:landscape:w-1/3 sm:landscape:left-44
+    md:py-2 md:left-56 md:w-2/6
+    lg:left-80 lg:w-1/5
+    xl:w-1/5 xl:left-[520px]
+    scOne:left-[550px]
+    scTwo:left-[650px]
+    scThree:left-[700px]
+    xxl:w-1/6 xxl:left-[600px] 
+    xxxl:w-1/6 xxxl:left-[1060px] xxxl:py-3;
   }
 
   /* Home Landing Link Grid Card */
@@ -122,11 +132,13 @@ a {
 
   /* Nav Bar*/
   .navBarContainer{
-    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3
+    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3  sm:flex-wrap sm:hidden md:hidden  xxxl:h-16 xxxl:items-center
   }
   .navbarItem{
-    @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] 
+    @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] xxxl:text-2xl lg:items-center lg:text-sm
+    
   }
+  /*------------------------------------*/
   
 }
 
