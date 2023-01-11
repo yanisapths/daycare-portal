@@ -58,7 +58,6 @@ function Create() {
   const [daycareImageProfile, setDaycareImageProfile] = useState("");
   const [input, setInput] = useState({});
   const [selectedTime, setSelectedTime] = useState("");
-  console.log(session.user.id);
 
   const handleTimeChange = (event) => {
     setSelectedTime(event.target.value);
@@ -113,6 +112,7 @@ function Create() {
   // Handles the submit event on form submit.
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     const data = {
       clinic_name: event.target.clinic_name.value,
       address: event.target.address.value,
@@ -127,6 +127,7 @@ function Create() {
       closeTime: event.target.closeTime.value,
       owner_id: session.user.id,
     };
+    console.log(data);
 
     let axiosConfig = {
       headers: {
@@ -203,6 +204,7 @@ function Create() {
       "openDay",
       "openTime",
       "closeTime",
+      "imageUrl",
     ])
   );
 
