@@ -432,21 +432,8 @@ function Create() {
                     hover:border-[#AD8259] shadow-lg
                     hover:bg-transparent 
                     my-3 w-56 h-10 lg:w-64 lg:h-14 lg:text-xl"
-                    //     className="buttonPrimary sm:absolute sm:py-0 sm:my-0  border-2  hover:border-[#AD8259] bg-[#ffdf8e]
-                    // hover:bg-transparent text-[#AD8259]
-                    // active:text-[#AD8259] cursor-pointer font-bold text-lg"
-                  ></input>
+                  />
                 </div>
-
-                {/* <div className="col-span-2 lg:col-span-6 justify-center  items-center text-center ">
-                  <button
-                    type="submit"
-                    className="bg-[#ffdf8e] font-bold text-lg text-[#AD8259] cursor-pointer rounded-full 
-                    my-3 w-56 h-10 lg:w-64 lg:h-14 lg:text-xl"
-                  >
-                    submit
-                  </button>
-                </div> */}
               </div>
             </form>
           </div>
