@@ -17,7 +17,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@mui/styles";
 import toast from "react-hot-toast";
-
+import { useTheme } from "@mui/material/styles";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
@@ -58,6 +58,7 @@ function Create() {
   const [daycareImageProfile, setDaycareImageProfile] = useState("");
   const [input, setInput] = useState({});
   const [selectedTime, setSelectedTime] = useState("");
+  console.log(session.user.id);
 
   const handleTimeChange = (event) => {
     setSelectedTime(event.target.value);
@@ -211,215 +212,234 @@ function Create() {
         <title>Clinic | Create </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
-      <Header />
-      <main className="main bg-white md:h-full overflow-hidden ">
-        <div className="flex-grow md:pt-0 pb-0  mt-5 mb-5  px-20 py-20  sm:px-6 lg:px-8 bg-yellow-50 rounded-md ">
-          <section className="pt-6 ">
-            <div className="text-center max-w-2xl pb-3 mx-24 lg:mx-96 ">
-              <h1 className="font-bold font-noto text-2xl lg:text-3xl text-[#6C5137] ">
-                สร้างคลินิก
-              </h1>
-            </div>
-          </section>
-          <form
-            className="mt-0 grid grid-cols-2 gap-2 md:grid md:grid-cols-6 md:gap-2"
-            onSubmit={handleSubmit}
-          >
-            <div className="md:col-span-3  col-span-2">
-              <label className="inputLabel" htmlFor="clinic_name">
-                ชื่อคลินิก
-              </label>
-              <input
-                className="inputBox"
-                type="text"
-                id="clinic_name"
-                name="clinic_name"
-                onChange={handleInputChange}
-                {...register("clinic_name", {
-                  required: "Required",
-                })}
-              />
-            </div>
-            <div className="md:col-span-3 col-span-2">
-              <label className="inputLabel" htmlFor="owner">
-                ชื่อเจ้าของ
-              </label>
-              <input
-                className="inputBox"
-                type="text"
-                id="owner"
-                value={session.user.name}
-                name="owner"
-                {...register("owner", {
-                  required: "Required",
-                })}
-              />
-            </div>
-            <div className="md:col-span-4">
-              <label className="inputLabel" htmlFor="address">
-                ที่อยู่
-              </label>
-              <input
-                className="inputBox"
-                type="text"
-                id="address"
-                name="address"
-                {...register("address", {
-                  required: "Required",
-                })}
-              />
-            </div>
-            <div className="md:col-span-2 sm:col-span-3">
-              <label className="inputLabel" htmlFor="phoneNumber">
-                เบอร์โทรติดต่อของคลินิก
-              </label>
-              <input
-                className="inputBox"
-                type="text"
-                id="phoneNumber"
-                name="phoneNumber"
-                {...register("phoneNumber", {
-                  required: "Required",
-                })}
-              />
-            </div>
-            <div className="md:col-span-2 sm:col-span-3">
-              <label className="inputLabel" htmlFor="email">
-                อีเมล์
-              </label>
-              <input
-                className="inputBox"
-                type="email"
-                id="email"
-                name="email"
-                {...register("email", {
-                  required: "Required",
-                })}
-              />
-            </div>
-            <div className="md:col-span-2 sm:col-span-3">
-              <label className="inputLabel" htmlFor="price">
-                ราคาเริ่มต้น (฿/ชั่วโมง)
-              </label>
-              <input
-                className="inputBox"
-                type="text"
-                id="price"
-                name="price"
-                {...register("price", {
-                  required: "Required",
-                })}
-              />
-            </div>
-            <div className="md:col-span-2 sm:col-span-6">
-              <label
-                className="inputLabel"
-                htmlFor="imageUrl"
-                onChange={uploadToClient}
-              >
-                อัพโหลดรูปคลินิก
-              </label>
-              <input
-                className="inputBox border-0 pb-10 "
-                type="file"
-                id="imageUrl"
-                name="imageUrl"
-                {...register("imageUrl", {
-                  required: "Required",
-                })}
-              />
-            </div>
-            <Grid item xs={6} md={8}>
-              <FormControl
-                sx={{ width: "100%", backgroundColor: "white" }}
-                variant="outlined"
-                required
-              >
-                <InputLabel id="openDay-label">วันเปิดของคลินิก</InputLabel>
-                <Controller
-                  name="openDay"
-                  control={control}
-                  rules={{ required: false }}
-                  render={({ field }) => (
-                    <>
-                      <Select
-                        {...field}
-                        input={<OutlinedInput label="วันเปิดของคลินิก" />}
-                        MenuProps={MenuProps}
-                        renderValue={(selected) => selected.join(", ")}
-                        multiple
-                      >
-                        {days.map((input) => (
-                          <MenuItem key={input} value={input}>
-                            <ListItemText primary={input} />
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </>
-                  )}
-                />
-              </FormControl>
-            </Grid>
 
-            <Grid item xs={6} md={8}>
-              <FormControl sx={{ width: "100%" }} variant="outlined" required>
-                <TextField
-                  sx={{ backgroundColor: "white" }}
-                  variant="outlined"
-                  id="openTime"
-                  label="เวลาเปิดคลินิก"
-                  type="time"
-                  onChange={handleTimeChange}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  {...register("openTime")}
-                />
-              </FormControl>
-            </Grid>
-            <Grid item xs={6} md={8}>
-              <FormControl sx={{ width: "100%" }} variant="outlined" required>
-                <TextField
-                  sx={{ backgroundColor: "white" }}
-                  variant="outlined"
-                  id="closeTime"
-                  label="เวลาปิดคลินิก"
-                  type="time"
-                  onChange={handleTimeChange}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  {...register("closeTime")}
-                />
-              </FormControl>
-            </Grid>
-            <div className="md:col-span-6 pt-8">
-              <label className="inputLabel" htmlFor="description">
-                ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ
-                เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊
-              </label>
-              <input
-                className="inputBox flex flex-wrap py-20"
-                type="text"
-                id="description"
-                name="description"
-                {...register("description", {
-                  required: "Required",
-                })}
-              />
-            </div>
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
+        <Header />
 
-            <div className="md:col-start-3 md:col-span-2 items-center text-center ">
-              <input
-                type="submit"
-                className="buttonPrimary px-20 md:px-30  border-2  hover:border-[#AD8259] bg-[#ffdf8e]
-                hover:bg-transparent text-[#AD8259] 
-                active:text-[#AD8259] cursor-pointer font-bold text-lg"
-              />
-            </div>
-          </form>
-        </div>
-      </main>
+        <main className="main bg-white pt-0 h-screen  scroll-smooth ">
+          <h1 className="pageTitle sm:text-lg">สร้างคลินิก</h1>
+          <div className="flex flex-col justify-between bg-[#fff9e6] m-3 rounded-2xl">
+            <form>
+              <div
+                className=" sm:py-3 sm:mx-5 m-4 grid grid-cols-2 row-span-6 gap-2 lg:mx-20 lg:grid-cols-6 md:gap-2"
+                onSubmit={handleSubmit}
+              >
+                <div className="col-start-1 col-span-2 md:col-span-4 lg:col-span-3  ">
+                  <label className="inputLabel" htmlFor="clinic_name">
+                    ชื่อคลินิก
+                  </label>
+                  <input
+                    className="inputBox"
+                    type="text"
+                    id="clinic_name"
+                    name="clinic_name"
+                    onChange={handleInputChange}
+                    {...register("clinic_name", {
+                      required: "Required",
+                    })}
+                  />
+                </div>
+                <div className="col-start-1 md:col-start-5 col-span-2 lg:col-start-4 lg:col-span-3">
+                  <label className="inputLabel" htmlFor="owner">
+                    ชื่อเจ้าของ
+                  </label>
+                  <input
+                    className="inputBox"
+                    type="text"
+                    id="owner"
+                    value={session.user.name}
+                    name="owner"
+                    {...register("owner", {
+                      required: "Required",
+                    })}
+                  />
+                </div>
+                <div className="col-start-1 col-span-2 md:col-start-1 md:col-span-4 lg:col-span-6">
+                  <label className="inputLabel" htmlFor="address">
+                    ที่อยู่
+                  </label>
+                  <input
+                    className="inputBox"
+                    type="text"
+                    id="address"
+                    name="address"
+                    {...register("address", {
+                      required: "Required",
+                    })}
+                  />
+                </div>
+                <div className="col-start-1 col-span-2 md:col-start-5 lg:col-span-3 ">
+                  <label className="inputLabel" htmlFor="phoneNumber">
+                    เบอร์โทรติดต่อของคลินิก
+                  </label>
+                  <input
+                    className="inputBox"
+                    type="text"
+                    id="phoneNumber"
+                    name="phoneNumber"
+                    {...register("phoneNumber", {
+                      required: "Required",
+                    })}
+                  />
+                </div>
+                <div className="col-start-1 col-span-2 md:col-start-1 md:col-span-4 lg:col-start-4 lg:col-span-3">
+                  <label className="inputLabel" htmlFor="email">
+                    อีเมล์
+                  </label>
+                  <input
+                    className="inputBox"
+                    type="email"
+                    id="email"
+                    name="email"
+                    {...register("email", {
+                      required: "Required",
+                    })}
+                  />
+                </div>
+                <div className="col-start-1 col-span-2 md:col-start-5 ">
+                  <label className="inputLabel" htmlFor="price">
+                    ราคาเริ่มต้น (฿/ชั่วโมง)
+                  </label>
+                  <input
+                    className="inputBox"
+                    type="text"
+                    id="price"
+                    name="price"
+                    {...register("price", {
+                      required: "Required",
+                    })}
+                  />
+                </div>
+                <div className="col-start-1 col-span-2 md:col-span-2 lg:col-start-4 ">
+                  <label
+                    className="inputLabel"
+                    htmlFor="imageUrl"
+                    onChange={uploadToClient}
+                  >
+                    อัพโหลดรูปคลินิก
+                  </label>
+                  <input
+                    className=" border-0"
+                    type="file"
+                    id="imageUrl"
+                    name="imageUrl"
+                    {...register("imageUrl", {
+                      required: "Required",
+                    })}
+                  />
+                </div>
+                <div className="col-start-1 col-span-2">
+                  <Grid>
+                    <FormControl
+                      sx={{ width: "100%", backgroundColor: "white" }}
+                      variant="outlined"
+                      required
+                    >
+                      <InputLabel id="openDay-label">
+                        วันเปิดของคลินิก
+                      </InputLabel>
+                      <Controller
+                        name="openDay"
+                        control={control}
+                        rules={{ required: false }}
+                        render={({ field }) => (
+                          <>
+                            <Select
+                              {...field}
+                              input={<OutlinedInput label="วันเปิดของคลินิก" />}
+                              MenuProps={MenuProps}
+                              renderValue={(selected) => selected.join(", ")}
+                              multiple
+                            >
+                              {days.map((input) => (
+                                <MenuItem key={input} value={input}>
+                                  <ListItemText primary={input} />
+                                </MenuItem>
+                              ))}
+                            </Select>
+                          </>
+                        )}
+                      />
+                    </FormControl>
+                  </Grid>
+                </div>
+
+                <div className="col-start-1 lg:col-start-3 md:col-start-5">
+                  <Grid>
+                    <FormControl
+                      sx={{ width: "100%" }}
+                      variant="outlined"
+                      required
+                    >
+                      <TextField
+                        sx={{ backgroundColor: "white" }}
+                        variant="outlined"
+                        id="openTime"
+                        label="เวลาเปิดคลินิก"
+                        type="time"
+                        onChange={handleTimeChange}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        {...register("openTime")}
+                      />
+                    </FormControl>
+                  </Grid>
+                </div>
+                <div className="col-start-2 lg:col-start-4 md:col-start-6">
+                  <Grid>
+                    <FormControl
+                      sx={{ width: "100%" }}
+                      variant="outlined"
+                      required
+                    >
+                      <TextField
+                        sx={{ backgroundColor: "white" }}
+                        variant="outlined"
+                        id="closeTime"
+                        label="เวลาปิดคลินิก"
+                        type="time"
+                        onChange={handleTimeChange}
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                        {...register("closeTime")}
+                      />
+                    </FormControl>
+                  </Grid>
+                </div>
+
+                <div className="col-start-1 col-span-2  md:col-span-6 lg:col-span-6">
+                  <label className="inputLabel" htmlFor="description">
+                    ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ
+                    เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊
+                  </label>
+                  <input
+                    className="inputBox  flex flex-wrap sm:h-20 md:h-48 lg:h-52 display-linebreak "
+                    type="textarea"
+                    id="description"
+                    name="description"
+                    {...register("description", {
+                      required: "Required",
+                    })}
+                  />
+                </div>
+
+                <div className="col-span-2 lg:col-span-6 md:col-span-6  items-center text-center ">
+                  <input
+                    type="submit"
+                    className="bg-[#ffdf8e] font-bold text-lg text-[#AD8259] cursor-pointer rounded-full border-4
+                    hover:border-[#AD8259] shadow-lg
+                    hover:bg-transparent 
+                    my-3 w-56 h-10 lg:w-64 lg:h-14 lg:text-xl"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+          {/* <div className="flex-grow h-full sm:m-3 bg-yellow-50 shadow-lg rounded-xl "> */}
+        </main>
+      </div>
     </div>
   );
 }
