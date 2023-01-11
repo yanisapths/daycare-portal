@@ -5,14 +5,14 @@
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,300;0,400;0,500;0,600;0,700;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Chonburi&display=swap");
-@import url('https://fonts.googleapis.com/css2?family=Mitr&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Mitr&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
 
 html,
 body {
   padding: 0;
   margin: 0;
-  font-family: 'Mitr', sans-serif;
+  font-family: "Mitr", sans-serif;
 }
 
 a {
@@ -24,60 +24,58 @@ a {
   box-sizing: border-box;
 }
 
-
 @layer components {
   /*--------------Font Theme----------------- */
   .h1 {
-    @apply font-extrabold text-5xl 
+    @apply font-extrabold text-5xl;
   }
 
   .h2 {
-    @apply font-extrabold text-4xl
+    @apply font-extrabold text-4xl;
   }
 
   .h3 {
-    @apply font-bold text-3xl
+    @apply font-bold text-3xl;
   }
 
   .h4 {
-    @apply font-bold text-2xl
+    @apply font-bold text-2xl;
   }
 
   .h5 {
-    @apply font-medium text-2xl
+    @apply font-medium text-2xl;
   }
 
   .h6 {
-    @apply font-medium text-xl
+    @apply font-medium text-xl;
   }
 
   .body1 {
-    @apply font-medium text-lg
+    @apply font-medium text-lg;
   }
 
   .body2 {
-    @apply font-light text-base
+    @apply font-light text-base;
   }
-  
+
   .caption {
-    @apply font-light text-sm
+    @apply font-light text-sm;
   }
-  
+
   .pageTitle {
-    @apply font-bold text-[#6C5137] text-2xl text-center  m-2 underline decoration-dashed
+    @apply font-bold text-[#6C5137] text-2xl text-center  m-2 underline decoration-dashed;
   }
   /*------------------------------------*/
 
   .main {
-    @apply  h-screen overflow-scroll scrollbar-hide bg-[#FFFBF2] 
-     
+    @apply h-screen overflow-scroll scrollbar-hide bg-[#FFFBF2];
   }
 
   /*----------------Input-----------------*/
   .inputBox {
     @apply block w-full h-8 px-5 py-3 text-xl font-medium  border-[#AD8259] border-2 rounded-lg;
   }
-  
+
   .inputLabel {
     @apply block pb-2 font-medium text-gray-400;
   }
@@ -87,27 +85,26 @@ a {
   }
 
   /*----------------SideBar--------------*/
-  .sideBarTabContainer2{
+  .sideBarTabContainer2 {
     @apply flex gap-2 bg-white items-center h-10  
     cursor-pointer  
     sm:pr-3 
     md:h-20 md:w-60 
-    xxxl:h-20 xxxl:px-4
-     ; 
+    lg:h-16
+    xxxl:h-20 xxxl:px-4;
   }
 
-  
-  .sideBarTabIcon2{
-    @apply text-[#6C5137]  ml-3  w-5 h-5 md:w-7 xxxl:w-9 xxxl:h-9;
+  .sideBarTabIcon2 {
+    @apply text-[#6C5137]  ml-3  w-5 h-5 md:w-7 lg:w-8 lg:h-8 xxxl:w-9 xxxl:h-9;
   }
-  .sideBarTabText2{
+  .sideBarTabText2 {
     @apply font-mitr text-sm  text-[#6C5137] hover:text-[#e0b038] 
-    md:text-xl xxxl:text-2xl;
+    lg:text-lg md:text-xl xxxl:text-2xl;
   }
   /*------------------------------------*/
-  
+
   /* Add Daycare Button */
-  .buttonPrimary{
+  .buttonPrimary {
     @apply cursor-pointer absolute flex gap-1  w-1/2  py-2  justify-center
     rounded-full border-2  hover:border-[#AD8259] bg-[#ffdf8e] drop-shadow-lg 
     hover:bg-transparent text-[#AD8259] 
@@ -126,20 +123,16 @@ a {
 
   /* Home Landing Link Grid Card */
   .linkGridCardContainer {
-    @apply block rounded-xl border-[#ECE656] bg-[#ECE656] p-8 shadow-xl transition hover:bg-[#F5F2AA] shadow-[#ECE656]/60
+    @apply block rounded-xl border-[#ECE656] bg-[#ECE656] p-8 shadow-xl transition hover:bg-[#F5F2AA] shadow-[#ECE656]/60;
   }
   /*------------------------------------*/
 
   /* Nav Bar*/
-  .navBarContainer{
-    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3  sm:flex-wrap sm:hidden md:hidden  xxxl:h-16 xxxl:items-center
+  .navBarContainer {
+    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3  sm:flex-wrap sm:hidden md:hidden  xxxl:h-16 xxxl:items-center;
   }
-  .navbarItem{
-    @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] xxxl:text-2xl lg:items-center lg:text-sm
-    
+  .navbarItem {
+    @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] xxxl:text-2xl lg:items-center lg:text-base;
   }
   /*------------------------------------*/
-  
 }
-
-
