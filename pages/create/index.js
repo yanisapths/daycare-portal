@@ -17,7 +17,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@mui/styles";
 import toast from "react-hot-toast";
-import { useTheme } from "@mui/material/styles";
+
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
 const MenuProps = {
