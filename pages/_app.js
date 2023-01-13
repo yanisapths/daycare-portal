@@ -31,7 +31,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
       <ThemeProvider theme={theme}>
         <Head>
           <style>
-          @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&display=swap');
+          @import url(&#39;https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai&display=swap&#39;);
           </style>
         </Head>
         <RecoilRoot>
