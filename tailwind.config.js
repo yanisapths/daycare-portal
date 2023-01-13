@@ -12,6 +12,8 @@ module.exports = {
     fontFamily: {
       roboto: "'Roboto', sans-serif",
       mitr: "'Mitr', sans-serif",
+      nunito: "'Nunito', sans-serif",
+      ibm: "'IBM Plex Sans Thai', sans-serif",
     },
     backdropFilter: {
       none: "none",

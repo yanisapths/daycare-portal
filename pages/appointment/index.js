@@ -22,7 +22,7 @@ const index = () => {
       <div className="divide-y divide-[#A17851] divide-opacity-30 sm:divide-opacity-70">
         <Header />
         <div className="main">
-          <h2 className="pageTitle">นัดหมายดูแล</h2>
+          <p className="h4 pageTitle">นัดหมายดูแล</p>
 
           <div className="font-semibold text-md text-black ml-3 mb-5">
             วันนี้ -
