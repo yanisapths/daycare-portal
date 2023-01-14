@@ -127,8 +127,6 @@ function Create() {
       closeTime: event.target.closeTime.value,
       owner_id: session.user.id,
     };
-    console.log(data);
-
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
@@ -221,11 +219,8 @@ function Create() {
         <main className="main bg-white pt-0 h-screen  scroll-smooth ">
           <h1 className="pageTitle sm:text-lg">สร้างคลินิก</h1>
           <div className="flex flex-col justify-between bg-[#fff9e6] m-3 rounded-2xl">
-            <form>
-              <div
-                className=" sm:py-3 sm:mx-5 m-4 grid grid-cols-2 row-span-6 gap-2 lg:mx-20 lg:grid-cols-6 md:gap-2"
-                onSubmit={handleSubmit}
-              >
+            <form onSubmit={handleSubmit}>
+              <div className=" sm:py-3 sm:mx-5 m-4 grid grid-cols-2 row-span-6 gap-2 lg:mx-20 lg:grid-cols-6 md:gap-2">
                 <div className="col-start-1 col-span-2 md:col-span-4 lg:col-span-3  ">
                   <label className="inputLabel" htmlFor="clinic_name">
                     ชื่อคลินิก
@@ -439,7 +434,6 @@ function Create() {
               </div>
             </form>
           </div>
-          {/* <div className="flex-grow h-full sm:m-3 bg-yellow-50 shadow-lg rounded-xl "> */}
         </main>
       </div>
     </div>

@@ -40,7 +40,7 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: ['Mitr','sans-serif'].join(','), 
+    fontFamily: ['Nunito','sans-serif'].join(','), 
   },
   overrides: {
     MuiCssBaseline: {
