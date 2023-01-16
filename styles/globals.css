@@ -138,6 +138,6 @@ a {
   }
   /*------------------------------------*/
   .active {
-    @apply bg-[#ffe4a0] rounded-lg px-2;
+    @apply bg-[#ffe4a0] rounded-full px-2;
   }
 }
