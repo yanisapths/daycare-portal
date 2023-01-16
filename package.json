@@ -45,6 +45,7 @@
     "react-hot-toast": "^2.2.0",
     "react-icons": "^4.4.0",
     "react-multi-select-component": "^4.2.4",
+    "reactjs-popup": "^2.0.5",
     "recoil": "^0.6.1",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-filters": "^3.0.0"

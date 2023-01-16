@@ -9,6 +9,7 @@ import toast from "react-hot-toast";
 import Router from "next/router";
 
 function SideView({ clinicData }) {
+
   const theme = useTheme();
   const { data: session, status } = useSession();
   console.log(clinicData);
@@ -28,7 +29,7 @@ function SideView({ clinicData }) {
     data.owner_id = session.user.id;
     const json = JSON.stringify(data);
     console.log(data.owner_id);
-   
+
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
@@ -53,13 +54,13 @@ function SideView({ clinicData }) {
   };
 
   return (
-    <Box
-      className="h-fit w-full md:px-24 overflow-y-auto shadow-2xl rounded-xl xl:pb-4"
-      sx={{ bgcolor: theme.palette.background.main }}
+    <div className="h-screen w-full md:px-24 shadow-2xl rounded-xl xl:pb-4 
+    ">
+      <Box sx={{ bgcolor: theme.palette.background.main }}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="pt-16 text-center">
-          <Typography variant="h3">เพิ่มคอร์ส</Typography>
+        <div className="pt-6 text-center">
+          <Typography variant="h3 text-2xl font-bold ">เพิ่มคอร์ส</Typography>
           <div className="pb-10" />
           <input
             type="text"
@@ -157,7 +158,7 @@ function SideView({ clinicData }) {
             onClick={() => append({ procedureName: "", price: "" })}
             className="rounded-full bg-[#6C5137] text-[#FFECA7] px-6 pt-1"
           >
-            <p>เพิ่ม</p>
+            <p>เพิ่มหัตถการ</p>
           </button>
         </div>
         <div className="pt-4">
@@ -197,14 +198,16 @@ function SideView({ clinicData }) {
           </ul>
         </div>
 
-        <div className="mx-auto px-16 py-2 md:py-4 text-center items-center">
+        <div className="mx-auto px-16 py-3 text-center items-center">
           <input
             type="submit"
-            className="font-bold bg-[#6C5137] border-[#6C5137] text-[#FFECA7] buttonPrimary"
+            className="font-bold bg-[#6C5137] border-[#6C5137] text-[#FFECA7] px-12 py-3 rounded-full cursor-pointer"
           />
         </div>
       </form>
     </Box>
+    </div>
+    
   );
 }
 

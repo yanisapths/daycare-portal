@@ -40,14 +40,14 @@ const theme = createTheme({
     }
   },
   typography: {
-    fontFamily: ['Nunito','sans-serif'].join(','), 
+    fontFamily: ['IBM Plex Sans Thai','sans-serif'].join(','), 
   },
   overrides: {
     MuiCssBaseline: {
       "@global": {
         "@font-face": [
           {
-            fontFamily: "Mitr",
+            fontFamily: "IBM Plex Sans Thai",
             fontDisplay: "swap",
           },
         ],
