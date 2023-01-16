@@ -8,9 +8,9 @@ function FooterSocial() {
         <div className="pt-2 sm:items-center sm:justify-between sm:flex">
           <nav className="flex justify-between items-center text-center space-x-4 text-sm font-medium sm:justify-start">
             <div>
-              <p className="body2 pt-2">269492 Project</p>
-              <p className="body2">Faculty of Engineering</p>
-              <p className="body2">Chiangmai University</p>
+              <p className=" pt-2">269492 Project</p>
+              <p className="">Faculty of Engineering</p>
+              <p className="">Chiangmai University</p>
             </div>
             <div>
               <Image
@@ -23,19 +23,11 @@ function FooterSocial() {
               <p className="caption italic">by Happy Elders</p>
             </div>
             <div>
-              <p>Contact Us</p>
+              <p className="font-semibold text-left">Contact Us</p>
               <p>Yanisa Poongthaisong</p>
               <p>Pavinee Suthamjaem</p>
             </div>
-            
           </nav>
-
-          {/* <div className="flex text-center justify-between mt-2 sm:justify-end sm:mt-0">
-            <div>
-              <p className="h6 font-bold italic">Olive</p>
-              <p className="caption italic">by Happy Elders</p>
-            </div>
-          </div> */}
         </div>
       </div>
     </footer>

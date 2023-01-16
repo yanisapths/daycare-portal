@@ -7,8 +7,10 @@ function HoverCard({ key, name, amount, duration, totalPrice, procedures }) {
   const theme = useTheme();
   return (
     <div className="group block cursor-pointer scroll-smooth ">
-      <div className=" rounded-2xl flex transform items-start bg-white  shadow-xl hover:shadow-2xl
-      transition ease-out delay-100 hover:scale-105">
+      <div
+        className=" rounded-2xl flex transform items-start bg-white  shadow-xl hover:shadow-2xl
+      transition ease-out delay-100 hover:scale-105"
+      >
         <div className="px-5 pb-3 pt-3">
           <p className="h2 lg:h3 md:h4 sm:h5 font-medium  ">{name}</p>
           <div className="flex w-full gap-1">
@@ -38,29 +40,6 @@ function HoverCard({ key, name, amount, duration, totalPrice, procedures }) {
             <EastIcon className=" text-[#6C5137] " />
           </div>
         </div>
-
-        {/* <div className="absolute  p-8 w-full  opacity-0 transition-opacity group-hover:relative group-hover:opacity-100">
-          <h3 className="text-md  font-medium">หัตถการ</h3>
-          {/* procedure */}
-        {/* {procedures?.map((procedure) => (
-            <div
-              className="mb-2 inline-block rounded-full border border-white w-full px-4 "
-              key={procedure._id}
-            >
-              <div className="flex justify-between truncate">
-                <p className="text-xs ">{procedure.procedureName} </p>
-                <p className="text-xs "> {procedure.price} บาท</p>
-              </div>
-            </div>
-          ))}
-          <p
-            className="relative text-sm mt-8 font-bold text-[#ffdf8e] before:absolute
-             before:-bottom-1 before:h-0.5 md:before:h-1 before:w-10 before:origin-left
-             before:scale-x-0 before:bg-white before:transition hover:before:scale-100"
-          >
-            แก้ไข
-          </p>
-        </div> */}
       </div>
     </div>
   );

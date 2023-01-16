@@ -14,7 +14,6 @@ function ListView() {
   const [courseData, setCourseData] = useState([]);
   const [clinicData, setData] = useState({});
 
-
   //clinic
   async function fetchData() {
     await delay(1000);
@@ -45,8 +44,6 @@ function ListView() {
     }
   }, [status]);
 
-   
-
   async function fetchData() {
     await delay(1000);
     const url = `https://olive-service-api.vercel.app/course/match/owner/${session.user.id}`;
@@ -68,20 +65,18 @@ function ListView() {
     }
   }
 
- 
-
-  
-
   if (courseData.length >= 1) {
     console.log(courseData);
     return (
       //overflow-y-hidden  overflow-x-hidden
-      <div className="grid grid-cols-3 my-4 h-fit gap-4 justify-start
+      <div
+        className="grid grid-cols-3 my-4 h-fit gap-4 justify-start
       sm:grid-cols-1
       md:grid-cols-2
-      xxl:grid-cols-4">
+      xxl:grid-cols-4"
+      >
         {courseData?.map((course) => (
-          <HoverCard 
+          <HoverCard
             key={course._id}
             name={course.courseName}
             amount={course.amount}
@@ -135,4 +130,3 @@ export async function getServerSideProps(context) {
     props: { session },
   };
 }
-

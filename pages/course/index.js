@@ -9,8 +9,7 @@ import ListView from "./course_view/ListView";
 import SideView from "./course_view/SideView";
 import Popup from "reactjs-popup";
 import AddIcon from "@mui/icons-material/Add";
-import { Box } from "@mui/material";
-import SideBar from "../../components/SideBar";
+
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Course() {
@@ -88,9 +87,6 @@ function Course() {
                   <ListView />
                 </div>
               </div>
-              {/* <div className="md:w-2/6">
-                <SideView clinicData={clinicData} />
-              </div> */}
             </div>
           </div>
           <div>
