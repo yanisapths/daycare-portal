@@ -4,6 +4,7 @@ import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
+import EventAvailableIcon from '@mui/icons-material/EventAvailable';
 
 function LinkGridCard({ data }) {
   return (
@@ -44,6 +45,18 @@ function LinkGridCard({ data }) {
               </h2>
               <p className="mt-4 h6 text-black/60">
                 คอร์สทั้งหมด
+              </p>
+            </a>
+          </Link>
+
+          <Link href="/schedule">
+            <a className="linkGridCardContainer">
+              <EventAvailableIcon className="h-10 w-10" />
+              <h2 className="mt-4 text-xl font-bold ">
+                Available Slot
+              </h2>
+              <p className="mt-4 h6 text-black/60">
+                วันเวลารับนัด
               </p>
             </a>
           </Link>
