@@ -50,7 +50,6 @@
     "reactjs-popup": "^2.0.5",
     "recoil": "^0.6.1",
     "sweetalert2": "^11.7.0",
-    "sweetalert2-react-content": "^5.0.7",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-filters": "^3.0.0"
   },
