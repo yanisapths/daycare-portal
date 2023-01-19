@@ -228,7 +228,7 @@ function ListView({ data }) {
             )}
           </>
         ))}
-      {data.length < 1 && (
+      {!data || data.length < 1 && (
         <div className="text-center px-10 pt-40">
           <p className="h4 lg:h2 text-black/30">คุณไม่มีนัดหมายเร็วๆนี้</p>
         </div>
