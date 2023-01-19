@@ -44,129 +44,120 @@ function ListView({ data }) {
       <div className="flex flex-col gap-1 m-3 font-noto text-sm ">
         {data?.map((request) => (
           <>
-            <div
-              key={request._id}
-              className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl mx-3 bg-white my-3 "
-            >
-              <div className="flex flex-row gap-3 justify-start content-center text-sm  mx-4 ">
-                <div className="basis-1/5 mt-5 rounded-full self-start md:basis-16 lg:basis-16">
-                  <Image
-                    className="rounded-full "
-                    src="/user1.jpg"
-                    alt="User1 Request list"
-                    width="55"
-                    height="55"
-                    layout="fixed"
-                  />
-                </div>
-                <div className=" basis-9/12">
-                  <div className="grid grid-col-6">
-                    <div className="col-start-1 col-end-7">
-                      <span className="font-bold text-base text-[#6C5137]">
-                        {request.firstName} {request.lastName}
-                      </span>
-                    </div>
-                    <div className="col-start-1 col-end-7">
-                      <span className="font-semibold">ชื่อเล่น:</span>
-                      <span className="font-bold text-base text-[#6C5137]">
-                        {request.nickname}
-                      </span>
-                    </div>
-                    <div className="col-start-1 col-span-3">
-                      <span className="font-semibold">เบอร์โทรศัพท์:</span>
-                      <span> {request.phoneNumber} </span>
-                    </div>
-                    <div className="col-start-4 col-span-4">
-                      <span className="font-semibold">คอร์ส:</span>
-                      <span>{request.course} </span>
-                    </div>
-                    <div className="col-start-1 col-span-3">
-                      <span className="font-semibold">สถานที่ดูแล:</span>
-                      <span> {request.appointmentPlace}</span>
-                    </div>
+            {request.status == "pending" ? (
+              <div
+                key={request._id}
+                className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl mx-3 bg-white my-3 "
+              >
+                <div className="flex flex-row gap-3 justify-start content-center text-sm  mx-4 ">
+                  <div className="basis-1/5 mt-5 rounded-full self-start md:basis-16 lg:basis-16">
+                    <Image
+                      className="rounded-full "
+                      src="/user1.jpg"
+                      alt="User1 Request list"
+                      width="55"
+                      height="55"
+                      layout="fixed"
+                    />
+                  </div>
+                  <div className=" basis-9/12">
+                    <div className="grid grid-col-6">
+                      <div className="col-start-1 col-end-7">
+                        <span className="font-bold text-base text-[#6C5137]">
+                          {request.firstName} {request.lastName}
+                        </span>
+                      </div>
+                      <div className="col-start-1 col-end-7">
+                        <span className="font-semibold">ชื่อเล่น:</span>
+                        <span className="font-bold text-base text-[#6C5137]">
+                          {request.nickname}
+                        </span>
+                      </div>
+                      <div className="col-start-1 col-span-3">
+                        <span className="font-semibold">เบอร์โทรศัพท์:</span>
+                        <span> {request.phoneNumber} </span>
+                      </div>
+                      <div className="col-start-4 col-span-4">
+                        <span className="font-semibold">คอร์ส:</span>
+                        <span>{request.course} </span>
+                      </div>
+                      <div className="col-start-1 col-span-3">
+                        <span className="font-semibold">สถานที่ดูแล:</span>
+                        <span> {request.appointmentPlace}</span>
+                      </div>
 
-                    <div className="col-start-1 col-span-3">
-                      <span className="font-semibold ">วันนัดหมาย</span>
-                      <span className=" text-[#8E6947]">
-                        {" "}
-                        {new Date(request.appointmentDate).toDateString()}{" "}
-                      </span>
-                    </div>
-                    <div className="col-start-1 col-span-3">
-                      <span className="font-semibold ">เวลานัดหมาย</span>
-                      <span className=" text-[#8E6947]">
-                        {" "}
-                        {new Date(
-                          request.appointmentTime
-                        ).toLocaleTimeString()}{" "}
-                      </span>
+                      <div className="col-start-1 col-span-3">
+                        <span className="font-semibold ">วันนัดหมาย</span>
+                        <span className=" text-[#8E6947]">
+                          {" "}
+                          {new Date(
+                            request.appointmentDate
+                          ).toDateString()}{" "}
+                        </span>
+                      </div>
+                      <div className="col-start-1 col-span-3">
+                        <span className="font-semibold ">เวลานัดหมาย</span>
+                        <span className=" text-[#8E6947]">
+                          {" "}
+                          {new Date(
+                            request.appointmentTime
+                          ).toLocaleTimeString()}{" "}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              {request.status == "pending" ? 
-              <div className="flex flex-wrap basis-1/5  gap-2 justify-end content-center mx-5 sm:justify-center sm:my-3  pb-5 px-5 ">
-                <div>
-                  <BtnAccept
-                    text="ยอมรับ"
-                    onClick={() =>
-                      Swal.fire({
-                        title: "รับคำขอนี้?",
-                        text: "รับคำขอแล้วเพิ่มลงในนัดหมาย",
-                        icon: "success",
-                        showCancelButton: true,
-                        confirmButtonText: "ยอบรับ",
-                        cancelButtonText: "ยกเลิก",
-                        reverseButtons: true,
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          acceptRequest(request._id).then(() =>
+
+                <div className="flex flex-wrap basis-1/5  gap-2 justify-end content-center mx-5 sm:justify-center sm:my-3  pb-5 px-5 ">
+                  <div>
+                    <BtnAccept
+                      text="ยอมรับ"
+                      onClick={() =>
+                        Swal.fire({
+                          title: "รับคำขอนี้?",
+                          text: "รับคำขอแล้วเพิ่มลงในนัดหมาย",
+                          icon: "success",
+                          showCancelButton: true,
+                          confirmButtonText: "ยอบรับ",
+                          cancelButtonText: "ยกเลิก",
+                          reverseButtons: true,
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            acceptRequest(request._id).then(() =>
+                              Swal.fire({
+                                title: "รับคำขอแล้ว",
+                                showConfirmButton: false,
+                                icon: "success",
+                                timer: 1000,
+                              })
+                            );
+                          } else if (
+                            result.dismiss === Swal.DismissReason.cancel
+                          ) {
                             Swal.fire({
-                              title: "รับคำขอแล้ว",
+                              title: "ยกเลิก",
                               showConfirmButton: false,
-                              icon: "success",
+                              icon: "error",
                               timer: 1000,
-                            })
-                          );
-                        } else if (
-                          result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                          Swal.fire({
-                            title: "ยกเลิก",
-                            showConfirmButton: false,
-                            icon: "error",
-                            timer: 1000,
-                          });
-                        }
-                      })
-                    }
-                  />
+                            });
+                          }
+                        })
+                      }
+                    />
+                  </div>
+                  <div>
+                    <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
+                  </div>
                 </div>
-                <div>
-                  <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
-                </div>
+                <FormModal
+                  open={open}
+                  handleClose={handleClose}
+                  request={request}
+                />
               </div>
-              : 
-              <div className="flex flex-wrap basis-1/5  gap-2 justify-end content-center mx-5 sm:justify-center sm:my-3  pb-5 px-5 ">
-            <div className="p-4 text-gray-700 whitespace-nowrap">
-              {request.status == "Approved" ?
-                <p className="bg-[#2ED477]/10 text-[#2ED477] h6 px-3 py-1.5 rounded">
-                  <strong>{request.status}</strong>
-                </p> : 
-                <p className="bg-[#FF2F3B]/10 text-[#FF2F3B] h6 px-3 py-1.5 rounded">
-                <strong>{request.status}</strong>
-              </p>
-              }
-            </div>
-                
-              </div>
-              } 
-            </div>
-            <FormModal
-              open={open}
-              handleClose={handleClose}
-              request={request}
-            />
+            ) : (
+              <></>
+            )}
           </>
         ))}
       </div>

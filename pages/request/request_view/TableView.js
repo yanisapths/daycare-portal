@@ -9,10 +9,24 @@ import Swal from "sweetalert2";
 import FormModal from "../FormModal";
 import Router from "next/router";
 import toast from "react-hot-toast";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { styled } from "@mui/material/styles";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[10],
+    fontSize: 16,
+    borderRadius: 12,
+  },
+}));
+
 function TableView({ data }) {
-  const [open, setOpen] = useState(false);  
+  const [open, setOpen] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
 
@@ -59,36 +73,6 @@ function TableView({ data }) {
       });
   }
 
-  //clinic
-  async function fetchData() {
-    await delay(1000);
-    if (session.user.id) {
-      const res = await fetch(
-        `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
-      );
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-          console.log(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    } else {
-      await delay(3000);
-    }
-  }
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin/");
-    } else {
-      fetchData();
-    }
-  }, [status]);
-
   return (
     <>
       <div className="mt-12 shadow-xl rounded-2xl mx-6">
@@ -127,7 +111,16 @@ function TableView({ data }) {
 
             <tbody className="divide-y divide-gray-100">
               {data?.map((d, index) => (
-                <tr key={d._id} className={d.status == "Approved" ? "bg-[#2ED477]/5" : d.status == "Rejected" ? "bg-[#FF2F3B]/5" : ""}>
+                <tr
+                  key={d._id}
+                  className={
+                    d.status == "Approved"
+                      ? "bg-[#2ED477]/5"
+                      : d.status == "Rejected"
+                      ? "bg-[#FF2F3B]/5"
+                      : ""
+                  }
+                >
                   <td className=""></td>
                   <td className="p-4 mx-4 px-4">{index}</td>
                   <td className="p-4 text-gray-700 whitespace-nowrap">
@@ -196,9 +189,27 @@ function TableView({ data }) {
                           {d.status}
                         </strong>
                       ) : (
-                        <strong className="bg-[#FF2F3B]/10 text-[#FF2F3B] px-3 py-1.5 rounded text-xs font-medium">
-                          {d.status}
-                        </strong>
+                        <CustomTooltip
+                          title={
+                            d.rejectReason ? (
+                              <div className="px-2 pb-3">
+                                <div className="p-2">{d.rejectReason}</div>
+                                <div className="px-3 rounded-full bg-[#7879F1]/10 ">
+                                  <span className="text-sm text-[#7879F1]">
+                                    {d.tag}
+                                  </span>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )
+                          }
+                          placement="top"
+                        >
+                          <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 bg-[#FF2F3B]/10 text-[#FF2F3B] px-3 py-1.5 rounded text-xs font-medium">
+                            {d.status}
+                          </strong>
+                        </CustomTooltip>
                       )}
                     </td>
                   )}
