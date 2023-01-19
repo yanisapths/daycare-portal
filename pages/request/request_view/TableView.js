@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import BtnCancel from "../../../components/BtnCancel";
 import BtnAccept from "../../../components/BtnAccept";
 import IconButton from "@mui/material/IconButton";
@@ -7,9 +9,12 @@ import Swal from "sweetalert2";
 import FormModal from "../FormModal";
 import Router from "next/router";
 import toast from "react-hot-toast";
+const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function TableView({ data }) {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false);  
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,6 +58,37 @@ function TableView({ data }) {
         toast.error("ลบรายการไม่สำเร็จ");
       });
   }
+
+  //clinic
+  async function fetchData() {
+    await delay(1000);
+    if (session.user.id) {
+      const res = await fetch(
+        `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
+      );
+      try {
+        const clinicData = await res.json();
+        if (clinicData) {
+          setData(clinicData);
+          console.log(clinicData);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
+      }
+    } else {
+      await delay(3000);
+    }
+  }
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin/");
+    } else {
+      fetchData();
+    }
+  }, [status]);
+
   return (
     <>
       <div className="mt-12 shadow-xl rounded-2xl mx-6">

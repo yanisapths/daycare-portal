@@ -11,10 +11,12 @@ import IconButton from "@mui/material/IconButton";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import Swal from "sweetalert2";
 import Router from "next/router";
+import { useRouter } from "next/router";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Calendar = () => {
   const { data: session, status } = useSession();
+  const router = useRouter();
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [availableData, setAvailableData] = useState([]);
