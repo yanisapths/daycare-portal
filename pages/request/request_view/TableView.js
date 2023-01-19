@@ -113,6 +113,8 @@ function TableView({ data }) {
               {data?.map((d, index) => (
                 <tr
                   key={d._id}
+                  disable={d.status == "Done"
+                  ? true : false }
                   className={
                     d.status == "Approved"
                       ? "bg-[#2ED477]/5"
@@ -122,24 +124,24 @@ function TableView({ data }) {
                   }
                 >
                   <td className=""></td>
-                  <td className="p-4 mx-4 px-4">{index}</td>
-                  <td className="p-4 text-gray-700 whitespace-nowrap">
+                  <td className={d.status == "Done" ? "p-4 text-black/40" :"p-4 mx-4 px-4"}>{index}</td>
+                  <td className={d.status == "Done" ? "p-4 text-black/40" : "p-4 text-gray-700 whitespace-nowrap"}>
                     {new Date(d.appointmentDate).toDateString()}
                   </td>
                   <td className="p-4 text-gray-700 whitespace-nowrap">
-                    <strong className="bg-[#ffe898]/50 text-[#6C5137] px-3 py-1.5 rounded text-xs font-medium">
+                    <strong className={d.status == "Done" ? "px-3 py-1.5 text-black/40 text-xs font-medium" : "bg-[#ffe898]/50 text-[#6C5137] px-3 py-1.5 rounded text-xs font-medium" }>
                       {new Date(d.appointmentTime).toLocaleTimeString("th-TH", {
                         hour: "2-digit",
                         minute: "2-digit",
                       })}
                     </strong>
                   </td>
-                  <td className="p-4 text-gray-700 whitespace-nowrap">
+                  <td className={d.status == "Done" ? "p-4 text-black/40" : "p-4 text-gray-700 whitespace-nowrap"}>
                     {" "}
                     <span className="font-bold">({d.nickname})</span>{" "}
                     {d.firstName} {d.lastName}
                   </td>
-                  <td className="p-4 text-gray-700 whitespace-nowrap">
+                  <td className={d.status == "Done" ? "p-4 text-black/40" : "p-4 text-gray-700 whitespace-nowrap"}>
                     {" "}
                     {d.appointmentPlace}
                   </td>
@@ -189,32 +191,40 @@ function TableView({ data }) {
                     </td>
                   ) : (
                     <td className="p-4 text-gray-700 whitespace-nowrap">
-                      {d.status == "Approved" ? (
-                        <strong className="bg-[#2ED477]/10 text-[#2ED477] px-3 py-1.5 rounded text-xs font-medium">
+                      {d.status == "Done" ? (
+                        <strong className="text-black/40 text-xs font-medium">
                           {d.status}
                         </strong>
                       ) : (
-                        <CustomTooltip
-                          title={
-                            d.rejectReason ? (
-                              <div className="px-2 pb-3">
-                                <div className="p-2">{d.rejectReason}</div>
-                                <div className="px-3 rounded-full bg-[#7879F1]/10 ">
-                                  <span className="text-sm text-[#7879F1]">
-                                    {d.tag}
-                                  </span>
-                                </div>
-                              </div>
-                            ) : (
-                              ""
-                            )
-                          }
-                          placement="top"
-                        >
-                          <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 bg-[#FF2F3B]/10 text-[#FF2F3B] px-3 py-1.5 rounded text-xs font-medium">
-                            {d.status}
-                          </strong>
-                        </CustomTooltip>
+                        <>
+                          {d.status == "Approved" ? (
+                            <strong className="bg-[#2ED477]/10 text-[#2ED477] px-3 py-1.5 rounded text-xs font-medium">
+                              {d.status}
+                            </strong>
+                          ) : (
+                            <CustomTooltip
+                              title={
+                                d.rejectReason ? (
+                                  <div className="px-2 pb-3">
+                                    <div className="p-2">{d.rejectReason}</div>
+                                    <div className="px-3 rounded-full bg-[#7879F1]/10 ">
+                                      <span className="text-sm text-[#7879F1]">
+                                        {d.tag}
+                                      </span>
+                                    </div>
+                                  </div>
+                                ) : (
+                                  ""
+                                )
+                              }
+                              placement="top"
+                            >
+                              <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 bg-[#FF2F3B]/10 text-[#FF2F3B] px-3 py-1.5 rounded text-xs font-medium">
+                                {d.status}
+                              </strong>
+                            </CustomTooltip>
+                          )}
+                        </>
                       )}
                     </td>
                   )}

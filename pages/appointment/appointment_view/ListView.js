@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
+import Router, { useRouter } from "next/router";
 import BtnDetails from "../../../components/BtnDetails";
 import FormModal from "../../request/FormModal";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
@@ -9,6 +10,7 @@ import PlaceIcon from "@mui/icons-material/Place";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import HomeIcon from "@mui/icons-material/Home";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 function ListView({ data }) {
   const [open, setOpen] = useState(false);
@@ -45,7 +47,7 @@ function ListView({ data }) {
       {data &&
         data?.map((d, index) => (
           <>
-            {d.status == "Approved" ? (
+            {d.status == "Approved" && data.status != "Done" ? (
               <>
                 <div className="ml-3 mb-5 mt-6 lg:mt-12">
                   <span className="text-[#463220] font-semibold lg:text-3xl">
