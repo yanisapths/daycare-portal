@@ -1,13 +1,14 @@
 import React from "react";
 
-const BtnCancel = () => {
+const BtnCancel = ({ text,onClick }) => {
   return (
     <>
       <button
-        className=" bg-[#FF0000]/70 hover:bg-transparent text-white font-noto
-             hover:text-[#FF0000] w-20 h-9 hover:border-2 hover:border-[#FF0000] hove:border-transparent rounded-2xl sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
+      onClick={onClick}
+        className="shadow-lg bg-[#FF2F3B] text-white 
+        w-20 h-9  border-2 border-[#FF2F3B] hover:text-[#FF2F3B] hover:bg-[#FF2F3B]/20 hover:border-transparent rounded-2xl sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
       >
-        ยกเลิก
+        {text}
       </button>
     </>
   );
