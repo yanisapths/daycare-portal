@@ -1,16 +1,18 @@
-import React from 'react'
+import React from "react";
 
-const BtnDetails = () => {
+const BtnDetails = ({ text, onClick }) => {
   return (
     <>
       <button
-                className="border-2  hover:border-[#6C5137] bg-[#6C5137]/70 hover:bg-transparent text-white font-noto
-             hover:text-[#6C5137] w-24 h-9  hove:border-transparent rounded-2xl sm:h-7 sm:text-sm lg:h-10 lg:text-base md:h-8 xxxl:h-11 xxxl:text-lg"
-              >
-                ดูเพิ่มเติม
-              </button>
+        onClick={onClick}
+        className="shadow-lg bg-[#6C5137] text-white 
+        w-20 h-9  border-2 border-[#6C5137] hover:text-[#FFEAB2] hover:bg-[#6C5137]/90 hover:border-transparent rounded-2xl 
+        sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
+      >
+        {text}
+      </button>
     </>
-  )
-}
+  );
+};
 
-export default BtnDetails
+export default BtnDetails;

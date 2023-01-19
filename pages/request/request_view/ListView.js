@@ -148,12 +148,12 @@ function ListView({ data }) {
                   <div>
                     <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
                   </div>
+                  <FormModal
+                    open={open}
+                    handleClose={handleClose}
+                    request={request}
+                  />
                 </div>
-                <FormModal
-                  open={open}
-                  handleClose={handleClose}
-                  request={request}
-                />
               </div>
             ) : (
               <></>
