@@ -181,6 +181,11 @@ function TableView({ data }) {
                         }
                       />
                       <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
+                      <FormModal
+                        open={open}
+                        handleClose={handleClose}
+                        request={d}
+                      />
                     </td>
                   ) : (
                     <td className="p-4 text-gray-700 whitespace-nowrap">
@@ -252,11 +257,6 @@ function TableView({ data }) {
                     >
                       <DoDisturbIcon />
                     </IconButton>
-                    <FormModal
-                      open={open}
-                      handleClose={handleClose}
-                      request={d}
-                    />
                   </td>
                 </tr>
               ))}
