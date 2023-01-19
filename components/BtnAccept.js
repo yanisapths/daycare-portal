@@ -1,16 +1,17 @@
-import React from 'react'
+import React from "react";
 
-const BtnAccept = () => {
+const BtnAccept = ({text,onClick}) => {
   return (
     <>
       <button
-                className="border-2 border-[#3ACE01] bg-trasparent hover:bg-[#73C255] text-[#3ACE01] font-noto
-             hover:text-white  w-20 h-7  hove:border-transparent rounded"
-              >
-                ยอมรับ
-              </button>
+      onClick={onClick}
+        className="shadow-lg bg-[#2ED477] text-white 
+        w-20 h-9  border-2 border-[#2ED477] hover:text-[#2ED477] hover:bg-[#2ED477]/20 hover:border-transparent rounded-2xl sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
+      >
+        {text}
+      </button>
     </>
-  )
-}
+  );
+};
 
-export default BtnAccept
+export default BtnAccept;

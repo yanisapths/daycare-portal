@@ -79,7 +79,6 @@ const Schedule = () => {
     reValidateMode: "onChange",
     defaultValues: {
       availableDate: "",
-      owner_id: session.user.id,
     },
   });
 

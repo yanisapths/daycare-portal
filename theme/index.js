@@ -4,13 +4,13 @@ const theme = createTheme({
   status: {
     danger: "#FF2F3B",
     error: "#FF2F3B",
-    success: "#4CAF50",
+    success: "#2ED477",
   },
   error: {
-    main: "#4CAF50",
+    main: "#FF2F3B",
   },
   success: {
-    main: "#4CAF50",
+    main: "#2ED477",
   },
   palette: {
     primary: {
@@ -36,7 +36,11 @@ const theme = createTheme({
       dark: "#6C5137",
     },
     gray: {
-      main: "#f0f1f2"
+      main: "#f0f1f2",
+      basic: "#f8f8f8"
+    },
+    text: {
+      main: "#6C5137",
     }
   },
   typography: {
