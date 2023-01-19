@@ -29,7 +29,7 @@ function ListView({ data }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch("", option)
+    const res = await fetch(`https://olive-service-api.vercel.app/appointment/accept/${appointmentId}`, option)
       .then(async (res) => {
         Router.reload();
       })
@@ -187,12 +187,13 @@ function ListView({ data }) {
                             reverseButtons: true,
                           }).then((result) => {
                             if (result.isConfirmed) {
+                              finishTask(d._id).then(() =>
                               Swal.fire({
                                 title: "งานสำเร็จแล้ว",
                                 showConfirmButton: false,
                                 icon: "success",
                                 timer: 1000,
-                              });
+                              }));
                             } else if (
                               result.dismiss === Swal.DismissReason.cancel
                             ) {

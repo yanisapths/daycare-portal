@@ -5,7 +5,8 @@ import AmountCard from "../../components/AmountCard";
 
 function Dashboard({ data }) {
   const { data: session, status } = useSession();
-  const [requestData, setRequestData] = useState({});
+  const [requestData, setRequestData] = useState([]);
+  const [appointmentData, setAppointmentData] = useState([]);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -13,10 +14,16 @@ function Dashboard({ data }) {
       const res = await fetch(
         `https://olive-service-api.vercel.app/appointment/match/owner/${session.user.id}`
       );
+
+      const approve = await fetch(
+        `https://olive-service-api.vercel.app/appointment/match/owner/${session.user.id}/approved`
+      );
       const requestData = await res.json();
+      const appointmentData = await approve.json();
 
       if (isSubscribed) {
         setRequestData(requestData);
+        setAppointmentData(appointmentData);
       }
     };
 
@@ -27,7 +34,7 @@ function Dashboard({ data }) {
 
   return (
     <>
-      <AmountCard amount={requestData} />
+      <AmountCard requests={requestData} appointments={appointmentData} />
       <LinkGridCard data={data} />
 
       {/* Clinic Hours */}
