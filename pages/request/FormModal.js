@@ -39,8 +39,6 @@ function FormModal({ request, open, handleClose }) {
       rejectReason: "",
       status: "",
       tag: "",
-      owner_id: session.user.id,
-      appointment_id: "",
     },
   });
 
