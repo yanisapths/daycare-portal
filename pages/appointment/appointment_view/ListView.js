@@ -31,7 +31,10 @@ function ListView({ data }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(`https://olive-service-api.vercel.app/appointment/accept/${appointmentId}`, option)
+    const res = await fetch(
+      `https://olive-service-api.vercel.app/appointment/accept/${appointmentId}`,
+      option
+    )
       .then(async (res) => {
         Router.reload();
       })
@@ -111,18 +114,42 @@ function ListView({ data }) {
                           <span className="text-[#969696] lg:hidden md:hidden ">
                             <AccessTimeIcon />
                           </span>
-                          <strong className="mx-2 xxl:mx-4 bg-[#ffe898]/50 text-[#6C5137] p-1 xxl:px-3 xxl:py-1.5 rounded">
-                            <span className="font-semibold text-[#8E6947] xxl:text-lg xxxl:text-xl ">
-                              {new Date(d.appointmentTime).toLocaleTimeString(
-                                "en-EN",
-                                {
-                                  hour: "numeric",
-                                  minute: "2-digit",
-                                  hour12: true,
-                                }
-                              )}
-                            </span>
-                          </strong>
+                          {d.endTime ? (
+                            <strong className="mx-2 xxl:mx-4 bg-[#ffe898]/50 text-[#6C5137] p-1 xxl:px-3 xxl:py-1.5 rounded">
+                              <span className="font-semibold text-[#8E6947] xxl:text-lg xxxl:text-xl ">
+                                {new Date(d.appointmentTime).toLocaleTimeString(
+                                  "en-EN",
+                                  {
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                  }
+                                )}{" "}
+                                {"-"}{" "}
+                                {new Date(d.endTime).toLocaleTimeString(
+                                  "en-EN",
+                                  {
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                  }
+                                )}
+                              </span>
+                            </strong>
+                          ) : (
+                            <strong className="mx-2 xxl:mx-4 bg-[#ffe898]/50 text-[#6C5137] p-1 xxl:px-3 xxl:py-1.5 rounded">
+                              <span className="font-semibold text-[#8E6947] xxl:text-lg xxxl:text-xl ">
+                                {new Date(d.appointmentTime).toLocaleTimeString(
+                                  "en-EN",
+                                  {
+                                    hour: "numeric",
+                                    minute: "2-digit",
+                                    hour12: true,
+                                  }
+                                )}
+                              </span>
+                            </strong>
+                          )}
                         </div>
                         <div className="col-start-1 col-span-3 sm:col-span-7 xxl:col-start-5 xxxl:col-start-4">
                           <span className="sm:hidden xxl:text-lg  xxxl:text-xl">
@@ -190,12 +217,13 @@ function ListView({ data }) {
                           }).then((result) => {
                             if (result.isConfirmed) {
                               finishTask(d._id).then(() =>
-                              Swal.fire({
-                                title: "งานสำเร็จแล้ว",
-                                showConfirmButton: false,
-                                icon: "success",
-                                timer: 1000,
-                              }));
+                                Swal.fire({
+                                  title: "งานสำเร็จแล้ว",
+                                  showConfirmButton: false,
+                                  icon: "success",
+                                  timer: 1000,
+                                })
+                              );
                             } else if (
                               result.dismiss === Swal.DismissReason.cancel
                             ) {
@@ -230,11 +258,12 @@ function ListView({ data }) {
             )}
           </>
         ))}
-      {!data || data.length < 1 && (
-        <div className="text-center px-10 pt-40">
-          <p className="h4 lg:h2 text-black/30">คุณไม่มีนัดหมายเร็วๆนี้</p>
-        </div>
-      )}
+      {!data ||
+        (data.length < 1 && (
+          <div className="text-center px-10 pt-40">
+            <p className="h4 lg:h2 text-black/30">คุณไม่มีนัดหมายเร็วๆนี้</p>
+          </div>
+        ))}
     </div>
   );
 }
