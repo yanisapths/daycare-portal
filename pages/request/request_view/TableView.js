@@ -113,8 +113,7 @@ function TableView({ data }) {
               {data?.map((d, index) => (
                 <tr
                   key={d._id}
-                  disable={d.status == "Done"
-                  ? true : false }
+                  disable={d.status == "Done" ? true : false}
                   className={
                     d.status == "Approved"
                       ? "bg-[#2ED477]/5"
@@ -124,24 +123,83 @@ function TableView({ data }) {
                   }
                 >
                   <td className=""></td>
-                  <td className={d.status == "Done" ? "p-4 text-black/40" :"p-4 mx-4 px-4"}>{index}</td>
-                  <td className={d.status == "Done" ? "p-4 text-black/40" : "p-4 text-gray-700 whitespace-nowrap"}>
+                  <td
+                    className={
+                      d.status == "Done" ? "p-4 text-black/40" : "p-4 mx-4 px-4"
+                    }
+                  >
+                    {index}
+                  </td>
+                  <td
+                    className={
+                      d.status == "Done"
+                        ? "p-4 text-black/40"
+                        : "p-4 text-gray-700 whitespace-nowrap"
+                    }
+                  >
                     {new Date(d.appointmentDate).toDateString()}
                   </td>
                   <td className="p-4 text-gray-700 whitespace-nowrap">
-                    <strong className={d.status == "Done" ? "px-3 py-1.5 text-black/40 text-xs font-medium" : "bg-[#ffe898]/50 text-[#6C5137] px-3 py-1.5 rounded text-xs font-medium" }>
-                      {new Date(d.appointmentTime).toLocaleTimeString("th-TH", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                    </strong>
+                    {d.endTime ? (
+                      <p
+                        className={
+                          d.status == "Done"
+                            ? "px-3 py-1.5 text-black/40 text-xs font-medium"
+                            : "bg-[#ffe898]/50 text-[#6C5137] text-center px-3 py-1.5 rounded text-xs font-medium whitespace-nowrap w-3/6"
+                        }
+                      >
+                        {new Date(d.appointmentTime).toLocaleTimeString(
+                          "en-EN",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          }
+                        )}
+                        {"-"}{" "}
+                        {new Date(d.endTime).toLocaleTimeString("en-EN", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: true,
+                        })}
+                      </p>
+                    ) : (
+                      <p
+                        className={
+                          d.status == "Done"
+                            ? "px-3 py-1.5 text-black/40 text-xs font-medium"
+                            : "bg-[#ffe898]/50 text-[#6C5137] px-3 text-center py-1.5 rounded text-xs font-medium whitespace-nowrap w-3/6"
+                        }
+                      >
+                        {new Date(d.appointmentTime).toLocaleTimeString(
+                          "en-EN",
+                          {
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            hour12: true,
+                          }
+                        )}
+                      </p>
+                    )}
                   </td>
-                  <td className={d.status == "Done" ? "p-4 text-black/40" : "p-4 text-gray-700 whitespace-nowrap"}>
+                  <td
+                    className={
+                      d.status == "Done"
+                        ? "p-4 text-black/40"
+                        : "p-4 text-gray-700 whitespace-nowrap"
+                    }
+                  >
                     {" "}
                     <span className="font-bold">({d.nickname})</span>{" "}
                     {d.firstName} {d.lastName}
                   </td>
-                  <td className={d.status == "Done" ? "p-4 text-black/40" : "p-4 text-gray-700 whitespace-nowrap"}>
+                  <td
+                    className={
+                      d.status == "Done"
+                        ? "p-4 text-black/40"
+                        : "p-4 text-gray-700 whitespace-nowrap"
+                    }
+                  >
                     {" "}
                     {d.appointmentPlace}
                   </td>

@@ -95,13 +95,39 @@ function ListView({ data }) {
                           ).toDateString()}{" "}
                         </span>
                       </div>
-                      <div className="col-start-1 col-span-3">
+                      <div className="col-start-1 col-span-3 flex">
                         <span className="font-semibold ">เวลานัดหมาย</span>
-                        <span className=" text-[#8E6947]">
-                          {" "}
-                          {new Date(
-                            request.appointmentTime
-                          ).toLocaleTimeString()}{" "}
+                        <span className=" text-[#8E6947] whitespace-nowrap px-2">
+                          {request.endTime ? (
+                            <p>
+                              {new Date(
+                                request.appointmentTime
+                              ).toLocaleTimeString("en-EN", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              })}
+                              {"-"}
+                              {new Date(request.endTime).toLocaleTimeString(
+                                "en-EN",
+                                {
+                                  hour: "2-digit",
+                                  minute: "2-digit",
+                                  hour12: true,
+                                }
+                              )}
+                            </p>
+                          ) : (
+                            <p>
+                              {new Date(
+                                request.appointmentTime
+                              ).toLocaleTimeString("en-EN", {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                                hour12: true,
+                              })}
+                            </p>
+                          )}
                         </span>
                       </div>
                     </div>
