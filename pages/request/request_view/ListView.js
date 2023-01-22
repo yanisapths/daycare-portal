@@ -6,7 +6,7 @@ function ListView({ data }) {
     <>
       <div className="flex flex-col gap-1 m-3 font-noto text-sm ">
         {data?.map((request) => (
-          <RequestListCard request={request} />
+          <RequestListCard request={request} key={request._id} />
         ))}
       </div>
     </>
