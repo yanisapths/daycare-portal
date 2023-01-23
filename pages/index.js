@@ -18,7 +18,7 @@ function Home() {
     await delay(1000);
     if (session.user.id) {
       const res = await fetch(
-        `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
+        `${process.env.dev}/clinic/owner/${session.user.id}`
       );
       try {
         const clinicData = await res.json();

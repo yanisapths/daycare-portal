@@ -83,7 +83,7 @@ const Calendar = () => {
 
   async function fetchAvailableData() {
     await delay(1000);
-    const url = `https://olive-service-api.vercel.app/available/match/owner/${session.user.id}`;
+    const url = `${process.env.dev}/available/match/owner/${session.user.id}`;
     //course
     if (session.user.id) {
       const res = await fetch(url);
@@ -103,7 +103,7 @@ const Calendar = () => {
 
   async function deleteAvailable(availableId) {
     const res = await fetch(
-      `https://olive-service-api.vercel.app/available/delete/${availableId}`,
+      `${process.env.dev}/available/delete/${availableId}`,
       { method: "DELETE" }
     )
       .then(async (res) => {})

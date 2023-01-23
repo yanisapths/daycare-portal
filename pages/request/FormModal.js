@@ -56,7 +56,7 @@ function FormModal({ request, open, handleClose }) {
     };
     const response = await axios
       .put(
-        `https://olive-service-api.vercel.app/appointment/reject/${request._id}`,
+        `${process.env.dev}/appointment/reject/${request._id}`,
         json,
         axiosConfig
       )

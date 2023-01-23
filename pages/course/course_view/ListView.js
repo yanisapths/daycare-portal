@@ -19,7 +19,7 @@ function ListView() {
     await delay(1000);
     if (session.user.id) {
       const res = await fetch(
-        `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
+        `${process.env.dev}/clinic/owner/${session.user.id}`
       );
       try {
         const clinicData = await res.json();
@@ -46,7 +46,7 @@ function ListView() {
 
   async function fetchData() {
     await delay(1000);
-    const url = `https://olive-service-api.vercel.app/course/match/owner/${session.user.id}`;
+    const url = `${process.env.dev}/course/match/owner/${session.user.id}`;
     //course
     if (session.user.id) {
       const res = await fetch(url);

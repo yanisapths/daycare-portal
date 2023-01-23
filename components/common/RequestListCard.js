@@ -27,7 +27,7 @@ function RequestListCard({request}) {
   const fetchData = async () => {
     let isSubscribed = true;
     const courseData = await fetch(
-      `https://olive-service-api.vercel.app/course/${request.course_id}`
+      `${process.env.dev}/course/${request.course_id}`
     );
    
     const course = await courseData.json();
@@ -53,7 +53,7 @@ function RequestListCard({request}) {
       body: JSON.stringify({ status: "Approved" }),
     };
     const res = await fetch(
-      `https://olive-service-api.vercel.app/appointment/accept/${appointmentId}`,
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
