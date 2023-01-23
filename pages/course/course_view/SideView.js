@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getSession, useSession } from "next-auth/react";
 import axios from "axios";
 import { useTheme } from "@mui/material/styles";
@@ -7,6 +7,9 @@ import { Box } from "@mui/material";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import toast from "react-hot-toast";
 import Router from "next/router";
+import TextField from "@mui/material/TextField";
+import AddIcon from "@mui/icons-material/Add";
+import CloseIcon from "@mui/icons-material/Close";
 
 function SideView({ clinicData }) {
   const theme = useTheme();
@@ -52,70 +55,70 @@ function SideView({ clinicData }) {
       });
   };
 
+ 
+
   return (
-    <div
-      className="h-screen w-full md:px-24 shadow-2xl rounded-xl xl:pb-4 
-    "
-    >
-      <Box sx={{ bgcolor: theme.palette.background.main }}>
+    <div className="rounded-xl">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <div className="pt-6 text-center">
-            <Typography variant="h3 text-2xl font-bold ">เพิ่มคอร์ส</Typography>
-            <div className="pb-10" />
-            <input
-              type="text"
-              name="courseName"
-              placeholder="ชื่อคอร์ส"
-              className="w-2/3 bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
-              {...register("courseName", {
-                required: true,
-              })}
-            />
-            {errors.courseName && (
-              <Typography sx={{ color: theme.palette.error.main }}>
-                This is required.
-              </Typography>
-            )}
-            <div className="flex pt-16 items-center px-16">
-              <div className="space-y-10">
+          <div className="flex flex-col text-center rounded-xl pt-3">
+            <div >
+              <input
+                type="text"
+                name="courseName"
+                placeholder="ชื่อคอร์ส"
+                className="w-2/3 bg-[#ffdf8e]/50  rounded-full h6 md:body1 sm:body1 px-6 py-3 
+                text-center xxl:py-4 md:py-2 sm:py-2
+                sm:w-4/5"
+                {...register("courseName", {
+                  required: true,
+                })}
+              />
+              {errors.courseName && (
+                <Typography sx={{ color: theme.palette.error.main }}>
+                  This is required.
+                </Typography>
+              )}
+            </div>
+            <div className="pt-8 space-y-10  sm:space-y-3 md:space-y-5 items-center 
+                 px-0   sm:px-4 sm:pt-4 md:pt-6 ">
                 <div className="grid grid-cols-3 ">
                   {/* Amount */}
-                  <Typography variant="h5" className="pt-4">
+                  <Typography variant="h5" className="pt-4 sm:text-base md:text-lg lg:text-2xl xxl:text-3xl">
                     จำนวน
                   </Typography>
                   <input
                     type="text"
                     name="amount"
-                    placeholder=""
-                    className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
+                    className="bg-[#ffdf8e]/50 sm:body2 rounded-full body1 px-6 text-center xxl:py-4 md:py-2 "
                     {...register("amount", {
                       required: true,
                     })}
                   />
-                  <Typography variant="h5" className="pt-4">
+                  <Typography variant="h5" className="pt-4  sm:text-base md:text-lg xxl:text-3xl lg:text-2xl">
                     ครั้ง
                   </Typography>
-                </div>
-                {errors.amount && (
+                  {errors.amount && (
                   <Typography sx={{ color: theme.palette.error.main }}>
                     This is required.
                   </Typography>
                 )}
+                </div>
+                
                 <div className="grid grid-cols-3 ">
                   {/* Duration */}
-                  <Typography variant="h5" className="pt-4">
+                  <Typography variant="h5" className="pt-4 sm:text-base md:text-lg lg:text-2xl xxl:text-3xl ">
                     เวลา
                   </Typography>
                   <input
                     type="text"
                     name="duration"
                     placeholder=""
-                    className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
+                    className="bg-[#ffdf8e]/50 rounded-full body1 sm:body2 px-6 py-3 text-center xxl:py-4 md:py-2 sm:py-1 "
                     {...register("duration", {
                       required: true,
                     })}
                   />
-                  <Typography variant="h5" className="pt-4">
+                  <Typography variant="h5 " className="pt-4 sm:text-base md:text-lg lg:text-2xl xxl:text-3xl">
                     ชั่วโมง/ครั้ง
                   </Typography>
                 </div>
@@ -125,21 +128,21 @@ function SideView({ clinicData }) {
                   </Typography>
                 )}
 
-                <div className="grid grid-cols-3">
+                <div className="grid grid-cols-3  ">
                   {/* Price */}
-                  <Typography variant="h5" className="pt-4">
+                  <Typography variant="h5 " className="pt-4 sm:text-base md:text-lg lg:text-2xl xxl:text-3xl">
                     ราคา
                   </Typography>
                   <input
                     type="text"
                     name="totalPrice"
                     placeholder=""
-                    className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2 text-center"
+                    className="bg-[#ffdf8e]/50 rounded-full body1 sm:body2 px-6 py-3 text-center xxl:py-4 md:py-2 sm:py-2  "
                     {...register("totalPrice", {
                       required: true,
                     })}
                   />
-                  <Typography variant="h5" className="pt-4">
+                  <Typography variant="h5 " className="pt-4 sm:text-base  md:text-lg lg:text-2xl xxl:text-3xl">
                     บาท
                   </Typography>
                 </div>
@@ -148,65 +151,88 @@ function SideView({ clinicData }) {
                     This is required.
                   </Typography>
                 )}
+              
+            </div>
+
+            <div className="divide-y-4 divide-[#d9d9d9] mx-5  divide-dashed">
+              <div className="flex justify-between pt-5 ">
+                <Typography className="font-medium sm:text-xl md:text-xl lg:text-2xl xxl:text-3xl">หัตถการ</Typography>
+                <button
+                  type="button"
+                  onClick={() => append({ procedureName: "", price: "" })}
+                  className="items-center rounded-full hover:underline   text-[#4acf48]  
+                  transition ease-out duration-150 hover:translate-x-1 hover:scale-105
+                  sm:text-sm
+                  md:text-sm 
+                  lg:text-base
+                  xxl:text-xl"
+                >
+                  <AddIcon className="sm:w-4 sm:h-4 md:w-4 md:h-4" />
+                  <span>เพิ่มหัตถการ</span>
+                </button>
+              </div>
+              <div className="pt-1">
+                <ul className="space-y-2">
+                  {fields.map((item, index) => (
+                    <li key={item.id} className=" grid grid-cols-3 gap-4 ">
+                      <div>
+                        <TextField 
+                          {...register(`procedures.${index}.procedureName`)}
+                          id="standard-basic"
+                          label="ชื่อหัตถการ..."
+                          variant="standard"
+                          className="w-full sm:body2 xxl:h4"
+                        />
+                      </div>
+
+                      <div>
+                        <Controller
+                          render={({ field }) => (
+                            <TextField
+                              {...field}
+                              variant="standard"
+                              label="ราคา ฿"
+                              className="w-full sm:body"
+                            />
+                          )}
+                          name={`procedures.${index}.price`}
+                          control={control}
+                        />
+                      </div>
+                      <div>
+                        <button
+                          type="button"
+                          onClick={() => remove(index)}
+                          className=" text-[#FF2F3B] sm:pt-4 md:pt-3 lg:pt-3 text-base text-center sm:text-sm lg:text-lg xxl:text-2xl hover:underline"
+                        >
+                          ลบ
+                        </button>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
               </div>
             </div>
-          </div>
-          <div className="flex justify-between pt-16 px-24 md:px-24">
-            <Typography variant="h5">หัตถการ</Typography>
-            <button
-              type="button"
-              onClick={() => append({ procedureName: "", price: "" })}
-              className="rounded-full bg-[#6C5137] text-[#FFECA7] px-6 pt-1"
-            >
-              <p>เพิ่มหัตถการ</p>
-            </button>
-          </div>
-          <div className="pt-4">
-            <ul className="space-y-2">
-              {fields.map((item, index) => (
-                <li
-                  key={item.id}
-                  className="space-y-4 xl:space-y-0 xl:flex xl:justify-between xl:space-x-4 grid grid-cols-1 px-12 md:px-24 xl:px-4"
-                >
-                  <input
-                    {...register(`procedures.${index}.procedureName`)}
-                    placeholder="ชื่อหัตถการ..."
-                    className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2"
-                  />
-                  <Controller
-                    render={({ field }) => (
-                      <input
-                        {...field}
-                        placeholder="ราคา ฿"
-                        className="bg-[#ECE656]/30 rounded-full body1 px-6 py-2"
-                      />
-                    )}
-                    name={`procedures.${index}.price`}
-                    control={control}
-                  />
-                  <div className="">
-                    <button
-                      type="button"
-                      onClick={() => remove(index)}
-                      className="rounded-full bg-[#6C5137] text-[#FFECA7] px-6 py-2 text-center"
-                    >
-                      ลบ
-                    </button>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
 
-          <div className="mx-auto px-16 py-3 text-center items-center">
-            <input
+            <div className="mx-auto px-16 py-4 text-center items-center transition ease-out duration-150 
+            hover:translate-y-1 hover:scale-105
+            ">
+              <button
               type="submit"
-              className="font-bold bg-[#6C5137] border-[#6C5137] text-[#FFECA7] px-12 py-3 rounded-full cursor-pointer"
-            />
+              className="font-medium text-sm bg-[#6C5137]/80 text-[#ffeec4] border-[#6C5137] 
+                  px-7 py-1 rounded-full cursor-pointer shadow-lg hover:shadow-xl
+                  md:text-lg lg:text-xl  lg:py-2 lg:px-9 xxl:py-3 xxl:px-10 xxl:text-2xl ">
+                    สร้างคอร์ส
+              </button>
+                
+              
+            </div>
           </div>
         </form>
-      </Box>
+      
+     
     </div>
+     
   );
 }
 

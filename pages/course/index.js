@@ -60,40 +60,22 @@ function Course() {
 
         <main className="main">
           <div className="pageTitle">คอร์ส</div>
-          <div>
-            <Popup
-              trigger={
-                <div className="flex justify-end  mx-4  ">
-                  <div
-                    className="cursor-pointer  bg-[#6C5137]/80 rounded-xl text-white py-1 px-2 text-xs xxl:text-sm
-                   hover:bg-transparent hover:border-2 hover:border-[#6C5137] hover:text-[#6C5137] "
-                  >
-                    <AddIcon className="w-4 h-4" />
-                    <span>เพิ่มคอร์ส</span>
-                  </div>
-                </div>
-              }
-              position="center"
-            >
-              <div className="bg-transparent scale-75 pt-10 ">
-                <SideView clinicData={clinicData} />
-              </div>
-            </Popup>
-          </div>
+          
           <div className="overflow-scroll scrollbar-hide ">
             <div className="md:flex gap-5">
               <div className="= px-10 w-full ">
-                <div className="md:w-6/6">
+                <div className="">
                   <ListView />
                 </div>
               </div>
             </div>
           </div>
-          <div>
-            <FooterSocial />
-          </div>
         </main>
+        
       </div>
+      <div >
+          <FooterSocial />
+        </div>
     </div>
   );
 }

@@ -59,12 +59,17 @@ a {
     @apply font-light text-base;
   }
 
+  .body3 {
+    @apply font-light text-sm;
+  }
+
+  
   .caption {
     @apply font-light text-sm;
   }
 
   .pageTitle {
-    @apply text-[#6C5137] text-2xl text-center  m-2 underline decoration-dashed;
+    @apply text-[#6C5137] text-2xl text-center  m-2;
   }
   /*------------------------------------*/
 
@@ -74,8 +79,8 @@ a {
 
   /*----------------Input-----------------*/
   .inputBox {
-    @apply block w-full h-8 px-5 py-3 text-xl font-medium  border-[#AD8259] border-2 rounded-lg
-    lg:h-12;
+    @apply block w-full h-8 px-5 py-3 text-xl font-medium  border-[#AD8259] border-2 rounded-3xl
+    lg:h-10;
   }
 
   .inputLabel {
@@ -108,13 +113,13 @@ a {
   /* Add Daycare Button */
   .buttonPrimary {
     @apply cursor-pointer absolute flex gap-1  w-1/2  py-2  justify-center
-    rounded-full border-2  hover:border-[#AD8259] bg-[#ffdf8e] drop-shadow-lg 
+    rounded-full hover:border-2  hover:border-[#AD8259] bg-[#ffdf8e] drop-shadow-lg 
     hover:bg-transparent text-[#AD8259] 
     
     sm:w-3/5 sm:py-1 sm:px-0 sm:left-16 
     sm:landscape:w-1/3 sm:landscape:left-44
     md:py-2 md:left-56 md:w-2/6
-    lg:left-80 lg:w-1/5
+    lg:left-60 lg:w-1/5
     xl:w-1/5 xl:left-[520px]
     scOne:left-[550px]
     scTwo:left-[650px]
