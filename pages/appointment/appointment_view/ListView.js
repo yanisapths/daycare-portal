@@ -32,7 +32,7 @@ function ListView({ data }) {
       body: JSON.stringify({ status: "Done" }),
     };
     const res = await fetch(
-      `https://olive-service-api.vercel.app/appointment/accept/${appointmentId}`,
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {

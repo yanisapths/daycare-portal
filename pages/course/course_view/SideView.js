@@ -37,7 +37,7 @@ function SideView({ clinicData }) {
     };
     const response = await axios
       .post(
-        `https://olive-service-api.vercel.app/course/create/${clinicData._id}`,
+        `${process.env.dev}/course/create/${clinicData._id}`,
         json,
         axiosConfig
       )
