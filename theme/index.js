@@ -7,7 +7,7 @@ const theme = createTheme({
     success: "#2ED477",
   },
   error: {
-    main: "#4CAF50",
+    main: "##FF2F3B",
   },
   success: {
     main: "#2ED477",
@@ -38,8 +38,14 @@ const theme = createTheme({
       dark: "#6C5137",
     },
     gray: {
-      main: "#f0f1f2"
-    }
+      main: "#f0f1f2",
+    },
+  },
+  textField: {
+    background: "white",
+    border: "2px solid",
+    borderRadius: "10px",
+    borderColor: "#AD8259",
   },
   typography: {
     fontFamily: ["IBM Plex Sans Thai", "sans-serif"].join(","),
