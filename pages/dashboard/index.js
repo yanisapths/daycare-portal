@@ -12,11 +12,11 @@ function Dashboard({ data }) {
     let isSubscribed = true;
     const fetchRequest = async () => {
       const res = await fetch(
-        `https://olive-service-api.vercel.app/appointment/match/owner/${session.user.id}/pending`
+        `${process.env.dev}/appointment/match/owner/${session.user.id}/pending`
       );
 
       const approve = await fetch(
-        `https://olive-service-api.vercel.app/appointment/match/owner/${session.user.id}/approved`
+        `${process.env.dev}/appointment/match/owner/${session.user.id}/approved`
       );
       const requestData = await res.json();
       const appointmentData = await approve.json();

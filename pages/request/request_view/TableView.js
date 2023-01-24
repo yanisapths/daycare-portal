@@ -47,7 +47,7 @@ function TableView({ data }) {
       body: JSON.stringify({ status: "Approved" }),
     };
     const res = await fetch(
-      `https://olive-service-api.vercel.app/appointment/accept/${appointmentId}`,
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -61,7 +61,7 @@ function TableView({ data }) {
 
   async function deleteRequest(appointmentId) {
     const res = await fetch(
-      `https://olive-service-api.vercel.app/appointment/delete/${appointmentId}`,
+      `${process.env.dev}/appointment/delete/${appointmentId}`,
       { method: "DELETE" }
     )
       .then(async (res) => {

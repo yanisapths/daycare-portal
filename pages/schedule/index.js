@@ -32,7 +32,7 @@ const Schedule = () => {
     await delay(1000);
     if (session.user.id) {
       const res = await fetch(
-        `https://olive-service-api.vercel.app/clinic/owner/${session.user.id}`
+        `${process.env.dev}/clinic/owner/${session.user.id}`
       );
       try {
         const clinicData = await res.json();
@@ -96,7 +96,7 @@ const Schedule = () => {
     };
     const response = await axios
       .post(
-        `https://olive-service-api.vercel.app/available/create/${clinicData._id}`,
+        `${process.env.dev}/available/create/${clinicData._id}`,
         json,
         axiosConfig
       )

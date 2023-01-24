@@ -144,7 +144,7 @@ function Create() {
 
       const response = await axios
         .post(
-          `https://olive-service-api.vercel.app/clinic/create`,
+          `${process.env.dev}/clinic/create`,
           data,
           axiosConfig
         )
