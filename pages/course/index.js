@@ -29,7 +29,7 @@ function Course() {
         const clinicData = await res.json();
         if (clinicData) {
           setData(clinicData);
-          console.log(clinicData);
+          console.log(clinicData._id);
         } else return;
       } catch (err) {
         console.log(err);
@@ -57,20 +57,19 @@ function Course() {
 
       <div className="divide-y divide-[#A17851] divide-opacity-30">
         <Header />
-
-        <main className="main">
+        <div className="main">
           <div className="pageTitle">คอร์ส</div>
           
           <div className="overflow-scroll scrollbar-hide ">
             <div className="md:flex gap-5">
               <div className="= px-10 w-full ">
                 <div className="">
-                  <ListView />
+                  <ListView clinicData={clinicData}/>
                 </div>
               </div>
             </div>
           </div>
-        </main>
+        </div>
         
       </div>
       <div >

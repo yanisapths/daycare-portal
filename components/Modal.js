@@ -123,11 +123,11 @@ const StyledModalOverlay = styled.div`
 
   @media (min-width: 320px) and (max-width: 435px){
     
-    height:755px;
+    height:100%;
   }
   
   @media (min-width: 768px) and (max-width: 1020px){
-    height:720px;
+    height:100%;
   }
   @media (min-width: 1024px) {
     
