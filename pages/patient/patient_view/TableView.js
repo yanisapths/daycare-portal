@@ -1,28 +1,29 @@
-import React from "react";
-const data = [
-  {
-    _id: "1231231",
-    HN: "122334",
-    firstName: "Johnathan",
-    lastName: "Doe",
-    nickName: "John",
-    phoneNumber: "123",
-    address: "123",
-    sex: "M",
-    age: "26",
-    occupation: "Mobile Developer",
-    position: "Freelance",
-    income: "50,000",
-    education: "Bachelor",
-    chiefComplaint: "Office Syndrome",
-    diagnosis: "Chronic Office Syndrome",
-    precaution: "none",
-    document: "",
-    createdAt: "",
-    updatedAt: "",
-  },
-];
+import React, { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
+import IconButton from "@mui/material/IconButton";
+import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
+import Tooltip from "@mui/material/Tooltip";
+
 function TableView() {
+  const { data: session, status } = useSession();
+  const [patientData, setPatientData] = useState([]);
+  const fetchData = async () => {
+    let isSubscribed = true;
+    const res = await fetch(
+      `${process.env.dev}/patient/match/${session.user.id}`
+    );
+
+    const patientData = await res.json();
+    if (isSubscribed) {
+      setPatientData(patientData);
+    }
+    return () => (isSubscribed = false);
+  };
+
+  useEffect(() => {
+    fetchData().catch(console.error);
+  });
+
   return (
     <div className="mt-12 shadow-xl rounded-2xl">
       <div className="overflow-x-auto">
@@ -55,11 +56,14 @@ function TableView() {
               <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
                 <div className="flex items-center">ที่อยู่</div>
               </th>
+              <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
+                <div className="flex items-center">เอกสาร</div>
+              </th>
             </tr>
           </thead>
 
           <tbody className="divide-y divide-gray-100">
-            {data?.map((d, index) => (
+            {patientData?.map((d, index) => (
               <tr key={d._id}>
                 <td className=""></td>
                 <td className="p-4 body1 font-medium">{index}</td>
@@ -81,6 +85,21 @@ function TableView() {
                 </td>
                 <td className="p-4 text-gray-700 whitespace-nowrap">
                   {d.address}
+                </td>
+                <td className="p-4 text-gray-700 whitespace-nowrap">
+                  {d.document ? (
+                    <>
+                      <a href={d.document}>
+                        <Tooltip title="Download document" placement="top">
+                          <IconButton>
+                            <CloudDownloadIcon className="w-8 h-8 text-black/40" />
+                          </IconButton>
+                        </Tooltip>
+                      </a>
+                    </>
+                  ) : (
+                    <>-</>
+                  )}
                 </td>
               </tr>
             ))}

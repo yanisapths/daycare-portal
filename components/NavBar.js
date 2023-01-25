@@ -39,7 +39,7 @@ const NavBar = () => {
           <div className="navbarItem">พนักงาน</div>
           </div>
         </Link>
-        <Link href="/staff">
+        <Link href="/patient">
         <div className={router.pathname == "/patient" ? "active" : ""}>
           <div className="navbarItem">แบบบันทึกรายงานผู้ป่วย</div>
           </div>
