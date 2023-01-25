@@ -5,6 +5,7 @@ import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import BookmarksIcon from '@mui/icons-material/Bookmarks';
 import EventAvailableIcon from '@mui/icons-material/EventAvailable';
+import FolderSharedIcon from '@mui/icons-material/FolderShared';
 
 function LinkGridCard({ data }) {
   return (
@@ -69,6 +70,18 @@ function LinkGridCard({ data }) {
               </h2>
               <p className="mt-4 h6 text-black/60">
                 ดูรายชื่อพนักงานคลินิก
+              </p>
+            </a>
+          </Link>
+
+          <Link href="/patient">
+            <a className="linkGridCardContainer">
+              <FolderSharedIcon className="h-10 w-10" />
+              <h2 className="mt-4 text-xl font-bold ">
+                 Patient Report
+              </h2>
+              <p className="mt-4 h6 text-black/60">
+                แบบบันทึกรายงานผู้ป่วย
               </p>
             </a>
           </Link>
