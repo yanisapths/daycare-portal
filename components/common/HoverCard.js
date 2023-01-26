@@ -3,10 +3,18 @@ import { useTheme } from "@mui/material/styles";
 import { Typography } from "@mui/material";
 import EastIcon from "@mui/icons-material/East";
 
-function HoverCard({ key, name, amount, duration, totalPrice, procedures }) {
+function HoverCard({
+  key,
+  name,
+  amount,
+  duration,
+  totalPrice,
+  procedures,
+  type,
+}) {
   const theme = useTheme();
   return (
-    <div className="group block cursor-pointer scroll-smooth ">
+    <div className="group block cursor-pointer scroll-smooth">
       <div
         className=" rounded-2xl flex transform items-start bg-white shadow-lg shadow-[#ffefb7]/40 hover:shadow-xl hover:shadow-[#ffefb7]/40
       transition ease-out delay-100 hover:scale-105"
@@ -25,6 +33,7 @@ function HoverCard({ key, name, amount, duration, totalPrice, procedures }) {
               </div>
             ))}
           </div>
+
           <div className="flex flex-wrap gap-2">
             <Typography className="text-xs tracking-wide md:text-sm sm:text-sm text-center text-black/70 bg-[#ffefb7] rounded-full px-2 py-1">
               {amount} ครั้ง

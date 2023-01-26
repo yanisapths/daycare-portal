@@ -9,18 +9,25 @@ import toast from "react-hot-toast";
 import Router from "next/router";
 import TextField from "@mui/material/TextField";
 import AddIcon from "@mui/icons-material/Add";
-import CloseIcon from "@mui/icons-material/Close";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
+import Checkbox from "@mui/material/Checkbox";
+import Stack from "@mui/material/Stack";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
-function SideView({ clinicData }) {
+function SideView({ clinicData, open, handleClose, setOpen }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
-  console.log(clinicData._id);
+  console.log(clinicData);
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({});
+  } = useForm({ defaultValues: { type: [''] } });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "procedures",
@@ -30,8 +37,6 @@ function SideView({ clinicData }) {
     console.log(data);
     data.owner_id = session.user.id;
     const json = JSON.stringify(data);
-    console.log(data.owner_id);
-
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",

@@ -2,10 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import HoverCard from "../../../components/common/HoverCard";
-import AddIcon from "@mui/icons-material/Add";
-import Popup from "reactjs-popup";
 import SideView from "./SideView";
-import Modal from "../../../components/Modal";
+import BtnAdd from "../../../components/common/BtnAdd";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -13,7 +11,7 @@ function ListView({ clinicData }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [courseData, setCourseData] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -22,6 +20,15 @@ function ListView({ clinicData }) {
       fetchCourseData();
     }
   }, [status]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
 
   //course
   async function fetchCourseData() {
@@ -78,6 +85,7 @@ function ListView({ clinicData }) {
               duration={course.duration}
               totalPrice={course.totalPrice}
               procedures={course.procedures}
+              type={course.type}
             />
           ))}
         </div>
@@ -92,19 +100,13 @@ function ListView({ clinicData }) {
           </p>
         </div>
         <div>
-          <button
-            onClick={() => setShowModal(true)}
-            className="buttonPrimary my-2 sm:w-2/5 sm:left-24  md:w-3/12 md:left-[290px] lg:left-[410px] xl:left-[500px] xxl:left-[600px]"
-          >
-            สร้างคอร์ส
-            <AddIcon className="sm:w-4 sm:h-5 md:w-5 md:h-5 xxxl:w-10 xxxl:h-10" />
-          </button>
-          <Modal
-            onClose={() => setShowModal(false)}
-            show={showModal}
-            title={"เพิ่มคอร์ส"}
-            children={<SideView clinicData={clinicData} />}
-          ></Modal>
+          <BtnAdd onClick={handleClickOpen} />
+          <SideView
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose}
+            clinicData={clinicData}
+          />
         </div>
       </div>
     );

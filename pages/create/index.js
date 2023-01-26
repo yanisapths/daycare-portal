@@ -143,11 +143,7 @@ function Create() {
       data.imageUrl = result;
 
       const response = await axios
-        .post(
-          `${process.env.dev}/clinic/create`,
-          data,
-          axiosConfig
-        )
+        .post(`${process.env.dev}/clinic/create`, data, axiosConfig)
         .then(async (res) => {
           console.log("RESPONSE RECEIVED: ", res.data);
           const { owner } = res.data.owner;
@@ -209,8 +205,6 @@ function Create() {
       "imageUrl",
     ])
   );
-
-  const styles = useStyles();
 
   return (
     <div>
