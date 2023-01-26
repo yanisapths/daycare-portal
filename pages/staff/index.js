@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "../../components/Header";
 import BtnAdd from "../../components/common/BtnAdd";
@@ -10,6 +11,8 @@ const Staff = ({ user }) => {
   const [open, setOpen] = useState(false);
   const [clinic, setClinic] = useState({});
   const [staffData, setStaff] = useState([]);
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -35,8 +38,12 @@ const Staff = ({ user }) => {
   };
 
   useEffect(() => {
-    fetchData().catch(console.error);
-  });
+    if (status === "unauthenticated") {
+      router.push("/auth/signin/");
+    } else {
+      fetchData().catch(console.error);
+    }
+  }, [status]);
 
   if (clinic) {
     return (
