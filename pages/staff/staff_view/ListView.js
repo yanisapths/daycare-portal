@@ -9,8 +9,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 
 function ListView({ staffData }) {
-  if(staffData){
-
+  if (staffData) {
     return (
       <>
         <article className="w-full md:w-5/6 lg:w-5/6 xl:w-3/6 overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl mx-3 bg-white m-4 lg:p-10">
@@ -30,11 +29,13 @@ function ListView({ staffData }) {
               <div className="basis-9/12">
                 <div className="grid grid-col-6 sm:grid-col-2 pt-4 lg:gap-4">
                   <div className="col-start-1 col-end-7 lg:pb-4">
-                    <span
-                      className="font-bold text-base text-[#6C5137] sm:text-lg md:text-xl lg:text-2xl"
-                    >
-                      {staffData.firstName} {staffData.lastName}
-                    </span>
+                    {staffData.firstName ? (
+                      <p className="font-bold text-base text-[#6C5137] sm:text-lg md:text-xl lg:text-2xl">
+                        {staffData.firstName} {staffData.lastName}
+                      </p>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   <div className="col-start-1 col-span-3">
                     <span className=" lg:text-lg font-semibold sm:hidden">
@@ -43,7 +44,11 @@ function ListView({ staffData }) {
                     <span className="lg:hidden md:hidden text-[#969696]">
                       <WorkIcon />
                     </span>
-                    <span className="lg:text-xl">{" "}{staffData.nickName}</span>
+                    {staffData.firstName ? (
+                      <p className="lg:text-xl"> {staffData.nickName}</p>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   <div className="col-start-1 col-span-3 ">
                     <span className=" lg:text-lg font-semibold sm:hidden">
@@ -52,7 +57,11 @@ function ListView({ staffData }) {
                     <span className="lg:hidden md:hidden text-[#969696]">
                       <WorkIcon />
                     </span>
-                    <span className="lg:text-xl">{" "}{staffData.position}</span>
+                    {staffData.position ? (
+                      <p className="lg:text-xl"> {staffData.position}</p>
+                    ) : (
+                      <></>
+                    )}
                   </div>
                   <div className="col-start-4 col-span-4 sm:col-start-1">
                     <span className=" lg:text-lg font-semibold sm:hidden">
@@ -61,7 +70,7 @@ function ListView({ staffData }) {
                     <span className="lg:hidden md:hidden text-[#969696] ">
                       <HowToRegIcon />
                     </span>
-                    <span className="lg:text-xl">{" "}{staffData.age}</span>
+                    <span className="lg:text-xl"> {staffData.age}</span>
                   </div>
                   <div className="col-start-1 col-span-3 sm:col-start-1">
                     <span className=" lg:text-lg font-semibold sm:hidden">
@@ -70,10 +79,7 @@ function ListView({ staffData }) {
                     <span className="lg:hidden md:hidden text-[#969696] ">
                       <VerifiedIcon />
                     </span>
-                    <span className="lg:text-xl">
-                      {" "}
-                      {staffData.sex}
-                    </span>
+                    <span className="lg:text-xl"> {staffData.sex}</span>
                   </div>
                   <div className="col-start-4 col-span-2 sm:col-start-1">
                     <span className=" lg:text-lg font-semibold sm:hidden">
@@ -82,7 +88,7 @@ function ListView({ staffData }) {
                     <span className="lg:hidden md:hidden text-[#969696] ">
                       <InfoIcon />
                     </span>
-                    <span className="lg:text-xl">{" "}{staffData.lineId}</span>
+                    <span className="lg:text-xl"> {staffData.lineId}</span>
                   </div>
                   <div className="col-start-1 col-span-3">
                     <span className=" lg:text-lg font-semibold sm:hidden">
@@ -91,7 +97,7 @@ function ListView({ staffData }) {
                     <span className="lg:hidden md:hidden text-[#969696] ">
                       <LocalPhoneIcon />
                     </span>
-                    <span className="lg:text-xl">{" "}{staffData.phoneNumber}</span>
+                    <span className="lg:text-xl"> {staffData.phoneNumber}</span>
                   </div>
                 </div>
               </div>
@@ -108,8 +114,8 @@ function ListView({ staffData }) {
         </article>
       </>
     );
-  }else {
-    return <></>
+  } else {
+    return <></>;
   }
 }
 
