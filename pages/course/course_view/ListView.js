@@ -6,6 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import Popup from "reactjs-popup";
 import SideView from "./SideView";
 import Modal from "../../../components/Modal";
+import BtnAdd from "../../../components/common/BtnAdd";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -14,6 +15,7 @@ function ListView({ clinicData }) {
   const router = useRouter();
   const [courseData, setCourseData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -22,6 +24,15 @@ function ListView({ clinicData }) {
       fetchCourseData();
     }
   }, [status]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
 
   //course
   async function fetchCourseData() {
@@ -48,28 +59,9 @@ function ListView({ clinicData }) {
   if (courseData.length >= 1) {
     return (
       <>
-        <div>
-          <Popup
-            trigger={
-              <div className="flex justify-end">
-                <div
-                  className="cursor-pointer  bg-[#6C5137]/80 rounded-full text-white py-2 px-3 text-xs xxl:text-sm
-                   hover:bg-transparent hover:border-2 hover:border-[#6C5137] hover:text-[#6C5137] "
-                >
-                  <AddIcon className="w-4 h-4" />
-                  <span>เพิ่มคอร์ส</span>
-                </div>
-              </div>
-            }
-            position="center"
-          >
-            <div
-              className="relative h-screen  sm:scale-75  sm:top-20 md:top-16 md:scale-75 md:left-8  
-            md:w-11/12 xxl:top-48 xxl:scale-90 lg:top-14 lg:scale-75  "
-            >
-              <SideView clinicData={clinicData} className="" />
-            </div>
-          </Popup>
+        <div className="flex justify-end">
+          <BtnAdd onClick={handleClickOpen} />
+          <SideView open={open} setOpen={setOpen} handleClose={handleClose} />
         </div>
         <div
           className="grid grid-cols-3 my-4 h-fit gap-4 justify-start
