@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { getSession, useSession } from "next-auth/react";
 import axios from "axios";
 import { useTheme } from "@mui/material/styles";
-import { Typography } from "@mui/material";
+import { InputLabel, MenuItem, Typography } from "@mui/material";
 import { Box } from "@mui/material";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import toast from "react-hot-toast";
@@ -15,8 +15,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
-import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
+
 
 function SideView({ clinicData, open, handleClose, setOpen }) {
   const theme = useTheme();
@@ -27,7 +27,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { type: [''] } });
+  } = useForm({ defaultValues: { type: [""] } });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "procedures",
@@ -59,7 +59,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
         console.log("AXIOS ERROR: ", err);
       });
   };
-
+  
   return (
     <>
       <Dialog
@@ -70,25 +70,32 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
       >
         <DialogTitle
           sx={{
-            color: theme.palette.primary.main,
-            fontSize: 24,
+            color: theme.palette.primary.darker,
+            fontSize: { sm: 24, md: 26, lg: 28, xl: 30 },
             mx: 2,
             mt: 2,
             textAlign: "center",
+            fontWeight: "bold",
           }}
         >
           เพิ่มคอร์ส
         </DialogTitle>
-        <DialogContent>
+        <DialogContent dividers>
           <Box>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="flex flex-col text-center rounded-xl pt-3">
-                <div className="px-24">
+              <div className="flex flex-col text-center rounded-xl">
+                <div className="px-24 sm:px-0  md:px-10">
                   <input
+                    sx={{
+                      "& label.focused": {
+                        color: theme.palette.primary.main,
+                        borderColor: theme.palette.primary.main,
+                      },
+                    }}
                     type="text"
                     name="courseName"
                     placeholder="ชื่อคอร์ส"
-                    className="w-2/3 inputOutline text-center"
+                    className="w-2/3 inputOutline text-center  sm:w-48 md:w-full border-[#7C552F]/50 "
                     {...register("courseName", {
                       required: true,
                     })}
@@ -99,59 +106,90 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                     </Typography>
                   )}
                 </div>
-                <div className="px-12 py-4">
-                  <Stack direction="row" spacing={2}>
+
+                <div className="px-12 py-4 sm:px-2 md:px-0 self-center ">
+                  <Stack
+                    direction="row"
+                    sx={{ flexWrap: "wrap", "& label": { opacity: 0.6 } }}
+                  >
                     <FormControlLabel
-                      control={<Checkbox value="Basic" {...register("type")} />}
+                      sx={{}}
+                      control={
+                        <Checkbox
+                          sx={{
+                            color: theme.palette.primary.darker,
+                          }}
+                          value="Basic"
+                          {...register("type")}
+                        />
+                      }
                       label="Basic"
                     />
                     <FormControlLabel
-                      control={<Checkbox value="Rehab" {...register("type")} />}
+                      control={
+                        <Checkbox
+                          sx={{ color: theme.palette.primary.darker }}
+                          value="Rehab"
+                          {...register("type")}
+                        />
+                      }
                       label="Rehab"
                     />
                     <FormControlLabel
                       control={
-                        <Checkbox value="Advance" {...register("type")} />
+                        <Checkbox
+                          sx={{ color: theme.palette.primary.darker }}
+                          value="Advance"
+                          {...register("type")}
+                        />
                       }
                       label="Advance"
                     />
                     <FormControlLabel
                       control={
-                        <Checkbox value="Premium" {...register("type")} />
+                        <Checkbox
+                          sx={{ color: theme.palette.primary.darker }}
+                          value="Premium"
+                          {...register("type")}
+                        />
                       }
                       label="Premium"
                     />
                     <FormControlLabel
                       control={
-                        <Checkbox value="Luxury" {...register("type")} />
+                        <Checkbox
+                          sx={{ color: theme.palette.primary.darker }}
+                          value="Luxury"
+                          {...register("type")}
+                        />
                       }
                       label="Luxury"
                     />
                   </Stack>
                 </div>
                 <div
-                  className="pt-4 space-y-10 sm:space-y-3 md:space-y-5 items-center 
-                     px-0 sm:px-4 sm:pt-4 md:pt-2"
+                  className="pt-3 space-y-10 sm:space-y-3 md:space-y-5 items-center 
+                     px-0 sm:px-0 sm:pt-0 md:pt-0"
                 >
                   <div className="grid grid-cols-3">
                     {/* Amount */}
                     <Typography
                       variant="h5"
-                      className="pt-4 sm:text-base md:text-lg lg:text-xl text-black/50"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
                     >
                       จำนวน
                     </Typography>
                     <input
                       type="text"
                       name="amount"
-                      className="inputOutline text-center"
+                      className="inputOutline text-center border-[#7C552F]/50"
                       {...register("amount", {
                         required: true,
                       })}
                     />
                     <Typography
                       variant="h5"
-                      className="pt-4 sm:text-base md:text-lg lg:text-xl text-black/50"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
                     >
                       ครั้ง
                     </Typography>
@@ -166,7 +204,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                     {/* Duration */}
                     <Typography
                       variant="h5"
-                      className="pt-4 sm:text-base md:text-lg lg:text-xl text-black/50"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
                     >
                       เวลา
                     </Typography>
@@ -174,14 +212,14 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                       type="text"
                       name="duration"
                       placeholder=""
-                      className="inputOutline text-center"
+                      className="inputOutline text-center border-[#7C552F]/50"
                       {...register("duration", {
                         required: true,
                       })}
                     />
                     <Typography
                       variant="h5"
-                      className="pt-4 sm:text-base md:text-lg lg:text-xl text-black/50"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60 "
                     >
                       ชั่วโมง/ครั้ง
                     </Typography>
@@ -196,7 +234,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                     {/* Price */}
                     <Typography
                       variant="h5 "
-                      className="pt-4 sm:text-base md:text-lg lg:text-xl text-black/50"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
                     >
                       ราคา
                     </Typography>
@@ -204,14 +242,14 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                       type="text"
                       name="totalPrice"
                       placeholder=""
-                      className="inputOutline text-center"
+                      className="inputOutline text-center border-[#7C552F]/50"
                       {...register("totalPrice", {
                         required: true,
                       })}
                     />
                     <Typography
                       variant="h5"
-                      className="pt-4 sm:text-base md:text-lg lg:text-xl text-black/50"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
                     >
                       บาท
                     </Typography>
@@ -224,7 +262,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                 </div>
 
                 <div className="divide-y-2 divide-[#d9d9d9] mx-5 divide-dashed py-6">
-                  <div className="flex justify-between pt-5">
+                  <div className="flex justify-between pt-5 md:pt-3 sm:pt-2">
                     <Typography className="font-medium sm:text-xl md:text-xl lg:text-2xl xxl:text-3xl">
                       หัตถการ
                     </Typography>
@@ -233,7 +271,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                       onClick={() => append({ procedureName: "", price: "" })}
                       className="items-center rounded-full hover:underline   text-[#4acf48]  
                       transition ease-out duration-150 hover:translate-x-1 hover:scale-105
-                      sm:text-sm
+                      sm:text-xs
                       md:text-sm 
                       lg:text-base
                       xxl:text-xl"
@@ -248,6 +286,17 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                         <li key={item.id} className="flex gap-4 justify-center">
                           <div>
                             <TextField
+                              sx={{
+                                "& label": {
+                                  fontSize: {
+                                    sm: "14px",
+                                    md: "18px",
+                                    lg: "20px",
+                                    xl: "20px",
+                                    xxl: "20px",
+                                  },
+                                },
+                              }}
                               {...register(`procedures.${index}.procedureName`)}
                               id="standard-basic"
                               label="ชื่อหัตถการ..."
@@ -260,6 +309,17 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                             <Controller
                               render={({ field }) => (
                                 <TextField
+                                  sx={{
+                                    "& label": {
+                                      fontSize: {
+                                        sm: "14px",
+                                        md: "18px",
+                                        lg: "20px",
+                                        xl: "20px",
+                                        xxl: "20px",
+                                      },
+                                    },
+                                  }}
                                   {...field}
                                   variant="standard"
                                   label="ราคา ฿"
@@ -274,7 +334,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                             <button
                               type="button"
                               onClick={() => remove(index)}
-                              className=" text-[#FF2F3B] sm:pt-4 md:pt-3 lg:pt-3 text-base text-center sm:text-sm lg:text-lg xxl:text-2xl hover:underline"
+                              className=" text-[#FF2F3B] sm:pt-5 md:pt-4 lg:pt-3 text-base text-center sm:text-xs md:text-sm lg:text-lg xxl:text-xl hover:underline"
                             >
                               ลบ
                             </button>
@@ -290,7 +350,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
         </DialogContent>
         <DialogActions sx={{ mx: 4, mb: 4, justifyContent: "center" }}>
           <button
-            className="hover:shadow-lg 
+            className="hover:shadow-lg text-[#FF2F3B]
                   w-20 h-9 hover:bg-black/5
                   rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
             onClick={handleClose}

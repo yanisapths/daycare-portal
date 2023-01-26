@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import HoverCard from "../../../components/common/HoverCard";
 import SideView from "./SideView";
 import BtnAdd from "../../../components/common/BtnAdd";
+import detailView from "./detailView";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -54,8 +55,9 @@ function ListView({ clinicData }) {
 
   if (courseData.length >= 1) {
     return (
-      <>
-        <div className="flex justify-end">
+      <div className="main">
+       
+          <div className="flex justify-end">
           <BtnAdd onClick={handleClickOpen} />
           <SideView
             open={open}
@@ -63,12 +65,11 @@ function ListView({ clinicData }) {
             handleClose={handleClose}
             clinicData={clinicData}
           />
-        </div>
+          </div>
+
         <div
-          className="grid grid-cols-3 my-4 h-fit gap-4 justify-start
-        sm:grid-cols-1
-        md:grid-cols-2
-        xxl:grid-cols-4"
+          className="grid grid-cols-3 my-4 h-fit gap-4 justify-start sm:grid-cols-1 md:grid-cols-2 xxl:grid-cols-4"
+          onClick={handleClickOpen}
         >
           {courseData?.map((course) => (
             <HoverCard
@@ -79,10 +80,17 @@ function ListView({ clinicData }) {
               totalPrice={course.totalPrice}
               procedures={course.procedures}
               type={course.type}
+              
             />
+            
           ))}
+         <detailView
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose} 
+          />
         </div>
-      </>
+      </div>
     );
   } else {
     return (

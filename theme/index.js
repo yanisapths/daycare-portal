@@ -18,7 +18,6 @@ const theme = createTheme({
       light: "#E0B186",
       darker: "#7C552F",
       variant: "#ffe898",
-      
     },
     secondary: {
       main: "#FFECA7",
@@ -27,7 +26,7 @@ const theme = createTheme({
       dark: "#CAB769",
       darker: "#ECE656",
     },
-    
+
     neutral: {
       main: "#64748B",
       contrastText: "#fff",
@@ -60,6 +59,15 @@ const theme = createTheme({
           },
         ],
       },
+    },
+  },
+  breakpoints: {
+    values: {
+      sm: 320,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1440,
     },
   },
 });
