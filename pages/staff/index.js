@@ -60,9 +60,9 @@ const Staff = ({ user }) => {
               />
             </div>
             {staffData ? (
-              staffData.map((data) => {
+              staffData.map((data,index) => {
                 return (
-                  <div className="flex justify-center">
+                  <div className="flex justify-center"  key={index}>
                     <ListView
                       clinicData={clinic}
                       id={clinic._id}
