@@ -95,10 +95,11 @@ function AddPatientForm({ open, handleClose, setOpen }) {
       >
         <DialogTitle
           sx={{
-            color: theme.palette.secondary.main,
+            color: theme.palette.primary.main,
             fontSize: 24,
             mx: 2,
             mt: 2,
+            textAlign: "center"
           }}
         >
           เพิ่มแบบบันทึก
@@ -439,11 +440,11 @@ function AddPatientForm({ open, handleClose, setOpen }) {
             </form>
           </Box>
         </DialogContent>
-        <DialogActions sx={{ mx: 4, mb: 4 }}>
+        <DialogActions sx={{ mx: 4, mb: 4, justifyContent: "center" }}>
           <button
             className="hover:shadow-lg 
-                  w-20 h-9 hover:bg-black/5
-                  rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
+            w-28 h-10 hover:bg-black/5
+            rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
             onClick={handleClose}
             sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
@@ -451,8 +452,8 @@ function AddPatientForm({ open, handleClose, setOpen }) {
           </button>
           <button
             className="shadow-lg 
-                  w-20 h-9 rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg
-                  bg-[#FFECA7] hover:bg-[#FFECA7]/70"
+            w-28 h-10 rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg
+            bg-[#FFECA7] hover:bg-[#FFECA7]/70"
             onClick={handleSubmit(onSubmit)}
             sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
