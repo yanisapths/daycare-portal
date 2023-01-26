@@ -9,6 +9,8 @@ import InfoIcon from "@mui/icons-material/Info";
 import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 
 function ListView({ staffData }) {
+  if(staffData){
+
     return (
       <>
         <article className="w-full md:w-5/6 lg:w-5/6 xl:w-3/6 overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl mx-3 bg-white m-4 lg:p-10">
@@ -106,6 +108,9 @@ function ListView({ staffData }) {
         </article>
       </>
     );
+  }else {
+    return <></>
+  }
 }
 
 export default ListView;
