@@ -64,8 +64,8 @@ function SideView({ clinicData }) {
               type="text"
               name="courseName"
               placeholder="ชื่อคอร์ส"
-              className="w-2/3 bg-[#ffdf8e]/50  rounded-full h6 md:body1 sm:body1 px-6 py-3 
-                text-center xxl:py-4 md:py-2 sm:py-2
+              className="w-2/3 bg-[#ffdf8e]/50  rounded-full h6 md:body1 sm:body1 xl:body2 px-6 py-3 
+                text-center xl:py-2 xxl:py-2 md:py-2 sm:py-2
                 sm:w-4/5"
               {...register("courseName", {
                 required: true,
@@ -78,28 +78,28 @@ function SideView({ clinicData }) {
             )}
           </div>
           <div
-            className="pt-8 space-y-10 sm:space-y-3 md:space-y-5 items-center 
-                 px-0 sm:px-4 sm:pt-4 md:pt-6 "
+            className="pt-8 space-y-3 sm:space-y-3 md:space-y-5 items-center 
+                 px-0 sm:px-4 sm:pt-4 xl:pt-3 md:pt-6 "
           >
             <div className="grid grid-cols-3 ">
               {/* Amount */}
               <Typography
                 variant="h5"
-                className="pt-4 sm:text-base md:text-lg lg:text-2xl xxl:text-3xl"
+                className="pt-4 sm:text-base md:text-lg lg:text-2xl xl:text-base xxl:text-3xl"
               >
                 จำนวน
               </Typography>
               <input
                 type="text"
                 name="amount"
-                className="bg-[#ffdf8e]/50 sm:body2 rounded-full body1 px-6 text-center xxl:py-4 md:py-2 "
+                className="bg-[#ffdf8e]/50 sm:body2 rounded-full body1 px-6 text-center xl:py-0 xxl:py-4 md:py-2 "
                 {...register("amount", {
                   required: true,
                 })}
               />
               <Typography
                 variant="h5"
-                className="pt-4  sm:text-base md:text-lg xxl:text-3xl lg:text-2xl"
+                className="pt-4  sm:text-base md:text-lg xxl:text-3xl xl:text-base lg:text-2xl"
               >
                 ครั้ง
               </Typography>
@@ -114,7 +114,7 @@ function SideView({ clinicData }) {
               {/* Duration */}
               <Typography
                 variant="h5"
-                className="pt-4 sm:text-base md:text-lg lg:text-2xl xxl:text-3xl "
+                className="pt-4 sm:text-base md:text-lg lg:text-2xl xl:text-base xxl:text-3xl "
               >
                 เวลา
               </Typography>
@@ -122,14 +122,14 @@ function SideView({ clinicData }) {
                 type="text"
                 name="duration"
                 placeholder=""
-                className="bg-[#ffdf8e]/50 rounded-full body1 sm:body2 px-6 py-3 text-center xxl:py-4 md:py-2 sm:py-1 "
+                className="bg-[#ffdf8e]/50 rounded-full body1 sm:body2 px-6 py-0 text-center xxl:py-4 md:py-2 sm:py-1 "
                 {...register("duration", {
                   required: true,
                 })}
               />
               <Typography
                 variant="h5 "
-                className="pt-4 sm:text-base md:text-lg lg:text-2xl xxl:text-3xl"
+                className="pt-4 sm:text-base md:text-lg lg:text-2xl xl:text-base xxl:text-3xl"
               >
                 ชั่วโมง/ครั้ง
               </Typography>
@@ -144,7 +144,7 @@ function SideView({ clinicData }) {
               {/* Price */}
               <Typography
                 variant="h5 "
-                className="pt-4 sm:text-base md:text-lg lg:text-2xl xxl:text-3xl"
+                className="pt-4 sm:text-base md:text-lg lg:text-2xl xl:text-base xxl:text-3xl"
               >
                 ราคา
               </Typography>
@@ -152,14 +152,14 @@ function SideView({ clinicData }) {
                 type="text"
                 name="totalPrice"
                 placeholder=""
-                className="bg-[#ffdf8e]/50 rounded-full body1 sm:body2 px-6 py-3 text-center xxl:py-4 md:py-2 sm:py-2  "
+                className="bg-[#ffdf8e]/50 rounded-full body1 sm:body2 px-6 py-0 text-center xxl:py-4 md:py-2 sm:py-2  "
                 {...register("totalPrice", {
                   required: true,
                 })}
               />
               <Typography
                 variant="h5 "
-                className="pt-4 sm:text-base  md:text-lg lg:text-2xl xxl:text-3xl"
+                className="pt-4 sm:text-base  md:text-lg lg:text-2xl  xl:text-base xxl:text-3xl"
               >
                 บาท
               </Typography>
@@ -184,9 +184,10 @@ function SideView({ clinicData }) {
                   sm:text-sm
                   md:text-sm 
                   lg:text-base
+                  xl:text-sm
                   xxl:text-xl"
               >
-                <AddIcon className="sm:w-4 sm:h-4 md:w-4 md:h-4" />
+                <AddIcon className="w-4 h-4" />
                 <span>เพิ่มหัตถการ</span>
               </button>
             </div>
@@ -222,7 +223,7 @@ function SideView({ clinicData }) {
                       <button
                         type="button"
                         onClick={() => remove(index)}
-                        className=" text-[#FF2F3B] sm:pt-4 md:pt-3 lg:pt-3 text-base text-center sm:text-sm lg:text-lg xxl:text-2xl hover:underline"
+                        className=" text-[#FF2F3B] sm:pt-4 md:pt-3 lg:pt-3 xl:text-sm text-center sm:text-sm lg:text-lg xxl:text-2xl hover:underline"
                       >
                         ลบ
                       </button>
@@ -242,9 +243,9 @@ function SideView({ clinicData }) {
               type="submit"
               className="font-medium text-sm bg-[#6C5137]/80 text-[#ffeec4] border-[#6C5137] 
                   px-7 py-1 rounded-full cursor-pointer shadow-lg hover:shadow-xl
-                  md:text-lg lg:text-xl  lg:py-2 lg:px-9 xxl:py-3 xxl:px-10 xxl:text-2xl "
+                  md:text-lg lg:text-xl  lg:py-2 lg:px-9 xl:text-sm xxl:py-3 xxl:px-10 xxl:text-2xl "
             >
-              สร้างคอร์ส
+              เพิ่ม
             </button>
           </div>
         </div>

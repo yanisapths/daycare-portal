@@ -57,6 +57,7 @@ const StyledModalTitle = styled.div`
   justify-content:center;
   font-size: 30px;
   font-weight: bold;
+  color:#AD8259;
   @media (min-width: 320px) and (max-width: 430px){
     font-size: 30px;
   
@@ -66,6 +67,11 @@ const StyledModalTitle = styled.div`
   }
   @media (min-width: 1024px) {
     font-size: 38px;
+    
+  }
+  @media (min-width: 1280px) {
+    font-size: 26px;
+    
     
   }
   @media (min-width: 1440px) {
@@ -101,7 +107,9 @@ const StyledModal = styled.div`
 
   @media (min-width: 1280px) {
     height:auto;
-    width: 800px;
+    width: 550px;
+    margin-top:15px;
+    margin-bottom:15px;
   }
   @media (min-width: 1440px) {
     height:auto;
@@ -134,7 +142,8 @@ const StyledModalOverlay = styled.div`
     height: 922px;
   }
   @media (min-width: 1280px) {
-    height: 922px;
+    height: auto;
+    padding-bottom:10px;
    
   }
   @media (min-width: 1440px) {

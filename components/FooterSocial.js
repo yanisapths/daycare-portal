@@ -3,9 +3,9 @@ import Image from "next/image";
 
 function FooterSocial() {
   return (
-    <footer className="bg-[#FFEAB2] mt-0 bottom-0 text-[#A17851]">
+    <footer className="bg-[#FFEAB2] bottom-0 text-[#A17851]">
       <div className="max-w-screenl px-4 pb-2 mx-auto sm:px-6 lg:px-14">
-        <div className="pt-2 sm:items-center sm:justify-between sm:flex">
+        <div className="sm:items-center sm:justify-between sm:flex">
           <nav className="flex justify-between items-center text-center space-x-4 text-sm font-medium sm:justify-start">
             <div>
               <p className=" pt-2">269492 Project</p>
@@ -13,12 +13,14 @@ function FooterSocial() {
               <p className="">Chiangmai University</p>
             </div>
             <div>
-              <Image
-                src="/asset/logo-nobg.png"
-                width="70px"
-                height="70px"
-                layout="fixed"
-              />
+              <div className="relative left-1 top-2">
+                <Image
+                  src="/asset/logo-nobg.png"
+                  width="65px"
+                  height="65px"
+                  layout="fixed"
+                />
+              </div>
               <p className="h6 font-bold italic">Olive</p>
               <p className="caption italic">by Happy Elders</p>
             </div>

@@ -8,11 +8,11 @@ function HoverCard({ key, name, amount, duration, totalPrice, procedures }) {
   return (
     <div className="group block cursor-pointer scroll-smooth ">
       <div
-        className=" rounded-2xl flex transform items-start bg-white  shadow-xl hover:shadow-2xl
+        className=" rounded-2xl flex transform items-start bg-white shadow-lg shadow-[#ffefb7]/40 hover:shadow-xl hover:shadow-[#ffefb7]/40
       transition ease-out delay-100 hover:scale-105"
       >
         <div className="px-5 pb-3 pt-3">
-          <p className="h2 lg:h3 md:h4 sm:h5 font-medium  ">{name}</p>
+          <p className="h2 lg:h3 md:h4 sm:h5 font-medium">{name}</p>
           <div className="flex w-full gap-1">
             {procedures?.map((procedure) => (
               <div

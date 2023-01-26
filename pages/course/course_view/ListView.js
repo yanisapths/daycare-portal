@@ -47,35 +47,28 @@ function ListView({ clinicData }) {
 
   if (courseData.length >= 1) {
     return (
-      <>
-        <div>
-          <Popup
-            trigger={
-              <div className="flex justify-end">
-                <div
-                  className="cursor-pointer  bg-[#6C5137]/80 rounded-full text-white py-2 px-3 text-xs xxl:text-sm
-                   hover:bg-transparent hover:border-2 hover:border-[#6C5137] hover:text-[#6C5137] "
-                >
-                  <AddIcon className="w-4 h-4" />
-                  <span>เพิ่มคอร์ส</span>
-                </div>
-              </div>
-            }
-            position="center"
+      <div className="main">
+       
+          <div className="flex justify-end">
+          <button
+            onClick={() => setShowModal(true)}
+            className="cursor-pointer  bg-[#6C5137]/80 rounded-full text-white py-2 px-3 text-xs xxl:text-sm
+                   hover:bg-transparent hover:border-2 hover:border-[#6C5137] hover:text-[#6C5137] shadow-xl
+                   "
           >
-            <div
-              className="relative h-screen  sm:scale-75  sm:top-20 md:top-16 md:scale-75 md:left-8  
-            md:w-11/12 xxl:top-48 xxl:scale-90 lg:top-14 lg:scale-75  "
-            >
-              <SideView clinicData={clinicData} className="" />
-            </div>
-          </Popup>
-        </div>
+            <AddIcon className="w-4 h-4" />
+            <span>เพิ่มคอร์ส</span>
+          </button>
+          <Modal
+            onClose={() => setShowModal(false)}
+            show={showModal}
+            title={"เพิ่มคอร์ส"}
+            children={<SideView clinicData={clinicData} />}
+          ></Modal>
+          </div>
+
         <div
-          className="grid grid-cols-3 my-4 h-fit gap-4 justify-start
-        sm:grid-cols-1
-        md:grid-cols-2
-        xxl:grid-cols-4"
+          className="grid grid-cols-3 my-4 h-fit gap-4 justify-start sm:grid-cols-1 md:grid-cols-2 xxl:grid-cols-4"
         >
           {courseData?.map((course) => (
             <HoverCard
@@ -88,7 +81,7 @@ function ListView({ clinicData }) {
             />
           ))}
         </div>
-      </>
+      </div>
     );
   } else {
     return (
