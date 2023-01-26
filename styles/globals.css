@@ -91,6 +91,10 @@ a {
     @apply text-[#6C5137] text-3xl w-full py-1 border-b-4 text-center border-[#AD8259]/40 outline-none focus:border-[#A17851] placeholder-[#AD8259]/40 bg-transparent;
   }
 
+  .inputOutline {
+    @apply p-3 py-2 rounded-full border-2 mt-1 w-full border-gray-200 bg-white text-sm text-gray-700 shadow-sm focus:outline-[#FFECA7];
+  }
+
   /*----------------SideBar--------------*/
   .sideBarTabContainer2 {
     @apply flex gap-2 bg-white items-center h-10  

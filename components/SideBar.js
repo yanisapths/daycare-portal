@@ -10,6 +10,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useRouter } from "next/router";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import FolderSharedIcon from "@mui/icons-material/FolderShared";
 import { ReactDOM } from "react";
 
 const SideBar = () => {
@@ -118,6 +119,14 @@ const SideBar = () => {
               <div className="sideBarTabContainer2">
                 <PeopleIcon className=" sideBarTabIcon2" />
                 <h2 className="sideBarTabText2">พนักงาน</h2>
+              </div>
+            </Link>
+
+            {/* Patient */}
+            <Link href="/patient">
+              <div className="sideBarTabContainer2">
+                <FolderSharedIcon className=" sideBarTabIcon2" />
+                <h2 className="sideBarTabText2">แบบบันทึกรายงานผู้ป่วย</h2>
               </div>
             </Link>
 
