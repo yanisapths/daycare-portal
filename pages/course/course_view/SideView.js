@@ -13,16 +13,21 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import Checkbox from "@mui/material/Checkbox";
+import Stack from "@mui/material/Stack";
+import FormGroup from "@mui/material/FormGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
 
 function SideView({ clinicData, open, handleClose, setOpen }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
+  console.log(clinicData);
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({});
+  } = useForm({ defaultValues: { type: [''] } });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "procedures",
@@ -32,8 +37,6 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
     console.log(data);
     data.owner_id = session.user.id;
     const json = JSON.stringify(data);
-    console.log(data.owner_id);
-
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
@@ -71,6 +74,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
             fontSize: 24,
             mx: 2,
             mt: 2,
+            textAlign: "center",
           }}
         >
           เพิ่มคอร์ส
@@ -95,9 +99,39 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                     </Typography>
                   )}
                 </div>
+                <div className="px-12 py-4">
+                  <Stack direction="row" spacing={2}>
+                    <FormControlLabel
+                      control={<Checkbox value="Basic" {...register("type")} />}
+                      label="Basic"
+                    />
+                    <FormControlLabel
+                      control={<Checkbox value="Rehab" {...register("type")} />}
+                      label="Rehab"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox value="Advance" {...register("type")} />
+                      }
+                      label="Advance"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox value="Premium" {...register("type")} />
+                      }
+                      label="Premium"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox value="Luxury" {...register("type")} />
+                      }
+                      label="Luxury"
+                    />
+                  </Stack>
+                </div>
                 <div
-                  className="pt-8 space-y-10 sm:space-y-3 md:space-y-5 items-center 
-                     px-0 sm:px-4 sm:pt-4 md:pt-6"
+                  className="pt-4 space-y-10 sm:space-y-3 md:space-y-5 items-center 
+                     px-0 sm:px-4 sm:pt-4 md:pt-2"
                 >
                   <div className="grid grid-cols-3">
                     {/* Amount */}
