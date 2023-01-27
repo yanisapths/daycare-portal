@@ -39,24 +39,27 @@ function RequestListCard({request}) {
   };
 
   useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin/");
-    } else {
-      fetchData().catch(console.error);
+    try{
+      fetchData()
+    }catch(error){
+      console.log(error)
     }
-  }, [status]);
+  });
 
-  async function acceptRequest(appointmentId) {
+  async function acceptRequest(appointmentId,status) {
+    status = "Approved"
+    const data = {
+      status
+    }
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "Approved" }),
+      body: JSON.stringify(data)
     };
     const res = await fetch(
       `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
-    )
-      .then(async (res) => {
+    ).then(async (res) => {
         Router.reload();
       })
       .catch((err) => {
@@ -172,7 +175,7 @@ function RequestListCard({request}) {
                   reverseButtons: true,
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    acceptRequest(request._id).then(() =>
+                    acceptRequest(request._id,request.status).then(() =>
                       Swal.fire({
                         title: "รับคำขอแล้ว",
                         showConfirmButton: false,
