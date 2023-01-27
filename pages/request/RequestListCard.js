@@ -12,7 +12,6 @@ function RequestListCard({request}) {
   const [course,setCourse] = useState({});
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const { data: session, status } = useSession();
 
   const handleClickOpen = () => {
     setOpen(true);
