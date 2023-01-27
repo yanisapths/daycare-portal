@@ -95,7 +95,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                     type="text"
                     name="courseName"
                     placeholder="ชื่อคอร์ส"
-                    className="w-2/3 inputOutline text-center  sm:w-48 md:w-full border-[#7C552F]/50 "
+                    className="w-2/3 inputOutline text-center  sm:w-48  border-[#7C552F]/50 "
                     {...register("courseName", {
                       required: true,
                     })}
@@ -334,7 +334,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                             <button
                               type="button"
                               onClick={() => remove(index)}
-                              className=" text-[#FF2F3B] sm:pt-5 md:pt-4 lg:pt-3 text-base text-center sm:text-xs md:text-sm lg:text-lg xxl:text-xl hover:underline"
+                              className=" text-[#FF2F3B] sm:pt-5 md:pt-4 lg:pt-3 text-base text-center sm:text-xs md:text-sm lg:text-base xl:text-base xxl:text-xl hover:underline"
                             >
                               ลบ
                             </button>
@@ -349,24 +349,26 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
           </Box>
         </DialogContent>
         <DialogActions sx={{ mx: 4, mb: 4, justifyContent: "center" }}>
-          <button
-            className="hover:shadow-lg text-[#FF2F3B]
-                  w-20 h-9 hover:bg-black/5
-                  rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
+          
+          <div
+            className="mx-auto  pt-5 text-center items-center "
+          >
+            <button
+            className=" text-[#FF2F3B]
+                  w-20 h-9  hover:underline
+                  rounded-full sm:text-sm md:text-base lg:h-10 lg:text-lg xxl:h-11 xxl:text-xl"
             onClick={handleClose}
             sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
-          >
-            ยกเลิก
-          </button>
-          <button
-            className="shadow-lg 
-                  w-20 h-9 rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg
-                  bg-[#FFECA7] hover:bg-[#FFECA7]/70"
-            onClick={handleSubmit(onSubmit)}
-            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
-          >
-            เพิ่ม
-          </button>
+          >ยกเลิก</button>
+            <button
+              type="submit"
+              className="font-medium text-sm text-[#6C5137]/80 bg-[#ffeec4] 
+                  px-7 py-1 rounded-full cursor-pointer shadow-lg hover:shadow-xl
+                  md:text-base lg:text-lg   lg:px-9 xl:text-lg  xxl:px-10 xxl:text-xl "
+            >
+              เพิ่ม
+            </button>
+          </div>
         </DialogActions>
       </Dialog>
     </>
