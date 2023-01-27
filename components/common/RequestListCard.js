@@ -2,15 +2,16 @@ import React,{useState,useEffect} from 'react'
 import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import BtnCancel from "../../components/BtnCancel";
-import BtnAccept from "../../components/BtnAccept";
-import FormModal from "./FormModal";
+import BtnCancel from "../BtnCancel";
+import BtnAccept from "../BtnAccept";
+import FormModal from "../../pages/request/FormModal";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
 function RequestListCard({request}) {
   const [course,setCourse] = useState({});
   const [open, setOpen] = useState(false);
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const handleClickOpen = () => {
@@ -38,27 +39,24 @@ function RequestListCard({request}) {
   };
 
   useEffect(() => {
-    try{
-      fetchData()
-    }catch(error){
-      console.log(error)
+    if (status === "unauthenticated") {
+      router.push("/auth/signin/");
+    } else {
+      fetchData().catch(console.error);
     }
-  });
+  }, [status]);
 
-  async function acceptRequest(appointmentId,status) {
-    status = "Approved"
-    const data = {
-      status
-    }
+  async function acceptRequest(appointmentId) {
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
+      body: JSON.stringify({ status: "Approved" }),
     };
     const res = await fetch(
       `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
-    ).then(async (res) => {
+    )
+      .then(async (res) => {
         Router.reload();
       })
       .catch((err) => {
