@@ -14,11 +14,14 @@ import AddAppointmentForm from "./AddAppointmentForm";
 const Appointment = ({ user }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [clinicData, setData] = useState([]);
   const [selected, setSelected] = useState("");
   const [view, setView] = useState([]);
   const [open, setOpen] = useState(false);
+  const [clinicData, setData] = useState([]);
   const [patientData, setPatientData] = useState([]);
+  const [courseData, setCourseData] = useState([]);
+  const [availData, setAvailData] = useState([]);
+  const [appointmentData, setAppointmentData] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -26,8 +29,7 @@ const Appointment = ({ user }) => {
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
       setOpen(false);
-    }
-    else{
+    } else {
       setOpen(false);
     }
   };
@@ -55,34 +57,42 @@ const Appointment = ({ user }) => {
         setView(clinicData);
     }
   }, [selected]);
+  
+  const fetchData = async () => {
+    let isSubscribed = true;
+    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
+    const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
+    const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
+    const patienturl = `${process.env.dev}/patient/match/${user.id}`;
+    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
+
+    const appointment = await fetch(appointmenturl);
+    const patient = await fetch(patienturl);
+    const course = await fetch(courseurl);
+    const avail = await fetch(availurl);
+    const clinic = await fetch(clinicurl);
+
+    const appointmentData = await appointment.json();
+    const courseData = await course.json();
+    const availData = await avail.json();
+    const patientData = await patient.json();
+    const clinicData = await clinic.json();
+    if (isSubscribed) {
+      setData(clinicData);
+      setAppointmentData(appointmentData);
+      setCourseData(courseData);
+      setAvailData(availData);
+      setPatientData(patientData);
+    }
+    return () => (isSubscribed = false);
+  };
 
   useEffect(() => {
-    let isSubscribed = true;
-    const fetchData = async () => {
-      const res = await fetch(
-        `${process.env.dev}/appointment/match/owner/${user.id}`
-      );
-      const patient = await fetch(
-        `${process.env.dev}/patient/match/${user.id}`
-      );
-      if(patient){
-        patientData = await patient.json();
-        setPatientData(patientData)
-      }
-      const clinicData = await res.json();
-
-      if (isSubscribed) {
-        setData(clinicData);
-      }
-    };
-
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData().catch(console.error);
+      fetchData();
     }
-
-    return () => (isSubscribed = false);
   }, [status]);
 
   return (
@@ -100,13 +110,15 @@ const Appointment = ({ user }) => {
               <div className="pt-2">
                 <BtnAdd onClick={handleClickOpen} />
                 <AddAppointmentForm
-                open={open}
-                setOpen={setOpen}
-                handleClose={handleClose}
-                patientData={patientData}
-                clinicData={clinicData}
-                user={user}
-              />
+                  open={open}
+                  setOpen={setOpen}
+                  handleClose={handleClose}
+                  patientData={patientData}
+                  clinicData={clinicData}
+                  user={user}
+                  courseData={courseData}
+                  availData={availData}
+                />
               </div>
               {list.map((item) => (
                 <div
@@ -125,9 +137,9 @@ const Appointment = ({ user }) => {
               ))}
             </div>
             {selected == "calendarView" ? (
-              <CalendarView data={clinicData} />
+              <CalendarView data={appointmentData} />
             ) : (
-              <ListView data={clinicData} />
+              <ListView data={appointmentData} />
             )}
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useForm, Controller } from "react-hook-form";
+import Router,{ useRouter } from "next/router";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useTheme } from "@mui/material/styles";
@@ -18,9 +19,10 @@ import TextField from "@mui/material/TextField";
 import TimeModal from "./TimeModal";
 
 import "react-datepicker/dist/react-datepicker.css";
+
 const place = [
-  { id: 1, label: "บ้าน" },
-  { id: 2, label: "คลินิก" },
+  { id: 1, label: "คลินิก" },
+  { id: 2, label: "บ้าน" },
 ];
 
 function AddAppointmentForm({
@@ -30,14 +32,14 @@ function AddAppointmentForm({
   open,
   handleClose,
   setOpen,
+  availData,
+  courseData,
 }) {
   const { data: session, status } = useSession();
   const theme = useTheme();
   const [appointmentDate, setAppointmentDate] = useState("");
   const [appointmentTime, setAppointmentTime] = useState("");
   const [endTime, setEndTime] = useState("");
-  const [courseData, setCourseData] = useState([]);
-  const [availData, setAvailData] = useState([]);
   const [openCalendar, setOpenCalendar] = useState(false);
 
   const {
@@ -68,6 +70,7 @@ function AddAppointmentForm({
   };
   const handleDateSelect = (event, reason) => {
     event.preventDefault();
+    getSelectedDate(appointmentDate, appointmentTime, endTime);
     if (reason !== "backdropClick") {
       setOpenCalendar(false);
     }
@@ -77,35 +80,48 @@ function AddAppointmentForm({
     setAppointmentTime(appointmentTime);
     setEndTime(endTime);
   }
-  async function fetchData() {
-    const url = `${process.env.dev}/course/match/owner/${user.id}`;
-    const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
-    //course
-
-    const res = await fetch(url);
-    const avail = await fetch(availurl);
-    try {
-      const courseData = await res.json();
-      const availData = await avail.json();
-      if (courseData) {
-        setCourseData(courseData);
-      }
-      if (availData) {
-        setAvailData(availData);
-      } else return;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-
-  useEffect(() => {
-    fetchData();
-    getSelectedDate(appointmentDate, appointmentTime, endTime);
-  });
 
   const onSubmit = async (data) => {
     console.log(data);
+    data.owner_id = user.id;
+    data.status = "Approved";
+    const json = JSON.stringify(data);
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    const response = await axios
+      .post(
+        `${process.env.dev}/appointment/create/${clinicData._id}`,
+        json,
+        axiosConfig
+      )
+      .then(async (res) => {
+        console.log("RESPONSE RECEIVED: ", res.data);
+        toast.success("กำลังเพิ่มนัด...🛠️🚧");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("AXIOS ERROR: ", err);
+      });
   };
+
+  console.log(
+    watch([
+      "firstName",
+      "lastName",
+      "nickname",
+      "phoneNumber",
+      "place",
+      "course_id",
+      "appointmentDate",
+      "appointmentTime",
+      "description",
+      "location",
+    ])
+  );
 
   return (
     <>
@@ -134,7 +150,7 @@ function AddAppointmentForm({
                   <div className="max-w-xl lg:max-w-3xl">
                     <div className="col-span-3">
                       <label
-                        htmlFor="patient"
+                        htmlFor="patient_id"
                         className="inputLabel pb-0 text-sm"
                       >
                         ลูกค้าในแบบบันทึก
@@ -151,12 +167,12 @@ function AddAppointmentForm({
                                 },
                               }}
                               {...field}
-                              {...register("patient", { required: false })}
+                              {...register("patient_id", { required: false })}
                               value={value || ""}
                             >
                               {patientData.map((input, key) => (
                                 <MenuItem
-                                  key={input._id}
+                                  key={key}
                                   value={input._id}
                                   onChange={onChange}
                                 >
@@ -167,7 +183,7 @@ function AddAppointmentForm({
                             </Select>
                           </>
                         )}
-                        name="patient"
+                        name="patient_id"
                         control={control}
                       />
                     </div>
@@ -211,7 +227,7 @@ function AddAppointmentForm({
                       </div>
                       <div className="col-span-2">
                         <label
-                          htmlFor="nickName"
+                          htmlFor="nickname"
                           className="inputLabel pb-0 text-sm"
                         >
                           ชื่อเล่น
@@ -219,10 +235,10 @@ function AddAppointmentForm({
 
                         <input
                           type="text"
-                          id="nickName"
-                          name="nickName"
+                          id="nickname"
+                          name="nickname"
                           className="inputOutline"
-                          {...register("nickName", { required: false })}
+                          {...register("nickname", { required: false })}
                         />
                       </div>
                       <div className="col-span-2">
@@ -294,77 +310,17 @@ function AddAppointmentForm({
                         <div className="text-black/50 border-b-2 border-dashed" />
                       </div>
                       <div className="col-span-6">
-                        <label htmlFor="address" className="inputLabel">
-                          ที่อยู่ (บ้านเลขที่, หมู่, ตรอกซอย, ถนน)
+                        <label htmlFor="location" className="inputLabel">
+                          ที่อยู่ (บ้านเลขที่, หมู่, ตรอกซอย, ถนน) เขต/อำเภอ
+                          แขวง/ตำบล จังหวัด
                         </label>
 
                         <input
                           type="text"
-                          id="address"
-                          name="address"
+                          id="location"
+                          name="location"
                           className="inputOutline"
-                          {...register("address", {
-                            required: false,
-                          })}
-                        />
-                      </div>
-                      <div className="col-span-3">
-                        <label htmlFor="province" className="inputLabel">
-                          จังหวัด
-                        </label>
-
-                        <input
-                          type="text"
-                          id="province"
-                          name="province"
-                          className="inputOutline"
-                          {...register("province", {
-                            required: false,
-                          })}
-                        />
-                      </div>
-                      <div className="col-span-3">
-                        <label htmlFor="district" className="inputLabel">
-                          เขต/อำเภอ
-                        </label>
-
-                        <input
-                          type="text"
-                          id="district"
-                          name="district"
-                          className="inputOutline"
-                          {...register("district", {
-                            required: false,
-                          })}
-                        />
-                      </div>
-                      <div className="col-span-3">
-                        <label htmlFor="subDistrict" className="inputLabel">
-                          แขวง/ตำบล
-                        </label>
-
-                        <input
-                          type="text"
-                          id="subDistrict"
-                          name="subDistrict"
-                          className="inputOutline"
-                          {...register("subDistrict", {
-                            required: false,
-                          })}
-                        />
-                      </div>
-
-                      <div className="col-span-3">
-                        <label htmlFor="postalCode" className="inputLabel">
-                          รหัสไปรษณีย์
-                        </label>
-
-                        <input
-                          type="text"
-                          id="postalCode"
-                          name="postalCode"
-                          className="inputOutline"
-                          {...register("postalCode", {
+                          {...register("location", {
                             required: false,
                           })}
                         />
@@ -372,7 +328,7 @@ function AddAppointmentForm({
                     </div>
                   </div>
                 </section>
-                <section className="flex items-center justify-center lg:px-8 py-8 px-12 lg:col-span-12 xl:col-span-6 xl:py-24">
+                <section className="flex items-center justify-center lg:px-8 py-8 px-12 lg:col-span-12 xl:col-span-6">
                   <div className="max-w-xl lg:max-w-3xl">
                     <div className="mt-8 grid grid-cols-6 gap-6">
                       <section className="col-span-6 space-y-4">
@@ -396,7 +352,7 @@ function AddAppointmentForm({
                           getSelectedDate={getSelectedDate}
                         />
                         {appointmentDate && appointmentTime ? (
-                          <div className="text-center whitespace-nowrap space-x-4 flex w-fit px-4 rounded-lg text-[#005844] body1 bg-[#ACDED5]/30">
+                          <div className="text-center whitespace-nowrap space-x-4 flex w-fit px-4 rounded-lg text-[#6C5137] body1 bg-[#ffe898]/30">
                             <FormControl>
                               <Controller
                                 control={control}
@@ -549,13 +505,13 @@ function AddAppointmentForm({
                         </FormControl>
                       </div>
                       <div className="col-span-6">
+                        <label htmlFor="course" className="inputLabel">
+                          คอร์ส
+                        </label>
                         <FormControl sx={{ width: "100%" }}>
                           <Controller
                             render={({ field: { field, onChange, value } }) => (
                               <>
-                                <label htmlFor="course" className="inputLabel">
-                                  คอร์ส
-                                </label>
                                 <Select
                                   {...field}
                                   sx={{
@@ -571,7 +527,7 @@ function AddAppointmentForm({
                                   {courseData?.map((input, key) => (
                                     <MenuItem
                                       onChange={onChange}
-                                      key={input.id}
+                                      key={key}
                                       value={input._id}
                                     >
                                       {input.courseName}
@@ -594,7 +550,7 @@ function AddAppointmentForm({
                           <Controller
                             render={({ field: { field, onChange, value } }) => (
                               <>
-                                <label htmlFor="place" className="inputLabel">
+                                <label htmlFor="appointmentPlace" className="inputLabel">
                                   สถานที่นัดหมาย
                                 </label>
                                 <Select
@@ -606,12 +562,12 @@ function AddAppointmentForm({
                                     },
                                   }}
                                   {...field}
-                                  {...register("place", { required: true })}
+                                  {...register("appointmentPlace", { required: true })}
                                   value={value || ""}
                                 >
                                   {place.map((input, key) => (
                                     <MenuItem
-                                      key={input.id}
+                                      key={key}
                                       value={input.label}
                                       onChange={onChange}
                                     >
@@ -621,7 +577,7 @@ function AddAppointmentForm({
                                 </Select>
                               </>
                             )}
-                            name="place"
+                            name="appointmentPlace"
                             control={control}
                           />
                         </FormControl>
