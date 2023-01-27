@@ -5,7 +5,7 @@ import Head from "next/head";
 import Header from "../../components/Header";
 import PeopleReviewCard from "../../components/OLCard/PeopleReviewCard";
 
-const index = ({ user }) => {
+const Review = ({ user }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [reviews, setReviews] = useState([]);
@@ -89,7 +89,7 @@ const index = ({ user }) => {
   }
 };
 
-export default index;
+export default Review;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
