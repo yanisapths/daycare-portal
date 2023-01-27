@@ -1,5 +1,5 @@
 import React,{useState,useEffect} from 'react'
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import BtnCancel from "../BtnCancel";
@@ -11,8 +11,8 @@ import toast from "react-hot-toast";
 function RequestListCard({request}) {
   const [course,setCourse] = useState({});
   const [open, setOpen] = useState(false);
-  const router = useRouter();
   const { data: session, status } = useSession();
+  const router = useRouter();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -172,7 +172,7 @@ function RequestListCard({request}) {
                   reverseButtons: true,
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    acceptRequest(request._id).then(() =>
+                    acceptRequest(request._id,request.status).then(() =>
                       Swal.fire({
                         title: "รับคำขอแล้ว",
                         showConfirmButton: false,
