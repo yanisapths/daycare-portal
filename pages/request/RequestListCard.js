@@ -1,10 +1,10 @@
 import React,{useState,useEffect} from 'react'
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import BtnCancel from "../BtnCancel";
-import BtnAccept from "../BtnAccept";
-import FormModal from "../../pages/request/FormModal";
+import BtnCancel from "../../components/BtnCancel";
+import BtnAccept from "../../components/BtnAccept";
+import FormModal from "./FormModal";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
