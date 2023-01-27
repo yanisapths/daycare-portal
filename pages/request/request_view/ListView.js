@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import RequestListCard from "../../../components/common/RequestListCard"
+import RequestListCard from "../RequestListCard"
 
 function ListView({ data }) {
   return (
