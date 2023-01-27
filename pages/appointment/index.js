@@ -9,13 +9,28 @@ import ViewListIcon from "@mui/icons-material/ViewList";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ListView from "./appointment_view/ListView";
 import CalendarView from "./appointment_view/CalendarView";
+import AddAppointmentForm from "./AddAppointmentForm";
 
-const Appointment = () => {
+const Appointment = ({ user }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [clinicData, setData] = useState([]);
   const [selected, setSelected] = useState("");
   const [view, setView] = useState([]);
+  const [open, setOpen] = useState(false);
+  const [patientData, setPatientData] = useState([]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+    else{
+      setOpen(false);
+    }
+  };
 
   const list = [
     {
@@ -45,8 +60,15 @@ const Appointment = () => {
     let isSubscribed = true;
     const fetchData = async () => {
       const res = await fetch(
-        `${process.env.dev}/appointment/match/owner/${session.user.id}`
+        `${process.env.dev}/appointment/match/owner/${user.id}`
       );
+      const patient = await fetch(
+        `${process.env.dev}/patient/match/${user.id}`
+      );
+      if(patient){
+        patientData = await patient.json();
+        setPatientData(patientData)
+      }
       const clinicData = await res.json();
 
       if (isSubscribed) {
@@ -76,7 +98,15 @@ const Appointment = () => {
           <div className="flex flex-col gap-1 m-3 font-noto text-sm ">
             <div className="font-semibold text-[#6C5137] flex max-auto space-x-8">
               <div className="pt-2">
-                <BtnAdd />
+                <BtnAdd onClick={handleClickOpen} />
+                <AddAppointmentForm
+                open={open}
+                setOpen={setOpen}
+                handleClose={handleClose}
+                patientData={patientData}
+                clinicData={clinicData}
+                user={user}
+              />
               </div>
               {list.map((item) => (
                 <div
@@ -107,3 +137,16 @@ const Appointment = () => {
 };
 
 export default Appointment;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+  if (!session) {
+    return {
+      props: {},
+    };
+  }
+  const { user } = session;
+  return {
+    props: { user },
+  };
+}
