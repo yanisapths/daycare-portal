@@ -51,7 +51,11 @@ function AppointmentModal({
           }}
         >
           <div className="pt-4">
-            <motion.h3 className="h3">{course.courseName}</motion.h3>
+            {course && course.courseName ? (
+              <motion.h3 className="h3">{course.courseName}</motion.h3>
+            ) : (
+              ""
+            )}
           </div>
           <div className="pt-4">
             {data.patient_id ? (
