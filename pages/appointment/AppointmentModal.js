@@ -15,7 +15,7 @@ function AppointmentModal({
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-auto p-12 min-w-screen-xl relative shadow-lg shadow-black/5 rounded-3xl"
+        className="bg-white mx-auto p-12 min-w-screen-xl relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -64,6 +64,20 @@ function AppointmentModal({
                   <span className="body2 text-black/50">ที่อยู่</span>{" "}
                   {patient.address}
                 </motion.h6>
+                <motion.h6 className="space-x-6">
+                  <span className="body2 text-black/50">ติดต่อ</span>{" "}
+                  {patient.phoneNumber}
+                  <span className="body2 text-black/50">LINE ID</span>{" "}
+                  {patient.lineId}
+                </motion.h6>
+                <motion.h6 className="space-x-6">
+                  <span className="body2 text-black/50">อายุ</span>{" "}
+                  {patient.age}
+                  <span className="body2 text-black/50">เพศ</span> {patient.sex}
+                  <span className="body2 text-red-500">ข้อควรระวัง</span>{" "}
+                  <span className="text-red-500">{patient.precaution}</span>
+                </motion.h6>
+                <motion.h6 className="space-x-6 text-red-500"></motion.h6>
               </div>
             ) : (
               <div className="h6">
@@ -99,7 +113,7 @@ function AppointmentModal({
             </div>
           </section>
 
-          <div className="flex justify-center text-center py-4 text-black mb-1 gap-12 px-2 md:ml-8 lg:w-full body1 md:h6 lg:h5">
+          <div className="flex py-4 text-black w-full mb-1 gap-2 xl:gap-12 xl:h5">
             <div className="relative block md:w-1/6">
               <p>1</p>
             </div>

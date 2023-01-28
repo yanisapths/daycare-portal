@@ -103,6 +103,7 @@ function AppointmentListCard({ data, d, index }) {
         key={index}
         layoutId={index}
         onClick={() => setSelectedId(index)}
+        className="cursor-pointer xl:px-24"
       >
         {d.status == "Approved" && data.status != "Done" ? (
           <>
@@ -119,21 +120,12 @@ function AppointmentListCard({ data, d, index }) {
             </div>
             <article
               key={d._id}
-              className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl mx-3 bg-white my-3"
+              className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl mx-3 bg-white my-3 px-12"
             >
-              <div className=" flex flex-row gap-3 justify-start content-center text-sm  mx-4 pt-4">
-                <div className="basis-1/5 mt-5 rounded-full self-start md:basis-16 lg:basis-16">
-                  <Image
-                    className="rounded-full"
-                    src="/user1.jpg"
-                    width={300}
-                    height={300}
-                    objectFit="cover"
-                  />
-                </div>
+              <div className="flex flex-row gap-3 justify-start content-center text-sm mx-4 pt-4">
                 <div className="basis-9/12">
                   <div className="grid grid-col-6 gap-1 mt-4">
-                    <div className="col-start-1 col-end-7 flex">
+                    <div className="col-start-1 col-end-7 lg:flex">
                       <span className="font-bold text-base text-[#6C5137] sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
                         {" "}
                         {d.nickname ? (
@@ -149,14 +141,18 @@ function AppointmentListCard({ data, d, index }) {
                         )}
                       </span>
                     </div>
-                    <div className="content-end items-center">
-                      <div className="text-center whitespace-nowrap space-x-4 flex w-fit px-4 rounded-full text-[#6C5137] bg-[#ffe898]/30">
+                    <div className="lg:content-end lg:items-center">
+                      <div className="lg:text-center whitespace-nowrap lg:space-x-4 lg:flex w-fit lg:px-4 rounded-full text-[#6C5137] bg-[#ffe898]/30">
                         {" "}
-                        <strong className="h4">{course.courseName}</strong>
+                        {course && course.courseName ? (
+                          <strong className="h4">{course.courseName}</strong>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                     <div className="col-start-1 col-end-7">
-                      <span className="font-bold text-base text-[#6C5137] md:text-lg sm:text-lg xxl:text-2xl xxxl:text-3xl">
+                      <span className="font-bold text-base text-[#6C5137] md:text-lg xxl:text-2xl xxxl:text-3xl">
                         คุณ{" "}
                       </span>
                       <div className="inline-block font-bold text-base text-[#6C5137] sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
