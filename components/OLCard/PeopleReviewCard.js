@@ -27,7 +27,6 @@ function PeopleReviewCard({
               alt="/Avatar.png"
               width="60"
               height="60"
-              layout="fixed"
             />
           </>
         )}
@@ -38,7 +37,6 @@ function PeopleReviewCard({
                 alt="/Avatar.png"
                 className="rounded-full cursor-pointer"
                 src={imageUrl}
-                layout="fixed"
                 width="60"
                 height="60"
               />

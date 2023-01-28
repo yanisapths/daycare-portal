@@ -22,11 +22,9 @@ function signIn({ providers }) {
             <Image
               src="/olivelogo.png"
               className=""
-              width="100%"
-              height="100%"
+              width="100"
+              height="100"
               alt="/Avatar.png"
-              //    layout="fill"
-              objectFit="contain"
             />
             <h1 className="md:text-5xl font-bold text-3xl font-mono ">
               เข้าสู่ระบบ
@@ -43,9 +41,8 @@ function signIn({ providers }) {
                 <Image
                   src="/google.png"
                   alt="/Avatar.png"
-                  width="60%"
+                  width="60"
                   height={5}
-                  objectFit="contain"
                 />
               </div>
             </div>
@@ -55,9 +52,8 @@ function signIn({ providers }) {
                 <Image
                   src="/facebook.png"
                   alt="/Avatar.png"
-                  width="60%"
+                  width="60"
                   height={5}
-                  objectFit="contain"
                 />
               </div>
             </div>
@@ -67,9 +63,8 @@ function signIn({ providers }) {
                 <Image
                   src="/line.png"
                   alt="/Avatar.png"
-                  width="60%"
+                  width="60"
                   height={5}
-                  objectFit="contain"
                 />
               </div>
             </div>

@@ -15,9 +15,8 @@ function FooterSocial() {
             <div>
               <Image
                 src="/asset/logo-nobg.png"
-                width="70px"
-                height="70px"
-                layout="fixed"
+                width="70"
+                height="70"
               />
               <p className="h6 font-bold italic">Olive</p>
               <p className="caption italic">by Happy Elders</p>

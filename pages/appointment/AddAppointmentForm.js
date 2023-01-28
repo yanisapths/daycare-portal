@@ -212,7 +212,7 @@ function AddAppointmentForm({
                       </div>
                       <div className="col-span-2">
                         <label
-                          htmlFor="nickname"
+                          htmlFor="nickName"
                           className="inputLabel pb-0 text-sm"
                         >
                           ชื่อเล่น
@@ -220,10 +220,10 @@ function AddAppointmentForm({
 
                         <input
                           type="text"
-                          id="nickname"
-                          name="nickname"
+                          id="nickName"
+                          name="nickName"
                           className="inputOutline"
-                          {...register("nickname", { required: false })}
+                          {...register("nickName", { required: false })}
                         />
                       </div>
                       <div className="col-span-2">
@@ -260,7 +260,7 @@ function AddAppointmentForm({
                       </div>
                       <div className="col-span-3">
                         <label
-                          htmlFor="lineid"
+                          htmlFor="lineId"
                           className="inputLabel pb-0 text-sm"
                         >
                           LINE ID
@@ -268,10 +268,10 @@ function AddAppointmentForm({
 
                         <input
                           type="text"
-                          id="lineid"
-                          name="lineid"
+                          id="lineId"
+                          name="lineId"
                           className="inputOutline"
-                          {...register("lineid", { required: false })}
+                          {...register("lineId", { required: false })}
                         />
                       </div>
                       <div className="col-span-3">

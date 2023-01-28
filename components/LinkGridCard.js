@@ -15,7 +15,7 @@ function LinkGridCard({ data }) {
         <p className="mt-4 text-lg text-black/75 sm:truncate ">{data.description}</p>
         <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
           <Link href="/appointment">
-            <a className="linkGridCardContainer">
+            <div className="linkGridCardContainer">
               <BookOnlineIcon className="h-10 w-10" />
               <h2 className="mt-4 text-xl font-bold ">
                 Upcoming Appointment
@@ -23,11 +23,11 @@ function LinkGridCard({ data }) {
               <p className="mt-4 h6 text-black/60">
                 ดูนัดที่กำลังมาถึง
               </p>
-            </a>
+            </div>
           </Link>
 
           <Link href="/request">
-            <a className="linkGridCardContainer">
+            <div className="linkGridCardContainer">
               <PersonAddIcon className="h-10 w-10" />
               <h2 className="mt-4 text-xl font-bold ">
                 New Request
@@ -35,11 +35,11 @@ function LinkGridCard({ data }) {
               <p className="mt-4 h6 text-black/60">
                 คำขอใหม่
               </p>
-            </a>
+            </div>
           </Link>
 
           <Link href="/course">
-            <a className="linkGridCardContainer">
+            <div className="linkGridCardContainer">
               <BookmarksIcon className="h-10 w-10" />
               <h2 className="mt-4 text-xl font-bold ">
                 Course
@@ -47,11 +47,11 @@ function LinkGridCard({ data }) {
               <p className="mt-4 h6 text-black/60">
                 คอร์สทั้งหมด
               </p>
-            </a>
+            </div>
           </Link>
 
           <Link href="/schedule">
-            <a className="linkGridCardContainer">
+            <div className="linkGridCardContainer">
               <EventAvailableIcon className="h-10 w-10" />
               <h2 className="mt-4 text-xl font-bold ">
                 Available Slot
@@ -59,11 +59,11 @@ function LinkGridCard({ data }) {
               <p className="mt-4 h6 text-black/60">
                 วันเวลารับนัด
               </p>
-            </a>
+            </div>
           </Link>
 
           <Link href="/staff">
-            <a className="linkGridCardContainer">
+            <div className="linkGridCardContainer">
               <PeopleIcon className="h-10 w-10" />
               <h2 className="mt-4 text-xl font-bold ">
                  Clinic Staff
@@ -71,11 +71,11 @@ function LinkGridCard({ data }) {
               <p className="mt-4 h6 text-black/60">
                 ดูรายชื่อพนักงานคลินิก
               </p>
-            </a>
+            </div>
           </Link>
 
           <Link href="/patient">
-            <a className="linkGridCardContainer">
+            <div className="linkGridCardContainer">
               <FolderSharedIcon className="h-10 w-10" />
               <h2 className="mt-4 text-xl font-bold ">
                  Patient Report
@@ -83,7 +83,7 @@ function LinkGridCard({ data }) {
               <p className="mt-4 h6 text-black/60">
                 แบบบันทึกรายงานผู้ป่วย
               </p>
-            </a>
+            </div>
           </Link>
         </div>
     </section>

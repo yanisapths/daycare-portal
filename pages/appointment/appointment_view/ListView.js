@@ -7,9 +7,9 @@ function ListView({ data }) {
       {/*request list */}
       {data &&
         data?.map((d, index) => (
-          <>
-            <AppointmentListCard d={d} index={index} key={index} data={data} />
-          </>
+          <div key={index}>
+              <AppointmentListCard d={d} index={index} data={data} />
+          </div>
         ))}
       {!data ||
         (data.length < 1 && (

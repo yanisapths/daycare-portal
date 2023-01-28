@@ -3,7 +3,7 @@ import Image from "next/image";
 import Router, { useRouter } from "next/router";
 import BtnDetails from "../BtnDetails";
 import FormModal from "../../pages/request/FormModal";
-import AppointmentModal from "../../pages/appointment/AppointmentModal";
+import AppointmentModal from "../OLModal/AppointmentModal";
 import Overlay from "../OLLayout/Overlay";
 import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -95,14 +95,13 @@ function AppointmentListCard({ data, d, index }) {
             setSelectedId={setSelectedId}
             close={closeModal}
             course={course}
-            index={index}
           ></AppointmentModal>
         </Overlay>
       )}
       <motion.div
-        key={index}
-        layoutId={index}
-        onClick={() => setSelectedId(index)}
+        key={d._id}
+        layoutId={d._id}
+        onClick={() => setSelectedId(d._id)}
         className="cursor-pointer xl:px-24"
       >
         {d.status == "Approved" && data.status != "Done" ? (
@@ -128,8 +127,8 @@ function AppointmentListCard({ data, d, index }) {
                     <div className="col-start-1 col-end-7 lg:flex">
                       <span className="font-bold text-base text-[#6C5137] sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
                         {" "}
-                        {d.nickname ? (
-                          <p>{d.nickname}</p>
+                        {d.nickName ? (
+                          <p>{d.nickName}</p> 
                         ) : (
                           <>
                             {d.patient_id && p.nickName ? (

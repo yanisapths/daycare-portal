@@ -50,7 +50,6 @@ function Header({ placeholder }) {
                         alt="/Avatar.png"
                         width="35"
                         height="35"
-                        layout="fixed"
                       />
                     </>
                   )}
@@ -62,7 +61,6 @@ function Header({ placeholder }) {
                           className="rounded-full cursor-pointer md:w-50 md:h-50 lg:w-30 lg:h-30
                             "
                           src={session.user.image}
-                          layout="fixed"
                           width="35"
                           height="35"
                         />

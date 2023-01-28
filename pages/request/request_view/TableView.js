@@ -190,7 +190,7 @@ function TableView({ data }) {
                     }
                   >
                     {" "}
-                    <span className="font-bold">({d.nickname})</span>{" "}
+                    <span className="font-bold">({d.nickName})</span>{" "}
                     {d.firstName} {d.lastName}
                   </td>
                   <td

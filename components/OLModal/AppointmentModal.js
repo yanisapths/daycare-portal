@@ -12,6 +12,7 @@ function AppointmentModal({
   course,
   index,
 }) {
+  console.log(patient);
   return (
     <AnimatePresence>
       <motion.div
@@ -51,11 +52,7 @@ function AppointmentModal({
           }}
         >
           <div className="pt-4">
-            {course && course.courseName ? (
-              <motion.h3 className="h3">{course.courseName}</motion.h3>
-            ) : (
-              ""
-            )}
+            <motion.h3 className="h3">{course.courseName}</motion.h3>
           </div>
           <div className="pt-4">
             {data.patient_id ? (
@@ -81,17 +78,29 @@ function AppointmentModal({
                   <span className="body2 text-red-500">ข้อควรระวัง</span>{" "}
                   <span className="text-red-500">{patient.precaution}</span>
                 </motion.h6>
-                <motion.h6 className="space-x-6 text-red-500"></motion.h6>
               </div>
             ) : (
               <div className="h6">
                 <motion.h6>
                   <span className="body2 text-black/50">คุณ</span> ({" "}
-                  {data.nickname} ) {data.firstName} {data.lastName}
+                  {data.nickName} ) {data.firstName} {data.lastName}
                 </motion.h6>
                 <motion.h6>
                   <span className="body2 text-black/50">ที่อยู่</span>{" "}
                   {data.location}
+                </motion.h6>
+                <motion.h6 className="space-x-6">
+                  <span className="body2 text-black/50">ติดต่อ</span>{" "}
+                  {data.phoneNumber}
+                  <span className="body2 text-black/50">LINE ID</span>{" "}
+                  {data.lineId}
+                </motion.h6>
+                <motion.h6 className="space-x-6">
+                  <span className="body2 text-black/50">อายุ</span>{" "}
+                  {data.age}
+                  <span className="body2 text-black/50">เพศ</span> {data.sex}
+                  <span className="body2 text-red-500">ข้อควรระวัง</span>{" "}
+                  <span className="text-red-500">{data.precaution}</span>
                 </motion.h6>
               </div>
             )}
