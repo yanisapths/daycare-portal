@@ -107,22 +107,7 @@ function AddAppointmentForm({
         console.log("AXIOS ERROR: ", err);
       });
   };
-
-  console.log(
-    watch([
-      "firstName",
-      "lastName",
-      "nickname",
-      "phoneNumber",
-      "place",
-      "course_id",
-      "appointmentDate",
-      "appointmentTime",
-      "description",
-      "location",
-    ])
-  );
-
+  
   return (
     <>
       <Dialog

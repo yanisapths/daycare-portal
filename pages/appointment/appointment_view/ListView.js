@@ -12,8 +12,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
-function ListView({ data }) {
+function ListView({ data, patientData }) {
   const [open, setOpen] = useState(false);
+  const [p, setPatient] = useState({});
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -43,6 +44,25 @@ function ListView({ data }) {
         toast.error("ไม่สำเร็จ");
       });
   }
+  useEffect(() => {
+    {
+      data &&
+        data.map((d) => {
+          const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
+          if (d.patient_id) {
+            fetch(patienturl, {
+              method: "GET",
+            })
+              .then(async (res) => {
+                const p = await res.json();
+                setPatient(p);
+                console.log(p);
+              })
+              .catch((err) => console.log(err));
+          }
+        });
+    }
+  }, []);
 
   return (
     <div>
@@ -63,7 +83,6 @@ function ListView({ data }) {
                     })}
                   </span>
                 </div>
-
                 <article
                   key={d._id}
                   className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl mx-3 bg-white my-3"
@@ -83,17 +102,35 @@ function ListView({ data }) {
                         <div className="col-start-1 col-end-7  ">
                           <span className="font-bold text-base text-[#6C5137] sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
                             {" "}
-                            {d.nickName ? <p>{d.nickName}</p> : ""}
+                            {d.nickname ? (
+                              <p>{d.nickname}</p>
+                            ) : (
+                              <>{d.patient_id && p.nickName ? <>{p.nickName}</> : ""}</>
+                            )}
                           </span>
                         </div>
                         <div className="col-start-1 col-end-7  ">
                           <span className="font-bold text-base text-[#6C5137] md:text-lg sm:text-lg xxl:text-2xl xxxl:text-3xl">
-                            คุณ
+                            คุณ{" "}
                           </span>
-                          <span className="font-bold text-base text-[#6C5137] sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
+                          <div className="inline-block font-bold text-base text-[#6C5137] sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
                             {" "}
-                            {d.firstName} {d.lastName}
-                          </span>
+                            {d.firstName ? (
+                              <p>
+                                {d.firstName} {d.lastName}
+                              </p>
+                            ) : (
+                              <>
+                                {d.patient_id && p.firstName ? (
+                                  <>
+                                    {p.firstName} {p.lastName}
+                                  </>
+                                ) : (
+                                  ""
+                                )}
+                              </>
+                            )}
+                          </div>
                         </div>
                         <div className="col-start-1 col-span-5 xxxl:col-start-1 xxl:col-span-3 xxxl:col-span-3 ">
                           <span className="xxl:text-lg xxxl:text-xl sm:hidden">
@@ -158,10 +195,13 @@ function ListView({ data }) {
                           <span className="text-[#969696] lg:hidden md:hidden ">
                             <PhoneIcon />
                           </span>
-                          <span className="mx-2 xxl:mx-4 font-semibold xxl:text-lg xxxl:text-xl xl:pl-2">
-                            {" "}
-                            {d.phoneNumber}
-                          </span>
+                          <div className="inline-block mx-2 xxl:mx-4 font-semibold xxl:text-lg xxxl:text-xl xl:pl-2">
+                            {d.phoneNumber ? (
+                              <p>{d.phoneNumber}</p>
+                            ) : (
+                              <>{d.patient_id && p.phoneNumber ? <>{p.phoneNumber}</> : ""}</>
+                            )}
+                          </div>
                         </div>
 
                         <div className="col-start-1 col-span-3">
@@ -185,7 +225,11 @@ function ListView({ data }) {
                           </span>
                           <span className="font-semibold  xxl:text-lg xxxl:text-xl">
                             {" "}
-                            {d.location ? <p>{d.location}</p> : ""}
+                            {d.location ? (
+                              <p>{d.location}</p>
+                            ) : (
+                              <>{d.patient_id && p.address ? <>{p.address}</> : ""}</>
+                            )}
                           </span>
                         </div>
                         <div className="col-start-1 col-span-3 sm:col-span-8">

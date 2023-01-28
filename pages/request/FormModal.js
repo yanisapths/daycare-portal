@@ -23,7 +23,6 @@ const tag = [
 function FormModal({ request, open, handleClose }) {
   const { data: session, status } = useSession();
   const theme = useTheme();
-  console.log(request);
 
   const {
     register,
@@ -41,11 +40,7 @@ function FormModal({ request, open, handleClose }) {
       tag: "",
     },
   });
-
-  console.log(watch(["rejectReason", "tag"]));
-
   const onSubmit = async (data) => {
-    console.log(data);
     data.status = "Rejected"
     const json = JSON.stringify(data);
     let axiosConfig = {

@@ -137,9 +137,9 @@ const Appointment = ({ user }) => {
               ))}
             </div>
             {selected == "calendarView" ? (
-              <CalendarView data={appointmentData} />
+              <CalendarView data={appointmentData} patientData={patientData} />
             ) : (
-              <ListView data={appointmentData} />
+              <ListView data={appointmentData} patientData={patientData} appointmentData={appointmentData} />
             )}
           </div>
         </div>
