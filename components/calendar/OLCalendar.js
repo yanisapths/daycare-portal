@@ -50,7 +50,6 @@ const Calendar = () => {
     "Friday",
     "Saturday",
   ];
-  console.log(availableData);
 
   const selectionRange = {
     startDate: startDate,
@@ -91,10 +90,8 @@ const Calendar = () => {
         const availableData = await res.json();
         if (availableData) {
           setAvailableData(availableData);
-          console.log(availableData);
         } else return;
       } catch (err) {
-        console.log(err);
       }
     } else {
       await delay(3000);
