@@ -12,7 +12,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 
-function ListView({ data, patientData }) {
+function ListView({ data }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
 
