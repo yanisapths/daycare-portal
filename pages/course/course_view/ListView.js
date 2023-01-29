@@ -1,53 +1,41 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import HoverCard from "../../../components/common/HoverCard";
-import AddIcon from "@mui/icons-material/Add";
-import Popup from "reactjs-popup";
 import SideView from "./SideView";
+import BtnAdd from "../../../components/common/BtnAdd";
+import detailView from "./detailView";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function ListView() {
+function ListView({ clinicData }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [courseData, setCourseData] = useState([]);
-  const [clinicData, setData] = useState({});
-
-  //clinic
-  async function fetchData() {
-    await delay(1000);
-    if (session.user.id) {
-      const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
-      );
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-          console.log(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    } else {
-      await delay(3000);
-    }
-  }
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      fetchCourseData();
     }
   }, [status]);
 
-  async function fetchData() {
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setOpen(false);
+    }
+  };
+
+  //course
+  async function fetchCourseData() {
     await delay(1000);
     const url = `${process.env.dev}/course/match/owner/${session.user.id}`;
-    //course
+
     if (session.user.id) {
       const res = await fetch(url);
       try {
@@ -66,56 +54,60 @@ function ListView() {
   }
 
   if (courseData.length >= 1) {
-    console.log(courseData);
     return (
-      //overflow-y-hidden  overflow-x-hidden
-      <div
-        className="grid grid-cols-3 my-4 h-fit gap-4 justify-start
-      sm:grid-cols-1
-      md:grid-cols-2
-      xxl:grid-cols-4"
-      >
-        {courseData?.map((course) => (
-          <HoverCard
-            key={course._id}
-            name={course.courseName}
-            amount={course.amount}
-            duration={course.duration}
-            totalPrice={course.totalPrice}
-            procedures={course.procedures}
+      <div className="main">
+       
+          <div className="flex justify-end">
+          <BtnAdd onClick={handleClickOpen} />
+          <SideView
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose}
+            clinicData={clinicData}
           />
-        ))}
+          </div>
+
+        <div
+          className="grid grid-cols-3 my-4 h-fit gap-4 justify-start sm:grid-cols-1 md:grid-cols-2 xxl:grid-cols-4"
+          onClick={handleClickOpen}
+        >
+          {courseData?.map((course) => (
+            <HoverCard
+              key={course._id}
+              name={course.courseName}
+              amount={course.amount}
+              duration={course.duration}
+              totalPrice={course.totalPrice}
+              procedures={course.procedures}
+              type={course.type}
+              
+            />
+            
+          ))}
+         <detailView
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose} 
+          />
+        </div>
       </div>
     );
   } else {
     return (
-      <div className="overflow-hidden">
-        <p className="h3 font-medium  text-center text-black/50 ">
-          คลินิกคุณยังไม่มีคอร์ส
-        </p>
+      <div className="flex flex-col sm:pt-24 md:pt-24 lg:pt-24 xxl:pt-40">
         <div>
-          <Popup
-            trigger={
-              <div className="buttonPrimary my-3">
-                <span
-                  className="text-xl font-medium sm:text-base md:text-base 
-          lg:text-base xxl:text-lg xxxl:text-3xl "
-                >
-                  {" "}
-                  เพิ่มคอร์ส{" "}
-                </span>
-                <AddIcon className="xxxl:w-10 xxxl:h-10" />
-              </div>
-            }
-            position="center"
-          >
-            <div
-              className="flex justify-center items-center h-full w-full 
-            rounded-lg border-2 border-[#AD8259] bg-white"
-            >
-              <SideView clinicData={clinicData} />
-            </div>
-          </Popup>
+          <p className="h3 font-medium sm:h6 md:h4 xxl:h2 text-center  text-black/30 ">
+            คลินิกคุณยังไม่มีคอร์ส
+          </p>
+        </div>
+        <div>
+          <BtnAdd onClick={handleClickOpen} />
+          <SideView
+            open={open}
+            setOpen={setOpen}
+            handleClose={handleClose}
+            clinicData={clinicData}
+          />
         </div>
       </div>
     );

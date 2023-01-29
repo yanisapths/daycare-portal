@@ -7,25 +7,26 @@ const theme = createTheme({
     success: "#2ED477",
   },
   error: {
-    main: "#FF2F3B",
+    main: "##FF2F3B",
   },
   success: {
     main: "#2ED477",
   },
   palette: {
     primary: {
-      main: "#FFECA7",
-      lighter: '#FFFFCA',
-      light: "#FBB7C7",
-      dark: '#CAB769',
-      darker: "#ECE656",
-    },
-    secondary: {
       main: "#AD8259",
       light: "#E0B186",
       darker: "#7C552F",
-      variant: "#ffe898"
+      variant: "#ffe898",
     },
+    secondary: {
+      main: "#FFECA7",
+      lighter: "#FFFFCA",
+      light: "#FBB7C7",
+      dark: "#CAB769",
+      darker: "#ECE656",
+    },
+
     neutral: {
       main: "#64748B",
       contrastText: "#fff",
@@ -37,14 +38,16 @@ const theme = createTheme({
     },
     gray: {
       main: "#f0f1f2",
-      basic: "#f8f8f8"
     },
-    text: {
-      main: "#6C5137",
-    }
+  },
+  textField: {
+    background: "white",
+    border: "2px solid",
+    borderRadius: "10px",
+    borderColor: "#AD8259",
   },
   typography: {
-    fontFamily: ['IBM Plex Sans Thai','sans-serif'].join(','), 
+    fontFamily: ["IBM Plex Sans Thai", "sans-serif"].join(","),
   },
   overrides: {
     MuiCssBaseline: {
@@ -56,6 +59,15 @@ const theme = createTheme({
           },
         ],
       },
+    },
+  },
+  breakpoints: {
+    values: {
+      sm: 320,
+      md: 768,
+      lg: 1024,
+      xl: 1280,
+      xxl: 1440,
     },
   },
 });

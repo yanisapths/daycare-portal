@@ -17,6 +17,7 @@ import {
 import { useForm, Controller } from "react-hook-form";
 import { makeStyles } from "@mui/styles";
 import toast from "react-hot-toast";
+import { useTheme } from "@mui/material/styles";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -41,14 +42,17 @@ const days = [
 
 const useStyles = makeStyles({
   TextField: {
-    "& .MuiOutlinedInput-root": {
-      "& fieldset": {
-        borderColor: "#FEFCE8",
-      },
-      "&.Mui-focused fieldset": {
-        borderColor: "#FEFCE8",
-      },
+    color: "#AD8259",
+    background: "white",
+    border: "2px solid",
+    borderRadius: "10px",
+    borderColor: "#AD8259",
+    "&:hover": {
+      border: "0px",
     },
+  },
+  "& .MuiTextField-root": {
+    background: "white",
   },
 });
 
@@ -138,11 +142,7 @@ function Create() {
       data.imageUrl = result;
 
       const response = await axios
-        .post(
-          `${process.env.dev}/clinic/create`,
-          data,
-          axiosConfig
-        )
+        .post(`${process.env.dev}/clinic/create`, data, axiosConfig)
         .then(async (res) => {
           console.log("RESPONSE RECEIVED: ", res.data);
           const { owner } = res.data.owner;
@@ -217,7 +217,7 @@ function Create() {
 
         <main className="main bg-white pt-0 h-screen  scroll-smooth ">
           <h1 className="pageTitle sm:text-lg">สร้างคลินิก</h1>
-          <div className="flex flex-col justify-between bg-[#fff9e6] m-3 rounded-2xl">
+          <div className="flex flex-col justify-between bg-[#fff9e6] m-5 mx-10 rounded-2xl">
             <form onSubmit={handleSubmit}>
               <div className=" sm:py-3 sm:mx-5 m-4 grid grid-cols-2 row-span-6 gap-2 lg:mx-20 lg:grid-cols-6 md:gap-2">
                 <div className="col-start-1 col-span-2 md:col-span-4 lg:col-span-3  ">
@@ -405,16 +405,27 @@ function Create() {
                   </Grid>
                 </div>
 
-                <div className="col-start-1 col-span-2  md:col-span-6 lg:col-span-6">
-                  <label className="inputLabel" htmlFor="description">
-                    ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ
-                    เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊
-                  </label>
-                  <input
-                    className="inputBox  flex flex-wrap sm:h-20 md:h-48 lg:h-52 display-linebreak "
-                    type="textarea"
-                    id="description"
-                    name="description"
+                <div className="col-start-1 col-span-2  md:col-span-6 lg:col-span-6 pt-3 ">
+                  <TextField
+                    // className={styles.TextField}
+                    sx={{
+                      background: "white",
+                      border: "2px solid", //border-2
+                      borderRadius: "24px", //round-3xl
+                      borderColor: "#AD8259",
+                      radius: "24px",
+                      "&:hover": {
+                        border: "2px solid",
+                        borderColor: "#6C5137",
+                        borderRadius: "24px",
+                      },
+                    }}
+                    fullWidth
+                    variant="outlined"
+                    placeholder="ใส่คำอธิบายคร่าวๆเกี่ยวกับคลินิกของคุณ เพื่อให้ผู้คนได้รู้จักคุณดีขึ้น 😊"
+                    multiline
+                    rows={6}
+                    rowsMax={10}
                     {...register("description", {
                       required: "Required",
                     })}
@@ -422,13 +433,15 @@ function Create() {
                 </div>
 
                 <div className="col-span-2 lg:col-span-6 md:col-span-6  items-center text-center ">
-                  <input
+                  <button
                     type="submit"
-                    className="bg-[#ffdf8e] font-bold text-lg text-[#AD8259] cursor-pointer rounded-full border-4
-                    hover:border-[#AD8259] shadow-lg
-                    hover:bg-transparent 
-                    my-3 w-56 h-10 lg:w-64 lg:h-14 lg:text-xl"
-                  />
+                    className="bg-[#ffdf8e] font-semibold text-base text-[#AD8259] cursor-pointer rounded-full hover:border-2 
+                  hover:border-[#AD8259] shadow-lg
+                  hover:bg-transparent 
+                  my-3 w-48 h-10 lg:w-48 lg:h-10 lg:text-base"
+                  >
+                    สร้าง
+                  </button>
                 </div>
               </div>
             </form>

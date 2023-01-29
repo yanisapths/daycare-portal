@@ -34,12 +34,15 @@ function Dashboard({ data }) {
 
   return (
     <>
-      <AmountCard requests={requestData} appointments={appointmentData} />
-      <LinkGridCard data={data} />
-
       {/* Clinic Hours */}
-      <div className="px-4 pt-24 sm:px-6 lg:col-span-3 lg:px-8">
-        <div>
+      <div className="px-4 pt-8 xl:pb-8">
+        <p className="h2">{data.clinic_name}</p>
+        <p className="mt-2 text-xl font-bold text-black/75">{data.address}</p>
+        <p className="mt-4 text-lg text-black/75 sm:truncate ">
+          {data.description}
+        </p>
+
+        <div className="py-4">
           <span className="caption tracking-wide text-gray-500 uppercase">
             เบอร์ติดต่อคลินิก
           </span>
@@ -49,7 +52,7 @@ function Dashboard({ data }) {
           </p>
         </div>
 
-        <ul className="mt-8 space-y-1 text-gray-700">
+        <ul className="space-y-1 text-gray-700">
           <span className="caption tracking-wide text-gray-500 uppercase">
             วันและเวลาทำการ
           </span>
@@ -58,6 +61,8 @@ function Dashboard({ data }) {
           </li>
         </ul>
       </div>
+      <AmountCard requests={requestData} appointments={appointmentData} />
+      <LinkGridCard data={data} />
     </>
   );
 }

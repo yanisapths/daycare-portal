@@ -51,14 +51,14 @@ function Home() {
         </Head>
         <Header />
 
-        <main className="h-screen overflow-scroll scrollbar-hide">
-          <div className="overflow-scroll scrollbar-hide p-3 -ml-3 h-screen mx-auto px-6 lg:px-8">
+        <main className="h-screen mb-72 max-w-screen md:px-12 xl:mx-24">
+          <div className="p-3 -ml-3 h-screen mx-auto px-6 lg:px-8">
             {session ? <BannerCard username={session.user.name} /> : <></>}
-            <div className="pb-6" />
+            <div className="" />
             <Dashboard data={clinicData} />
           </div>
-          <FooterSocial />
         </main>
+          <FooterSocial />
       </div>
     );
   }
