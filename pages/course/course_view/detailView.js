@@ -18,7 +18,6 @@ function detailView({ open, handleClose, setOpen }) {
       >
         <DialogTitle
           sx={{
-            fontSize: { sm: 24, md: 26, lg: 28, xl: 30 },
             mx: 2,
             mt: 2,
             textAlign: "center",
