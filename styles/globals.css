@@ -129,7 +129,7 @@ a {
 
   /* Home Landing Link Grid Card */
   .linkGridCardContainer {
-    @apply block rounded-xl border-[#ECE656] bg-[#ECE656] p-8 shadow-xl transition hover:bg-[#F5F2AA] shadow-[#ECE656]/60;
+    @apply cursor-pointer block rounded-xl text-[#6C5137] bg-[#ffdf8e]/40 p-8 shadow-2xl transition hover:bg-white shadow-[#ffdf8e]/40 hover:shadow-[#ffdf8e]/80;
   }
   /*------------------------------------*/
 
