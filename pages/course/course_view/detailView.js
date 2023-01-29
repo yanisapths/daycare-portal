@@ -2,13 +2,12 @@ import React from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 function detailView({ open, handleClose, setOpen }) {
-  const theme = useTheme();
+
   return (
     <>
       <Dialog
@@ -19,7 +18,6 @@ function detailView({ open, handleClose, setOpen }) {
       >
         <DialogTitle
           sx={{
-            color: theme.palette.primary.darker,
             fontSize: { sm: 24, md: 26, lg: 28, xl: 30 },
             mx: 2,
             mt: 2,
