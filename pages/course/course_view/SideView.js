@@ -17,7 +17,6 @@ import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-
 function SideView({ clinicData, open, handleClose, setOpen }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
@@ -59,7 +58,7 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
         console.log("AXIOS ERROR: ", err);
       });
   };
-  
+
   return (
     <>
       <Dialog
@@ -349,19 +348,19 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
           </Box>
         </DialogContent>
         <DialogActions sx={{ mx: 4, mb: 4, justifyContent: "center" }}>
-          
-          <div
-            className="mx-auto  pt-5 text-center items-center "
-          >
+          <div className="mx-auto  pt-5 text-center items-center ">
             <button
-            className=" text-[#FF2F3B]
+              className=" text-[#FF2F3B]
                   w-20 h-9  hover:underline
                   rounded-full sm:text-sm md:text-base lg:h-10 lg:text-lg xxl:h-11 xxl:text-xl"
-            onClick={handleClose}
-            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
-          >ยกเลิก</button>
+              onClick={handleClose}
+              sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
+            >
+              ยกเลิก
+            </button>
             <button
               type="submit"
+              onClick={handleSubmit(onSubmit)}
               className="font-medium text-sm text-[#6C5137]/80 bg-[#ffeec4] 
                   px-7 py-1 rounded-full cursor-pointer shadow-lg hover:shadow-xl
                   md:text-base lg:text-lg   lg:px-9 xl:text-lg  xxl:px-10 xxl:text-xl "
