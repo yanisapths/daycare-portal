@@ -49,7 +49,7 @@ function ListView({ data }) {
       {/*request list */}
       {data &&
         data?.map((d, index) => (
-          <>
+          <div key={index}>
             {d.status == "Approved" && data.status != "Done" ? (
               <>
                 <div className="ml-3 mb-5 mt-6 lg:mt-12">
@@ -256,7 +256,7 @@ function ListView({ data }) {
             ) : (
               <></>
             )}
-          </>
+          </div>
         ))}
       {!data ||
         (data.length < 1 && (

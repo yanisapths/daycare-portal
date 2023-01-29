@@ -110,7 +110,6 @@ function Create() {
       price: "",
       description: "",
       openDay: [],
-      owner_id: session.user.id,
     },
   });
   // Handles the submit event on form submit.
