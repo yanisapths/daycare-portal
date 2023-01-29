@@ -21,7 +21,7 @@ module.exports = {
     },
     screens: {
       sm: { min: "320px", max: "680px" },
-
+      //=> @media only screen and (min-width:320px) and (max-width:680px) {...}
       md: { min: "768px", max: "1020px" },
 
       lg: "1024px",

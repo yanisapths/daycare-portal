@@ -5,7 +5,7 @@ function FooterSocial() {
   return (
     <footer className="bg-[#FFFBF2] mt-10 bottom-0 text-[#372B20] py-8 xl:py-16">
       <div className="max-w-screenl px-4 pb-2 mx-auto sm:px-6 lg:px-14">
-        <div className="pt-2 sm:items-center sm:justify-between sm:flex">
+        <div className="sm:items-center sm:justify-between sm:flex">
           <nav className="flex justify-between items-center text-center space-x-4 text-sm font-medium sm:justify-start">
             <div>
               <p className="xl:body1 pt-2 text-left">269492 Project</p>
