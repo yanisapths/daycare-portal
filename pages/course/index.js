@@ -6,10 +6,6 @@ import FooterSocial from "../../components/FooterSocial";
 import Head from "next/head";
 import { useTheme } from "@mui/material/styles";
 import ListView from "./course_view/ListView";
-import SideView from "./course_view/SideView";
-import Popup from "reactjs-popup";
-import AddIcon from "@mui/icons-material/Add";
-
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Course() {
