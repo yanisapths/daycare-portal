@@ -16,13 +16,13 @@ function AppointmentModal({
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-auto p-12 min-w-screen-xl relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto"
+        className="bg-white mx-2 xl:mx-auto p-12 relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto w-[900px]"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="flex justify-between items-center gap-60">
+        <div className="flex justify-between items-center xl:gap-60 gap-24">
           <motion.h6
             className="h6 pt-4 text-black/50"
             animate={{ y: -8 }}
@@ -52,14 +52,11 @@ function AppointmentModal({
           }}
         >
           <div className="pt-4">
-            <motion.h3 className="h3">{course.courseName}</motion.h3>
-          </div>
-          <div className="pt-4">
             {data.patient_id ? (
               <div className="h6">
                 <motion.h6>
                   <span className="body2 text-black/50">คุณ</span> ({" "}
-                  {patient.nickName} ) {patient.firstName} {patient.lastName}
+                 <span className="h4">{patient.nickName} ) {patient.firstName} {patient.lastName}</span> 
                 </motion.h6>
                 <motion.h6>
                   <span className="body2 text-black/50">ที่อยู่</span>{" "}
@@ -82,8 +79,8 @@ function AppointmentModal({
             ) : (
               <div className="h6">
                 <motion.h6>
-                  <span className="body2 text-black/50">คุณ</span> ({" "}
-                  {data.nickName} ) {data.firstName} {data.lastName}
+                  <span className="body2 text-black/50">คุณ</span>{" "}
+                  <span className="h4">( {data.nickName} ) {data.firstName} {data.lastName}</span>
                 </motion.h6>
                 <motion.h6>
                   <span className="body2 text-black/50">ที่อยู่</span>{" "}
@@ -96,8 +93,7 @@ function AppointmentModal({
                   {data.lineId}
                 </motion.h6>
                 <motion.h6 className="space-x-6">
-                  <span className="body2 text-black/50">อายุ</span>{" "}
-                  {data.age}
+                  <span className="body2 text-black/50">อายุ</span> {data.age}
                   <span className="body2 text-black/50">เพศ</span> {data.sex}
                   <span className="body2 text-red-500">ข้อควรระวัง</span>{" "}
                   <span className="text-red-500">{data.precaution}</span>
@@ -109,73 +105,61 @@ function AppointmentModal({
               <span className="h6"> {data.appointmentPlace}</span>
             </motion.h6>
           </div>
-          <section className="lg:w-full mb-2 pt-12 md:pt-20 overflow-scroll scroll-auto scrollbar-hide mx-2 md:ml-8 border-black/20 border-b-[1px] border-dashed">
-            <div className="flex justify-between lg:body1 tracking-wide text-center">
-              <div className="relative block md:w-1/6">
+          <div className="pt-4 text-center">
+            <motion.h3 className="h4">{course.courseName}</motion.h3>
+          </div>
+          <section className="mb-2 pt-12 border-black/20 border-b-[1px] border-dashed mx-auto">
+            <div className="flex lg:body1 tracking-wide xl:px-12 xl:gap-28">
+              <div className="w-1/6">
                 <p className="">ครั้งที่</p>
               </div>
-              <div className="relative block md:w-1/6">
+              <div className="w-2/6">
                 <p>วันนัด</p>
               </div>
-              <div className="relative block md:w-1/6">
+              <div className="w-2/6">
                 <p>เวลานัด</p>
               </div>
-              <div className="relative block md:w-1/6">
+              <div className="w-1/6">
                 <p>สถานะ</p>
               </div>
             </div>
           </section>
 
-          <div className="flex py-4 text-black w-full mb-1 gap-2 xl:gap-12 xl:h5">
-            <div className="relative block md:w-1/6">
+          <div className="flex text-center p-2 text-black mb-1  body1 md:h6 lg:h5 w-full mx-auto">
+            <div className="w-1/6">
               <p>1</p>
             </div>
-            <div className="relative block md:w-1/6">
+            <div className="w-2/6">
               <p>
-                {new Date(data.appointmentDate).toLocaleDateString("th-TH", {
+                {new Date(data.appointmentDate).toLocaleDateString("en-EN", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
-                  weekday: "short",
                 })}
               </p>
             </div>
-            <div className="relative block md:w-1/6">
-              {data.endTime ? (
-                <strong className="mx-2 xxl:mx-4 bg-[#ffe898]/50 text-[#6C5137] p-1 xxl:px-3 xxl:py-1.5 rounded">
-                  <span className="font-semibold text-[#8E6947] text-xl">
-                    {new Date(data.appointmentTime).toLocaleTimeString(
-                      "en-EN",
-                      {
-                        hour: "numeric",
-                        minute: "2-digit",
-                        hour12: true,
-                      }
-                    )}{" "}
-                    {"-"}{" "}
+            <div className="w-2/6">
+              <p>
+                {new Date(data.appointmentTime).toLocaleTimeString("en-EN", {
+                  hour: "numeric",
+                  minute: "2-digit",
+                  hour12: true,
+                })}
+                {data.endTime ? (
+                  <>
+                    {"-"}
                     {new Date(data.endTime).toLocaleTimeString("en-EN", {
                       hour: "numeric",
                       minute: "2-digit",
                       hour12: true,
                     })}
-                  </span>
-                </strong>
-              ) : (
-                <strong className="mx-2 xxl:mx-4 bg-[#ffe898]/50 text-[#6C5137] p-1 xxl:px-3 xxl:py-1.5 rounded">
-                  <span className="font-semibold text-[#8E6947] xxl:text-lg xxxl:text-xl ">
-                    {new Date(data.appointmentTime).toLocaleTimeString(
-                      "en-EN",
-                      {
-                        hour: "numeric",
-                        minute: "2-digit",
-                        hour12: true,
-                      }
-                    )}
-                  </span>
-                </strong>
-              )}
+                  </>
+                ) : (
+                  <></>
+                )}
+              </p>
             </div>
-            <div className="relative block md:w-1/6">
+            <div className="w-1/6">
               <p>{data.status}</p>
             </div>
           </div>
