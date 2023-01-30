@@ -1,7 +1,20 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton } from "@mui/material";
+import { IconButton, Button } from "@mui/material";
+import CircleIcon from "../../components/OLIcon/CircleIcon";
+import PhoneIcon from "@mui/icons-material/Phone";
+import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
+import RoundTextIcon from "../../components/OLIcon/RoundTextIcon";
+import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
+import WcIcon from "@mui/icons-material/Wc";
+import PersonIcon from "@mui/icons-material/Person";
+import WarningIcon from "@mui/icons-material/Warning";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import Tooltip from "@mui/material/Tooltip";
 
 function AppointmentModal({
   patient,
@@ -51,64 +64,159 @@ function AppointmentModal({
             duration: "0.6",
           }}
         >
-          <div className="pt-4">
+          <div className="pt-4 text-[#121212]">
             {data.patient_id ? (
-              <div className="h6">
+              <div className="h6 space-y-4 font-medium">
                 <motion.h6>
-                  <span className="body2 text-black/50">คุณ</span> ({" "}
-                 <span className="h4">{patient.nickName} ) {patient.firstName} {patient.lastName}</span> 
+                  <span className="h4">
+                    ( {patient.nickName} ) {patient.firstName}{" "}
+                    {patient.lastName}
+                  </span>
+                </motion.h6>
+                <motion.h6 className="flex space-x-10">
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<PersonIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">
+                      อายุ{" "}
+                    </span>
+                    {patient.age}
+                  </div>
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<WcIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">เพศ </span>
+                    {patient.sex}
+                  </div>
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<WarningIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">
+                      ข้อควรระวัง{" "}
+                    </span>{" "}
+                    {patient.precaution ? patient.precaution : "none"}
+                  </div>
+                </motion.h6>
+                <motion.h6 className="flex space-x-24">
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <RoundTextIcon
+                      icon={<PhoneIcon className="text-sm" />}
+                      text="ติดต่อ"
+                    />
+                    {patient.phoneNumber}
+                  </div>
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">
+                      LINE ID{" "}
+                    </span>
+                    {patient.lineId}
+                  </div>
                 </motion.h6>
                 <motion.h6>
-                  <span className="body2 text-black/50">ที่อยู่</span>{" "}
-                  {patient.address}
-                </motion.h6>
-                <motion.h6 className="space-x-6">
-                  <span className="body2 text-black/50">ติดต่อ</span>{" "}
-                  {patient.phoneNumber}
-                  <span className="body2 text-black/50">LINE ID</span>{" "}
-                  {patient.lineId}
-                </motion.h6>
-                <motion.h6 className="space-x-6">
-                  <span className="body2 text-black/50">อายุ</span>{" "}
-                  {patient.age}
-                  <span className="body2 text-black/50">เพศ</span> {patient.sex}
-                  <span className="body2 text-red-500">ข้อควรระวัง</span>{" "}
-                  <span className="text-red-500">{patient.precaution}</span>
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">
+                      ที่อยู่{" "}
+                    </span>
+                    {patient.address}
+                  </div>
                 </motion.h6>
               </div>
             ) : (
-              <div className="h6">
+              <div className="h6 space-y-4 font-medium">
                 <motion.h6>
-                  <span className="body2 text-black/50">คุณ</span>{" "}
-                  <span className="h4">( {data.nickName} ) {data.firstName} {data.lastName}</span>
+                  <span className="h4">
+                    ( {data.nickName} ) {data.firstName} {data.lastName}
+                  </span>
+                </motion.h6>
+                <motion.h6 className="flex space-x-10">
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<PersonIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">
+                      อายุ{" "}
+                    </span>
+                    {data.age}
+                  </div>
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<WcIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">เพศ </span>
+                    {data.sex}
+                  </div>
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<WarningIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">
+                      ข้อควรระวัง{" "}
+                    </span>{" "}
+                    {data.description ? data.description : "none"}
+                  </div>
+                </motion.h6>
+                <motion.h6 className="flex space-x-24">
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <RoundTextIcon
+                      icon={<PhoneIcon className="text-sm" />}
+                      text="ติดต่อ"
+                    />
+                    {data.phoneNumber}
+                  </div>
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">
+                      LINE ID{" "}
+                    </span>
+                    {data.lineId}
+                  </div>
                 </motion.h6>
                 <motion.h6>
-                  <span className="body2 text-black/50">ที่อยู่</span>{" "}
-                  {data.location}
-                </motion.h6>
-                <motion.h6 className="space-x-6">
-                  <span className="body2 text-black/50">ติดต่อ</span>{" "}
-                  {data.phoneNumber}
-                  <span className="body2 text-black/50">LINE ID</span>{" "}
-                  {data.lineId}
-                </motion.h6>
-                <motion.h6 className="space-x-6">
-                  <span className="body2 text-black/50">อายุ</span> {data.age}
-                  <span className="body2 text-black/50">เพศ</span> {data.sex}
-                  <span className="body2 text-red-500">ข้อควรระวัง</span>{" "}
-                  <span className="text-red-500">{data.precaution}</span>
+                  <div className="flex items-center align-middle gap-2">
+                    {" "}
+                    <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
+                    <span className="body2 text-[#A17851] font-bold">
+                      ที่อยู่{" "}
+                    </span>
+                    {data.location}
+                  </div>
                 </motion.h6>
               </div>
             )}
-            <motion.h6>
-              <span className="body2 text-black/50">สถานที่</span>{" "}
-              <span className="h6"> {data.appointmentPlace}</span>
-            </motion.h6>
+            <div className="pt-4 h6">
+              <div className="flex items-center align-middle gap-2">
+                {" "}
+                <CircleIcon icon={<MeetingRoomIcon className="text-sm" />} />
+                <span className="body2 text-[#A17851] font-bold">
+                  สถานที่นัด{" "}
+                </span>
+                {data.appointmentPlace}
+              </div>
+            </div>
           </div>
-          <div className="pt-4 text-center">
-            <motion.h3 className="h4">{course.courseName}</motion.h3>
+          <div className="pt-8">
+            <motion.h3 className="h4 text-center">
+              {course.courseName}
+            </motion.h3>
           </div>
-          <section className="mb-2 pt-12 border-black/20 border-b-[1px] border-dashed mx-auto">
+          <div className="flex justify-center text-black/60 align-middle gap-2">
+            <Tooltip placement="top" title="Click To Copy">
+              <Button
+                sx={{ borderRadius: 16, px: 2 }}
+                endIcon={<ContentCopyIcon />}
+                onClick={() => {
+                  navigator.clipboard.writeText(data._id);
+                }}
+              >
+                appointment number
+              </Button>
+            </Tooltip>
+          </div>
+          <section className="mb-2 pt-4 text-black/50 border-black/20 border-b-[1px] border-dashed mx-auto">
             <div className="flex lg:body1 tracking-wide xl:px-12 xl:gap-28">
               <div className="w-1/6">
                 <p className="">ครั้งที่</p>
@@ -125,7 +233,7 @@ function AppointmentModal({
             </div>
           </section>
 
-          <div className="flex text-center p-2 text-black mb-1  body1 md:h6 lg:h5 w-full mx-auto">
+          <div className="text-[#121212] flex xl:text-center p-2 mb-1  body1 md:h6 lg:h5 w-full mx-auto">
             <div className="w-1/6">
               <p>1</p>
             </div>
@@ -160,7 +268,12 @@ function AppointmentModal({
               </p>
             </div>
             <div className="w-1/6">
-              <p>{data.status}</p>
+              <StatusCheckIcon
+                icon={<CheckCircleIcon />}
+                text={data.status}
+                bgColor="#2ED477"
+                textColor="#2ED477"
+              />
             </div>
           </div>
         </motion.div>
