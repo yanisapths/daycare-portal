@@ -35,7 +35,7 @@ function Dashboard({ data }) {
   return (
     <>
       {/* Clinic Hours */}
-      <div className="px-4 pt-8 xl:pb-8">
+      <div className="px-4 pt-8">
         <p className="h2">{data.clinic_name}</p>
         <p className="mt-2 text-xl font-bold text-black/75">{data.address}</p>
         <p className="mt-4 text-lg text-black/75 sm:truncate ">
