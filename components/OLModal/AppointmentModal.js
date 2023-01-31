@@ -6,6 +6,7 @@ import CircleIcon from "../../components/OLIcon/CircleIcon";
 import PhoneIcon from "@mui/icons-material/Phone";
 import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import RoundTextIcon from "../../components/OLIcon/RoundTextIcon";
+import CircleIconButton from "../../components/OLButton/CircleIconButton"
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
@@ -15,6 +16,7 @@ import WarningIcon from "@mui/icons-material/Warning";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Tooltip from "@mui/material/Tooltip";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 
 function AppointmentModal({
   patient,
@@ -276,6 +278,9 @@ function AppointmentModal({
               />
             </div>
           </div>
+        </motion.div>
+        <motion.div className="flex justify-center">
+        <CircleIconButton icon={<AddCircleOutlineIcon />} text="Add new appointment" />
         </motion.div>
       </motion.div>
     </AnimatePresence>
