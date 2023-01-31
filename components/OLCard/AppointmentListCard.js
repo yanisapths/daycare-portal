@@ -14,6 +14,9 @@ import HomeIcon from "@mui/icons-material/Home";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import Tooltip from "@mui/material/Tooltip";
+import { Button } from "@mui/material";
 
 function AppointmentListCard({ data, d, index }) {
   const [open, setOpen] = useState(false);
@@ -107,7 +110,7 @@ function AppointmentListCard({ data, d, index }) {
         {d.status == "Approved" && data.status != "Done" ? (
           <>
             <div className="ml-3 mb-5 mt-6 lg:mt-12">
-              <span className="text-[#463220] font-semibold lg:text-3xl">
+              <span className="text-[#463220] lg:text-3xl">
                 {" "}
                 {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
                   year: "numeric",
@@ -119,52 +122,34 @@ function AppointmentListCard({ data, d, index }) {
             </div>
             <article
               key={d._id}
-              className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl mx-3 bg-white my-3 px-12"
+              className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-3 px-4 md:px-12 xl:px-12"
             >
-              <div className="flex flex-row gap-3 justify-start content-center text-sm mx-4 pt-4">
-                <div className="basis-9/12">
+              <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4">
+                <div className="basis-12/12">
                   <div className="grid grid-col-6 gap-1 mt-4">
                     <div className="col-start-1 col-end-7 lg:flex">
-                      <span className="font-bold text-base text-[#6C5137] sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
-                        {" "}
-                        {d.nickName ? (
-                          <p>{d.nickName}</p> 
-                        ) : (
-                          <>
-                            {d.patient_id && p.nickName ? (
-                              <>{p.nickName}</>
-                            ) : (
-                              ""
-                            )}
-                          </>
-                        )}
-                      </span>
-                    </div>
-                    <div className="lg:content-end lg:items-center">
-                      <div className="lg:text-center whitespace-nowrap lg:space-x-4 lg:flex w-fit lg:px-4 rounded-full text-[#6C5137] bg-[#ffe898]/30">
-                        {" "}
-                        {course && course.courseName ? (
-                          <strong className="h4">{course.courseName}</strong>
-                        ) : (
-                          ""
-                        )}
+                      <div className="w-fit h-fit pb-2">
+                        <p className="text-xs text-black/40 truncate">
+                          No. <span>{d._id}</span>
+                        </p>
                       </div>
                     </div>
-                    <div className="col-start-1 col-end-7">
-                      <span className="font-bold text-base text-[#6C5137] md:text-lg xxl:text-2xl xxxl:text-3xl">
+
+                    <div className="col-start-1 col-end-7 font-semibold pb-2">
+                      <span className="text-base md:text-lg xxl:text-2xl xxxl:text-3xl">
                         คุณ{" "}
                       </span>
-                      <div className="inline-block font-bold text-base text-[#6C5137] sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
+                      <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
                         {" "}
                         {d.firstName ? (
                           <p>
-                            {d.firstName} {d.lastName}
+                            ( {d.nickName} ) {d.firstName} {d.lastName}
                           </p>
                         ) : (
                           <>
                             {d.patient_id && p.firstName ? (
                               <>
-                                {p.firstName} {p.lastName}
+                                ( {p.nickName} ) {p.firstName} {p.lastName}
                               </>
                             ) : (
                               ""
@@ -173,109 +158,52 @@ function AppointmentListCard({ data, d, index }) {
                         )}
                       </div>
                     </div>
-                    <div className="col-start-1 col-span-5 xxxl:col-start-1 xxl:col-span-3 xxxl:col-span-3 ">
-                      <span className="xxl:text-lg xxxl:text-xl sm:hidden">
-                        รายละเอียดเพิ่มเติม:
-                      </span>
-                      <span className="text-[#969696] lg:hidden md:hidden">
-                        <HealthAndSafetyIcon />
-                      </span>
-                      <span className="mx-2 xxl:mx-4 font-semibold xxl:text-lg xxxl:text-xl">
-                        {" "}
-                        {d.description ? d.description : "-"}{" "}
-                      </span>
-                    </div>
-                    <div className="col-start-1 col-span-4 sm:col-span-4 xxl:col-span-1">
+                    <div className="col-start-1 col-span-6">
                       <span className="xxl:text-lg xxxl:text-xl sm:hidden">
                         เวลา:
                       </span>
-                      <span className="text-[#969696] lg:hidden md:hidden ">
+                      <span className="text-[#969696] lg:hidden md:hidden">
                         <AccessTimeIcon />
                       </span>
                       {d.endTime ? (
-                        <strong className="mx-2 xxl:mx-4 bg-[#ffe898]/50 text-[#6C5137] p-1 xxl:px-3 xxl:py-1.5 rounded">
-                          <span className="font-semibold text-[#8E6947] xxl:text-lg xxxl:text-xl ">
+                        <span className="mx-2 font-semibold xxl:text-lg  xxxl:text-xl">
+                          <span className="">
                             {new Date(d.appointmentTime).toLocaleTimeString(
-                              "en-EN",
+                              "th-TH",
                               {
-                                hour: "numeric",
+                                hour: "2-digit",
                                 minute: "2-digit",
-                                hour12: true,
                               }
                             )}{" "}
                             {"-"}{" "}
-                            {new Date(d.endTime).toLocaleTimeString("en-EN", {
-                              hour: "numeric",
-                              minute: "2-digit",
-                              hour12: true,
-                            })}
-                          </span>
-                        </strong>
-                      ) : (
-                        <strong className="mx-2 xxl:mx-4 bg-[#ffe898]/50 text-[#6C5137] p-1 xxl:px-3 xxl:py-1.5 rounded">
-                          <span className="font-semibold text-[#8E6947] xxl:text-lg xxxl:text-xl ">
-                            {new Date(d.appointmentTime).toLocaleTimeString(
-                              "en-EN",
+                            {new Date(d.endTime).toLocaleTimeString("th-TH",
                               {
-                                hour: "numeric",
+                                hour: "2-digit",
                                 minute: "2-digit",
-                                hour12: true,
+                              })}
+                          </span>
+                        </span>
+                      ) : (
+                        <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
+                            {new Date(d.appointmentTime).toLocaleTimeString("th-TH",
+                               {
+                                hour: "2-digit",
+                                minute: "2-digit",
                               }
                             )}
                           </span>
-                        </strong>
                       )}
                     </div>
-                    <div className="col-start-1 col-span-3 sm:col-span-7 xxl:col-start-5 xxxl:col-start-4">
-                      <span className="sm:hidden xxl:text-lg  xxxl:text-xl">
-                        เบอร์โทรศัพท์:
-                      </span>
-                      <span className="text-[#969696] lg:hidden md:hidden ">
-                        <PhoneIcon />
-                      </span>
-                      <div className="inline-block mx-2 xxl:mx-4 font-semibold xxl:text-lg xxxl:text-xl xl:pl-2">
-                        {d.phoneNumber ? (
-                          <p>{d.phoneNumber}</p>
-                        ) : (
-                          <>
-                            {d.patient_id && p.phoneNumber ? (
-                              <>{p.phoneNumber}</>
-                            ) : (
-                              ""
-                            )}
-                          </>
-                        )}
-                      </div>
-                    </div>
-
                     <div className="col-start-1 col-span-3">
                       <span className="sm:hidden xxl:text-lg xxxl:text-xl">
-                        สถานที่ดูแล:
+                        สถานที่นัด:
                       </span>
                       <span className="text-[#969696] lg:hidden md:hidden ">
                         <HomeIcon />
                       </span>
-                      <span className="mx-2 xxl:mx-4 font-semibold lg:text-lg xxxl:text-xl">
+                      <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
                         {" "}
                         {d.appointmentPlace}
-                      </span>
-                    </div>
-                    <div className="col-start-5 col-span-4 sm:col-start-1 md:col-start-1 xxl:col-start-5 xxxl:col-start-4">
-                      <span className="sm:hidden xxl:text-lg xxxl:text-xl">
-                        ที่อยู่:
-                      </span>
-                      <span className="text-[#969696] lg:hidden md:hidden ">
-                        <PlaceIcon />
-                      </span>
-                      <span className="font-semibold  xxl:text-lg xxxl:text-xl">
-                        {" "}
-                        {d.location ? (
-                          <p>{d.location}</p>
-                        ) : (
-                          <>
-                            {d.patient_id && p.address ? <>{p.address}</> : ""}
-                          </>
-                        )}
                       </span>
                     </div>
                     <div className="col-start-1 col-span-3 sm:col-span-8">
@@ -285,17 +213,17 @@ function AppointmentListCard({ data, d, index }) {
                       <span className="text-[#969696] lg:hidden md:hidden ">
                         <PermIdentityIcon />
                       </span>
-                      <span className="mx-2 xxl:mx-4 font-semibold xxl:text-lg xxxl:text-xl">
+                      <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
                         {" "}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className=" flex flex-wrap basis-1/5  gap-2 justify-end content-center mx-5 sm:justify-center sm:my-3 pb-5 px-5 ">
+              <div className="flex flex-wrap basis-1/5  gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
                 <div>
                   <BtnDetails
-                    text="สำเเร็จ"
+                    text="สำเร็จ"
                     onClick={() =>
                       Swal.fire({
                         title: "เสร็จงานนี้?",

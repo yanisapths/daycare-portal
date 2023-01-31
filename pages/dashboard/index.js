@@ -57,7 +57,7 @@ function Dashboard({ data }) {
             วันและเวลาทำการ
           </span>
           <li className="h5">
-            {data.openDay}: {data.openTime} am - {data.closeTime} pm
+            {data.openDay}: {data.openTime} - {data.closeTime}
           </li>
         </ul>
       </div>

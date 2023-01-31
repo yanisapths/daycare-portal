@@ -6,7 +6,7 @@ import CircleIcon from "../../components/OLIcon/CircleIcon";
 import PhoneIcon from "@mui/icons-material/Phone";
 import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import RoundTextIcon from "../../components/OLIcon/RoundTextIcon";
-import CircleIconButton from "../../components/OLButton/CircleIconButton"
+import CircleIconButton from "../../components/OLButton/CircleIconButton";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
@@ -16,7 +16,7 @@ import WarningIcon from "@mui/icons-material/Warning";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Tooltip from "@mui/material/Tooltip";
-import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 function AppointmentModal({
   patient,
@@ -241,7 +241,7 @@ function AppointmentModal({
             </div>
             <div className="w-2/6">
               <p>
-                {new Date(data.appointmentDate).toLocaleDateString("en-EN", {
+                {new Date(data.appointmentDate).toLocaleDateString("th-TH", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -250,18 +250,16 @@ function AppointmentModal({
             </div>
             <div className="w-2/6">
               <p>
-                {new Date(data.appointmentTime).toLocaleTimeString("en-EN", {
-                  hour: "numeric",
+                {new Date(data.appointmentTime).toLocaleTimeString("th-TH", {
+                  hour: "2-digit",
                   minute: "2-digit",
-                  hour12: true,
                 })}
                 {data.endTime ? (
                   <>
-                    {"-"}
-                    {new Date(data.endTime).toLocaleTimeString("en-EN", {
-                      hour: "numeric",
+                    {" - "}
+                    {new Date(data.endTime).toLocaleTimeString("th-TH", {
+                      hour: "2-digit",
                       minute: "2-digit",
-                      hour12: true,
                     })}
                   </>
                 ) : (
@@ -280,7 +278,10 @@ function AppointmentModal({
           </div>
         </motion.div>
         <motion.div className="flex justify-center">
-        <CircleIconButton icon={<AddCircleOutlineIcon />} text="Add new appointment" />
+          <CircleIconButton
+            icon={<AddCircleOutlineIcon />}
+            text="Add new appointment"
+          />
         </motion.div>
       </motion.div>
     </AnimatePresence>
