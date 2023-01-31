@@ -13,6 +13,9 @@ import Swal from "sweetalert2";
 import Router from "next/router";
 import { useRouter } from "next/router";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const config = {
+  defaultExpanded: true
+};
 
 const Calendar = () => {
   const { data: session, status } = useSession();
@@ -20,8 +23,7 @@ const Calendar = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [availableData, setAvailableData] = useState([]);
-  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse();
-
+  const { getCollapseProps, getToggleProps, isExpanded } = useCollapse(config);
   const {
     register,
     control,
@@ -117,15 +119,16 @@ const Calendar = () => {
           {...getToggleProps()}
           className="rounded-md bg-black/10 py-4 mt-6 lg:h-14 lg:w-full"
         >
-          {isExpanded ? "ปิดปฏิทิน" : "แสดงปฏิทิน"}
+          {isExpanded ? "ปิดปฏิทิน": "แสดงปฏิทิน" }
         </div>
-        <div {...getCollapseProps()} className="">
+        <div {...getCollapseProps()}>
           <DateRangePicker
             className="lg:pt-4 lg:mx-auto sm:flex sm:flex-col sm:col-span-3"
             ranges={[selectionRange]}
             minDate={new Date()}
             rangeColors={["#A17851"]}
             onChange={handleSelect}
+            defaultShow={true}
           />
         </div>
       </div>

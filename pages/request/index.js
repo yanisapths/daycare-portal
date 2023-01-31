@@ -75,8 +75,8 @@ const Request = () => {
 
         <div className="main ">
           <h2 className="pageTitle">คำขอดูแล</h2>
-          <div className="flex flex-col gap-1 m-3 font-noto text-sm ">
-            <div className="font-semibold text-[#6C5137] flex max-auto space-x-8">
+          <div className="flex flex-col gap-1 m-3 font-noto text-sm">
+            <div className="font-semibold text-[#6C5137] flex justify-end space-x-8 xl:px-24 px-0">
               <div className="pt-2">
                 <BtnAdd />
               </div>

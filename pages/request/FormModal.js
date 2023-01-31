@@ -13,11 +13,13 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import BtnCancel from "../../components/BtnCancel";
+import { InputLabel } from "@mui/material";
 
 const tag = [
   { id: 1, label: "เวลาไม่สะดวก" },
   { id: 2, label: "สถานที่ไม่สะดวก" },
   { id: 3, label: "วันไม่สะดวก" },
+  { id: 4, label: "อื่นๆ" },
 ];
 
 function FormModal({ request, open, handleClose }) {
@@ -41,7 +43,7 @@ function FormModal({ request, open, handleClose }) {
     },
   });
   const onSubmit = async (data) => {
-    data.status = "Rejected"
+    data.status = "Rejected";
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {
@@ -66,13 +68,19 @@ function FormModal({ request, open, handleClose }) {
 
   return (
     <>
-      <Dialog disableEscapeKeyDown open={open} onClose={handleClose}>
+      <Dialog
+        disableEscapeKeyDown
+        open={open}
+        onClose={handleClose}
+        maxWidth="xl"
+      >
         <DialogTitle
           sx={{
-            color: theme.palette.secondary.main,
+            color: theme.palette.primary.main,
             fontSize: 24,
             mx: 2,
             mt: 2,
+            textAlign: "center",
           }}
         >
           เหตุผล
@@ -80,14 +88,14 @@ function FormModal({ request, open, handleClose }) {
         <DialogContent>
           <Box>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="mx-auto max-w-screen-xl px-4 sm:px-6">
+              <div className="mx-auto px-4 sm:px-6">
                 <div className="pb-6">
                   <FormControl>
                     <Controller
                       render={({ field: { onChange, value } }) => (
                         <>
                           <textarea
-                            className="lg:w-[450px] rounded-lg border-gray-300  border-2 p-3 text-md lg:text-lg"
+                            className="lg:w-[450px] md:w-[450px] rounded-lg border-gray-300  border-2 p-3 text-md lg:text-lg"
                             placeholder="อธิบายเพิ่มเติม....."
                             rows="4"
                             id="rejectReason"
@@ -101,15 +109,19 @@ function FormModal({ request, open, handleClose }) {
                   </FormControl>
                 </div>
                 <div className="pb-6">
+                  <InputLabel id="tag-label" className="pb-2">Tag</InputLabel>
                   <FormControl>
                     <Controller
                       render={({ field: { field, onChange, value } }) => (
                         <>
                           <Select
-                          sx={{borderRadius: '10px', 
-                          '@media (min-width: 780px)': {
-                            width: '450px'
-                          }, px:4 }}
+                            sx={{
+                              borderRadius: "10px",
+                              "@media (min-width: 780px)": {
+                                width: "450px",
+                              },
+                              px: 4,
+                            }}
                             {...field}
                             {...register("tag", { required: false })}
                           >
