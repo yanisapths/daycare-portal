@@ -155,7 +155,7 @@ function TableView({ data }) {
             </thead>
 
             {data?.map((d, index) => (
-              <tbody className="divide-y divide-gray-100">
+              <tbody className="divide-y divide-gray-100" key={d._id}>
                 {selectedId && (
                   <Overlay close={closeModal}>
                     <RequestModal
