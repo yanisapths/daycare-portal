@@ -207,7 +207,7 @@ function AppointmentListCard({ data, d, index }) {
                         <PermIdentityIcon />
                       </span>
                       <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                        {" "}
+                      {d.staff ? d.staff : <span className="text-sm text-black/40">ไม่ได้กรอก</span>}
                       </span>
                     </div>
                   </div>
