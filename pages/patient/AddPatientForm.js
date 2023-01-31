@@ -99,7 +99,7 @@ function AddPatientForm({ open, handleClose, setOpen }) {
             fontSize: 24,
             mx: 2,
             mt: 2,
-            textAlign: "center"
+            textAlign: "center",
           }}
         >
           เพิ่มแบบบันทึก
@@ -209,7 +209,7 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                       </div>
                       <div className="col-span-3">
                         <label
-                          htmlFor="lineid"
+                          htmlFor="lineId"
                           className="inputLabel pb-0 text-sm"
                         >
                           LINE ID
@@ -217,10 +217,10 @@ function AddPatientForm({ open, handleClose, setOpen }) {
 
                         <input
                           type="text"
-                          id="lineid"
-                          name="lineid"
+                          id="lineId"
+                          name="lineId"
                           className="inputOutline"
-                          {...register("lineid", { required: false })}
+                          {...register("lineId", { required: false })}
                         />
                       </div>
                       <div className="col-span-3">

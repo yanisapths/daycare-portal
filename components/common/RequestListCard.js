@@ -93,7 +93,7 @@ function RequestListCard({request}) {
               <div className="col-start-1 col-end-7">
                 <span className="font-semibold">ชื่อเล่น:</span>
                 <span className="font-bold text-base text-[#6C5137]">
-                  {request.nickname}
+                  {request.nickName}
                 </span>
               </div>
               <div className="col-start-1 col-span-3">
