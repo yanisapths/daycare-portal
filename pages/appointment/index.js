@@ -106,7 +106,7 @@ const Appointment = ({ user }) => {
         <div className="main">
           <p className="h4 pageTitle">นัดหมายดูแล</p>
           <div className="flex flex-col gap-1 m-3 font-noto text-sm ">
-            <div className="font-semibold text-[#6C5137] flex max-auto space-x-8">
+            <div className="font-semibold text-[#6C5137] flex justify-end space-x-8 xl:px-24 px-0">
               <div className="pt-2">
                 <BtnAdd onClick={handleClickOpen} />
                 <AddAppointmentForm

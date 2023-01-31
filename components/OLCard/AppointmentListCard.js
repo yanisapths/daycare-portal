@@ -1,22 +1,15 @@
 import React, { useState, useEffect } from "react";
-import Image from "next/image";
-import Router, { useRouter } from "next/router";
+import Router from "next/router";
 import BtnDetails from "../BtnDetails";
 import FormModal from "../../pages/request/FormModal";
 import AppointmentModal from "../OLModal/AppointmentModal";
 import Overlay from "../OLLayout/Overlay";
-import HealthAndSafetyIcon from "@mui/icons-material/HealthAndSafety";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import PhoneIcon from "@mui/icons-material/Phone";
-import PlaceIcon from "@mui/icons-material/Place";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import HomeIcon from "@mui/icons-material/Home";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import { motion, AnimatePresence } from "framer-motion";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
-import Tooltip from "@mui/material/Tooltip";
-import { Button } from "@mui/material";
+import { motion } from "framer-motion";
 
 function AppointmentListCard({ data, d, index }) {
   const [open, setOpen] = useState(false);

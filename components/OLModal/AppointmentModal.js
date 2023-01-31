@@ -280,7 +280,7 @@ function AppointmentModal({
         <motion.div className="flex justify-center">
           <CircleIconButton
             icon={<AddCircleOutlineIcon />}
-            text="Add new appointment"
+            text="เพิ่มนัดใหม่"
           />
         </motion.div>
       </motion.div>
