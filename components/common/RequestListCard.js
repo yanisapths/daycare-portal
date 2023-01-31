@@ -15,11 +15,11 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import { motion } from "framer-motion";
 
 function RequestListCard({ data, request }) {
+  const { data: session, status } = useSession();
+  const router = useRouter();
   const [course, setCourse] = useState({});
   const [p, setPatient] = useState({});
   const [open, setOpen] = useState(false);
-  const { data: session, status } = useSession();
-  const router = useRouter();
   const [selectedId, setSelectedId] = useState(null);
 
   const handleClickOpen = () => {
@@ -123,45 +123,45 @@ function RequestListCard({ data, request }) {
         </Overlay>
       )}
       {request.status == "pending" ? (
-         <div className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-3">
-        <motion.div
-          key={request._id}
-          layoutId={request._id}
-          onClick={() => setSelectedId(request._id)}
-           className="cursor-pointer"
-          
-        >
-          <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4 px-12">
-            <div className="basis-12/12">
-              <div className="grid grid-col-6 gap-1 mt-4">
-                <div className="col-start-1 col-end-7 lg:flex">
-                  <div className="w-fit h-fit pb-2">
-                    <p className="text-xs text-black/40 truncate">
-                    วันที่ขอ <span>{new Date(request.createdAt).toUTCString()}</span>
-                    </p>
+        <div className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-3">
+          <motion.div
+            key={request._id}
+            layoutId={request._id}
+            onClick={() => setSelectedId(request._id)}
+            className="cursor-pointer"
+          >
+            <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4 px-12">
+              <div className="basis-12/12">
+                <div className="grid grid-col-6 gap-1 mt-4">
+                  <div className="col-start-1 col-end-7 lg:flex">
+                    <div className="w-fit h-fit pb-2">
+                      <p className="text-xs text-black/40 truncate">
+                        วันที่ขอ{" "}
+                        <span>{new Date(request.createdAt).toUTCString()}</span>
+                      </p>
+                    </div>
                   </div>
-                </div>
 
-                <div className="col-start-1 col-end-7 font-semibold pb-2">
-                  <span className="text-base md:text-lg xxl:text-2xl xxxl:text-3xl">
-                    คุณ{" "}
-                  </span>
-                  <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
-                    {" "}
-                    <p>
-                      ( {request.nickName} ) {request.firstName}{" "}
-                      {request.lastName}
-                    </p>
+                  <div className="col-start-1 col-end-7 font-semibold pb-2">
+                    <span className="text-base md:text-lg xxl:text-2xl xxxl:text-3xl">
+                      คุณ{" "}
+                    </span>
+                    <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
+                      {" "}
+                      <p>
+                        ( {request.nickName} ) {request.firstName}{" "}
+                        {request.lastName}
+                      </p>
+                    </div>
                   </div>
-                </div>
-                <div className="col-start-1 col-span-6">
-                  <span className="xxl:text-lg xxxl:text-xl sm:hidden">
-                    วัน:
-                  </span>
-                  <span className="text-[#969696] lg:hidden md:hidden">
-                    <CalendarMonthIcon />
-                  </span>
-                  <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
+                  <div className="col-start-1 col-span-6">
+                    <span className="xxl:text-lg xxxl:text-xl sm:hidden">
+                      วัน:
+                    </span>
+                    <span className="text-[#969696] lg:hidden md:hidden">
+                      <CalendarMonthIcon />
+                    </span>
+                    <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
                       {new Date(request.appointmentDate).toLocaleDateString(
                         "th-TH",
                         {
@@ -171,73 +171,82 @@ function RequestListCard({ data, request }) {
                         }
                       )}
                     </span>
-                </div>
-                <div className="col-start-1 col-span-6">
-                  <span className="xxl:text-lg xxxl:text-xl sm:hidden">
-                    เวลา:
-                  </span>
-                  <span className="text-[#969696] lg:hidden md:hidden">
-                    <AccessTimeIcon />
-                  </span>
-                  {request.endTime ? (
-                    <span className="mx-2 font-semibold xxl:text-lg  xxxl:text-xl">
-                      <span className="">
+                  </div>
+                  <div className="col-start-1 col-span-6">
+                    <span className="xxl:text-lg xxxl:text-xl sm:hidden">
+                      เวลา:
+                    </span>
+                    <span className="text-[#969696] lg:hidden md:hidden">
+                      <AccessTimeIcon />
+                    </span>
+                    {request.endTime ? (
+                      <span className="mx-2 font-semibold xxl:text-lg  xxxl:text-xl">
+                        <span className="">
+                          {new Date(request.appointmentTime).toLocaleTimeString(
+                            "th-TH",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true,
+                            }
+                          )}{" "}
+                          {"-"}{" "}
+                          {new Date(request.endTime).toLocaleTimeString(
+                            "th-TH",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              hour12: true,
+                            }
+                          )}
+                        </span>
+                      </span>
+                    ) : (
+                      <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
                         {new Date(request.appointmentTime).toLocaleTimeString(
                           "th-TH",
                           {
                             hour: "2-digit",
                             minute: "2-digit",
-                            hour12: true
+                            hour12: true,
                           }
-                        )}{" "}
-                        {"-"}{" "}
-                        {new Date(request.endTime).toLocaleTimeString("th-TH", {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: true
-                        })}
+                        )}
                       </span>
+                    )}
+                  </div>
+                  <div className="col-start-1 col-span-3">
+                    <span className="sm:hidden xxl:text-lg xxxl:text-xl">
+                      สถานที่นัด:
                     </span>
-                  ) : (
-                    <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
-                      {new Date(request.appointmentTime).toLocaleTimeString(
-                        "th-TH",
-                        {
-                          hour: "2-digit",
-                          minute: "2-digit",
-                          hour12: true
-                        }
+                    <span className="text-[#969696] lg:hidden md:hidden ">
+                      <HomeIcon />
+                    </span>
+                    <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
+                      {" "}
+                      {request.appointmentPlace}
+                    </span>
+                  </div>
+                  <div className="col-start-1 col-span-3 sm:col-span-8">
+                    <span className="sm:hidden xxl:text-lg xxxl:text-xl">
+                      พนักงานผู้ดูแล:
+                    </span>
+                    <span className="text-[#969696] lg:hidden md:hidden ">
+                      <PermIdentityIcon />
+                    </span>
+                    <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
+                      {request.staff ? (
+                        request.staff
+                      ) : (
+                        <span className="text-sm text-black/40">
+                          ไม่ได้กรอก
+                        </span>
                       )}
                     </span>
-                  )}
-                </div>
-                <div className="col-start-1 col-span-3">
-                  <span className="sm:hidden xxl:text-lg xxxl:text-xl">
-                    สถานที่นัด:
-                  </span>
-                  <span className="text-[#969696] lg:hidden md:hidden ">
-                    <HomeIcon />
-                  </span>
-                  <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                    {" "}
-                    {request.appointmentPlace}
-                  </span>
-                </div>
-                <div className="col-start-1 col-span-3 sm:col-span-8">
-                  <span className="sm:hidden xxl:text-lg xxxl:text-xl">
-                    พนักงานผู้ดูแล:
-                  </span>
-                  <span className="text-[#969696] lg:hidden md:hidden ">
-                    <PermIdentityIcon />
-                  </span>
-                  <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                  {request.staff ? request.staff : <span className="text-sm text-black/40">ไม่ได้กรอก</span>} 
-                  </span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </motion.div>
+          </motion.div>
           <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center mx-5 sm:justify-center my-3  pb-5 px-5">
             <div>
               <BtnAccept
@@ -282,7 +291,7 @@ function RequestListCard({ data, request }) {
               request={request}
             />
           </div>
-         </div>
+        </div>
       ) : (
         <></>
       )}

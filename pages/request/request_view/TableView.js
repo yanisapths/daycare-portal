@@ -3,6 +3,9 @@ import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import BtnCancel from "../../../components/BtnCancel";
 import BtnAccept from "../../../components/BtnAccept";
+import RequestModal from "../../../components/OLModal/RequestModal";
+import Overlay from "../../../components/OLLayout/Overlay";
+import CircleTextButton from "../../../components/OLButton/CircleTextButton";
 import IconButton from "@mui/material/IconButton";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import Swal from "sweetalert2";
@@ -11,7 +14,7 @@ import Router from "next/router";
 import toast from "react-hot-toast";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+import { motion } from "framer-motion";
 
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -26,9 +29,12 @@ const CustomTooltip = styled(({ className, ...props }) => (
 }));
 
 function TableView({ data }) {
-  const [open, setOpen] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
+  const [open, setOpen] = useState(false);
+  const [p, setPatient] = useState({});
+  const [course, setCourse] = useState({});
+  const [selectedId, setSelectedId] = useState(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -38,6 +44,11 @@ function TableView({ data }) {
     if (reason !== "backdropClick") {
       setOpen(false);
     }
+    setOpen(false);
+  };
+
+  const closeModal = () => {
+    setSelectedId(null);
   };
 
   async function acceptRequest(appointmentId) {
@@ -73,6 +84,37 @@ function TableView({ data }) {
       });
   }
 
+  useEffect(() => {
+    {
+      data &&
+        data.map((r) => {
+          const patienturl = `${process.env.dev}/patient/${r.patient_id}`;
+          if (r.patient_id) {
+            fetch(patienturl, {
+              method: "GET",
+            })
+              .then(async (res) => {
+                const p = await res.json();
+                setPatient(p);
+              })
+              .catch((err) => console.log(err));
+          }
+        });
+    }
+  }, []);
+
+  useEffect(() => {
+    const courseurl = `${process.env.dev}/course/${data.course_id}`;
+    fetch(courseurl, {
+      method: "GET",
+    })
+      .then(async (res) => {
+        const course = await res.json();
+        setCourse(course);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <>
       <div className="mt-12 shadow-xl rounded-2xl mx-6">
@@ -104,13 +146,27 @@ function TableView({ data }) {
                   <div className="flex items-center">สถานะ</div>
                 </th>
                 <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
+                  <div className="flex items-center"></div>
+                </th>
+                <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
                   <div className="flex items-center">ลบ</div>
                 </th>
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-100">
-              {data?.map((d, index) => (
+            {data?.map((d, index) => (
+              <tbody className="divide-y divide-gray-100">
+                {selectedId && (
+                  <Overlay close={closeModal}>
+                    <RequestModal
+                      data={d}
+                      patient={p}
+                      setSelectedId={setSelectedId}
+                      close={closeModal}
+                      course={course}
+                    ></RequestModal>
+                  </Overlay>
+                )}
                 <tr
                   key={d._id}
                   disable={d.status == "Done" ? true : false}
@@ -137,7 +193,11 @@ function TableView({ data }) {
                         : "p-4 text-gray-700 whitespace-nowrap"
                     }
                   >
-                    {new Date(d.appointmentDate).toDateString()}
+                    {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
+                      month: "long",
+                      day: "2-digit",
+                      year: "numeric",
+                    })}
                   </td>
                   <td className="p-4 text-gray-700 whitespace-nowrap">
                     {d.endTime ? (
@@ -145,7 +205,7 @@ function TableView({ data }) {
                         className={
                           d.status == "Done"
                             ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                            : "bg-[#ffe898]/50 text-[#6C5137] text-center px-3 py-1.5 rounded text-xs font-medium whitespace-nowrap w-3/6"
+                            : "px-3 py-1.5 text-black text-xs font-medium"
                         }
                       >
                         {new Date(d.appointmentTime).toLocaleTimeString(
@@ -168,7 +228,7 @@ function TableView({ data }) {
                         className={
                           d.status == "Done"
                             ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                            : "bg-[#ffe898]/50 text-[#6C5137] px-3 text-center py-1.5 rounded text-xs font-medium whitespace-nowrap w-3/6"
+                            : "px-3 py-1.5 text-black text-xs font-medium"
                         }
                       >
                         {new Date(d.appointmentTime).toLocaleTimeString(
@@ -256,7 +316,7 @@ function TableView({ data }) {
                       ) : (
                         <>
                           {d.status == "Approved" ? (
-                            <strong className="bg-[#2ED477]/10 text-[#2ED477] px-3 py-1.5 rounded text-xs font-medium">
+                            <strong className="bg-[#2ED477]/10 text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
                               {d.status}
                             </strong>
                           ) : (
@@ -265,7 +325,7 @@ function TableView({ data }) {
                                 d.rejectReason ? (
                                   <div className="px-2 pb-3">
                                     <div className="p-2">{d.rejectReason}</div>
-                                    <div className="px-3 rounded-full bg-[#7879F1]/10 ">
+                                    <div className="px-3 rounded-full bg-[#7879F1]/10">
                                       <span className="text-sm text-[#7879F1]">
                                         {d.tag}
                                       </span>
@@ -277,7 +337,7 @@ function TableView({ data }) {
                               }
                               placement="top"
                             >
-                              <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 bg-[#FF2F3B]/10 text-[#FF2F3B] px-3 py-1.5 rounded text-xs font-medium">
+                              <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 bg-[#FF2F3B]/10 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
                                 {d.status}
                               </strong>
                             </CustomTooltip>
@@ -286,7 +346,12 @@ function TableView({ data }) {
                       )}
                     </td>
                   )}
-
+                  <td>
+                    <CircleTextButton
+                      text="ดูเพิ่มเติม"
+                      handleClick={() => setSelectedId(d._id)}
+                    />
+                  </td>
                   <td>
                     <IconButton
                       aria-label="delete"
@@ -327,8 +392,8 @@ function TableView({ data }) {
                     </IconButton>
                   </td>
                 </tr>
-              ))}
-            </tbody>
+              </tbody>
+            ))}
           </table>
         </div>
       </div>
