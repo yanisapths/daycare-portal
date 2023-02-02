@@ -67,24 +67,24 @@ const Staff = ({ user }) => {
               />
             </div>
             <div className=" lg:flex xl:grid xl:grid-cols-2 gap-5">
-            {staffData ? (
-              staffData.map((data,index) => {
-                return (
-                  <div className="flex justify-center"  key={index}>
-                    <ListView
-                      clinicData={clinic}
-                      id={clinic._id}
-                      key={data._id}
-                      staffData={data}
-                    />
-                  </div>
-                );
-              })
-            ) : (
-              <div className="flex justify-center">
-                <p className="h3 text-black/50">คุณยังไม่ได้เพิ่มพนักงาน</p>
-              </div>
-            )}
+              {staffData ? (
+                staffData.map((data, index) => {
+                  return (
+                    <div className="flex justify-center" key={index}>
+                      <ListView
+                        clinicData={clinic}
+                        id={clinic._id}
+                        key={data._id}
+                        staffData={data}
+                      />
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="flex justify-center">
+                  <p className="h3 text-black/50">คุณยังไม่ได้เพิ่มพนักงาน</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
