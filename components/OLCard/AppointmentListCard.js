@@ -40,7 +40,7 @@ function AppointmentListCard({ data, d, index }) {
       body: JSON.stringify({ status: "Done" }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -55,7 +55,7 @@ function AppointmentListCard({ data, d, index }) {
     {
       data &&
         data.map((d) => {
-          const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
+          const patienturl = `${process.env.url}/patient/${d.patient_id}`;
           if (d.patient_id) {
             fetch(patienturl, {
               method: "GET",
@@ -71,7 +71,7 @@ function AppointmentListCard({ data, d, index }) {
   }, []);
 
   useEffect(() => {
-    const courseurl = `${process.env.dev}/course/${d.course_id}`;
+    const courseurl = `${process.env.url}/course/${d.course_id}`;
     fetch(courseurl, {
       method: "GET",
     })

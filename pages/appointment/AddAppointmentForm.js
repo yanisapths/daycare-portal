@@ -94,7 +94,7 @@ function AddAppointmentForm({
     };
     const response = await axios
       .post(
-        `${process.env.dev}/appointment/create/${clinicData._id}`,
+        `${process.env.url}/appointment/create/${clinicData._id}`,
         json,
         axiosConfig
       )

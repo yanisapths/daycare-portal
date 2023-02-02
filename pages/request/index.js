@@ -60,11 +60,11 @@ const Request = ({user}) => {
 
   const fetchData = async () => {
     let isSubscribed = true;
-    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
-    const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
-    const patienturl = `${process.env.dev}/patient/match/${user.id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
+    const clinicurl = `${process.env.url}/clinic/owner/${user.id}`;
+    const courseurl = `${process.env.url}/course/match/owner/${user.id}`;
+    const availurl = `${process.env.url}/available/match/owner/${user.id}`;
+    const patienturl = `${process.env.url}/patient/match/${user.id}`;
+    const appointmenturl = `${process.env.url}/appointment/match/owner/${user.id}`;
 
     const appointment = await fetch(appointmenturl);
     const patient = await fetch(patienturl);

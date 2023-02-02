@@ -10,7 +10,7 @@ function TableView() {
   const fetchData = async () => {
     let isSubscribed = true;
     const res = await fetch(
-      `${process.env.dev}/patient/match/${session.user.id}`
+      `${process.env.url}/patient/match/${session.user.id}`
     );
 
     const patientData = await res.json();

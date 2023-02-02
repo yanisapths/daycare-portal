@@ -84,7 +84,7 @@ const Calendar = () => {
 
   async function fetchAvailableData() {
     await delay(1000);
-    const url = `${process.env.dev}/available/match/owner/${session.user.id}`;
+    const url = `${process.env.url}/available/match/owner/${session.user.id}`;
     //course
     if (session.user.id) {
       const res = await fetch(url);
@@ -102,7 +102,7 @@ const Calendar = () => {
 
   async function deleteAvailable(availableId) {
     const res = await fetch(
-      `${process.env.dev}/available/delete/${availableId}`,
+      `${process.env.url}/available/delete/${availableId}`,
       { method: "DELETE" }
     )
       .then(async (res) => {})

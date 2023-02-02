@@ -40,7 +40,7 @@ function RequestListCard({ data, request }) {
   const fetchData = async () => {
     let isSubscribed = true;
     const courseData = await fetch(
-      `${process.env.dev}/course/${request.course_id}`
+      `${process.env.url}/course/${request.course_id}`
     );
 
     const course = await courseData.json();
@@ -66,7 +66,7 @@ function RequestListCard({ data, request }) {
       body: JSON.stringify({ status: "Approved" }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -82,7 +82,7 @@ function RequestListCard({ data, request }) {
     {
       data &&
         data.map((r) => {
-          const patienturl = `${process.env.dev}/patient/${r.patient_id}`;
+          const patienturl = `${process.env.url}/patient/${r.patient_id}`;
           if (r.patient_id) {
             fetch(patienturl, {
               method: "GET",
@@ -98,7 +98,7 @@ function RequestListCard({ data, request }) {
   }, []);
 
   useEffect(() => {
-    const courseurl = `${process.env.dev}/course/${request.course_id}`;
+    const courseurl = `${process.env.url}/course/${request.course_id}`;
     fetch(courseurl, {
       method: "GET",
     })

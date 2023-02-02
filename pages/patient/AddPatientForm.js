@@ -70,7 +70,7 @@ function AddPatientForm({ open, handleClose, setOpen }) {
     };
     const response = await axios
       .post(
-        `${process.env.dev}/patient/create/${session.user.id}`,
+        `${process.env.url}/patient/create/${session.user.id}`,
         json,
         axiosConfig
       )

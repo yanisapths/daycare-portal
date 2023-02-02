@@ -24,8 +24,8 @@ const Staff = ({ user }) => {
 
   const fetchData = async () => {
     let isSubscribed = true;
-    const res = await fetch(`${process.env.dev}/clinic/owner/${user.id}`);
-    const staff = await fetch(`${process.env.dev}/staff/owner/${user.id}`);
+    const res = await fetch(`${process.env.url}/clinic/owner/${user.id}`);
+    const staff = await fetch(`${process.env.url}/staff/owner/${user.id}`);
 
     const staffData = await staff.json();
 

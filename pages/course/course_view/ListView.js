@@ -34,7 +34,7 @@ function ListView({ clinicData }) {
   //course
   async function fetchCourseData() {
     await delay(1000);
-    const url = `${process.env.dev}/course/match/owner/${session.user.id}`;
+    const url = `${process.env.url}/course/match/owner/${session.user.id}`;
 
     if (session.user.id) {
       const res = await fetch(url);

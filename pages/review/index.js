@@ -12,7 +12,7 @@ const Review = ({ user }) => {
   const [clinicData, setData] = useState({});
 
   async function fetchData() {
-    const url = `${process.env.dev}/clinic/owner/${user.id}`;
+    const url = `${process.env.url}/clinic/owner/${user.id}`;
     if (user.id) {
       const res = await fetch(url);
       try {
@@ -20,7 +20,7 @@ const Review = ({ user }) => {
         if (clinicData) {
           setData(clinicData);
           const res = await fetch(
-            `${process.env.dev}/review/match/${clinicData._id}`
+            `${process.env.url}/review/match/${clinicData._id}`
           );
           const reviews = await res.json();
           if (reviews) {

@@ -58,7 +58,7 @@ function TableView({ data }) {
       body: JSON.stringify({ status: "Approved" }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -72,7 +72,7 @@ function TableView({ data }) {
 
   async function deleteRequest(appointmentId) {
     const res = await fetch(
-      `${process.env.dev}/appointment/delete/${appointmentId}`,
+      `${process.env.url}/appointment/delete/${appointmentId}`,
       { method: "DELETE" }
     )
       .then(async (res) => {
@@ -88,7 +88,7 @@ function TableView({ data }) {
     {
       data &&
         data.map((r) => {
-          const patienturl = `${process.env.dev}/patient/${r.patient_id}`;
+          const patienturl = `${process.env.url}/patient/${r.patient_id}`;
           if (r.patient_id) {
             fetch(patienturl, {
               method: "GET",
@@ -104,7 +104,7 @@ function TableView({ data }) {
   }, []);
 
   useEffect(() => {
-    const courseurl = `${process.env.dev}/course/${data.course_id}`;
+    const courseurl = `${process.env.url}/course/${data.course_id}`;
     fetch(courseurl, {
       method: "GET",
     })

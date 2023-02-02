@@ -33,7 +33,7 @@ const Schedule = () => {
     await delay(1000);
     if (session.user.id) {
       const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
+        `${process.env.url}/clinic/owner/${session.user.id}`
       );
       try {
         const clinicData = await res.json();
@@ -97,7 +97,7 @@ const Schedule = () => {
     };
     const response = await axios
       .post(
-        `${process.env.dev}/available/create/${clinicData._id}`,
+        `${process.env.url}/available/create/${clinicData._id}`,
         json,
         axiosConfig
       )

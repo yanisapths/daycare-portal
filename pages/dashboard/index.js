@@ -28,11 +28,11 @@ function Dashboard({ data }) {
     let isSubscribed = true;
     const fetchRequest = async () => {
       const res = await fetch(
-        `${process.env.dev}/appointment/match/owner/${session.user.id}/pending`
+        `${process.env.url}/appointment/match/owner/${session.user.id}/pending`
       );
 
       const approve = await fetch(
-        `${process.env.dev}/appointment/match/owner/${session.user.id}/approved`
+        `${process.env.url}/appointment/match/owner/${session.user.id}/approved`
       );
       const requestData = await res.json();
       const appointmentData = await approve.json();
