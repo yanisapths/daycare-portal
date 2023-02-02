@@ -109,7 +109,9 @@ function FormModal({ request, open, handleClose }) {
                   </FormControl>
                 </div>
                 <div className="pb-6">
-                  <InputLabel id="tag-label" className="pb-2">Tag</InputLabel>
+                  <InputLabel id="tag-label" className="pb-2">
+                    Tag
+                  </InputLabel>
                   <FormControl>
                     <Controller
                       render={({ field: { field, onChange, value } }) => (
@@ -148,15 +150,20 @@ function FormModal({ request, open, handleClose }) {
         </DialogContent>
         <DialogActions sx={{ mx: 4, mb: 4 }}>
           <button
-            className="shadow-lg 
-                  w-20 h-9  outline-none border-2 border-black/25 hover:bg-black/10
-                  rounded-2xl sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
+            className="w-20 h-9 hover:bg-black/10
+                  rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
             onClick={handleClose}
             sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
             ยกเลิก
           </button>
-          <BtnCancel text="ปฏิเสธ" onClick={handleSubmit(onSubmit)} />
+          <button
+            className="hover:shadow-lg bg-[#FF2F3B] text-white w-20 h-9  border-2 border-[#FF2F3B] hover:text-[#FF2F3B] hover:bg-[#FF2F3B]/20 hover:border-transparent rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
+            onClick={handleSubmit(onSubmit)}
+            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
+          >
+            ยกเลิก
+          </button>
         </DialogActions>
       </Dialog>
     </>

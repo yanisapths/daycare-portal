@@ -27,7 +27,7 @@ function ListView({ data }) {
             month: "short",
           })}
         </p>
-        {/*request list */}
+        {/*appointment list */}
         {data &&
           data?.map((d, index) => (
             <div key={index} className="mb-6">
