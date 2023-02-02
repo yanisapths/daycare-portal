@@ -163,7 +163,7 @@ function RequestListCard({ data, request }) {
                     <span className="text-[#969696]">
                       <CalendarMonthIcon />
                     </span>
-                    <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
+                    <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                       {new Date(request.appointmentDate).toLocaleDateString(
                         "th-TH",
                         {
@@ -179,7 +179,7 @@ function RequestListCard({ data, request }) {
                       <AccessTimeIcon />
                     </span>
                     {request.endTime ? (
-                      <span className="mx-2 font-semibold xxl:text-lg  xxxl:text-xl">
+                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                         <span className="">
                           {new Date(request.appointmentTime).toLocaleTimeString(
                             "th-TH",
@@ -199,7 +199,7 @@ function RequestListCard({ data, request }) {
                         </span>
                       </span>
                     ) : (
-                      <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
+                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                         {new Date(request.appointmentTime).toLocaleTimeString(
                           "th-TH",
                           {
@@ -218,7 +218,7 @@ function RequestListCard({ data, request }) {
                     <span className="text-[#969696] lg:hidden md:hidden ">
                       <HomeIcon />
                     </span>
-                    <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
+                    <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                       {" "}
                       {request.appointmentPlace}
                     </span>
