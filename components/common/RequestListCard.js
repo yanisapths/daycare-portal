@@ -147,18 +147,20 @@ function RequestListCard({ data, request }) {
                       คุณ{" "}
                     </span>
                     <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
-                      {" "}
-                      <p>
-                        ( {request.nickName} ) {request.firstName}{" "}
-                        {request.lastName}
-                      </p>
+                      {request.patient_id ? (
+                        <p>
+                          ( {p.nickName} ) {p.firstName} {p.lastName}
+                        </p>
+                      ) : (
+                        <p>
+                          ( {request.nickName} ) {request.firstName}{" "}
+                          {request.lastName}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="col-start-1 col-span-6">
-                    <span className="xxl:text-lg xxxl:text-xl sm:hidden">
-                      วัน:
-                    </span>
-                    <span className="text-[#969696] lg:hidden md:hidden">
+                    <span className="text-[#969696]">
                       <CalendarMonthIcon />
                     </span>
                     <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
@@ -173,10 +175,7 @@ function RequestListCard({ data, request }) {
                     </span>
                   </div>
                   <div className="col-start-1 col-span-6">
-                    <span className="xxl:text-lg xxxl:text-xl sm:hidden">
-                      เวลา:
-                    </span>
-                    <span className="text-[#969696] lg:hidden md:hidden">
+                    <span className="text-[#969696]">
                       <AccessTimeIcon />
                     </span>
                     {request.endTime ? (
@@ -187,7 +186,6 @@ function RequestListCard({ data, request }) {
                             {
                               hour: "2-digit",
                               minute: "2-digit",
-                              hour12: true,
                             }
                           )}{" "}
                           {"-"}{" "}
@@ -196,7 +194,6 @@ function RequestListCard({ data, request }) {
                             {
                               hour: "2-digit",
                               minute: "2-digit",
-                              hour12: true,
                             }
                           )}
                         </span>
@@ -247,7 +244,15 @@ function RequestListCard({ data, request }) {
               </div>
             </div>
           </motion.div>
-          <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center mx-5 sm:justify-center my-3  pb-5 px-5">
+          <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center mx-5 sm:justify-center my-3 xl:pt-0 pt-4 pb-5 px-5">
+            <div>
+              <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
+            </div>
+            <FormModal
+              open={open}
+              handleClose={handleClose}
+              request={request}
+            />
             <div>
               <BtnAccept
                 text="ยอมรับ"
@@ -282,14 +287,6 @@ function RequestListCard({ data, request }) {
                 }
               />
             </div>
-            <div>
-              <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
-            </div>
-            <FormModal
-              open={open}
-              handleClose={handleClose}
-              request={request}
-            />
           </div>
         </div>
       ) : (

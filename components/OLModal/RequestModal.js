@@ -65,29 +65,26 @@ function RequestModal({
             <p className="text-xs pb-2 text-black/40">
               วันที่ขอ <span>{new Date(data.createdAt).toUTCString()}</span>
             </p>
-            <p className="text-lg pb-2 text-black/70 xl:flex">
-              <span>
+            <p className="text-lg pb-2 text-black/70 md:flex xl:flex">
+              <span className="md:pr-4 xl:pr-4">
                 {new Date(data.appointmentDate).toLocaleDateString("th-Th", {
                   month: "long",
                   day: "2-digit",
                   year: "numeric",
                 })}
               </span>
-              <p className="xl:px-12">
+              <p >
                 {new Date(data.appointmentTime).toLocaleTimeString("th-Th", {
                   hour: "2-digit",
                   minute: "2-digit",
-                  hour12: true,
                 })}
               </p>
               {data.endTime ? (
                 <span>
-                  {" "}
-                  {"-"}{" "}
+                  {"-"}
                   {new Date(data.endTime).toLocaleTimeString("th-Th", {
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: true,
                   })}
                 </span>
               ) : (
@@ -95,14 +92,14 @@ function RequestModal({
               )}
             </p>
             {data.patient_id ? (
-              <div>
+              <div className="pb-2">
                 <motion.h6>
-                  <span className="h4">
+                  <p className="h4 pb-4">
                     คุณ ( {patient.nickName} ) {patient.firstName}{" "}
                     {patient.lastName}
-                  </span>
+                  </p>
                 </motion.h6>
-                <motion.h6 className="flex space-x-10">
+                <motion.h6 className="flex space-x-10 pb-2">
                   <div className="flex items-center align-middle gap-2">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
@@ -126,12 +123,12 @@ function RequestModal({
                     {patient.precaution ? patient.precaution : "-"}
                   </div>
                 </motion.h6>
-                <motion.h6 className="flex space-x-24">
+                <motion.h6 className="flex space-x-24 pb-2">
                   <div className="flex items-center align-middle gap-2">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold">
-                     ติดต่อ{" "}
+                      ติดต่อ{" "}
                     </span>
                     {patient.phoneNumber}
                   </div>
@@ -236,7 +233,7 @@ function RequestModal({
                 </motion.h6>
               </div>
             )}
-            <div className="pt-4 h6">
+            <div className="h6">
               <div className="flex items-center align-middle gap-2">
                 {" "}
                 <CircleIcon icon={<MeetingRoomIcon className="text-sm" />} />
@@ -247,7 +244,7 @@ function RequestModal({
               </div>
             </div>
           </div>
-          <div className="pt-4 h6">
+          <div className="pt-2 h6">
             <div className="flex items-center align-middle gap-2">
               {" "}
               <CircleIcon icon={<BookmarksIcon className="text-sm" />} />

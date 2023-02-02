@@ -4,6 +4,7 @@ import BtnDetails from "../BtnDetails";
 import FormModal from "../../pages/request/FormModal";
 import AppointmentModal from "../OLModal/AppointmentModal";
 import Overlay from "../OLLayout/Overlay";
+import BtnCancel from "../BtnCancel";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import HomeIcon from "@mui/icons-material/Home";
@@ -209,13 +210,7 @@ function AppointmentListCard({ data, d, index }) {
             </motion.div>
             <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
               <div>
-                <button
-                  onClick={handleClickOpen}
-                  className="text-[#FF2F3B] hover:bg-[#FF2F3B]/10 hover:rounded-2xl w-20 h-9 
-                   text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
-                >
-                  ยกเลิก
-                </button>
+                <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
                 <FormModal open={open} handleClose={handleClose} request={d} />
               </div>
               <BtnDetails
