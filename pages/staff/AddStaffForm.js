@@ -32,14 +32,6 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
 
   const onSubmit = async (data) => {
     console.log(data);
-    if (data.staffImage || staffImage) {
-      const formData = new FormData();
-      formData.append("staffImage", data.staffImage[0]);
-      formData.append("staffImage", data.staffImage[0].name);
-      data.staffImage = data.staffImage[0].name;
-    } else {
-      data.staffImage = "";
-    }
       data.owner_id = session.user.id;
       data.clinic_id = id;
       let axiosConfig = {

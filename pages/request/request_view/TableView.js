@@ -145,28 +145,15 @@ function TableView({ data }) {
                 <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
                   <div className="flex items-center">สถานะ</div>
                 </th>
+
                 <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
                   <div className="flex items-center"></div>
-                </th>
-                <th className="p-4 font-medium text-left text-gray-900 whitespace-nowrap">
-                  <div className="flex items-center">ลบ</div>
                 </th>
               </tr>
             </thead>
 
             {data?.map((d, index) => (
               <tbody className="divide-y divide-gray-100" key={d._id}>
-                {selectedId && (
-                  <Overlay close={closeModal}>
-                    <RequestModal
-                      data={d}
-                      patient={p}
-                      setSelectedId={setSelectedId}
-                      close={closeModal}
-                      course={course}
-                    ></RequestModal>
-                  </Overlay>
-                )}
                 <tr
                   key={d._id}
                   disable={d.status == "Done" ? true : false}
@@ -186,6 +173,17 @@ function TableView({ data }) {
                   >
                     {index}
                   </td>
+                  {selectedId && (
+                    <div className="left-0 top-0 items-center justify-center bg-black/10 w-full h-full flex fixed">
+                      <RequestModal
+                        data={d}
+                        patient={p}
+                        setSelectedId={setSelectedId}
+                        close={closeModal}
+                        course={course}
+                      ></RequestModal>
+                    </div>
+                  )}
                   <td
                     className={
                       d.status == "Done"
@@ -316,7 +314,7 @@ function TableView({ data }) {
                       ) : (
                         <>
                           {d.status == "Approved" ? (
-                            <strong className="bg-[#2ED477]/10 text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
+                            <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
                               {d.status}
                             </strong>
                           ) : (
@@ -325,7 +323,7 @@ function TableView({ data }) {
                                 d.rejectReason ? (
                                   <div className="px-2 pb-3">
                                     <div className="p-2">{d.rejectReason}</div>
-                                    <div className="px-3 rounded-full bg-[#7879F1]/10">
+                                    <div className="px-3 rounded-full ">
                                       <span className="text-sm text-[#7879F1]">
                                         {d.tag}
                                       </span>
@@ -337,7 +335,7 @@ function TableView({ data }) {
                               }
                               placement="top"
                             >
-                              <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 bg-[#FF2F3B]/10 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
+                              <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
                                 {d.status}
                               </strong>
                             </CustomTooltip>
@@ -346,12 +344,7 @@ function TableView({ data }) {
                       )}
                     </td>
                   )}
-                  <td>
-                    <CircleTextButton
-                      text="ดูเพิ่มเติม"
-                      handleClick={() => setSelectedId(d._id)}
-                    />
-                  </td>
+
                   <td>
                     <IconButton
                       aria-label="delete"

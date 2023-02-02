@@ -42,6 +42,11 @@ function ListView({ data }) {
             )}
           </div>
         ))}
+        {!data || (
+          <div className="text-center px-10 pt-40">
+            <p className="h4 lg:h2 text-black/30">ไม่มีคำขอ</p>
+          </div>
+        )}
       </div>
     </div>
   );
