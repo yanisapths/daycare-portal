@@ -2,6 +2,22 @@ import { getSession, useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import LinkGridCard from "../../components/LinkGridCard";
 import AmountCard from "../../components/AmountCard";
+import VerifiedIcon from '@mui/icons-material/Verified';
+import { styled } from "@mui/material/styles";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+
+const CustomTooltip = styled(({ className, ...props }) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: theme.palette.common.white,
+    color: "rgba(0, 0, 0, 0.87)",
+    boxShadow: theme.shadows[10],
+    fontSize: 14,
+    borderRadius: 12,
+    p:8
+  },
+}));
 
 function Dashboard({ data }) {
   const { data: session, status } = useSession();
@@ -36,7 +52,9 @@ function Dashboard({ data }) {
     <>
       {/* Clinic Hours */}
       <div className="px-4 pt-8">
-        <p className="h2">{data.clinic_name}</p>
+        <p className="h2">{data.clinic_name}
+        {data.approvalStatus == "Authorized" ? <span className="px-2"><CustomTooltip title="Verified Clinic" placement="top" ><VerifiedIcon className="text-[#ECE656]" fontSize="large" /></CustomTooltip></span>:"" }
+        </p>
         <p className="mt-2 text-xl font-bold text-black/75">{data.address}</p>
         <p className="mt-4 text-lg text-black/75 sm:truncate ">
           {data.description}
