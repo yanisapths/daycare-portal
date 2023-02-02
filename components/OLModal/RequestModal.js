@@ -22,7 +22,6 @@ function RequestModal({
   course,
   index,
 }) {
-  console.log(patient);
   return (
     <AnimatePresence>
       <motion.div
