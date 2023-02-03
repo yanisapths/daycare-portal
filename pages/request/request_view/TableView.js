@@ -76,7 +76,7 @@ function TableView({ data }) {
       { method: "DELETE" }
     )
       .then(async (res) => {
-        Router.reload();
+        toast.success("ลบรายการแล้ว");
       })
       .catch((err) => {
         console.log("ERROR: ", err);

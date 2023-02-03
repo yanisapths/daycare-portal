@@ -39,14 +39,19 @@ function RequestListCard({ data, request }) {
 
   const fetchData = async () => {
     let isSubscribed = true;
+    const patientData = await fetch(
+      `${process.env.dev}/patient/${request.patient_id}`
+    );
+
     const courseData = await fetch(
       `${process.env.dev}/course/${request.course_id}`
     );
 
     const course = await courseData.json();
+    const p = await patientData.json();
     if (isSubscribed) {
       setCourse(course);
-      console.log(course);
+      setPatient(p);
     }
     return () => (isSubscribed = false);
   };
@@ -77,25 +82,6 @@ function RequestListCard({ data, request }) {
         toast.error("ไม่สำเร็จ");
       });
   }
-
-  useEffect(() => {
-    {
-      data &&
-        data.map((r) => {
-          const patienturl = `${process.env.dev}/patient/${r.patient_id}`;
-          if (r.patient_id) {
-            fetch(patienturl, {
-              method: "GET",
-            })
-              .then(async (res) => {
-                const p = await res.json();
-                setPatient(p);
-              })
-              .catch((err) => console.log(err));
-          }
-        });
-    }
-  }, []);
 
   useEffect(() => {
     const courseurl = `${process.env.dev}/course/${request.course_id}`;
@@ -234,9 +220,7 @@ function RequestListCard({ data, request }) {
                       {request.staff ? (
                         request.staff
                       ) : (
-                        <span className="text-sm text-black/40">
-                          ไม่ได้กรอก
-                        </span>
+                        <span className="text-sm text-black/40">-</span>
                       )}
                     </span>
                   </div>
