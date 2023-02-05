@@ -4,16 +4,29 @@ import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Button } from "@mui/material";
 import CircleIcon from "../../components/OLIcon/CircleIcon";
 import PhoneIcon from "@mui/icons-material/Phone";
-import RoundTextIcon from "../../components/OLIcon/RoundTextIcon";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import WcIcon from "@mui/icons-material/Wc";
 import PersonIcon from "@mui/icons-material/Person";
-import WarningIcon from "@mui/icons-material/Warning";
-import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Tooltip from "@mui/material/Tooltip";
+import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 function PatientDetailModal({ patient, selectedId, setSelectedId }) {
+  async function deletePatient(pid) {
+    const res = await fetch(`${process.env.dev}/patient/delete/${pid}`, {
+      method: "DELETE",
+    })
+      .then(async (res) => {
+        toast.success("ลบรายการแล้ว");
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ลบรายการไม่สำเร็จ");
+      });
+  }
+
   return (
     <AnimatePresence>
       <motion.div
@@ -34,7 +47,6 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
             ข้อมูลผู้ป่วย
           </motion.h6>
           <motion.div
-            className=""
             onClick={() => setSelectedId(null)}
             animate={{ y: -8 }}
             transition={{
@@ -47,12 +59,65 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
           </motion.div>
         </div>
         <p className="text-xs pb-2 text-black/40">HN: {patient.HN}</p>
-        <motion.h6>
-          <p className="h4 pb-4">
-            คุณ ( {patient.nickName} ) {patient.firstName} {patient.lastName}
-          </p>
-        </motion.h6>
-        <motion.h6 className="flex space-x-10 pb-2">
+        <motion.div
+          animate={{ y: -8 }}
+          transition={{
+            duration: "0.3",
+          }}
+        >
+          <div className="flex items-center align-middle gap-2 pb-4">
+            <p className="h4">
+              คุณ ( {patient.nickName} ) {patient.firstName} {patient.lastName}
+            </p>
+            <Tooltip title="ลบ" placement="top">
+              <IconButton
+                aria-label="delete"
+                size="small"
+                className="text-[#FF2F3B]"
+                onClick={() =>
+                  Swal.fire({
+                    title: "ลบรายการนี้?",
+                    text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonText: "ใช่ ลบเลย!",
+                    cancelButtonText: "ยกเลิก",
+                    reverseButtons: true,
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      deletePatient(patient._id).then(() =>
+                        Swal.fire({
+                          title: "ลบแล้ว",
+                          showConfirmButton: false,
+                          icon: "success",
+                          timer: 1000,
+                        })
+                      );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                      Swal.fire({
+                        title: "ยกเลิก :)",
+                        showConfirmButton: false,
+                        icon: "error",
+                        timer: 1000,
+                      });
+                    }
+                  })
+                }
+              >
+                <DeleteIcon />
+              </IconButton>
+            </Tooltip>
+          </div>
+        </motion.div>
+        <motion.div
+          animate={{ y: -8 }}
+          transition={{
+            duration: "0.3",
+          }}>
+
+        <motion.div
+          className="flex space-x-10 pb-2"
+        >
           <div className="flex items-center align-middle gap-2">
             {" "}
             <CircleIcon icon={<PersonIcon className="text-sm" />} />
@@ -65,8 +130,8 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
             <span className="caption text-[#A17851] font-bold">เพศ </span>
             {patient.sex}
           </div>
-        </motion.h6>
-        <motion.h6 className="md:flex md:space-x-12 md:pb-2 xl:flex xl:space-x-12 xl:pb-2">
+        </motion.div>
+        <motion.div className="md:flex md:space-x-12 md:pb-2 xl:flex xl:space-x-12 xl:pb-2">
           <div className="flex items-center align-middle gap-2">
             {" "}
             <CircleIcon icon={<PhoneIcon className="text-sm" />} />
@@ -79,17 +144,17 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
             <span className="caption text-[#A17851] font-bold">LINE ID </span>
             {patient.lineId}
           </div>
-        </motion.h6>
-        <motion.h6>
+        </motion.div>
+        <motion.div>
           <div className="flex items-center align-middle gap-2">
             {" "}
             <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
             <span className="caption text-[#A17851] font-bold">ที่อยู่ </span>
             {patient.address}
           </div>
-        </motion.h6>
+        </motion.div>
         <div className="px-8 pt-4">
-          <motion.h6 className="flex space-x-12 pb-2">
+          <motion.div className="flex space-x-12 pb-2">
             <div className="flex items-center align-middle gap-2">
               {" "}
               <span className=" caption text-[#A17851]">อาชีพ</span>
@@ -100,8 +165,8 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
               <span className="caption text-[#A17851]">ตำแหน่ง</span>
               {patient.position}
             </div>
-          </motion.h6>
-          <motion.h6 className="flex space-x-12 pb-2">
+          </motion.div>
+          <motion.div className="flex space-x-12 pb-2">
             <div className="flex items-center align-middle gap-2">
               <span className="caption text-[#A17851]">ระดับการศึกษา </span>
               {patient.education}
@@ -110,12 +175,19 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
               <span className="caption text-[#A17851]">รายได้ </span>
               {patient.income}
             </div>
-          </motion.h6>
+          </motion.div>
         </div>
+        </motion.div>
 
         <div className="px-2 pt-4">
           <p className="text-black/40">ข้อมูลด้านสุขภาพ</p>
-          <motion.h6 className="pt-2 space-y-4">
+          <motion.div
+            animate={{ y: -8 }}
+            transition={{
+              duration: "0.3",
+            }}
+            className="pt-2 space-y-4"
+          >
             <p className="caption text-[#A17851] font-bold">ข้อควรระวัง</p>
             <span className="text-[#FF2F3B]">
               {patient.precaution ? patient.precaution : "-"}
@@ -125,7 +197,7 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
             {patient.chiefComplaint}
             <p className="caption text-[#A17851] font-bold">PT diagnosis</p>
             {patient.diagnosis}
-          </motion.h6>
+          </motion.div>
         </div>
       </motion.div>
     </AnimatePresence>

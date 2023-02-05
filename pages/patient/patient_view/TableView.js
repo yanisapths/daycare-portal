@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
-import IconButton from "@mui/material/IconButton";
-import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
-import Tooltip from "@mui/material/Tooltip";
-import BtnDetails from "../../../components/BtnDetails";
-import Overlay from "../../../components/OLLayout/Overlay";
-import PatientDetailModal from "../../../components/OLModal/PatientDetailModal";
 import PatientCard from "../../../components/OLCard/PatientCard";
+import { motion, AnimatePresence } from "framer-motion";
 
 function TableView() {
   const { data: session, status } = useSession();
   const [patientData, setPatientData] = useState([]);
   const [selectedId, setSelectedId] = useState(null);
 
-  const closeModal = () => {
-    setSelectedId(null);
-  };
   const fetchData = async () => {
     let isSubscribed = true;
     const res = await fetch(
@@ -59,9 +51,6 @@ function TableView() {
               </th>
               <th className="p-4 text-left whitespace-nowrap">
                 <div className="flex items-center">LINE ID</div>
-              </th>
-              <th className="p-4 text-left whitespace-nowrap">
-                <div className="flex items-center"></div>
               </th>
             </tr>
           </thead>
