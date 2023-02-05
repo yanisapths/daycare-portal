@@ -214,10 +214,10 @@ function AppointmentListCard({ data, d, index }) {
                 <FormModal open={open} handleClose={handleClose} request={d} />
               </div>
               <BtnDetails
-                text="สำเร็จ"
+                text="เสร็จสิ้น"
                 onClick={() =>
                   Swal.fire({
-                    title: "เสร็จงานนี้?",
+                    title: "เสร็จสิ้นการให้บริการ?",
                     icon: "success",
                     showCancelButton: true,
                     confirmButtonText: "ใช่",
@@ -227,7 +227,7 @@ function AppointmentListCard({ data, d, index }) {
                     if (result.isConfirmed) {
                       finishTask(d._id).then(() =>
                         Swal.fire({
-                          title: "งานสำเร็จแล้ว",
+                          title: "ให้บริการเสร็จสิ้นแล้ว",
                           showConfirmButton: false,
                           icon: "success",
                           timer: 1000,

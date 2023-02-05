@@ -230,7 +230,7 @@ function RequestListCard({ data, request }) {
           </motion.div>
           <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center mx-5 sm:justify-center my-3 xl:pt-0 pt-4 pb-5 px-5">
             <div>
-              <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
+              <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
             </div>
             <FormModal
               open={open}
@@ -239,11 +239,11 @@ function RequestListCard({ data, request }) {
             />
             <div>
               <BtnAccept
-                text="ยอมรับ"
+                text="ยืนยัน"
                 onClick={() =>
                   Swal.fire({
-                    title: "รับคำขอนี้?",
-                    text: "รับคำขอแล้วเพิ่มลงในนัดหมาย",
+                    title: "ยืนยันรับคำขอนี้?",
+                    text: "ยืนยันรับคำขอแล้วเพิ่มลงในนัดหมาย",
                     icon: "success",
                     showCancelButton: true,
                     confirmButtonText: "ยอบรับ",
@@ -253,7 +253,7 @@ function RequestListCard({ data, request }) {
                     if (result.isConfirmed) {
                       acceptRequest(request._id, request.status).then(() =>
                         Swal.fire({
-                          title: "รับคำขอแล้ว",
+                          title: "ยืนยันรับคำขอแล้ว",
                           showConfirmButton: false,
                           icon: "success",
                           timer: 1000,

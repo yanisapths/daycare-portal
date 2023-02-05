@@ -221,11 +221,11 @@ function RequestTableRow({ d, index }) {
           {d.status == "pending" ? (
             <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
               <BtnAccept
-                text="ยอมรับ"
+                text="ยืนยัน"
                 onClick={() =>
                   Swal.fire({
-                    title: "รับคำขอนี้?",
-                    text: "รับคำขอแล้วเพิ่มลงในนัดหมาย",
+                    title: "ยืนยันรับคำขอนี้?",
+                    text: "ยืนยันรับคำขอแล้วเพิ่มลงในนัดหมาย",
                     icon: "success",
                     showCancelButton: true,
                     confirmButtonText: "ยอบรับ",
@@ -235,7 +235,7 @@ function RequestTableRow({ d, index }) {
                     if (result.isConfirmed) {
                       acceptRequest(d._id).then(() =>
                         Swal.fire({
-                          title: "รับคำขอแล้ว",
+                          title: "ยืนยันรับคำขอแล้ว",
                           showConfirmButton: false,
                           icon: "success",
                           timer: 1000,
