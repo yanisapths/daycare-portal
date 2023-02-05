@@ -103,7 +103,7 @@ function AppointmentModal({
                     <span className="body2 text-[#A17851] font-bold">
                       ข้อควรระวัง{" "}
                     </span>{" "}
-                    {patient.precaution ? patient.precaution : "-"}
+                    {patient.precaution ? <span className="text-[#FF2F3B]">{patient.precaution}</span> : "-"}
                   </div>
                 </motion.h6>
                 <motion.h6 className="flex space-x-24">
@@ -183,7 +183,7 @@ function AppointmentModal({
                     <span className="body2 text-[#A17851] font-bold">
                       ข้อควรระวัง{" "}
                     </span>{" "}
-                    {data.description ? data.description : "-"}
+                    {data.description ? <span className="text-[#FF2F3B]">{data.description}</span> : "-"}
                   </div>
                 </motion.h6>
                 <motion.h6 className="flex space-x-24">

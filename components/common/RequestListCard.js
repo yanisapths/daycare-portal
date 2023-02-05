@@ -230,7 +230,7 @@ function RequestListCard({ data, request }) {
           </motion.div>
           <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center mx-5 sm:justify-center my-3 xl:pt-0 pt-4 pb-5 px-5">
             <div>
-              <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
+              <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
             </div>
             <FormModal
               open={open}

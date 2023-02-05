@@ -199,7 +199,7 @@ function AppointmentListCard({ data, d, index }) {
                           d.staff
                         ) : (
                           <span className="text-sm text-black/40">
-                            ไม่ได้กรอก
+                            -
                           </span>
                         )}
                       </span>
@@ -210,7 +210,7 @@ function AppointmentListCard({ data, d, index }) {
             </motion.div>
             <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
               <div>
-                <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
+                <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
                 <FormModal open={open} handleClose={handleClose} request={d} />
               </div>
               <BtnDetails
