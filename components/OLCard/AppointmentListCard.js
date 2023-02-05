@@ -199,7 +199,7 @@ function AppointmentListCard({ data, d, index }) {
                           d.staff
                         ) : (
                           <span className="text-sm text-black/40">
-                            ไม่ได้กรอก
+                            -
                           </span>
                         )}
                       </span>
@@ -210,14 +210,14 @@ function AppointmentListCard({ data, d, index }) {
             </motion.div>
             <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
               <div>
-                <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
+                <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
                 <FormModal open={open} handleClose={handleClose} request={d} />
               </div>
               <BtnDetails
-                text="สำเร็จ"
+                text="เสร็จสิ้น"
                 onClick={() =>
                   Swal.fire({
-                    title: "เสร็จงานนี้?",
+                    title: "เสร็จสิ้นการให้บริการ?",
                     icon: "success",
                     showCancelButton: true,
                     confirmButtonText: "ใช่",
@@ -227,7 +227,7 @@ function AppointmentListCard({ data, d, index }) {
                     if (result.isConfirmed) {
                       finishTask(d._id).then(() =>
                         Swal.fire({
-                          title: "งานสำเร็จแล้ว",
+                          title: "ให้บริการเสร็จสิ้นแล้ว",
                           showConfirmButton: false,
                           icon: "success",
                           timer: 1000,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useForm, Controller } from "react-hook-form";
-import Router,{ useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { useTheme } from "@mui/material/styles";
@@ -23,6 +23,12 @@ import "react-datepicker/dist/react-datepicker.css";
 const place = [
   { id: 1, label: "คลินิก" },
   { id: 2, label: "บ้าน" },
+];
+
+const sex = [
+  { id: 1, label: "ชาย" },
+  { id: 2, label: "หญิง" },
+  { id: 3, label: "อื่นๆ" },
 ];
 
 function AddAppointmentForm({
@@ -107,7 +113,7 @@ function AddAppointmentForm({
         console.log("AXIOS ERROR: ", err);
       });
   };
-  
+
   return (
     <>
       <Dialog
@@ -249,13 +255,36 @@ function AddAppointmentForm({
                         >
                           เพศ
                         </label>
-
-                        <input
-                          type="text"
-                          id="sex"
+                        <Controller
+                          render={({ field: { field, onChange, value } }) => (
+                            <>
+                              <Select
+                                sx={{
+                                  borderRadius: "40px",
+                                  height: "40px",
+                                  "@media (min-width: 780px)": {
+                                    width: "120px",
+                                  },
+                                  px: 2,
+                                  mt: 0.5,
+                                }}
+                                {...field}
+                                {...register("sex", { required: false })}
+                              >
+                                {sex.map((input, key) => (
+                                  <MenuItem
+                                    key={input.id}
+                                    value={input.label}
+                                    onChange={onChange}
+                                  >
+                                    {input.label}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </>
+                          )}
                           name="sex"
-                          className="inputOutline"
-                          {...register("sex", { required: false })}
+                          control={control}
                         />
                       </div>
                       <div className="col-span-3">
@@ -287,8 +316,18 @@ function AddAppointmentForm({
                           id="phoneNumber"
                           name="phoneNumber"
                           className="inputOutline"
-                          {...register("phoneNumber", { required: false })}
+                          {...register("phoneNumber", {
+                            required: false,
+                            pattern: {
+                              value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                            },
+                          })}
                         />
+                        {errors.phoneNumber?.type === "pattern" && (
+                          <p role="alert" className="text-[#FF2F3B]">
+                            เบอร์โทรต้องเป็นตัวเลขเท่านั้น
+                          </p>
+                        )}
                       </div>
                       <div className="col-span-6">
                         <p className="text-[#b1c2be]">ที่อยู่</p>
@@ -491,7 +530,7 @@ function AddAppointmentForm({
                       </div>
                       <div className="col-span-6">
                         <label htmlFor="course" className="inputLabel">
-                          คอร์ส
+                          คอร์ส*
                         </label>
                         <FormControl sx={{ width: "100%" }}>
                           <Controller
@@ -524,6 +563,11 @@ function AddAppointmentForm({
                             name="course_id"
                             control={control}
                           />
+                          {errors.course_id?.type === "required" && (
+                            <p role="alert" className="text-[#FF2F3B]">
+                              กรุณาเลือกคอร์ส
+                            </p>
+                          )}
                         </FormControl>
                       </div>
                       <div className="col-span-6">
@@ -535,8 +579,11 @@ function AddAppointmentForm({
                           <Controller
                             render={({ field: { field, onChange, value } }) => (
                               <>
-                                <label htmlFor="appointmentPlace" className="inputLabel">
-                                  สถานที่นัดหมาย
+                                <label
+                                  htmlFor="appointmentPlace"
+                                  className="inputLabel"
+                                >
+                                  สถานที่นัดหมาย*
                                 </label>
                                 <Select
                                   sx={{
@@ -547,7 +594,9 @@ function AddAppointmentForm({
                                     },
                                   }}
                                   {...field}
-                                  {...register("appointmentPlace", { required: true })}
+                                  {...register("appointmentPlace", {
+                                    required: true,
+                                  })}
                                   value={value || ""}
                                 >
                                   {place.map((input, key) => (
@@ -565,6 +614,11 @@ function AddAppointmentForm({
                             name="appointmentPlace"
                             control={control}
                           />
+                          {errors.appointmentPlace?.type === "required" && (
+                            <p role="alert" className="text-[#FF2F3B]">
+                              กรุณาเลือกสถานที่นัดหมาย
+                            </p>
+                          )}
                         </FormControl>
                       </div>
                       <div className="col-span-6">
@@ -577,7 +631,7 @@ function AddAppointmentForm({
                               <>
                                 <TextField
                                   id="outlined-textarea"
-                                  placeholder="..."
+                                  placeholder="เช่น เรื่องที่ควรระวัง หรือส่วนที่ต้องดูแลเป็นพิเศษ"
                                   {...register("description", {
                                     required: false,
                                   })}

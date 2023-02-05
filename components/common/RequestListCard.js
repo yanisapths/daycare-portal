@@ -239,11 +239,11 @@ function RequestListCard({ data, request }) {
             />
             <div>
               <BtnAccept
-                text="ยอมรับ"
+                text="ยืนยัน"
                 onClick={() =>
                   Swal.fire({
-                    title: "รับคำขอนี้?",
-                    text: "รับคำขอแล้วเพิ่มลงในนัดหมาย",
+                    title: "ยืนยันรับคำขอนี้?",
+                    text: "ยืนยันรับคำขอแล้วเพิ่มลงในนัดหมาย",
                     icon: "success",
                     showCancelButton: true,
                     confirmButtonText: "ยอบรับ",
@@ -253,7 +253,7 @@ function RequestListCard({ data, request }) {
                     if (result.isConfirmed) {
                       acceptRequest(request._id, request.status).then(() =>
                         Swal.fire({
-                          title: "รับคำขอแล้ว",
+                          title: "ยืนยันรับคำขอแล้ว",
                           showConfirmButton: false,
                           icon: "success",
                           timer: 1000,

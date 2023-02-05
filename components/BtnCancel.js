@@ -5,7 +5,7 @@ const BtnCancel = ({ text, onClick }) => {
     <>
       <button
         onClick={onClick}
-        className="text-[#FF2F3B] hover:bg-[#FF2F3B]/10 hover:rounded-2xl w-20 h-9 
+        className="text-[#FF2F3B] hover:bg-[#FF2F3B]/10 rounded-full w-20 h-9 
         text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
       >
         {text}
