@@ -168,7 +168,7 @@ function RequestModal({
                     {data.age ? (
                       data.age
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -178,7 +178,7 @@ function RequestModal({
                     {data.sex ? (
                       data.sex
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -200,7 +200,7 @@ function RequestModal({
                     {data.phoneNumber ? (
                       data.phoneNumber
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -212,7 +212,7 @@ function RequestModal({
                     {data.lineId ? (
                       data.lineId
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
@@ -226,7 +226,7 @@ function RequestModal({
                     {data.location ? (
                       data.location
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>

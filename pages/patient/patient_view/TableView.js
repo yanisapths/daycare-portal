@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import PatientCard from "../../../components/OLCard/PatientCard";
-import { motion, AnimatePresence } from "framer-motion";
 
 function TableView() {
   const { data: session, status } = useSession();
   const [patientData, setPatientData] = useState([]);
-  const [selectedId, setSelectedId] = useState(null);
 
   const fetchData = async () => {
     let isSubscribed = true;

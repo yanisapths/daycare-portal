@@ -84,7 +84,7 @@ function AppointmentModal({
                     {patient.age ? (
                       patient.age
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -94,7 +94,7 @@ function AppointmentModal({
                     {patient.sex ? (
                       patient.sex
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -116,7 +116,7 @@ function AppointmentModal({
                     {patient.phoneNumber ? (
                       patient.phoneNumber
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -128,7 +128,7 @@ function AppointmentModal({
                     {patient.lineId ? (
                       patient.lineId
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
@@ -142,7 +142,7 @@ function AppointmentModal({
                     {patient.address ? (
                       patient.address
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
@@ -164,7 +164,7 @@ function AppointmentModal({
                     {data.age ? (
                       data.age
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -174,7 +174,7 @@ function AppointmentModal({
                     {data.sex ? (
                       data.sex
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -196,7 +196,7 @@ function AppointmentModal({
                     {data.phoneNumber ? (
                       data.phoneNumber
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -208,7 +208,7 @@ function AppointmentModal({
                     {data.lineId ? (
                       data.lineId
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
@@ -222,7 +222,7 @@ function AppointmentModal({
                     {data.location ? (
                       data.location
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
