@@ -26,6 +26,12 @@ const place = [
   { id: 2, label: "บ้าน" },
 ];
 
+const sex = [
+  { id: 1, label: "ชาย" },
+  { id: 2, label: "หญิง" },
+  { id: 3, label: "อื่นๆ" },
+];
+
 function AddRequestForm({
   user,
   clinicData,
@@ -249,13 +255,36 @@ function AddRequestForm({
                         >
                           เพศ
                         </label>
-
-                        <input
-                          type="text"
-                          id="sex"
+                        <Controller
+                          render={({ field: { field, onChange, value } }) => (
+                            <>
+                              <Select
+                                sx={{
+                                  borderRadius: "40px",
+                                  height: "40px",
+                                  "@media (min-width: 780px)": {
+                                    width: "120px",
+                                  },
+                                  px: 2,
+                                  mt: 0.5,
+                                }}
+                                {...field}
+                                {...register("sex", { required: false })}
+                              >
+                                {sex.map((input, key) => (
+                                  <MenuItem
+                                    key={input.id}
+                                    value={input.label}
+                                    onChange={onChange}
+                                  >
+                                    {input.label}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </>
+                          )}
                           name="sex"
-                          className="inputOutline"
-                          {...register("sex", { required: false })}
+                          control={control}
                         />
                       </div>
                       <div className="col-span-3">
