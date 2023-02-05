@@ -38,28 +38,30 @@ function PatientCard({ d, index }) {
           ></PatientDetailModal>
         </Overlay>
       )}
+       <Tooltip title="ดูรายละเอียด" placement="top">
+
       <tr
         key={d._id}
         layoutId={d._id}
         onClick={() => setSelectedId(d._id)}
-        className="cursor-pointer"
+        className="cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
       >
-        <td className="p-4 body1 font-medium">{index}</td>
-        <td className="p-4 body1 font-medium text-gray-900 whitespace-nowrap">
+        <td className="p-4">{index}</td>
+        <td className="p-4 whitespace-nowrap">
           {d.HN}
         </td>
-        <td className="p-4 text-gray-700 whitespace-nowrap">
+        <td className="p-4 whitespace-nowrap">
           {" "}
           <span>( {d.nickName} )</span> {d.firstName} {d.lastName}
         </td>
-        <td className="p-4 text-gray-700 whitespace-nowrap">{d.age}</td>
-        <td className="p-4 text-gray-700 whitespace-nowrap"> {d.sex}</td>
-        <td className="p-4 text-gray-700 whitespace-nowrap">
+        <td className="p-4 whitespace-nowrap">{d.age}</td>
+        <td className="p-4 whitespace-nowrap"> {d.sex}</td>
+        <td className="p-4 whitespace-nowrap">
           {" "}
           {d.phoneNumber}
         </td>
-        <td className="p-4 text-gray-700 whitespace-nowrap">{d.lineId}</td>
-        <td className="p-4 text-gray-700 whitespace-nowrap">
+        <td className="p-4 whitespace-nowrap">{d.lineId}</td>
+        <td className="p-4 whitespace-nowrap">
           <Tooltip title="ลบ" placement="top">
             <IconButton
               aria-label="delete"
@@ -99,6 +101,7 @@ function PatientCard({ d, index }) {
           </Tooltip>
         </td>
       </tr>
+       </Tooltip>
     </>
   );
 }
