@@ -27,8 +27,9 @@ function detailView({
         disableEscapeKeyDown
         open={open}
         onClose={handleClose}
-        maxWidth="xxl"
-        sx={{ "& .MuiDialog-paper": { width: "60%" } }}
+        maxWidth="xl"
+        sx={{ "& .MuiDialog-paper": { width: "60%", boxShadow:'none' } }}
+        BackdropProps={{style:{ opacity: 0.2, backgroundColor: "rgba(0, 0, 0,0.35)",transition:'none' }}}
       >
         <DialogTitle
           sx={{
@@ -41,16 +42,16 @@ function detailView({
           }}
         >
           <div className="flex flex-row ">
-            <div className="basis-1/4 flex self-start">{name}</div>
+            <div className="basis-1/4 flex self-start xl:basis-2/12">{name}</div>
           
           <div className="flex basis-2/6 
-          justify-start items-center text-center w-fit">
+          justify-start items-center text-center w-fit xl:pl-2">
             <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-2 py-1 ">
                {type}
                </div>
            
           </div>
-          <div className="flex basis-5/12 gap-2 justify-end  text-gray-400 cursor-pointer">
+          <div className="flex basis-5/12 xl:6/12 xl:ml-10 gap-2 justify-end  text-gray-400 cursor-pointer ">
             <EditIcon />
             <DeleteIcon />
           </div>
@@ -89,7 +90,7 @@ function detailView({
                 <div className="flex flex-col justify-start items-start pt-3 text-lg ">
                   <div>คอร์ส 3 ครั้ง</div>
                   <div>2 ชั่วโมง / ครั้ง</div>
-                  <div className="flex self-end text-xl">
+                  <div className="flex self-end text-xl font-semibold">
                   รวม 15990 บาท
                 </div>
                 </div>
