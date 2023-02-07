@@ -39,14 +39,19 @@ function RequestListCard({ data, request }) {
 
   const fetchData = async () => {
     let isSubscribed = true;
+    const patientData = await fetch(
+      `${process.env.dev}/patient/${request.patient_id}`
+    );
+
     const courseData = await fetch(
       `${process.env.dev}/course/${request.course_id}`
     );
 
     const course = await courseData.json();
+    const p = await patientData.json();
     if (isSubscribed) {
       setCourse(course);
-      console.log(course);
+      setPatient(p);
     }
     return () => (isSubscribed = false);
   };
@@ -77,25 +82,6 @@ function RequestListCard({ data, request }) {
         toast.error("ไม่สำเร็จ");
       });
   }
-
-  useEffect(() => {
-    {
-      data &&
-        data.map((r) => {
-          const patienturl = `${process.env.dev}/patient/${r.patient_id}`;
-          if (r.patient_id) {
-            fetch(patienturl, {
-              method: "GET",
-            })
-              .then(async (res) => {
-                const p = await res.json();
-                setPatient(p);
-              })
-              .catch((err) => console.log(err));
-          }
-        });
-    }
-  }, []);
 
   useEffect(() => {
     const courseurl = `${process.env.dev}/course/${request.course_id}`;
@@ -147,21 +133,23 @@ function RequestListCard({ data, request }) {
                       คุณ{" "}
                     </span>
                     <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
-                      {" "}
-                      <p>
-                        ( {request.nickName} ) {request.firstName}{" "}
-                        {request.lastName}
-                      </p>
+                      {request.patient_id ? (
+                        <p>
+                          ( {p.nickName} ) {p.firstName} {p.lastName}
+                        </p>
+                      ) : (
+                        <p>
+                          ( {request.nickName} ) {request.firstName}{" "}
+                          {request.lastName}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="col-start-1 col-span-6">
-                    <span className="xxl:text-lg xxxl:text-xl sm:hidden">
-                      วัน:
-                    </span>
-                    <span className="text-[#969696] lg:hidden md:hidden">
+                    <span className="text-[#969696]">
                       <CalendarMonthIcon />
                     </span>
-                    <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
+                    <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                       {new Date(request.appointmentDate).toLocaleDateString(
                         "th-TH",
                         {
@@ -173,21 +161,17 @@ function RequestListCard({ data, request }) {
                     </span>
                   </div>
                   <div className="col-start-1 col-span-6">
-                    <span className="xxl:text-lg xxxl:text-xl sm:hidden">
-                      เวลา:
-                    </span>
-                    <span className="text-[#969696] lg:hidden md:hidden">
+                    <span className="text-[#969696]">
                       <AccessTimeIcon />
                     </span>
                     {request.endTime ? (
-                      <span className="mx-2 font-semibold xxl:text-lg  xxxl:text-xl">
+                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                         <span className="">
                           {new Date(request.appointmentTime).toLocaleTimeString(
                             "th-TH",
                             {
                               hour: "2-digit",
                               minute: "2-digit",
-                              hour12: true,
                             }
                           )}{" "}
                           {"-"}{" "}
@@ -196,13 +180,12 @@ function RequestListCard({ data, request }) {
                             {
                               hour: "2-digit",
                               minute: "2-digit",
-                              hour12: true,
                             }
                           )}
                         </span>
                       </span>
                     ) : (
-                      <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
+                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                         {new Date(request.appointmentTime).toLocaleTimeString(
                           "th-TH",
                           {
@@ -221,7 +204,7 @@ function RequestListCard({ data, request }) {
                     <span className="text-[#969696] lg:hidden md:hidden ">
                       <HomeIcon />
                     </span>
-                    <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
+                    <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                       {" "}
                       {request.appointmentPlace}
                     </span>
@@ -237,9 +220,7 @@ function RequestListCard({ data, request }) {
                       {request.staff ? (
                         request.staff
                       ) : (
-                        <span className="text-sm text-black/40">
-                          ไม่ได้กรอก
-                        </span>
+                        <span className="text-sm text-black/40">-</span>
                       )}
                     </span>
                   </div>
@@ -247,14 +228,22 @@ function RequestListCard({ data, request }) {
               </div>
             </div>
           </motion.div>
-          <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center mx-5 sm:justify-center my-3  pb-5 px-5">
+          <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center mx-5 sm:justify-center my-3 xl:pt-0 pt-4 pb-5 px-5">
+            <div>
+              <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
+            </div>
+            <FormModal
+              open={open}
+              handleClose={handleClose}
+              request={request}
+            />
             <div>
               <BtnAccept
-                text="ยอมรับ"
+                text="ยืนยัน"
                 onClick={() =>
                   Swal.fire({
-                    title: "รับคำขอนี้?",
-                    text: "รับคำขอแล้วเพิ่มลงในนัดหมาย",
+                    title: "ยืนยันรับคำขอนี้?",
+                    text: "ยืนยันรับคำขอแล้วเพิ่มลงในนัดหมาย",
                     icon: "success",
                     showCancelButton: true,
                     confirmButtonText: "ยอบรับ",
@@ -264,7 +253,7 @@ function RequestListCard({ data, request }) {
                     if (result.isConfirmed) {
                       acceptRequest(request._id, request.status).then(() =>
                         Swal.fire({
-                          title: "รับคำขอแล้ว",
+                          title: "ยืนยันรับคำขอแล้ว",
                           showConfirmButton: false,
                           icon: "success",
                           timer: 1000,
@@ -282,14 +271,6 @@ function RequestListCard({ data, request }) {
                 }
               />
             </div>
-            <div>
-              <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
-            </div>
-            <FormModal
-              open={open}
-              handleClose={handleClose}
-              request={request}
-            />
           </div>
         </div>
       ) : (

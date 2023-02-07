@@ -57,7 +57,7 @@ const Appointment = ({ user }) => {
         setView(clinicData);
     }
   }, [selected]);
-  
+
   const fetchData = async () => {
     let isSubscribed = true;
     const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
@@ -103,45 +103,24 @@ const Appointment = ({ user }) => {
       </Head>
       <div className="divide-y divide-[#A17851] divide-opacity-30 sm:divide-opacity-70">
         <Header />
-        <div className="main">
+        <div className="main xl:px-12 md:px-8 px-4">
           <p className="h4 pageTitle">นัดหมายดูแล</p>
-          <div className="flex flex-col gap-1 m-3 font-noto text-sm ">
-            <div className="font-semibold text-[#6C5137] flex justify-end space-x-8 xl:px-24 px-0">
-              <div className="pt-2">
-                <BtnAdd onClick={handleClickOpen} />
-                <AddAppointmentForm
-                  open={open}
-                  setOpen={setOpen}
-                  handleClose={handleClose}
-                  patientData={patientData}
-                  clinicData={clinicData}
-                  user={user}
-                  courseData={courseData}
-                  availData={availData}
-                />
-              </div>
-              {list.map((item) => (
-                <div
-                  key={item.id}
-                  className="inline-flex transition duration-300 ease-in-out"
-                >
-                  <IconButton
-                    active={selected === item.id}
-                    setSelected={setSelected}
-                    id={item.id}
-                    key={item.id}
-                    icon={item.icon}
-                    title={item.title}
-                  />
-                </div>
-              ))}
+          <div className="font-semibold text-[#6C5137] flex justify-end">
+            <div className="pt-2 xl:px-12">
+              <BtnAdd onClick={handleClickOpen} />
+              <AddAppointmentForm
+                open={open}
+                setOpen={setOpen}
+                handleClose={handleClose}
+                patientData={patientData}
+                clinicData={clinicData}
+                user={user}
+                courseData={courseData}
+                availData={availData}
+              />
             </div>
-            {selected == "calendarView" ? (
-              <CalendarView data={appointmentData} />
-            ) : (
-              <ListView data={appointmentData} />
-            )}
           </div>
+          <ListView data={appointmentData} />
         </div>
       </div>
     </div>

@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
+import Router, { useRouter } from "next/router";
 import { useTheme } from "@mui/material/styles";
 import { useForm, Controller } from "react-hook-form";
-import Box from "@mui/material/Box";
 import axios from "axios";
+import Box from "@mui/material/Box";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import toast from "react-hot-toast";
 import Image from "next/image";
+
+const sex = [
+  { id: 1, label: "ชาย" },
+  { id: 2, label: "หญิง" },
+  { id: 3, label: "อื่นๆ" },
+];
 
 function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
   const { data: session, status } = useSession();
@@ -23,6 +32,7 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
     register,
     watch,
     handleSubmit,
+    control,
     formState: { errors, isValid },
   } = useForm({
     mode: "onSubmit",
@@ -32,36 +42,29 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
 
   const onSubmit = async (data) => {
     console.log(data);
-    if (data.staffImage || staffImage) {
-      const formData = new FormData();
-      formData.append("staffImage", data.staffImage[0]);
-      formData.append("staffImage", data.staffImage[0].name);
-      data.staffImage = data.staffImage[0].name;
-    } else {
-      data.staffImage = "";
-    }
-      data.owner_id = session.user.id;
-      data.clinic_id = id;
-      let axiosConfig = {
-        headers: {
-          "Access-Control-Allow-Origin": "*",
-        },
-      };
-      const response = await axios
-        .post(
-          `${process.env.dev}/staff/create/${session.user.id}`,
-          data,
-          axiosConfig
-        )
-        .then(async (res) => {
-          console.log("RESPONSE RECEIVED: ", res.data);
-          toast.success("เพิ่มพนักงาน");
-          setOpen(false);
-        })
-        .catch((err) => {
-          console.log("AXIOS ERROR: ", err);
-          toast.error("ไม่สำเร็จ");
-        });
+    data.owner_id = session.user.id;
+    data.clinic_id = id;
+    let axiosConfig = {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    const response = await axios
+      .post(
+        `${process.env.dev}/staff/create/${session.user.id}`,
+        data,
+        axiosConfig
+      )
+      .then(async (res) => {
+        console.log("RESPONSE RECEIVED: ", res.data);
+        toast.success("เพิ่มพนักงาน");
+        setOpen(false);
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("AXIOS ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
   };
 
   return (
@@ -161,13 +164,36 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
                         >
                           เพศ
                         </label>
-
-                        <input
-                          type="text"
-                          id="sex"
+                        <Controller
+                          render={({ field: { field, onChange, value } }) => (
+                            <>
+                              <Select
+                                sx={{
+                                  borderRadius: "40px",
+                                  height: "40px",
+                                  "@media (min-width: 780px)": {
+                                    width: "120px",
+                                  },
+                                  px: 2,
+                                  mt: 0.5,
+                                }}
+                                {...field}
+                                {...register("sex", { required: false })}
+                              >
+                                {sex.map((input, key) => (
+                                  <MenuItem
+                                    key={input.id}
+                                    value={input.label}
+                                    onChange={onChange}
+                                  >
+                                    {input.label}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </>
+                          )}
                           name="sex"
-                          className="inputOutline"
-                          {...register("sex", { required: false })}
+                          control={control}
                         />
                       </div>
                       <div className="col-span-6">
@@ -215,8 +241,18 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
                           id="phoneNumber"
                           name="phoneNumber"
                           className="inputOutline"
-                          {...register("phoneNumber", { required: false })}
+                          {...register("phoneNumber", {
+                            required: false,
+                            pattern: {
+                              value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                            },
+                          })}
                         />
+                        {errors.phoneNumber?.type === "pattern" && (
+                          <p role="alert" className="text-[#FF2F3B]">
+                            เบอร์โทรต้องเป็นตัวเลขเท่านั้น
+                          </p>
+                        )}
                       </div>
                       <div className="col-span-3">
                         <label

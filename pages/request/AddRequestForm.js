@@ -2,11 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useForm, Controller } from "react-hook-form";
 import Router, { useRouter } from "next/router";
-import axios from "axios";
-import toast from "react-hot-toast";
+import TimeModal from "../appointment/TimeModal";
+
 import { useTheme } from "@mui/material/styles";
-import ReactDatePicker from "react-datepicker";
-import DatePicker from "react-datepicker";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -16,9 +14,12 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
-import TimeModal from "./TimeModal";
 
 import "react-datepicker/dist/react-datepicker.css";
+import axios from "axios";
+import toast from "react-hot-toast";
+import ReactDatePicker from "react-datepicker";
+import DatePicker from "react-datepicker";
 
 const place = [
   { id: 1, label: "คลินิก" },
@@ -31,7 +32,7 @@ const sex = [
   { id: 3, label: "อื่นๆ" },
 ];
 
-function AddAppointmentForm({
+function AddRequestForm({
   user,
   clinicData,
   patientData,
@@ -90,7 +91,6 @@ function AddAppointmentForm({
   const onSubmit = async (data) => {
     console.log(data);
     data.owner_id = user.id;
-    data.status = "Approved";
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {
@@ -106,7 +106,7 @@ function AddAppointmentForm({
       )
       .then(async (res) => {
         console.log("RESPONSE RECEIVED: ", res.data);
-        toast.success("กำลังเพิ่มนัด...🛠️🚧");
+        toast.success("เพิ่มคำขอ...🛠️🚧");
         Router.reload();
       })
       .catch((err) => {
@@ -680,4 +680,4 @@ function AddAppointmentForm({
   );
 }
 
-export default AddAppointmentForm;
+export default AddRequestForm;

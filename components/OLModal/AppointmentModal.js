@@ -27,7 +27,6 @@ function AppointmentModal({
   course,
   index,
 }) {
-  console.log(patient);
   return (
     <AnimatePresence>
       <motion.div
@@ -85,7 +84,7 @@ function AppointmentModal({
                     {patient.age ? (
                       patient.age
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -95,7 +94,7 @@ function AppointmentModal({
                     {patient.sex ? (
                       patient.sex
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -104,7 +103,7 @@ function AppointmentModal({
                     <span className="body2 text-[#A17851] font-bold">
                       ข้อควรระวัง{" "}
                     </span>{" "}
-                    {patient.precaution ? patient.precaution : "-"}
+                    {patient.precaution ? <span className="text-[#FF2F3B]">{patient.precaution}</span> : "-"}
                   </div>
                 </motion.h6>
                 <motion.h6 className="flex space-x-24">
@@ -117,7 +116,7 @@ function AppointmentModal({
                     {patient.phoneNumber ? (
                       patient.phoneNumber
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -129,7 +128,7 @@ function AppointmentModal({
                     {patient.lineId ? (
                       patient.lineId
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
@@ -143,7 +142,7 @@ function AppointmentModal({
                     {patient.address ? (
                       patient.address
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
@@ -165,7 +164,7 @@ function AppointmentModal({
                     {data.age ? (
                       data.age
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -175,7 +174,7 @@ function AppointmentModal({
                     {data.sex ? (
                       data.sex
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -184,7 +183,7 @@ function AppointmentModal({
                     <span className="body2 text-[#A17851] font-bold">
                       ข้อควรระวัง{" "}
                     </span>{" "}
-                    {data.description ? data.description : "-"}
+                    {data.description ? <span className="text-[#FF2F3B]">{data.description}</span> : "-"}
                   </div>
                 </motion.h6>
                 <motion.h6 className="flex space-x-24">
@@ -197,7 +196,7 @@ function AppointmentModal({
                     {data.phoneNumber ? (
                       data.phoneNumber
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                   <div className="flex items-center align-middle gap-2">
@@ -209,7 +208,7 @@ function AppointmentModal({
                     {data.lineId ? (
                       data.lineId
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
@@ -223,7 +222,7 @@ function AppointmentModal({
                     {data.location ? (
                       data.location
                     ) : (
-                      <span className="text-sm text-black/40">ไม่ได้กรอก</span>
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>

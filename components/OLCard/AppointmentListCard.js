@@ -4,6 +4,7 @@ import BtnDetails from "../BtnDetails";
 import FormModal from "../../pages/request/FormModal";
 import AppointmentModal from "../OLModal/AppointmentModal";
 import Overlay from "../OLLayout/Overlay";
+import BtnCancel from "../BtnCancel";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import HomeIcon from "@mui/icons-material/Home";
@@ -94,28 +95,18 @@ function AppointmentListCard({ data, d, index }) {
           ></AppointmentModal>
         </Overlay>
       )}
-      <motion.div
-        key={d._id}
-        layoutId={d._id}
-        onClick={() => setSelectedId(d._id)}
-        className="cursor-pointer xl:px-24"
-      >
-        {d.status == "Approved" && data.status != "Done" ? (
-          <>
-            <div className="ml-3 mb-5 mt-6 lg:mt-12">
-              <span className="text-[#463220] lg:text-3xl">
-                {" "}
-                {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                  weekday: "short",
-                })}
-              </span>
-            </div>
-            <article
+
+      {d.status == "Approved" && data.status != "Done" ? (
+        <>
+          <article
+            key={d._id}
+            className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-3 px-4 md:pl-12 xl:pl-12"
+          >
+            <motion.div
               key={d._id}
-              className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-3 px-4 md:px-12 xl:px-12"
+              layoutId={d._id}
+              onClick={() => setSelectedId(d._id)}
+              className="cursor-pointer"
             >
               <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4">
                 <div className="basis-12/12">
@@ -152,14 +143,11 @@ function AppointmentListCard({ data, d, index }) {
                       </div>
                     </div>
                     <div className="col-start-1 col-span-6">
-                      <span className="xxl:text-lg xxxl:text-xl sm:hidden">
-                        เวลา:
-                      </span>
-                      <span className="text-[#969696] lg:hidden md:hidden">
+                      <span className="text-[#969696]">
                         <AccessTimeIcon />
                       </span>
                       {d.endTime ? (
-                        <span className="mx-2 font-semibold xxl:text-lg  xxxl:text-xl">
+                        <span className="mx-2 text-[#969696] text-lg">
                           <span className="">
                             {new Date(d.appointmentTime).toLocaleTimeString(
                               "th-TH",
@@ -169,22 +157,22 @@ function AppointmentListCard({ data, d, index }) {
                               }
                             )}{" "}
                             {"-"}{" "}
-                            {new Date(d.endTime).toLocaleTimeString("th-TH",
-                              {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              })}
+                            {new Date(d.endTime).toLocaleTimeString("th-TH", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
                           </span>
                         </span>
                       ) : (
-                        <span className="mx-2 font-semibold xxl:text-lg xxxl:text-xl">
-                            {new Date(d.appointmentTime).toLocaleTimeString("th-TH",
-                               {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              }
-                            )}
-                          </span>
+                        <span className="mx-2 font-semibold text-lg">
+                          {new Date(d.appointmentTime).toLocaleTimeString(
+                            "th-TH",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            }
+                          )}
+                        </span>
                       )}
                     </div>
                     <div className="col-start-1 col-span-3">
@@ -194,7 +182,7 @@ function AppointmentListCard({ data, d, index }) {
                       <span className="text-[#969696] lg:hidden md:hidden ">
                         <HomeIcon />
                       </span>
-                      <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
+                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                         {" "}
                         {d.appointmentPlace}
                       </span>
@@ -207,63 +195,61 @@ function AppointmentListCard({ data, d, index }) {
                         <PermIdentityIcon />
                       </span>
                       <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                      {d.staff ? d.staff : <span className="text-sm text-black/40">ไม่ได้กรอก</span>}
+                        {d.staff ? (
+                          d.staff
+                        ) : (
+                          <span className="text-sm text-black/40">
+                            -
+                          </span>
+                        )}
                       </span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div className="flex flex-wrap basis-1/5  gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
-                <div>
-                  <BtnDetails
-                    text="สำเร็จ"
-                    onClick={() =>
-                      Swal.fire({
-                        title: "เสร็จงานนี้?",
-                        icon: "success",
-                        showCancelButton: true,
-                        confirmButtonText: "ใช่",
-                        cancelButtonText: "ยกเลิก",
-                        reverseButtons: true,
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          finishTask(d._id).then(() =>
-                            Swal.fire({
-                              title: "งานสำเร็จแล้ว",
-                              showConfirmButton: false,
-                              icon: "success",
-                              timer: 1000,
-                            })
-                          );
-                        } else if (
-                          result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                          Swal.fire({
-                            title: "ยกเลิก",
-                            showConfirmButton: false,
-                            icon: "error",
-                            timer: 800,
-                          });
-                        }
-                      })
-                    }
-                  />
-                </div>
-                <button
-                  onClick={handleClickOpen}
-                  className="text-[#FF2F3B] hover:bg-[#FF2F3B]/5 hover:rounded-2xl w-20 h-9 
-                    sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
-                >
-                  ยกเลิก
-                </button>
+            </motion.div>
+            <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
+              <div>
+                <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
                 <FormModal open={open} handleClose={handleClose} request={d} />
               </div>
-            </article>
-          </>
-        ) : (
-          <></>
-        )}
-      </motion.div>
+              <BtnDetails
+                text="เสร็จสิ้น"
+                onClick={() =>
+                  Swal.fire({
+                    title: "เสร็จสิ้นการให้บริการ?",
+                    icon: "success",
+                    showCancelButton: true,
+                    confirmButtonText: "ใช่",
+                    cancelButtonText: "ยกเลิก",
+                    reverseButtons: true,
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      finishTask(d._id).then(() =>
+                        Swal.fire({
+                          title: "ให้บริการเสร็จสิ้นแล้ว",
+                          showConfirmButton: false,
+                          icon: "success",
+                          timer: 1000,
+                        })
+                      );
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                      Swal.fire({
+                        title: "ยกเลิก",
+                        showConfirmButton: false,
+                        icon: "error",
+                        timer: 800,
+                      });
+                    }
+                  })
+                }
+              />
+            </div>
+          </article>
+        </>
+      ) : (
+        <></>
+      )}
     </>
   );
 }
