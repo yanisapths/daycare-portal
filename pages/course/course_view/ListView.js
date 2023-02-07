@@ -4,7 +4,8 @@ import { useRouter } from "next/router";
 import HoverCard from "../../../components/common/HoverCard";
 import SideView from "./SideView";
 import BtnAdd from "../../../components/common/BtnAdd";
-import detailView from "./detailView";
+import DetailView from "./DetailView";
+import { resolve } from "styled-jsx/css";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -13,6 +14,7 @@ function ListView({ clinicData }) {
   const router = useRouter();
   const [courseData, setCourseData] = useState([]);
   const [open, setOpen] = useState(false);
+  const [detialViewOpen, setDetialViewOpen] = useState(false);
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -28,6 +30,16 @@ function ListView({ clinicData }) {
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
       setOpen(false);
+    }
+  };
+
+  //detailView
+  const handleClickDetailViewOpen = () => {
+    setDetialViewOpen(true);
+  };
+  const handleClickDetailViewClose = (event, reason) => {
+    if (reason !== "backdropClick") {
+      setDetialViewOpen(false);
     }
   };
 
@@ -56,8 +68,7 @@ function ListView({ clinicData }) {
   if (courseData.length >= 1) {
     return (
       <div className="main">
-       
-          <div className="flex justify-end">
+        <div className="flex justify-end">
           <BtnAdd onClick={handleClickOpen} />
           <SideView
             open={open}
@@ -65,11 +76,11 @@ function ListView({ clinicData }) {
             handleClose={handleClose}
             clinicData={clinicData}
           />
-          </div>
+        </div>
 
         <div
           className="grid grid-cols-3 my-4 h-fit gap-4 justify-start sm:grid-cols-1 md:grid-cols-2 xxl:grid-cols-4"
-          onClick={handleClickOpen}
+          onClick={handleClickDetailViewOpen}
         >
           {courseData?.map((course) => (
             <HoverCard
@@ -80,15 +91,24 @@ function ListView({ clinicData }) {
               totalPrice={course.totalPrice}
               procedures={course.procedures}
               type={course.type}
-              
             />
-            
           ))}
-         <detailView
-            open={open}
-            setOpen={setOpen}
-            handleClose={handleClose} 
-          />
+        </div>
+        <div>
+          {courseData?.map((course) => (
+            <DetailView
+              open={detialViewOpen}
+              handleClose={handleClickDetailViewClose}
+              setOpen={setDetialViewOpen}
+              key={course._id}
+              name={course.courseName}
+              amount={course.amount}
+              duration={course.duration}
+              totalPrice={course.totalPrice}
+              procedures={course.procedures}
+              type={course.type}
+            />
+          ))}
         </div>
       </div>
     );
