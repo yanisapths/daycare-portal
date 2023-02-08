@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import HoverCard from "../../../components/common/HoverCard";
-import SideView from "./sideView";
+import SideView from "../course_view/sideView";
 import BtnAdd from "../../../components/common/BtnAdd";
-import DetailView from "./detailView";
+import DetailView from "../course_view/detailView";
 import { resolve } from "styled-jsx/css";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
