@@ -7,7 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { DialogActions } from "@mui/material";
 
-function detailView({
+function DetailView({
   open,
   handleClose,
   setOpen,
@@ -116,4 +116,4 @@ function detailView({
   );
 }
 
-export default detailView;
+export default DetailView;
