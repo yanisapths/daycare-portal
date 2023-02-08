@@ -17,7 +17,7 @@ import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-function SideView({ clinicData, open, handleClose, setOpen }) {
+function AddCourse({ clinicData, open, handleClose, setOpen }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
   console.log(clinicData);
@@ -374,4 +374,4 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
   );
 }
 
-export default SideView;
+export default AddCourse;

@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import HoverCard from "../../../components/common/HoverCard";
-import SideView from "../course_view/sideView";
+import AddCourse from "../../../components/OLModal/AddCourse";
 import BtnAdd from "../../../components/common/BtnAdd";
-import DetailView from "../course_view/detailView";
+import DetailView from "../../../components/OLModal/DetailView";
 import { resolve } from "styled-jsx/css";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -70,7 +70,7 @@ function ListView({ clinicData }) {
       <div className="main">
         <div className="flex justify-end">
           <BtnAdd onClick={handleClickOpen} />
-          <SideView
+          <AddCourse
             open={open}
             setOpen={setOpen}
             handleClose={handleClose}
@@ -122,7 +122,7 @@ function ListView({ clinicData }) {
         </div>
         <div>
           <BtnAdd onClick={handleClickOpen} />
-          <SideView
+          <AddCourse
             open={open}
             setOpen={setOpen}
             handleClose={handleClose}
