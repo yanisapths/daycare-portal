@@ -114,13 +114,13 @@ function ListView({ clinicData }) {
     );
   } else {
     return (
-      <div className="flex flex-col sm:pt-24 md:pt-24 lg:pt-24 xxl:pt-40">
+      <div className="sm:pt-24 md:pt-24 lg:pt-24 xxl:pt-40">
         <div>
-          <p className="h3 font-medium sm:h6 md:h4 xxl:h2 text-center  text-black/30 ">
+          <p className="h3 font-medium sm:h6 md:h4 xxl:h2 text-center text-black/30 ">
             คลินิกคุณยังไม่มีคอร์ส
           </p>
         </div>
-        <div>
+        <div className="flex justify-center m-6">
           <BtnAdd onClick={handleClickOpen} />
           <AddCourse
             open={open}
