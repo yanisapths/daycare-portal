@@ -5,7 +5,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { useTheme } from "@mui/material/styles";
 import { DialogActions } from "@mui/material";
 
 function detailView({
@@ -20,7 +19,6 @@ function detailView({
   procedures,
   type,
 }) {
-  const theme = useTheme();
   return (
     <>
       <Dialog
@@ -33,7 +31,6 @@ function detailView({
       >
         <DialogTitle
           sx={{
-            color: theme.palette.primary.darker,
             fontSize: { sm: 24, md: 26, lg: 32, xl: 30 },
             mx: 2,
             mt: 2,
@@ -108,7 +105,7 @@ function detailView({
               <button className=" text-[#FF2F3B] w-20 h-9  hover:underline
                   sm:text-sm md:text-base lg:h-10 lg:text-lg xxl:h-11 xxl:text-xl"
               onClick={handleClose}
-              sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}>
+              sx={{ fontSize: "18px" }}>
                 ยกเลิก
               </button>
             
