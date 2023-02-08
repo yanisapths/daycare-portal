@@ -5,7 +5,7 @@ import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import Head from "next/head";
 import { useTheme } from "@mui/material/styles";
-import ListView from "../course/course_view/listView";
+import ListView from "../course/course_view/listView"
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Course() {
