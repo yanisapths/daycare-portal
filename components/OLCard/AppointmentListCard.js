@@ -12,11 +12,12 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function AppointmentListCard({ data, d, index }) {
+function AppointmentListCard({ data, d, index,user }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
   const [course, setCourse] = useState({});
+  const [eventList, setEvent] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -51,24 +52,27 @@ function AppointmentListCard({ data, d, index }) {
         toast.error("ไม่สำเร็จ");
       });
   }
-  useEffect(() => {
-    {
-      data &&
-        data.map((d) => {
-          const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
-          if (d.patient_id) {
-            fetch(patienturl, {
-              method: "GET",
-            })
-              .then(async (res) => {
-                const p = await res.json();
-                setPatient(p);
-              })
-              .catch((err) => console.log(err));
-          }
-        });
+  const fetchData = async () => {
+    let isSubscribed = true;
+    const eventUrl = `${process.env.dev}/event/match/${d._id}`;
+    const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
+    const res = await fetch(eventUrl);
+    const patientRes = await fetch(patienturl);
+  
+    const eventList = await res.json();
+    const p = await patientRes.json();
+  
+    if (isSubscribed) {
+      setEvent(eventList);
+      setPatient(p);
     }
-  }, []);
+    return () => (isSubscribed = false);
+  };
+
+  useEffect(() => {
+    fetchData();
+  },[]);
+
 
   useEffect(() => {
     const courseurl = `${process.env.dev}/course/${d.course_id}`;
@@ -87,6 +91,8 @@ function AppointmentListCard({ data, d, index }) {
       {selectedId && (
         <Overlay close={closeModal}>
           <AppointmentModal
+            eventList={eventList}
+            user={user}
             data={d}
             patient={p}
             setSelectedId={setSelectedId}

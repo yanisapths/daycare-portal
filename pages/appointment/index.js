@@ -5,11 +5,11 @@ import Head from "next/head";
 import BtnAdd from "../../components/common/BtnAdd";
 import IconButton from "../../components/common/OLIconButton";
 import Header from "../../components/Header";
-import ViewListIcon from "@mui/icons-material/ViewList";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ListView from "./appointment_view/ListView";
 import CalendarView from "./appointment_view/CalendarView";
 import AddAppointmentForm from "./AddAppointmentForm";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import ViewListIcon from "@mui/icons-material/ViewList";
 
 const Appointment = ({ user }) => {
   const router = useRouter();
@@ -36,14 +36,14 @@ const Appointment = ({ user }) => {
 
   const list = [
     {
-      id: "listView",
-      icon: <ViewListIcon className="w-8 h-8" />,
-      title: "List View",
-    },
-    {
       id: "calendarView",
       icon: <CalendarMonthIcon className="w-8 h-8" />,
       title: "Calendar View",
+    },
+    {
+      id: "listView",
+      icon: <ViewListIcon className="w-8 h-8" />,
+      title: "List View",
     },
   ];
 
@@ -119,9 +119,28 @@ const Appointment = ({ user }) => {
                 availData={availData}
               />
             </div>
+          {list.map((item) => (
+              <div
+                key={item.id}
+                className="inline-flex transition duration-300 ease-in-out"
+              >
+                <IconButton
+                  active={selected === item.id}
+                  setSelected={setSelected}
+                  id={item.id}
+                  key={item.id}
+                  icon={item.icon}
+                  title={item.title}
+                />
+              </div>
+            ))}
           </div>
-          <ListView data={appointmentData} />
-        </div>
+          {selected == "listView" ? (
+            <ListView data={appointmentData}  user={user}/>
+            ) : (
+            <CalendarView data={appointmentData} />
+          )}
+          </div>
       </div>
     </div>
   );

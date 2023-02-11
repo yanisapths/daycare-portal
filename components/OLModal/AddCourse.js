@@ -184,6 +184,9 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                       className="inputOutline text-center border-[#7C552F]/50"
                       {...register("amount", {
                         required: true,
+                        pattern: {
+                          value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        },
                       })}
                     />
                     <Typography
@@ -193,6 +196,11 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                       ครั้ง
                     </Typography>
                   </div>
+                  {errors.amount?.type === "pattern" && (
+                    <p role="alert" className="text-[#FF2F3B]">
+                      จำนวนต้องเป็นตัวเลขเท่านั้น
+                    </p>
+                  )}
                   {errors.amount && (
                     <Typography sx={{ color: theme.palette.error.main }}>
                       This is required.
