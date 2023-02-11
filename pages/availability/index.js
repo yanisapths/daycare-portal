@@ -22,7 +22,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import Router from "next/router";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const Schedule = () => {
+const Availability = () => {
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
   const theme = useTheme();
@@ -252,7 +252,7 @@ const Schedule = () => {
   );
 };
 
-export default Schedule;
+export default Availability;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);

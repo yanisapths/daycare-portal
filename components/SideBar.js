@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import FolderSharedIcon from "@mui/icons-material/FolderShared";
+import EventAvailableIcon from "@mui/icons-material/EventAvailable";
 import { ReactDOM } from "react";
 
 const SideBar = () => {
@@ -84,13 +85,6 @@ const SideBar = () => {
                 <h2 className="sideBarTabText2">หน้าหลัก</h2>
               </div>
             </Link>
-            {/* Appointment */}
-            <Link href="/appointment">
-              <div className="sideBarTabContainer2">
-                <BookOnlineIcon className="sideBarTabIcon2" />
-                <h2 className="sideBarTabText2">นัดหมายดูแล</h2>
-              </div>
-            </Link>
             {/* Request */}
             <Link href="/request">
               <div className="sideBarTabContainer2">
@@ -99,10 +93,24 @@ const SideBar = () => {
               </div>
             </Link>
             {/* Appointment */}
+            <Link href="/appointment">
+              <div className="sideBarTabContainer2">
+                <BookOnlineIcon className="sideBarTabIcon2" />
+                <h2 className="sideBarTabText2">นัดหมายดูแล</h2>
+              </div>
+            </Link>
+            {/* Appointment */}
             <Link href="/schedule">
               <div className="sideBarTabContainer2">
                 <CalendarMonthIcon className=" sideBarTabIcon2" />
                 <h2 className="sideBarTabText2">ตารางนัด</h2>
+              </div>
+            </Link>
+            {/* Appointment */}
+            <Link href="/availability">
+              <div className="sideBarTabContainer2">
+                <EventAvailableIcon className=" sideBarTabIcon2" />
+                <h2 className="sideBarTabText2">จัดการวันว่าง</h2>
               </div>
             </Link>
 
