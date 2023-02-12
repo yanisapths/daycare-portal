@@ -71,7 +71,7 @@ const Review = ({ user }) => {
                       <div className="mx-4 space-y-4">
                         <div className="py-12">
                           <p className="h4 text-black/50 pt-8">
-                            This clinic has no review yet.
+                            คลินิกของคุณยังไม่มีรีวิว
                           </p>
                         </div>
                       </div>

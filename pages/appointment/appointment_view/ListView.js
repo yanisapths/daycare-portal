@@ -4,8 +4,11 @@ import EventTableRow from "../../../components/OLCard/EventTableRow";
 
 function ListView({ data, user, events }) {
   return (
-    <div className=" pb-24">
-      <div className="mt-12 shadow-xl rounded-2xl mx-6">
+    <div className="pb-24">
+       <p className="h6 font-semibold text-black/50 px-6">
+         นัดทั้งหมด
+        </p>
+      <div className="mt-4 shadow-xl rounded-2xl mx-6">
         <div className="overflow-x-auto rounded-2xl">
           <table className="min-w-full text-sm divide-y divide-gray-200 bg-white">
             <thead>
