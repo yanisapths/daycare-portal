@@ -54,7 +54,7 @@ function EventListCard({ data, d, index, user }) {
     let isSubscribed = true;
     const eventUrl = `${process.env.dev}/event/match/${d._id}`;
     const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
-    const appointmenturl = `${process.env.dev}/event/match/${d.appointment_id}`;
+    const appointmenturl = `${process.env.dev}/appointment/${d.appointment_id}`;
     const res = await fetch(eventUrl);
     const patientRes = await fetch(patienturl);
     const appointments = await fetch(appointmenturl);
@@ -121,13 +121,13 @@ function EventListCard({ data, d, index, user }) {
                       </span>
                       <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
                         {" "}
-                        {d.firstName ? (
+                        {appointment.firstName ? (
                           <p>
-                            ( {d.nickName} ) {d.firstName} {d.lastName}
+                            ( {appointment.nickName} ) {appointment.firstName} {appointment.lastName}
                           </p>
                         ) : (
                           <>
-                            {d.patient_id && p.firstName ? (
+                            {d.patient_id ? (
                               <>
                                 ( {p.nickName} ) {p.firstName} {p.lastName}
                               </>
