@@ -12,12 +12,13 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function AppointmentListCard({ data, d, index,user }) {
+function EventListCard({ data, d, index, user }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
+  const [appointment, setAppointment] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,16 +35,13 @@ function AppointmentListCard({ data, d, index,user }) {
     setSelectedId(null);
   };
 
-  async function markAsDone(appointmentId) {
+  async function finishTask(eid) {
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ progressStatus: "Done" }),
+      body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(
-      `${process.env.dev}/appointment/markdone/${appointmentId}`,
-      option
-    )
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
       .then(async (res) => {
         Router.reload();
       })
@@ -56,23 +54,26 @@ function AppointmentListCard({ data, d, index,user }) {
     let isSubscribed = true;
     const eventUrl = `${process.env.dev}/event/match/${d._id}`;
     const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
+    const appointmenturl = `${process.env.dev}/appointment/${d.appointment_id}`;
     const res = await fetch(eventUrl);
     const patientRes = await fetch(patienturl);
-  
+    const appointments = await fetch(appointmenturl);
+
     const eventList = await res.json();
     const p = await patientRes.json();
-  
+    const appointment = await appointments.json();
+
     if (isSubscribed) {
       setEvent(eventList);
       setPatient(p);
+      setAppointment(appointment);
     }
     return () => (isSubscribed = false);
   };
 
   useEffect(() => {
     fetchData();
-  },[]);
-
+  }, []);
 
   useEffect(() => {
     const courseurl = `${process.env.dev}/course/${d.course_id}`;
@@ -88,21 +89,7 @@ function AppointmentListCard({ data, d, index,user }) {
 
   return (
     <>
-      {selectedId && (
-        <Overlay close={closeModal}>
-          <AppointmentModal
-            eventList={eventList}
-            user={user}
-            data={d}
-            patient={p}
-            setSelectedId={setSelectedId}
-            close={closeModal}
-            course={course}
-          ></AppointmentModal>
-        </Overlay>
-      )}
-
-      {d.status == "Approved" && data.status != "Done" ? (
+      {d.status == "Approved" && data.status != "Done"  && appointment.status != "Rejected" ? (
         <>
           <article
             key={d._id}
@@ -117,12 +104,15 @@ function AppointmentListCard({ data, d, index,user }) {
               <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4">
                 <div className="basis-12/12">
                   <div className="grid grid-col-6 gap-1 mt-4">
-                    <div className="col-start-1 col-end-7 lg:flex">
+                    <div className="col-start-1 col-end-7 lg:flex gap-4 items-center">
                       <div className="w-fit h-fit pb-2">
                         <p className="text-xs text-black/40 truncate">
                           No. <span>{d._id}</span>
                         </p>
                       </div>
+                        <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-center text-xs w-fit h-fit px-4 py-1.5">
+                          {d.status}
+                        </div>
                     </div>
 
                     <div className="col-start-1 col-end-7 font-semibold pb-2">
@@ -131,13 +121,13 @@ function AppointmentListCard({ data, d, index,user }) {
                       </span>
                       <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
                         {" "}
-                        {d.firstName ? (
+                        {appointment.firstName ? (
                           <p>
-                            ( {d.nickName} ) {d.firstName} {d.lastName}
+                            ( {appointment.nickName} ) {appointment.firstName} {appointment.lastName}
                           </p>
                         ) : (
                           <>
-                            {d.patient_id && p.firstName ? (
+                            {d.patient_id ? (
                               <>
                                 ( {p.nickName} ) {p.firstName} {p.lastName}
                               </>
@@ -155,13 +145,10 @@ function AppointmentListCard({ data, d, index,user }) {
                       {d.endTime ? (
                         <span className="mx-2 text-[#969696] text-lg">
                           <span className="">
-                            {new Date(d.appointmentTime).toLocaleTimeString(
-                              "th-TH",
-                              {
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              }
-                            )}{" "}
+                            {new Date(d.startTime).toLocaleTimeString("th-TH", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}{" "}
                             {"-"}{" "}
                             {new Date(d.endTime).toLocaleTimeString("th-TH", {
                               hour: "2-digit",
@@ -180,35 +167,6 @@ function AppointmentListCard({ data, d, index,user }) {
                           )}
                         </span>
                       )}
-                    </div>
-                    <div className="col-start-1 col-span-3">
-                      <span className="sm:hidden xxl:text-lg xxxl:text-xl">
-                        สถานที่นัด:
-                      </span>
-                      <span className="text-[#969696] lg:hidden md:hidden ">
-                        <HomeIcon />
-                      </span>
-                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
-                        {" "}
-                        {d.appointmentPlace}
-                      </span>
-                    </div>
-                    <div className="col-start-1 col-span-3 sm:col-span-8">
-                      <span className="sm:hidden xxl:text-lg xxxl:text-xl">
-                        พนักงานผู้ดูแล:
-                      </span>
-                      <span className="text-[#969696] lg:hidden md:hidden ">
-                        <PermIdentityIcon />
-                      </span>
-                      <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                        {d.staff ? (
-                          d.staff
-                        ) : (
-                          <span className="text-sm text-black/40">
-                            -
-                          </span>
-                        )}
-                      </span>
                     </div>
                   </div>
                 </div>
@@ -231,7 +189,7 @@ function AppointmentListCard({ data, d, index,user }) {
                     reverseButtons: true,
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      markAsDone(d._id).then(() =>
+                      finishTask(d._id).then(() =>
                         Swal.fire({
                           title: "ให้บริการเสร็จสิ้นแล้ว",
                           showConfirmButton: false,
@@ -260,4 +218,4 @@ function AppointmentListCard({ data, d, index,user }) {
   );
 }
 
-export default AppointmentListCard;
+export default EventListCard;

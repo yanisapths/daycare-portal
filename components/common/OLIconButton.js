@@ -8,8 +8,8 @@ function IconButton({ id, icon, title, setSelected, active }) {
         onClick={() => setSelected(id)}
         className={
           active
-            ? "cursor-pointer rounded-full  bg-[#FFE898]/10 shadow-xl w-12 h-12 pt-2 xl:w-16 xl:h-16 xl:pt-4 text-center"
-            : "cursor-pointer rounded-full hover:bg-[#FFE898]/10 hover:shadow-xl w-12 h-12 pt-2 xl:w-16 xl:h-16 xl:pt-4 text-center"
+            ? "cursor-pointer rounded-full  bg-[#FFE898]/10 shadow-xl w-12 h-12 pt-2 text-center"
+            : "cursor-pointer rounded-full hover:bg-[#FFE898]/10 hover:shadow-xl w-12 h-12 pt-2 text-center"
         }
       >
         {icon}

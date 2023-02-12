@@ -6,6 +6,7 @@ function StatusCheckIcon({ icon, text, bgColor, textColor }) {
     <Button
       variant="outlined"
       sx={{
+        width: "110px",
         p: 0.5,
         borderRadius: 35,
         color: textColor,

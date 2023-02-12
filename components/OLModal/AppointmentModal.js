@@ -98,6 +98,9 @@ function AppointmentModal({
     console.log(req);
 
     req.status = "Approved";
+    req.owner_id = user.id;
+    req.course_id = course._id;
+    req.patient_id = patient._id;
     const url = `${process.env.dev}/event/create/${data._id}`;
     const json = JSON.stringify(req);
     let axiosConfig = {
@@ -435,15 +438,16 @@ function AppointmentModal({
               </p>
             </div>
             <p className="w-1/6 text-[#2ED477]/80 md:invisible lg:invisible xl:invisible lg:w-0 xl:w-0">
-              {data.status}
+              {data.progressStatus ? data.progressStatus : data.status}
             </p>
             <div className="invisible md:visible xl:visible xl:w-1/6 lg:w-1/6 md:w-1/6 w-0">
               <StatusCheckIcon
-                className="hidden"
                 icon={<CheckCircleIcon />}
-                text={data.status}
-                bgColor="#2ED477"
-                textColor="#2ED477"
+                text={data.progressStatus ? data.progressStatus : data.status}
+                bgColor={data.progressStatus == "Done" ? "#E0B186" : data.status =="reviewed" ? "#7879F1" : "#2ED477"}
+                textColor={
+                  data.progressStatus == "Done" ? "#E0B186" : data.status =="reviewed" ? "#7879F1" : "#2ED477"
+                }
               />
             </div>
             <div className="w-1/6"></div>
@@ -494,14 +498,14 @@ function AppointmentModal({
                   )}
                 </div>
                 <p className="w-1/6 text-[#2ED477]/80 md:invisible xl:invisible lg:invisible xl:w-0 lg:w-0">
-                  {data.status}
+                  {event.status}
                 </p>
                 <div className="invisible md:visible xl:visible lg:visible xl:w-1/6 md:w-1/6 w-0">
                   <StatusCheckIcon
                     icon={<CheckCircleIcon />}
-                    text={data.status}
-                    bgColor="#2ED477"
-                    textColor="#2ED477"
+                    text={event.status}
+                    bgColor={event.status == "Done" ? "#E0B186" : "#2ED477"}
+                    textColor={event.status == "Done" ? "#E0B186" : "#2ED477"}
                   />
                 </div>
                 <div className="xl:w-1/6 w-1/12">
@@ -642,7 +646,7 @@ function AppointmentModal({
             </form>
           ))}
         </motion.div>
-        {eventList.length == course.amount - 1 ? (
+        {data.status != "reviewed" && eventList.length == course.amount - 1 ? (
           <motion.div className="text-center pt-4">
             <p className="caption md:h6 xl:h6 pb-2 text-black/50">
               ไม่สามารถเพิ่มได้เนื่องจากครบจำนวนนัดแล้ว
@@ -683,19 +687,24 @@ function AppointmentModal({
           </motion.div>
         ) : (
           <motion.div className="flex justify-center pt-16">
-            <CircleIconButton
-              handleClick={() =>
-                append({
-                  date: "",
-                  startTime: "",
-                  endTime: "",
-                  event: event,
-                  status: "Approved",
-                })
-              }
-              icon={<AddCircleOutlineIcon />}
-              text="เพิ่มนัดใหม่"
-            />
+            {data.status != "reviewed" && (
+              <CircleIconButton
+                handleClick={() =>
+                  append({
+                    date: "",
+                    startTime: "",
+                    endTime: "",
+                    event: event,
+                    status: "Approved",
+                    owner_id: user.id,
+                    patient_id: patient._id,
+                    course_id: course._id,
+                  })
+                }
+                icon={<AddCircleOutlineIcon />}
+                text="เพิ่มนัดใหม่"
+              />
+            )}
           </motion.div>
         )}
       </motion.div>

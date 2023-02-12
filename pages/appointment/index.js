@@ -22,6 +22,7 @@ const Appointment = ({ user }) => {
   const [courseData, setCourseData] = useState([]);
   const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
+  const [eventData, setEventData] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -65,24 +66,28 @@ const Appointment = ({ user }) => {
     const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
     const patienturl = `${process.env.dev}/patient/match/${user.id}`;
     const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
+    const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
 
     const appointment = await fetch(appointmenturl);
     const patient = await fetch(patienturl);
     const course = await fetch(courseurl);
     const avail = await fetch(availurl);
     const clinic = await fetch(clinicurl);
+    const events = await fetch(eventurl);
 
     const appointmentData = await appointment.json();
     const courseData = await course.json();
     const availData = await avail.json();
     const patientData = await patient.json();
     const clinicData = await clinic.json();
+    const eventData = await events.json();
     if (isSubscribed) {
       setData(clinicData);
       setAppointmentData(appointmentData);
       setCourseData(courseData);
       setAvailData(availData);
       setPatientData(patientData);
+      setEventData(eventData);
     }
     return () => (isSubscribed = false);
   };
@@ -106,7 +111,7 @@ const Appointment = ({ user }) => {
         <div className="main xl:px-12 md:px-8 px-4">
           <p className="h4 pageTitle">นัดหมายดูแล</p>
           <div className="font-semibold text-[#6C5137] flex justify-end">
-            <div className="pt-2 xl:px-12">
+            <div className="pt-2 xl:px-6">
               <BtnAdd onClick={handleClickOpen} />
               <AddAppointmentForm
                 open={open}
@@ -119,10 +124,10 @@ const Appointment = ({ user }) => {
                 availData={availData}
               />
             </div>
-          {list.map((item) => (
+            {list.map((item) => (
               <div
                 key={item.id}
-                className="inline-flex transition duration-300 ease-in-out"
+                className="mx-2 transition duration-300 ease-in-out"
               >
                 <IconButton
                   active={selected === item.id}
@@ -136,11 +141,15 @@ const Appointment = ({ user }) => {
             ))}
           </div>
           {selected == "listView" ? (
-            <ListView data={appointmentData}  user={user}/>
-            ) : (
-            <CalendarView data={appointmentData} />
+            <ListView data={appointmentData} events={eventData} user={user} />
+          ) : (
+            <CalendarView
+              data={appointmentData}
+              event={eventData}
+              user={user}
+            />
           )}
-          </div>
+        </div>
       </div>
     </div>
   );

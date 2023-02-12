@@ -1,24 +1,52 @@
 import React, { useState, useEffect } from "react";
-import dayjs from "dayjs";
-import AppointmentListCard from "../../../components/OLCard/AppointmentListCard";
+import AppointmentTableRow from "../../../components/OLCard/AppointmentTableRow";
+import EventTableRow from "../../../components/OLCard/EventTableRow";
 
-function ListView({ data,user }) {
+function ListView({ data, user, events }) {
   return (
-    <div className="pt-12 space-y-12 md:space-y-0 xl:space-y-0 md:pt-10 xl:pt-10 md:flex xl:flex md:gap-10 xl:gap-32 xl:pl-24">
-      <div className="min-w-full xl:min-w-[750px] md:min-w-[550px]">
-        {/*appointment list */}
-        {data &&
-          data?.map((d, index) => (
-            <div key={index} className="mb-6">
-              <AppointmentListCard d={d} index={index} data={data} user={user} />
-            </div>
-          ))}
-        {!data ||
-          (data.length < 1 && (
-            <div className="text-center px-10 pt-40">
-              <p className="h4 lg:h2 text-black/30">ไม่มีนัดหมาย</p>
-            </div>
-          ))}
+    <div className="pb-24">
+       <p className="h6 font-semibold text-black/50 px-6">
+         นัดทั้งหมด
+        </p>
+      <div className="mt-4 shadow-xl rounded-2xl mx-6">
+        <div className="overflow-x-auto rounded-2xl">
+          <table className="min-w-full text-sm divide-y divide-gray-200 bg-white">
+            <thead>
+              <tr className="bg-[#AD8259] text-white">
+                <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center">หมายเลข</div>
+                </th>
+                <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center">วันที่</div>
+                </th>
+                <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center">เวลา</div>
+                </th>
+                <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center">ลูกค้า</div>
+                </th>
+                <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center">สถานะ</div>
+                </th>
+                <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center"></div>
+                </th>
+                <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center"></div>
+                </th>
+              </tr>
+            </thead>
+
+            <tbody className="divide-y divide-gray-100">
+              {data?.map((d, index) => (
+                <AppointmentTableRow d={d} index={index} key={d._id} user={user} />
+              ))}
+              {events?.map((event, index) => (
+                <EventTableRow event={event} index={index} key={event._id} user={user}/>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
