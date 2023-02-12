@@ -54,10 +54,10 @@ const Review = ({ user }) => {
           <Header />
           <div className="main">
             <div className="pageTitle">รีวิวและคะแนนจากลูกค้า</div>
-            <div className=" lg:flex xl:grid xl:grid-cols-3 p-12">
+            <div className="px-24 lg:flex gap-10 xl:grid xl:grid-cols-3 ">
               {reviews.map(
                 ({ _id, customerName, comments, score, createdAt }) => (
-                  <div className="mx-auto gap-10 pb-8 lg:px-4" key={_id}>
+                  <div className="" key={_id}>
                     {reviews ? (
                       <div className="" key={_id}>
                         <PeopleReviewCard

@@ -17,7 +17,7 @@ function PeopleReviewCard({
   };
 
   return (
-    <div className="translation hover:shadow-lg rounded-2xl lg:p-8 p-2 pb-4 bg-white">
+    <div className="translation hover:shadow-lg rounded-2xl lg:p-8 p-2 pb-4 bg-white w-[550px] h-[250px]">
       <div className="flex items-center space-x-4">
         {!imageUrl && (
           <>
@@ -44,10 +44,9 @@ function PeopleReviewCard({
           </>
         )}
         <div className="">
-          <p className="text-[#121212]">{customerName}</p>
-
+          <p className="text-[#121212]/50">ลูกค้า</p>
           <p className="text-[#121212]/50">
-            Reviewed: {new Date(createdAt).toDateString("en-EN")}
+            รีวิวเมื่อ: {new Date(createdAt).toDateString("en-EN")}
           </p>
         </div>
       </div>

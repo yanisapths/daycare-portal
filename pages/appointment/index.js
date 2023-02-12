@@ -111,7 +111,7 @@ const Appointment = ({ user }) => {
         <div className="main xl:px-12 md:px-8 px-4">
           <p className="h4 pageTitle">นัดหมายดูแล</p>
           <div className="font-semibold text-[#6C5137] flex justify-end">
-            <div className="pt-2 xl:px-12">
+            <div className="pt-2 xl:px-6">
               <BtnAdd onClick={handleClickOpen} />
               <AddAppointmentForm
                 open={open}
@@ -124,10 +124,10 @@ const Appointment = ({ user }) => {
                 availData={availData}
               />
             </div>
-          {list.map((item) => (
+            {list.map((item) => (
               <div
                 key={item.id}
-                className="inline-flex transition duration-300 ease-in-out"
+                className="mx-2 transition duration-300 ease-in-out"
               >
                 <IconButton
                   active={selected === item.id}
@@ -141,11 +141,15 @@ const Appointment = ({ user }) => {
             ))}
           </div>
           {selected == "listView" ? (
-            <ListView data={appointmentData} events={eventData}  user={user}/>
-            ) : (
-            <CalendarView data={appointmentData} event={eventData} user={user}/>
+            <ListView data={appointmentData} events={eventData} user={user} />
+          ) : (
+            <CalendarView
+              data={appointmentData}
+              event={eventData}
+              user={user}
+            />
           )}
-          </div>
+        </div>
       </div>
     </div>
   );

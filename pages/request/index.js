@@ -102,13 +102,12 @@ const Request = ({user}) => {
         <link rel="icon" href="favicon.ico" />
       </Head>
 
-      <div className="divide-y divide-[#A17851] divide-opacity-30">
+      <div className="divide-y divide-[#A17851] divide-opacity-30 sm:divide-opacity-70">
         <Header />
-
         <div className="main xl:px-12 md:px-8 px-4">
           <h2 className="pageTitle">คำขอดูแล</h2>
-          <div className="font-semibold text-[#6C5137] flex justify-end space-x-8 xl:px-24 px-0">
-            <div className="pt-2">
+          <div className="font-semibold text-[#6C5137] flex justify-end">
+            <div className="pt-2 xl:px-6">
               <BtnAdd onClick={handleClickOpen}/>
               <AddRequestForm
                 open={open}
@@ -124,7 +123,7 @@ const Request = ({user}) => {
             {list.map((item) => (
               <div
                 key={item.id}
-                className="inline-flex transition duration-300 ease-in-out"
+                className="mx-2 transition duration-300 ease-in-out"
               >
                 <IconButton
                   active={selected === item.id}
