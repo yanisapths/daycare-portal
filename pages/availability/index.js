@@ -135,6 +135,7 @@ const Availability = () => {
               open={open}
               onClose={handleClose}
               maxWidth="xl"
+              sx={{display: "flex", justifyContent:"center", justifyItems: "center"}}
             >
               <DialogTitle
                 sx={{
@@ -145,12 +146,11 @@ const Availability = () => {
                   textAlign: "center",
                 }}
               >
-                Availability
+                เพิ่มวันและเวลาว่าง
               </DialogTitle>
               <DialogContent>
-                <Box>
-                  <form onSubmit={handleSubmit(onSubmit)}>
-                    <div className="my-4 md:py-24 md:w-96 md:mx-28 xl:py-24 xl:w-96 xl:mx-28">
+                  <form onSubmit={handleSubmit(onSubmit)} className="p-8 lg:p-24">
+                    <div>
                       <div className="pb-6">
                         <InputLabel shrink style={{ fontSize: "24px" }}>
                           วัน
@@ -224,9 +224,8 @@ const Availability = () => {
                       </div>
                     </div>
                   </form>
-                </Box>
               </DialogContent>
-              <DialogActions sx={{ mx: 4, mb: 4 }}>
+              <DialogActions sx={{ mx: 4, mb: 4, }}>
                 <button
                   className="body1 lg:h6 rounded-full outline-none border-2 border-black/25 hover:bg-black/10
                 px-6 py-2 mb-4"
