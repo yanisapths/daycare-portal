@@ -122,7 +122,7 @@ const Availability = () => {
 
         <main className="main">
           <div className="text-center">
-            <h1 className="pageTitle">ตารางนัด</h1>
+            <h1 className="pageTitle">จัดการวันว่าง</h1>
 
             <div className="flex justify-end space-x-10 px-8 lg:px-24 pt-10 lg:py-12">
               <BtnAdd onClick={handleClickOpen} />
