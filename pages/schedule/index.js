@@ -14,27 +14,27 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-const Schedule = ({ user }) => {
+const Schedule = ({ user, patient }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [clinic, setData] = useState([]);
   const [course, setCourseData] = useState([]);
   const [appointment, setAppointmentData] = useState([]);
   const [event, setEventData] = useState([]);
-  const [id, setId] = useState("");
+  const [result, setResult] = useState([]);
 
   const fetchData = async () => {
     let isSubscribed = true;
     const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
     const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
+    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}/approved`;
     const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
 
     const appointments = await fetch(appointmenturl);
     const courses = await fetch(courseurl);
     const clinics = await fetch(clinicurl);
     const events = await fetch(eventurl);
-    
+
     const appointment = await appointments.json();
     const course = await courses.json();
     const clinic = await clinics.json();
@@ -58,7 +58,7 @@ const Schedule = ({ user }) => {
   }, [status]);
 
   const handleChange = (event) => {
-    setId(event.target.value);
+    setResult(event.target.value);
   };
 
   function escapeRegExp(string) {
@@ -86,13 +86,13 @@ const Schedule = ({ user }) => {
                 <Select
                   sx={{ borderRadius: "32px" }}
                   label="เลือกนัดจากชื่อ"
-                  value={id}
+                  value={result}
                   onChange={handleChange}
                 >
-                  {appointment.map((input,index) => {
+                  {appointment.map((input, index) => {
                     return (
                       <MenuItem key={input._id} value={input._id}>
-                      <PatientItemList input={input} key={index}/>
+                          <PatientItemList input={input} key={index} />
                       </MenuItem>
                     );
                   })}
@@ -108,14 +108,18 @@ const Schedule = ({ user }) => {
                 }
                 const escaped = escapeRegExp(_id);
                 const re = new RegExp(`.*${escaped}$`);
-                return re.test(id);
+                return re.test(result);
               })
-              .map(({ _id,nickName }) => (
-                <>
-                <div>{_id}</div>
-                <div>{nickName}</div>
-                </>
-              ))}
+              .map((result) => {
+                return (
+                  <AppointmentListCard
+                    key={result._id}
+                    data={appointment}
+                    d={result}
+                    user={user}
+                  />
+                );
+              })}
           </div>
         </main>
         <FooterSocial />
