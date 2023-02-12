@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
-import AppointmentTableRow from "../../../components/OLCard/AppointmentTableRow"
-import EventTableRow from "../../../components/OLCard/EventTableRow"
+import AppointmentTableRow from "../../../components/OLCard/AppointmentTableRow";
+import EventTableRow from "../../../components/OLCard/EventTableRow";
 
-function ListView({ data,user,events }) {
+function ListView({ data, user, events }) {
   return (
     <div className="">
-           <div className="mt-12 shadow-xl rounded-2xl mx-6">
+      <div className="mt-12 shadow-xl rounded-2xl mx-6">
         <div className="overflow-x-auto rounded-2xl">
           <table className="min-w-full text-sm divide-y divide-gray-200 bg-white">
             <thead>
@@ -25,7 +25,9 @@ function ListView({ data,user,events }) {
                 <th className="p-4 font-medium text-left whitespace-nowrap">
                   <div className="flex items-center">สถานะ</div>
                 </th>
-
+                <th className="p-4 font-medium text-left whitespace-nowrap">
+                  <div className="flex items-center"></div>
+                </th>
                 <th className="p-4 font-medium text-left whitespace-nowrap">
                   <div className="flex items-center"></div>
                 </th>
@@ -33,12 +35,12 @@ function ListView({ data,user,events }) {
             </thead>
 
             <tbody className="divide-y divide-gray-100">
-            {data?.map((d, index) => (
-               <AppointmentTableRow d={d} index={index} key={d._id}/>
-            ))}
-             {events?.map((event, index) => (
-              <EventTableRow event={event} index={index} key={event._id} />
-            ))}
+              {data?.map((d, index) => (
+                <AppointmentTableRow d={d} index={index} key={d._id} user={user} />
+              ))}
+              {events?.map((event, index) => (
+                <EventTableRow event={event} index={index} key={event._id} user={user}/>
+              ))}
             </tbody>
           </table>
         </div>

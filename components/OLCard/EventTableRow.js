@@ -12,6 +12,7 @@ import IconButton from "@mui/material/IconButton";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import BtnDetails from "../BtnDetails";
 
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -25,7 +26,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function EventTableRow({ event }) {
+function EventTableRow({ event,user }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -92,20 +93,35 @@ function EventTableRow({ event }) {
       });
   }
 
-  async function deleteRequest(appointmentId) {
-    const res = await fetch(
-      `${process.env.dev}/appointment/delete/${appointmentId}`,
-      { method: "DELETE" }
-    )
+  async function deleteEvent(eid) {
+    const res = await fetch(`${process.env.dev}/event/delete/${eid}`, {
+      method: "DELETE",
+    })
       .then(async (res) => {
-        toast.success("ลบรายการแล้ว");
+        toast.success("ยกเลิกนัดแล้ว");
+        Router.reload();
       })
       .catch((err) => {
         console.log("ERROR: ", err);
-        toast.error("ลบรายการไม่สำเร็จ");
+        toast.error("ไม่สามารถยกเลิกนัดได้");
       });
   }
 
+  async function finishTask(eid) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Done" }),
+    };
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
+      .then(async (res) => {
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
   return (
     <>
       <tr
@@ -120,13 +136,17 @@ function EventTableRow({ event }) {
             : "cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
         }
       >
-       <td className="flex w-24">
-           <p className={
+        <td className="flex w-24">
+          <p
+            className={
               event.status == "Done"
                 ? "p-4 text-black/40 truncate"
                 : "p-4 truncate"
-            }>{event._id}</p> 
-          </td>
+            }
+          >
+            {event._id}
+          </p>
+        </td>
         <td
           className={
             event.status == "Done"
@@ -220,26 +240,23 @@ function EventTableRow({ event }) {
             </>
           )}
         </td>
-
-        <td>
-          <Tooltip title="ลบ" placement="top">
-            <IconButton
-              aria-label="delete"
-              size="medium"
+        <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
+          {event.status != "Done" && (
+            <BtnDetails
+              text="เสร็จสิ้น"
               onClick={() =>
                 Swal.fire({
-                  title: "ลบรายการนี้?",
-                  text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
-                  icon: "warning",
+                  title: "เสร็จสิ้นการให้บริการ?",
+                  icon: "success",
                   showCancelButton: true,
-                  confirmButtonText: "ใช่ ลบเลย!",
+                  confirmButtonText: "ใช่",
                   cancelButtonText: "ยกเลิก",
                   reverseButtons: true,
                 }).then((result) => {
                   if (result.isConfirmed) {
-                    deleteRequest(d._id).then(() =>
+                    finishTask(event._id).then(() =>
                       Swal.fire({
-                        title: "ลบคำขอแล้ว",
+                        title: "ให้บริการเสร็จสิ้นแล้ว",
                         showConfirmButton: false,
                         icon: "success",
                         timer: 1000,
@@ -247,7 +264,44 @@ function EventTableRow({ event }) {
                     );
                   } else if (result.dismiss === Swal.DismissReason.cancel) {
                     Swal.fire({
-                      title: "คำขอไม่ได้ถูกลบ :)",
+                      title: "ยกเลิก",
+                      showConfirmButton: false,
+                      icon: "error",
+                      timer: 800,
+                    });
+                  }
+                })
+              }
+            />
+          )}
+        </td>
+        <td>
+          <Tooltip title="ลบ" placement="top">
+            <IconButton
+              aria-label="delete"
+              size="medium"
+              onClick={() =>
+                Swal.fire({
+                  title: "ยกเลิกนัดนี้?",
+                  text: "หากยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
+                  icon: "warning",
+                  showCancelButton: true,
+                  confirmButtonText: "ใช่ ลบเลย!",
+                  cancelButtonText: "ยกเลิก",
+                  reverseButtons: true,
+                }).then((result) => {
+                  if (result.isConfirmed) {
+                    deleteEvent(event._id).then(() =>
+                      Swal.fire({
+                        title: "ยกเลิกแล้ว",
+                        showConfirmButton: false,
+                        icon: "success",
+                        timer: 1000,
+                      })
+                    );
+                  } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    Swal.fire({
+                      title: "ไม่ได้ยกเลิกนัด :)",
                       showConfirmButton: false,
                       icon: "error",
                       timer: 1000,
