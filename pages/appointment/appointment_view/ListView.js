@@ -13,25 +13,25 @@ function ListView({ data, user, events }) {
           <table className="min-w-full text-sm divide-y divide-gray-200 bg-white">
             <thead>
               <tr className="bg-[#AD8259] text-white">
-                <th className="p-4 font-medium text-left whitespace-nowrap">
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center">หมายเลข</div>
                 </th>
-                <th className="p-4 font-medium text-left whitespace-nowrap">
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center">วันที่</div>
                 </th>
-                <th className="p-4 font-medium text-left whitespace-nowrap">
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center">เวลา</div>
                 </th>
-                <th className="p-4 font-medium text-left whitespace-nowrap">
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center">ลูกค้า</div>
                 </th>
-                <th className="p-4 font-medium text-left whitespace-nowrap">
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center">สถานะ</div>
                 </th>
-                <th className="p-4 font-medium text-left whitespace-nowrap">
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center"></div>
                 </th>
-                <th className="p-4 font-medium text-left whitespace-nowrap">
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center"></div>
                 </th>
               </tr>
