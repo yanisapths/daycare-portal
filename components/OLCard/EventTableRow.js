@@ -33,6 +33,8 @@ function EventTableRow({ event,user }) {
   const [selectedId, setSelectedId] = useState(null);
   const [p, setPatient] = useState({});
   const [course, setCourse] = useState({});
+  const [appointment, setAppointment] = useState({});
+  console.log(event)
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -58,11 +60,17 @@ function EventTableRow({ event,user }) {
       `${process.env.dev}/course/${event.course_id}`
     );
 
+    const appointments = await fetch(
+      `${process.env.dev}/appointment/${event.appointment_id}`
+    );
+
     const course = await courseData.json();
     const p = await patientData.json();
+    const appointment = await appointments.json();
     if (isSubscribed) {
       setCourse(course);
       setPatient(p);
+      setAppointment(appointment);
     }
     return () => (isSubscribed = false);
   };
@@ -210,7 +218,7 @@ function EventTableRow({ event,user }) {
             </p>
           ) : (
             <p>
-              ( {event.nickName} ) {event.firstName} {event.lastName}
+              ( {appointment.nickName} ) {appointment.firstName} {appointment.lastName}
             </p>
           )}
         </td>

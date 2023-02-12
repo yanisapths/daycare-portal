@@ -444,9 +444,9 @@ function AppointmentModal({
               <StatusCheckIcon
                 icon={<CheckCircleIcon />}
                 text={data.progressStatus ? data.progressStatus : data.status}
-                bgColor={data.progressStatus == "Done" ? "#E0B186" : "#2ED477"}
+                bgColor={data.progressStatus == "Done" ? "#E0B186" : data.status =="reviewed" ? "#7879F1" : "#2ED477"}
                 textColor={
-                  data.progressStatus == "Done" ? "#E0B186" : "#2ED477"
+                  data.progressStatus == "Done" ? "#E0B186" : data.status =="reviewed" ? "#7879F1" : "#2ED477"
                 }
               />
             </div>
@@ -646,7 +646,7 @@ function AppointmentModal({
             </form>
           ))}
         </motion.div>
-        {eventList.length == course.amount - 1 ? (
+        {data.status != "reviewed" && eventList.length == course.amount - 1 ? (
           <motion.div className="text-center pt-4">
             <p className="caption md:h6 xl:h6 pb-2 text-black/50">
               ไม่สามารถเพิ่มได้เนื่องจากครบจำนวนนัดแล้ว
@@ -687,22 +687,24 @@ function AppointmentModal({
           </motion.div>
         ) : (
           <motion.div className="flex justify-center pt-16">
-            <CircleIconButton
-              handleClick={() =>
-                append({
-                  date: "",
-                  startTime: "",
-                  endTime: "",
-                  event: event,
-                  status: "Approved",
-                  owner_id: user.id,
-                  patient_id: patient._id,
-                  course_id: course._id,
-                })
-              }
-              icon={<AddCircleOutlineIcon />}
-              text="เพิ่มนัดใหม่"
-            />
+            {data.status != "reviewed" && (
+              <CircleIconButton
+                handleClick={() =>
+                  append({
+                    date: "",
+                    startTime: "",
+                    endTime: "",
+                    event: event,
+                    status: "Approved",
+                    owner_id: user.id,
+                    patient_id: patient._id,
+                    course_id: course._id,
+                  })
+                }
+                icon={<AddCircleOutlineIcon />}
+                text="เพิ่มนัดใหม่"
+              />
+            )}
           </motion.div>
         )}
       </motion.div>

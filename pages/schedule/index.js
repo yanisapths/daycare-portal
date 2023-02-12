@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
 import Head from "next/head";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -21,7 +22,7 @@ const Schedule = ({ user, patient }) => {
   const [course, setCourseData] = useState([]);
   const [appointment, setAppointmentData] = useState([]);
   const [event, setEventData] = useState([]);
-  const [result, setResult] = useState([]);
+  const [result, setResult] = useState("");
 
   const fetchData = async () => {
     let isSubscribed = true;
@@ -79,7 +80,7 @@ const Schedule = ({ user, patient }) => {
           <div className="text-center">
             <h1 className="pageTitle">ตารางนัด</h1>
           </div>
-          <div className="flex mx-auto items-center justify-end px-12 pt-8">
+          <div className="flex mx-auto items-center justify-center lg:justify-end px-12 pt-8">
             <Box sx={{ minWidth: 350 }}>
               <FormControl fullWidth>
                 <InputLabel>เลือกนัดจากชื่อ</InputLabel>
@@ -92,7 +93,7 @@ const Schedule = ({ user, patient }) => {
                   {appointment.map((input, index) => {
                     return (
                       <MenuItem key={input._id} value={input._id}>
-                          <PatientItemList input={input} key={index} />
+                        <PatientItemList input={input} key={index} />
                       </MenuItem>
                     );
                   })}
@@ -100,7 +101,7 @@ const Schedule = ({ user, patient }) => {
               </FormControl>
             </Box>
           </div>
-          <div className="max-w-screen-xl mx-auto items-center justify-center pt-2">
+          <div className="max-w-screen-xl mx-auto items-center justify-center pt-2 px-6">
             {appointment
               .filter(({ _id }) => {
                 if (_id == "") {
@@ -120,6 +121,19 @@ const Schedule = ({ user, patient }) => {
                   />
                 );
               })}
+          </div>
+          <div className="flex items-center justify-center pt-12 px-24">
+            {!result && (
+              <div className="text-center justify-center space-y-10">
+                <Image
+                  src="/asset/appointmentwithman.png"
+                  width={120}
+                  height={120}
+                  className="opacity-60"
+                />
+                <p className="h5 lg:h2 text-black/50">ดูนัดที่ยังคงดำเนินการอยู่</p>
+              </div>
+            )}
           </div>
         </main>
         <FooterSocial />
