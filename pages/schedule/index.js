@@ -1,19 +1,18 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
 import { getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import axios from "axios";
 import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import AppointmentListCard from "../../components/OLCard/AppointmentListCard";
+import PatientItemList from "../../components/OLSelect/PatientItemList";
+
 import "react-datepicker/dist/react-datepicker.css";
-import Router from "next/router";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+import MenuItem from "@mui/material/MenuItem";
 
 const Schedule = ({ user }) => {
   const { data: session, status } = useSession();
@@ -35,11 +34,12 @@ const Schedule = ({ user }) => {
     const courses = await fetch(courseurl);
     const clinics = await fetch(clinicurl);
     const events = await fetch(eventurl);
-
+    
     const appointment = await appointments.json();
     const course = await courses.json();
     const clinic = await clinics.json();
     const event = await events.json();
+
     if (isSubscribed) {
       setData(clinic);
       setAppointmentData(appointment);
@@ -82,19 +82,17 @@ const Schedule = ({ user }) => {
           <div className="flex mx-auto items-center justify-end px-12 pt-8">
             <Box sx={{ minWidth: 350 }}>
               <FormControl fullWidth>
-                <InputLabel>เลขที่นัดหมาย</InputLabel>
+                <InputLabel>เลือกนัดจากชื่อ</InputLabel>
                 <Select
                   sx={{ borderRadius: "32px" }}
-                  labelId="demo-simple-select-label"
-                  id="demo-simple-select"
-                  label="เลขที่นัดหมาย"
+                  label="เลือกนัดจากชื่อ"
                   value={id}
                   onChange={handleChange}
                 >
-                  {appointment.map((input) => {
+                  {appointment.map((input,index) => {
                     return (
                       <MenuItem key={input._id} value={input._id}>
-                        {input._id}
+                      <PatientItemList input={input} key={index}/>
                       </MenuItem>
                     );
                   })}
@@ -112,13 +110,12 @@ const Schedule = ({ user }) => {
                 const re = new RegExp(`.*${escaped}$`);
                 return re.test(id);
               })
-              .map(
-                ({
-                  _id,
-                }) => (
-                 <div>{_id}</div>
-                )
-              )}
+              .map(({ _id,nickName }) => (
+                <>
+                <div>{_id}</div>
+                <div>{nickName}</div>
+                </>
+              ))}
           </div>
         </main>
         <FooterSocial />
