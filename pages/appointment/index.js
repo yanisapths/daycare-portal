@@ -141,7 +141,7 @@ const Appointment = ({ user }) => {
             ))}
           </div>
           {selected == "listView" ? (
-            <ListView data={appointmentData}  user={user}/>
+            <ListView data={appointmentData} events={eventData}  user={user}/>
             ) : (
             <CalendarView data={appointmentData} event={eventData} user={user}/>
           )}
