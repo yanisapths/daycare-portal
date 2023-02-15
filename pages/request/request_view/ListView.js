@@ -9,44 +9,21 @@ function ListView({ data }) {
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
   return (
-    <div className="pt-12 space-y-12 md:space-y-0 xl:space-y-0 md:pt-10 xl:pt-10 md:flex xl:flex md:gap-10 xl:gap-32 xl:pl-24">
-      <SimpleCalendar
-        className="w-2/6"
-        currentDate={currentDate}
-        today={today}
-        setToday={setToday}
-        selectedDate={selectedDate}
-        setSelectedDate={setSelectedDate}
-      />
-      <div className="w-4/6 min-w-full xl:min-w-[750px] md:min-w-[550px]">
-        <p className="text-lg font-semibold">
-          {" "}
-          {selectedDate.toDate().toLocaleDateString("th-TH", {
-            day: "numeric",
-            weekday: "long",
-            month: "short",
-          })}
-        </p>
+    <div className="flex justify-center">
+      <div className="sm:w-full xl:min-w-[950px] sm:pt-12">
+        <p className="text-lg font-semibold">คำขอใหม่รอการตอบรับ</p>
         {/*request list */}
         {data?.map((request) => (
           <div key={request._id} className="mb-6">
-            {selectedDate.toDate().toDateString() ==
-            new Date(request.appointmentDate).toDateString() ? (
+            <div>
               <RequestListCard
                 request={request}
                 key={request._id}
                 data={data}
               />
-            ) : (
-              ""
-            )}
+            </div>
           </div>
         ))}
-        {!data || (
-          <div className="text-center px-10 pt-40">
-            <p className="h4 lg:h2 text-black/30">ไม่มีคำขอ</p>
-          </div>
-        )}
       </div>
     </div>
   );

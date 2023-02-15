@@ -124,7 +124,7 @@ function AppointmentModal({
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto w-[900px] overflow-y-scroll max-h-[500px] md:max-h-fit lg:max-h-fit xl:max-h-fit xl:overflow-auto"
+        className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll max-h-[500px] scrollbar-hide"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}

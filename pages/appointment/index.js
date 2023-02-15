@@ -23,16 +23,13 @@ const Appointment = ({ user }) => {
   const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
   const [eventData, setEventData] = useState([]);
+  console.log(eventData)
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = (event, reason) => {
-    if (reason !== "backdropClick") {
-      setOpen(false);
-    } else {
-      setOpen(false);
-    }
+    setOpen(false);
   };
 
   const list = [
@@ -67,6 +64,7 @@ const Appointment = ({ user }) => {
     const patienturl = `${process.env.dev}/patient/match/${user.id}`;
     const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
     const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
+    console.log(eventurl);
 
     const appointment = await fetch(appointmenturl);
     const patient = await fetch(patienturl);
@@ -108,9 +106,9 @@ const Appointment = ({ user }) => {
       </Head>
       <div className="divide-y divide-[#A17851] divide-opacity-30 sm:divide-opacity-70">
         <Header />
-        <div className="main xl:px-12 md:px-8 px-4">
+        <div className="main">
           <p className="h4 pageTitle">นัดหมายดูแล</p>
-          <div className="font-semibold text-[#6C5137] flex justify-end">
+          <div className="font-semibold text-[#6C5137] flex justify-end px-12">
             <div className="pt-2 xl:px-6">
               <BtnAdd onClick={handleClickOpen} />
               <AddAppointmentForm
