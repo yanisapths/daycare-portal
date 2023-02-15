@@ -444,9 +444,19 @@ function AppointmentModal({
               <StatusCheckIcon
                 icon={<CheckCircleIcon />}
                 text={data.progressStatus ? data.progressStatus : data.status}
-                bgColor={data.progressStatus == "Done" ? "#E0B186" : data.status =="reviewed" ? "#7879F1" : "#2ED477"}
+                bgColor={
+                  data.progressStatus == "Done"
+                    ? "#E0B186"
+                    : data.status == "reviewed"
+                    ? "#7879F1"
+                    : "#2ED477"
+                }
                 textColor={
-                  data.progressStatus == "Done" ? "#E0B186" : data.status =="reviewed" ? "#7879F1" : "#2ED477"
+                  data.progressStatus == "Done"
+                    ? "#E0B186"
+                    : data.status == "reviewed"
+                    ? "#7879F1"
+                    : "#2ED477"
                 }
               />
             </div>

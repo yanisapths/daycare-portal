@@ -5,6 +5,9 @@ import FormModal from "../../pages/request/FormModal";
 import AppointmentModal from "../OLModal/AppointmentModal";
 import Overlay from "../OLLayout/Overlay";
 import BtnCancel from "../BtnCancel";
+import RoundTextIcon from "../OLIcon/RoundTextIcon";
+
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import HomeIcon from "@mui/icons-material/Home";
@@ -12,7 +15,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function AppointmentListCard({ data, d, index,user }) {
+function AppointmentListCard({ data, d, index, user }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
@@ -53,23 +56,28 @@ function AppointmentListCard({ data, d, index,user }) {
     let isSubscribed = true;
     const eventUrl = `${process.env.dev}/event/match/${d._id}`;
     const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
+    const courseurl = `${process.env.dev}/course/${d.course_id}`;
+
     const res = await fetch(eventUrl);
     const patientRes = await fetch(patienturl);
-  
+    const courses = await fetch(courseurl);
+
     const eventList = await res.json();
     const p = await patientRes.json();
-  
+    const course = await courses.json();
+
     if (isSubscribed) {
       setEvent(eventList);
       setPatient(p);
+      setCourse(course);
     }
+
     return () => (isSubscribed = false);
   };
 
   useEffect(() => {
     fetchData();
-  },[]);
-
+  }, []);
 
   useEffect(() => {
     const courseurl = `${process.env.dev}/course/${d.course_id}`;
@@ -121,19 +129,15 @@ function AppointmentListCard({ data, d, index,user }) {
                         </p>
                       </div>
                     </div>
-
-                    <div className="col-start-1 col-end-7 font-semibold pb-2">
-                      <span className="text-base md:text-lg xxl:text-2xl xxxl:text-3xl">
-                        คุณ{" "}
-                      </span>
-                      <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
-                        {" "}
+                    <div className="flex gap-4 sm:gap-12">
+                      <div className="font-semibold pb-2 text-base xl:text-lg sm:w-4/6 sm:truncate">
+                        <span className="text-base">คุณ </span>
                         {d.firstName ? (
-                          <p>
+                          <span>
                             ( {d.nickName} ) {d.firstName} {d.lastName}
-                          </p>
+                          </span>
                         ) : (
-                          <>
+                          <span>
                             {d.patient_id && p.firstName ? (
                               <>
                                 ( {p.nickName} ) {p.firstName} {p.lastName}
@@ -141,8 +145,14 @@ function AppointmentListCard({ data, d, index,user }) {
                             ) : (
                               ""
                             )}
-                          </>
+                          </span>
                         )}
+                      </div>
+                      <div className="sm:w-full">
+                        <RoundTextIcon
+                          icon={<BookmarksIcon className="w-5 h-5" />}
+                          text={course.courseName}
+                        />
                       </div>
                     </div>
                     <div className="col-start-1 col-span-6">
@@ -201,9 +211,7 @@ function AppointmentListCard({ data, d, index,user }) {
                         {d.staff ? (
                           d.staff
                         ) : (
-                          <span className="text-sm text-black/40">
-                            -
-                          </span>
+                          <span className="text-sm text-black/40">-</span>
                         )}
                       </span>
                     </div>

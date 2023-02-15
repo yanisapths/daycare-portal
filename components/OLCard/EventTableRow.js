@@ -26,7 +26,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function EventTableRow({ event,user }) {
+function EventTableRow({ event, user }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -34,7 +34,6 @@ function EventTableRow({ event,user }) {
   const [p, setPatient] = useState({});
   const [course, setCourse] = useState({});
   const [appointment, setAppointment] = useState({});
-  let patientId = appointment.patient_id;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -54,7 +53,7 @@ function EventTableRow({ event,user }) {
   const fetchData = async () => {
     let isSubscribed = true;
     const patientData = await fetch(
-      `${process.env.dev}/patient/${patientId}`
+      `${process.env.dev}/patient/${event.patient_id}`
     );
 
     const courseData = await fetch(
@@ -219,7 +218,8 @@ function EventTableRow({ event,user }) {
             </p>
           ) : (
             <p>
-              ( {appointment.nickName} ) {appointment.firstName} {appointment.lastName}
+              ( {appointment.nickName} ) {appointment.firstName}{" "}
+              {appointment.lastName}
             </p>
           )}
         </td>

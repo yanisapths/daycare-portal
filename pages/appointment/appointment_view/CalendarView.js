@@ -10,7 +10,7 @@ function CalendarView({ data, event,user }) {
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
   return (
-    <div className="pt-12 space-y-12 md:space-y-0 xl:space-y-0 md:pt-10 xl:pt-10 md:flex xl:flex md:gap-10 xl:gap-32 xl:pl-24">
+    <div className="pt-12 space-y-12 md:space-y-0 xl:space-y-0 md:pt-10 xl:pt-10 md:flex xl:flex md:gap-10 xl:gap-10 xl:justify-center px-12">
       <SimpleCalendar
         className="w-2/6"
         currentDate={currentDate}
