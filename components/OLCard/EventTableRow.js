@@ -34,7 +34,8 @@ function EventTableRow({ event,user }) {
   const [p, setPatient] = useState({});
   const [course, setCourse] = useState({});
   const [appointment, setAppointment] = useState({});
-  console.log(event)
+  let patientId = appointment.patient_id;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -53,7 +54,7 @@ function EventTableRow({ event,user }) {
   const fetchData = async () => {
     let isSubscribed = true;
     const patientData = await fetch(
-      `${process.env.dev}/patient/${event.patient_id}`
+      `${process.env.dev}/patient/${patientId}`
     );
 
     const courseData = await fetch(
@@ -212,7 +213,7 @@ function EventTableRow({ event,user }) {
               : "p-4 text-gray-700 whitespace-nowrap"
           }
         >
-          {event.patient_id ? (
+          {appointment.patient_id ? (
             <p>
               ( {p.nickName} ) {p.firstName} {p.lastName}
             </p>

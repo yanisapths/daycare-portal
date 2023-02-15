@@ -19,6 +19,7 @@ function EventListCard({ data, d, index, user }) {
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
   const [appointment, setAppointment] = useState([]);
+  let patientId = appointment.patient_id;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -53,7 +54,7 @@ function EventListCard({ data, d, index, user }) {
   const fetchData = async () => {
     let isSubscribed = true;
     const eventUrl = `${process.env.dev}/event/match/${d._id}`;
-    const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
+    const patienturl = `${process.env.dev}/patient/${patientId}`;
     const appointmenturl = `${process.env.dev}/appointment/${d.appointment_id}`;
     const res = await fetch(eventUrl);
     const patientRes = await fetch(patienturl);
@@ -127,7 +128,7 @@ function EventListCard({ data, d, index, user }) {
                           </p>
                         ) : (
                           <>
-                            {d.patient_id ? (
+                            {appointment.patient_id ? (
                               <>
                                 ( {p.nickName} ) {p.firstName} {p.lastName}
                               </>

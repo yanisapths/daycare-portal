@@ -23,8 +23,6 @@ const Appointment = ({ user }) => {
   const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
   const [eventData, setEventData] = useState([]);
-  console.log(eventData)
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -64,7 +62,6 @@ const Appointment = ({ user }) => {
     const patienturl = `${process.env.dev}/patient/match/${user.id}`;
     const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
     const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
-    console.log(eventurl);
 
     const appointment = await fetch(appointmenturl);
     const patient = await fetch(patienturl);
