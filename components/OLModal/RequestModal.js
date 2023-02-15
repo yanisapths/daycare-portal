@@ -1,10 +1,11 @@
 import React from "react";
+import CircleIcon from "../../components/OLIcon/CircleIcon";
+import RoundTextIcon from "../../components/OLIcon/RoundTextIcon";
+
+import { IconButton, Button } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton, Button } from "@mui/material";
-import CircleIcon from "../../components/OLIcon/CircleIcon";
 import PhoneIcon from "@mui/icons-material/Phone";
-import RoundTextIcon from "../../components/OLIcon/RoundTextIcon";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
@@ -12,6 +13,7 @@ import WcIcon from "@mui/icons-material/Wc";
 import PersonIcon from "@mui/icons-material/Person";
 import WarningIcon from "@mui/icons-material/Warning";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import Tooltip from "@mui/material/Tooltip";
 
 function RequestModal({
   patient,
@@ -90,14 +92,29 @@ function RequestModal({
                 ""
               )}
             </p>
+            <div className="flex pb-2 gap-4">
+              <RoundTextIcon
+                icon={<BookmarksIcon className="w-5 h-5" />}
+                text={course.courseName}
+              />
+                <Tooltip placement="top" title="สถานที่นัด">
+              <div className="cursor-pointer">
+                  <RoundTextIcon
+                    className="cursor-pointer"
+                    icon={<MeetingRoomIcon className="w-5 h-5" />}
+                    text={data.appointmentPlace}
+                  />
+              </div>
+                </Tooltip>
+            </div>
             {data.patient_id ? (
               <div className="pb-2">
-                <motion.h6>
-                  <p className="h4 pb-4">
+                <motion.div>
+                  <p className="h6 font-semibold pb-4">
                     คุณ ( {patient.nickName} ) {patient.firstName}{" "}
                     {patient.lastName}
                   </p>
-                </motion.h6>
+                </motion.div>
                 <motion.h6 className="flex space-x-10 pb-2">
                   <div className="flex items-center align-middle gap-2">
                     {" "}
@@ -246,23 +263,6 @@ function RequestModal({
                 </motion.h6>
               </div>
             )}
-            <div className="h6">
-              <div className="flex items-center align-middle gap-2 pt-2">
-                {" "}
-                <CircleIcon icon={<MeetingRoomIcon className="text-sm" />} />
-                <span className="caption text-[#A17851] font-bold">
-                  สถานที่นัด{" "}
-                </span>
-                {data.appointmentPlace}
-              </div>
-            </div>
-          </div>
-          <div className="pt-2 h6">
-            <div className="flex items-center align-middle gap-2">
-              {" "}
-              <CircleIcon icon={<BookmarksIcon className="text-sm" />} />
-              <span className="pt-2">{course.courseName}</span>
-            </div>
           </div>
         </motion.div>
       </motion.div>

@@ -24,9 +24,6 @@ function AppointmentListCard({ data, d, index,user }) {
   };
 
   const handleClose = (event, reason) => {
-    if (reason !== "backdropClick") {
-      setOpen(false);
-    }
     setOpen(false);
   };
 
@@ -89,15 +86,15 @@ function AppointmentListCard({ data, d, index,user }) {
   return (
     <>
       {selectedId && (
-        <Overlay close={closeModal}>
+        <Overlay close={handleClose}>
           <AppointmentModal
             eventList={eventList}
             user={user}
             data={d}
             patient={p}
             setSelectedId={setSelectedId}
-            close={closeModal}
             course={course}
+            close={handleClose}
           ></AppointmentModal>
         </Overlay>
       )}
