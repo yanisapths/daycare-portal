@@ -3,8 +3,9 @@ import RequestTableRow from "../../../components/OLCard/RequestTableRow";
 
 function TableView({ data }) {
   return (
-    <>
-      <div className="mt-12 shadow-xl rounded-2xl mx-6">
+    <div className="mx-6 pb-24">
+      <p className="h6 font-semibold">คำขอทั้งหมด</p>
+      <div className="mt-4 shadow-xl rounded-2xl">
         <div className="overflow-x-auto rounded-2xl">
           <table className="min-w-full text-sm divide-y divide-gray-200 bg-white">
             <thead>
@@ -35,14 +36,14 @@ function TableView({ data }) {
             </thead>
 
             <tbody className="divide-y divide-gray-100">
-            {data?.map((d, index) => (
-               <RequestTableRow d={d} index={index} key={d._id}/>
-            ))}
+              {data?.map((d, index) => (
+                <RequestTableRow d={d} index={index} key={d._id} />
+              ))}
             </tbody>
           </table>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

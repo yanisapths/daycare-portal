@@ -2,23 +2,24 @@ import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import BtnDetails from "../BtnDetails";
 import FormModal from "../../pages/request/FormModal";
-import AppointmentModal from "../OLModal/AppointmentModal";
-import Overlay from "../OLLayout/Overlay";
 import BtnCancel from "../BtnCancel";
+import RoundTextIcon from "../OLIcon/RoundTextIcon";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import HomeIcon from "@mui/icons-material/Home";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function EventListCard({ data, d, index, user }) {
+function EventListCard({ data, d, index, user,staffs }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
-  const [appointment, setAppointment] = useState([]);
+  const [appointment, setAppointment] = useState({});
+  console.log(appointment)
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -34,16 +35,29 @@ function EventListCard({ data, d, index, user }) {
   const closeModal = () => {
     setSelectedId(null);
   };
-
+  async function deleteEvent(eid) {
+    const res = await fetch(`${process.env.dev}/event/delete/${eid}`, {
+      method: "DELETE",
+    })
+      .then(async (res) => {
+        toast.success("ยกเลิกนัดแล้ว");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สามารถยกเลิกนัดได้");
+      });
+  }
   async function finishTask(eid) {
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option) 
       .then(async (res) => {
-        Router.reload();
+        toast.success("สำเร็จ");
+        console.log(res)
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -55,41 +69,36 @@ function EventListCard({ data, d, index, user }) {
     const eventUrl = `${process.env.dev}/event/match/${d._id}`;
     const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
     const appointmenturl = `${process.env.dev}/appointment/${d.appointment_id}`;
+    const courseurl = `${process.env.dev}/course/${d.course_id}`;
+
     const res = await fetch(eventUrl);
     const patientRes = await fetch(patienturl);
     const appointments = await fetch(appointmenturl);
+    const courses = await fetch(courseurl);
 
     const eventList = await res.json();
     const p = await patientRes.json();
     const appointment = await appointments.json();
+    const course = await courses.json();
 
     if (isSubscribed) {
       setEvent(eventList);
       setPatient(p);
       setAppointment(appointment);
+      setCourse(course);
     }
     return () => (isSubscribed = false);
   };
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const courseurl = `${process.env.dev}/course/${d.course_id}`;
-    fetch(courseurl, {
-      method: "GET",
-    })
-      .then(async (res) => {
-        const course = await res.json();
-        setCourse(course);
-      })
-      .catch((err) => console.log(err));
+    fetchData().catch((err) => console.error(err))
   }, []);
 
   return (
     <>
-      {d.status == "Approved" && data.status != "Done"  && appointment.status != "Rejected" ? (
+      {d.status == "Approved" && d.status != "Done" &&
+      data.status != "Done" &&
+      appointment.status != "Rejected" ? (
         <>
           <article
             key={d._id}
@@ -110,32 +119,32 @@ function EventListCard({ data, d, index, user }) {
                           No. <span>{d._id}</span>
                         </p>
                       </div>
-                        <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-center text-xs w-fit h-fit px-4 py-1.5">
-                          {d.status}
-                        </div>
                     </div>
-
-                    <div className="col-start-1 col-end-7 font-semibold pb-2">
-                      <span className="text-base md:text-lg xxl:text-2xl xxxl:text-3xl">
-                        คุณ{" "}
-                      </span>
-                      <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
-                        {" "}
+                    <div className="flex gap-4 sm:gap-12">
+                      <div className="font-semibold pb-2 text-base xl:text-lg sm:w-4/6 sm:truncate">
+                        <span className="text-base">คุณ </span>
                         {appointment.firstName ? (
-                          <p>
-                            ( {appointment.nickName} ) {appointment.firstName} {appointment.lastName}
-                          </p>
+                          <span>
+                            ( {appointment.nickName} ) {appointment.firstName}{" "}
+                            {appointment.lastName}
+                          </span>
                         ) : (
-                          <>
-                            {d.patient_id ? (
+                          <span>
+                            {appointment.patient_id ? (
                               <>
                                 ( {p.nickName} ) {p.firstName} {p.lastName}
                               </>
                             ) : (
                               ""
                             )}
-                          </>
+                          </span>
                         )}
+                      </div>
+                      <div className="sm:w-full">
+                        <RoundTextIcon
+                          icon={<BookmarksIcon className="w-5 h-5" />}
+                          text={course.courseName}
+                        />
                       </div>
                     </div>
                     <div className="col-start-1 col-span-6">
@@ -168,14 +177,82 @@ function EventListCard({ data, d, index, user }) {
                         </span>
                       )}
                     </div>
+                    <div className="col-start-1 col-span-3">
+                      <span className="sm:hidden xxl:text-lg xxxl:text-xl">
+                        สถานที่นัด:
+                      </span>
+                      <span className="text-[#969696] lg:hidden md:hidden ">
+                        <HomeIcon />
+                      </span>
+                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
+                        {" "}
+                        {appointment.appointmentPlace}
+                      </span>
+                    </div>
+                    <div className="col-start-1 col-span-3 sm:col-span-8">
+                      <span className="sm:hidden xxl:text-lg xxxl:text-xl">
+                        พนักงานผู้ดูแล:
+                      </span>
+                      <span className="text-[#969696] lg:hidden md:hidden ">
+                        <PermIdentityIcon />
+                      </span>
+                      <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
+                      {appointment.staff ? (
+                          <span>
+                            {staffs.map(
+                              (input) =>
+                                input._id == appointment.staff &&
+                                appointment.staff != "none" && (
+                                  <span key={input._id}>
+                                    ( {input.nickName} ) {input.firstName}{" "}
+                                    {input.lastName}
+                                  </span>
+                                )
+                            )}
+                          </span>
+                        ) : (
+                          <span className="text-sm text-black/40">-</span>
+                        )}
+                      </span>
+                    </div>
                   </div>
                 </div>
               </div>
             </motion.div>
             <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
               <div>
-                <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
-                <FormModal open={open} handleClose={handleClose} request={d} />
+                <BtnCancel
+                  text="ยกเลิก"
+                  onClick={() =>
+                    Swal.fire({
+                      title: "ยกเลิกนัดนี้?",
+                      text: "หากยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "ใช่ ลบเลย!",
+                      cancelButtonText: "ยกเลิก",
+                      reverseButtons: true,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        deleteEvent(d._id).then(() =>
+                          Swal.fire({
+                            title: "ยกเลิกแล้ว",
+                            showConfirmButton: false,
+                            icon: "success",
+                            timer: 1000,
+                          })
+                        );
+                      } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire({
+                          title: "ไม่ได้ยกเลิกนัด :)",
+                          showConfirmButton: false,
+                          icon: "error",
+                          timer: 1000,
+                        });
+                      }
+                    })
+                  }
+                />
               </div>
               <BtnDetails
                 text="เสร็จสิ้น"

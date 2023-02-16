@@ -7,6 +7,7 @@ import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import AppointmentListCard from "../../components/OLCard/AppointmentListCard";
 import PatientItemList from "../../components/OLSelect/PatientItemList";
+import EventListCard from "../../components/OLCard/EventListCard";
 
 import "react-datepicker/dist/react-datepicker.css";
 import Box from "@mui/material/Box";
@@ -23,6 +24,7 @@ const Schedule = ({ user, patient }) => {
   const [appointment, setAppointmentData] = useState([]);
   const [event, setEventData] = useState([]);
   const [result, setResult] = useState("");
+  const [staffs, setStaffs] = useState([]);
 
   const fetchData = async () => {
     let isSubscribed = true;
@@ -30,22 +32,26 @@ const Schedule = ({ user, patient }) => {
     const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
     const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}/approved`;
     const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
+    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
 
     const appointments = await fetch(appointmenturl);
     const courses = await fetch(courseurl);
     const clinics = await fetch(clinicurl);
     const events = await fetch(eventurl);
+    const staff = await fetch(staffurl);
 
     const appointment = await appointments.json();
     const course = await courses.json();
     const clinic = await clinics.json();
     const event = await events.json();
+    const staffs = await staff.json();
 
     if (isSubscribed) {
       setData(clinic);
       setAppointmentData(appointment);
       setCourseData(course);
       setEventData(event);
+      setStaffs(staffs);
     }
     return () => (isSubscribed = false);
   };
@@ -113,12 +119,32 @@ const Schedule = ({ user, patient }) => {
               })
               .map((result) => {
                 return (
-                  <AppointmentListCard
-                    key={result._id}
-                    data={appointment}
-                    d={result}
-                    user={user}
-                  />
+                  <div key={result._id}>
+                    <AppointmentListCard
+                      key={result._id}
+                      data={appointment}
+                      d={result}
+                      user={user}
+                      staffs={staffs}
+                    />
+                    {event &&
+                      event?.map((e, index) => (
+                        <div key={index}>
+                          {e.appointment_id == result._id ? (
+                            <EventListCard
+                              d={e}
+                              index={index}
+                              data={appointment}
+                              event={e}
+                              staffs={staffs}
+                              user={user}
+                            />
+                          ) : (
+                            ""
+                          )}
+                        </div>
+                      ))}
+                  </div>
                 );
               })}
           </div>
@@ -131,7 +157,9 @@ const Schedule = ({ user, patient }) => {
                   height={120}
                   className="opacity-60"
                 />
-                <p className="h5 lg:h2 text-black/50">ดูนัดที่ยังคงดำเนินการอยู่</p>
+                <p className="h5 lg:h2 text-black/50">
+                  ดูนัดที่ยังคงดำเนินการอยู่
+                </p>
               </div>
             )}
           </div>

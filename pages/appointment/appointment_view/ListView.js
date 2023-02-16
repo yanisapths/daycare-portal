@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import AppointmentTableRow from "../../../components/OLCard/AppointmentTableRow";
 import EventTableRow from "../../../components/OLCard/EventTableRow";
 
-function ListView({ data, user, events }) {
+function ListView({ data, user, events,staffs }) {
   return (
-    <div className="pb-24">
-       <p className="h6 font-semibold text-black/50 px-6">
+    <div className="pb-24 mx-12">
+       <p className="h6 font-semibold px-6">
          นัดทั้งหมด
         </p>
       <div className="mt-4 shadow-xl rounded-2xl mx-6">
@@ -29,6 +29,9 @@ function ListView({ data, user, events }) {
                   <div className="flex items-center">สถานะ</div>
                 </th>
                 <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center">คงเหลือ</div>
+                </th>
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center"></div>
                 </th>
                 <th className="p-4 text-left whitespace-nowrap">
@@ -39,11 +42,11 @@ function ListView({ data, user, events }) {
 
             <tbody className="divide-y divide-gray-100">
               {data?.map((d, index) => (
-                <AppointmentTableRow d={d} index={index} key={d._id} user={user} />
+                <AppointmentTableRow d={d} index={index} key={d._id} user={user} staffs={staffs} />
               ))}
-              {events?.map((event, index) => (
+              {/* {events?.map((event, index) => (
                 <EventTableRow event={event} index={index} key={event._id} user={user}/>
-              ))}
+              ))} */}
             </tbody>
           </table>
         </div>

@@ -129,6 +129,7 @@ const Calendar = () => {
             rangeColors={["#A17851"]}
             onChange={handleSelect}
             defaultShow={true}
+            showCustomRangeLabel={false}
           />
         </div>
       </div>
@@ -150,7 +151,7 @@ const Calendar = () => {
                   ) {
                     return (
                       <div className="flex mx-8">
-                        <div className="flex justify-between rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-2 px-12 py-4">
+                        <div className="flex justify-between rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-2 px-6 py-4">
                           <p className="tracking-wide">
                             {new Date(data.startTime).toLocaleTimeString(
                               "th-TH",
