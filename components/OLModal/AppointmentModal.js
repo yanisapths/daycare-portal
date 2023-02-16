@@ -47,7 +47,7 @@ function AppointmentModal({
   const event = data.events.length + 1;
 
   async function deleteEvent(eid) {
-    const res = await fetch(`${process.env.dev}/event/delete/${eid}`, {
+    const res = await fetch(`${process.env.url}/event/delete/${eid}`, {
       method: "DELETE",
     })
       .then(async (res) => {
@@ -71,7 +71,7 @@ function AppointmentModal({
       body: JSON.stringify({ status: "Done" }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -101,7 +101,7 @@ function AppointmentModal({
     req.owner_id = user.id;
     req.course_id = course._id;
     req.patient_id = patient._id;
-    const url = `${process.env.dev}/event/create/${data._id}`;
+    const url = `${process.env.url}/event/create/${data._id}`;
     const json = JSON.stringify(req);
     let axiosConfig = {
       headers: {

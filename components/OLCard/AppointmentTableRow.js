@@ -54,12 +54,12 @@ function AppointmentTableRow({ d, index, event, user }) {
 
   const fetchData = async () => {
     let isSubscribed = true;
-    const eventUrl = `${process.env.dev}/event/match/${d._id}`;
+    const eventUrl = `${process.env.url}/event/match/${d._id}`;
     const patientData = await fetch(
-      `${process.env.dev}/patient/${d.patient_id}`
+      `${process.env.url}/patient/${d.patient_id}`
     );
 
-    const courseData = await fetch(`${process.env.dev}/course/${d.course_id}`);
+    const courseData = await fetch(`${process.env.url}/course/${d.course_id}`);
     const events = await fetch(eventUrl);
     const eventList = await events.json();
 
@@ -80,7 +80,7 @@ function AppointmentTableRow({ d, index, event, user }) {
       body: JSON.stringify({ status: "Done" }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -105,7 +105,7 @@ function AppointmentTableRow({ d, index, event, user }) {
       body: JSON.stringify({ progressStatus: "Done" }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/markdone/${appointmentId}`,
+      `${process.env.url}/appointment/markdone/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -118,7 +118,7 @@ function AppointmentTableRow({ d, index, event, user }) {
   }
   async function deleteRequest(appointmentId) {
     const res = await fetch(
-      `${process.env.dev}/appointment/delete/${appointmentId}`,
+      `${process.env.url}/appointment/delete/${appointmentId}`,
       { method: "DELETE" }
     )
       .then(async (res) => {

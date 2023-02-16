@@ -14,7 +14,7 @@ import toast from "react-hot-toast";
 
 function ListView({ staffData }) {
   async function deleteStaff(sid) {
-    const res = await fetch(`${process.env.dev}/staff/delete/${sid}`, {
+    const res = await fetch(`${process.env.url}/staff/delete/${sid}`, {
       method: "DELETE",
     })
       .then(async (res) => {

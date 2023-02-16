@@ -36,7 +36,7 @@ function EventListCard({ data, d, index, user,staffs }) {
     setSelectedId(null);
   };
   async function deleteEvent(eid) {
-    const res = await fetch(`${process.env.dev}/event/delete/${eid}`, {
+    const res = await fetch(`${process.env.url}/event/delete/${eid}`, {
       method: "DELETE",
     })
       .then(async (res) => {
@@ -54,7 +54,7 @@ function EventListCard({ data, d, index, user,staffs }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option) 
+    const res = await fetch(`${process.env.url}/event/update/${eid}`, option) 
       .then(async (res) => {
         toast.success("สำเร็จ");
         console.log(res)
@@ -66,10 +66,10 @@ function EventListCard({ data, d, index, user,staffs }) {
   }
   const fetchData = async () => {
     let isSubscribed = true;
-    const eventUrl = `${process.env.dev}/event/match/${d._id}`;
-    const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
-    const appointmenturl = `${process.env.dev}/appointment/${d.appointment_id}`;
-    const courseurl = `${process.env.dev}/course/${d.course_id}`;
+    const eventUrl = `${process.env.url}/event/match/${d._id}`;
+    const patienturl = `${process.env.url}/patient/${d.patient_id}`;
+    const appointmenturl = `${process.env.url}/appointment/${d.appointment_id}`;
+    const courseurl = `${process.env.url}/course/${d.course_id}`;
 
     const res = await fetch(eventUrl);
     const patientRes = await fetch(patienturl);
