@@ -20,13 +20,12 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 function AddCourse({ clinicData, open, handleClose, setOpen }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
-  console.log(clinicData);
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { type: [""] } });
+  } = useForm({ defaultValues: {  } });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "procedures",

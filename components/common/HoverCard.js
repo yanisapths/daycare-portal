@@ -8,6 +8,7 @@ import Overlay from "../OLLayout/Overlay";
 
 function HoverCard({
   key,
+  id,
   name,
   amount,
   duration,
@@ -17,7 +18,8 @@ function HoverCard({
 }) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  
+  console.log(`keyHover: ${key}`);
+  console.log(`IDHover: ${id}`);
   const handleClickOpen = () => {
     setOpen(true);
     
@@ -35,6 +37,7 @@ function HoverCard({
           handleClose={handleClose}
           setOpen={setOpen}
           key={key}
+          id={id}
           name={name}
           amount={amount}
           duration={duration}
@@ -55,7 +58,7 @@ function HoverCard({
           <div className="px-5 pb-3 pt-3">
             <div className=" flex py-2 gap-6">
               <p className=" h2 lg:h3 md:h4 sm:h5 font-medium ">{name}</p>
-              {type ? (
+              {type!="false" ? (
                 <strong className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] px-2 py-1 text-xs font-medium self-center">
                   {type}
                 </strong>

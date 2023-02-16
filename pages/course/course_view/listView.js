@@ -23,7 +23,8 @@ function ListView({ clinicData,courseData }) {
       setOpen(false);
     }
   };
-
+  
+ 
 
   if (courseData.length >= 1) {
     return (
@@ -43,8 +44,10 @@ function ListView({ clinicData,courseData }) {
          
         >
           {courseData?.map((course) => (
+            <div key={course._id}>
             <HoverCard
               key={course._id}
+              id={course._id}
               name={course.courseName}
               amount={course.amount}
               duration={course.duration}
@@ -52,6 +55,8 @@ function ListView({ clinicData,courseData }) {
               procedures={course.procedures}
               type={course.type}
             />
+            </div>
+            
           ))}
         </div>
         

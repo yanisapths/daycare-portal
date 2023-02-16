@@ -5,15 +5,14 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import { DialogActions } from "@mui/material";
+import { DialogActions, Hidden } from "@mui/material";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import Router, { useRouter } from "next/router";
 function DetailView({
   open,
   handleClose,
-  setOpen,
-  key,
+  id,
   name,
   amount,
   duration,
@@ -21,21 +20,20 @@ function DetailView({
   procedures,
   type,
   selectedId,
-  setSelectedId,
 }) {
-
-  
   async function deleteCourse(courseId) {
-    const res = await fetch(`${process.env.dev}/course/delete/${courseId}`, {
+    const url = `${process.env.dev}/course/delete/${courseId}`;
+    const res = await fetch(url, {
       method: "DELETE",
     })
       .then(async (res) => {
-      toast.success("ลบรายการสำเร็จ");
-      Router.reload();
-    }).catch((err) => {
-      console.log("ERROR: ", err);
-      toast.error("ลบรายการไม่สำเร็จ");
-    });
+        toast.success("ลบรายการสำเร็จ");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ลบรายการไม่สำเร็จ");
+      });
   }
 
   return (
@@ -67,20 +65,24 @@ function DetailView({
             <div className="basis-1/4 flex self-start lg:basis-24 xl:basis-20 xxl:basis-28 xxl:text-3xl md:text-xl md:basis-20 sm:text-lg sm:basis-14">
               {name}
             </div>
-            <div>{key}</div>
-
-            <div
-              className="flex basis-2/6 justify-start items-center text-center w-fit xl:pl-4
+            {type != "false" ? (
+              <div
+                className="flex basis-2/6 justify-start items-center text-center w-fit xl:pl-4
                           sm:col-start-2 "
-            >
-              <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-2 py-1 xxl:px-4">
-                {type}
+              >
+                <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-2 py-1 xxl:px-4">
+                  {type}
+                </div>
               </div>
-            </div>
+            ) : (
+              ""
+            )}
+
             <div className="flex basis-5/12 xl:6/12 xl:ml-16 gap-2 justify-end  text-gray-400 cursor-pointer sm:col-start-2 sm:pt-2">
               <EditIcon />
               <DeleteIcon
-                onClick={() => { handleClose();
+                onClick={() => {
+                  handleClose();
                   Swal.fire({
                     title: "ลบคอร์สนี้?",
                     text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
@@ -91,7 +93,7 @@ function DetailView({
                     reverseButtons: true,
                   }).then((result) => {
                     if (result.isConfirmed) {
-                      deleteCourse(key).then(() =>
+                      deleteCourse(id).then(() =>
                         Swal.fire({
                           title: "ลบคอร์สแล้ว",
                           showConfirmButton: false,
@@ -107,8 +109,7 @@ function DetailView({
                         timer: 1000,
                       });
                     }
-                  })
-                   
+                  });
                 }}
               />
             </div>
