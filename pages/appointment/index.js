@@ -23,7 +23,7 @@ const Appointment = ({ user }) => {
   const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
   const [eventData, setEventData] = useState([]);
-  console.log(eventData)
+  const [staffs, setStaffs] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -64,7 +64,7 @@ const Appointment = ({ user }) => {
     const patienturl = `${process.env.dev}/patient/match/${user.id}`;
     const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
     const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
-    console.log(eventurl);
+    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
 
     const appointment = await fetch(appointmenturl);
     const patient = await fetch(patienturl);
@@ -72,6 +72,7 @@ const Appointment = ({ user }) => {
     const avail = await fetch(availurl);
     const clinic = await fetch(clinicurl);
     const events = await fetch(eventurl);
+    const staff = await fetch(staffurl);
 
     const appointmentData = await appointment.json();
     const courseData = await course.json();
@@ -79,6 +80,7 @@ const Appointment = ({ user }) => {
     const patientData = await patient.json();
     const clinicData = await clinic.json();
     const eventData = await events.json();
+    const staffs = await staff.json();
     if (isSubscribed) {
       setData(clinicData);
       setAppointmentData(appointmentData);
@@ -86,6 +88,7 @@ const Appointment = ({ user }) => {
       setAvailData(availData);
       setPatientData(patientData);
       setEventData(eventData);
+      setStaffs(staffs);
     }
     return () => (isSubscribed = false);
   };
@@ -139,12 +142,13 @@ const Appointment = ({ user }) => {
             ))}
           </div>
           {selected == "listView" ? (
-            <ListView data={appointmentData} events={eventData} user={user} />
+            <ListView data={appointmentData} events={eventData} user={user} staffs={staffs} />
           ) : (
             <CalendarView
               data={appointmentData}
               event={eventData}
               user={user}
+              staffs={staffs}
             />
           )}
         </div>

@@ -17,7 +17,7 @@ import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import { motion } from "framer-motion";
 
-function RequestListCard({ data, request }) {
+function RequestListCard({ data, request, staffs }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [course, setCourse] = useState({});
@@ -138,10 +138,10 @@ function RequestListCard({ data, request }) {
                         )}
                       </div>
                       <div className="sm:w-full">
-                      <RoundTextIcon
-                        icon={<BookmarksIcon className="w-5 h-5" />}
-                        text={course.courseName}
-                      />
+                        <RoundTextIcon
+                          icon={<BookmarksIcon className="w-5 h-5" />}
+                          text={course.courseName}
+                        />
                       </div>
                     </div>
                     <div className="col-start-1 col-span-6">
@@ -214,9 +214,20 @@ function RequestListCard({ data, request }) {
                       <span className="text-[#969696] lg:hidden md:hidden ">
                         <PermIdentityIcon />
                       </span>
-                      <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
+                      <span className="mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl text-black/40">
                         {request.staff ? (
-                          request.staff
+                          <span>
+                            {staffs.map(
+                              (input) =>
+                                input._id == request.staff &&
+                                request.staff != "none" && (
+                                  <span key={input._id}>
+                                    ( {input.nickName} ) {input.firstName}{" "}
+                                    {input.lastName}
+                                  </span>
+                                )
+                            )}
+                          </span>
                         ) : (
                           <span className="text-sm text-black/40">-</span>
                         )}

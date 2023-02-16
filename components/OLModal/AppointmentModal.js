@@ -444,9 +444,19 @@ function AppointmentModal({
               <StatusCheckIcon
                 icon={<CheckCircleIcon />}
                 text={data.progressStatus ? data.progressStatus : data.status}
-                bgColor={data.progressStatus == "Done" ? "#E0B186" : data.status =="reviewed" ? "#7879F1" : "#2ED477"}
+                bgColor={
+                  data.progressStatus == "Done"
+                    ? "#E0B186"
+                    : data.status == "reviewed"
+                    ? "#7879F1"
+                    : "#2ED477"
+                }
                 textColor={
-                  data.progressStatus == "Done" ? "#E0B186" : data.status =="reviewed" ? "#7879F1" : "#2ED477"
+                  data.progressStatus == "Done"
+                    ? "#E0B186"
+                    : data.status == "reviewed"
+                    ? "#7879F1"
+                    : "#2ED477"
                 }
               />
             </div>
@@ -646,50 +656,17 @@ function AppointmentModal({
             </form>
           ))}
         </motion.div>
-        {data.status != "reviewed" && eventList.length == course.amount - 1 ? (
+        {eventList.length == course.amount - 1 ? (
           <motion.div className="text-center pt-4">
             <p className="caption md:h6 xl:h6 pb-2 text-black/50">
               ไม่สามารถเพิ่มได้เนื่องจากครบจำนวนนัดแล้ว
             </p>
-            <Tooltip title="การให้บริการเสร็จสิ้น" placement="top">
-              <BtnDetails
-                text="เสร็จสิ้น"
-                onClick={() =>
-                  Swal.fire({
-                    title: "เสร็จสิ้นการให้บริการ?",
-                    icon: "success",
-                    showCancelButton: true,
-                    confirmButtonText: "ใช่",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      finishTask(data._id).then(() =>
-                        Swal.fire({
-                          title: "ให้บริการเสร็จสิ้นแล้ว",
-                          showConfirmButton: false,
-                          icon: "success",
-                          timer: 1000,
-                        })
-                      );
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                      Swal.fire({
-                        title: "ยกเลิก",
-                        showConfirmButton: false,
-                        icon: "error",
-                        timer: 800,
-                      });
-                    }
-                  })
-                }
-              />
-            </Tooltip>
           </motion.div>
         ) : (
           <motion.div className="flex justify-center pt-16">
             {data.status != "reviewed" && (
               <CircleIconButton
-                handleClick={() =>
+               handleClick={() =>
                   append({
                     date: "",
                     startTime: "",
@@ -702,7 +679,7 @@ function AppointmentModal({
                   })
                 }
                 icon={<AddCircleOutlineIcon />}
-                text="เพิ่มนัดใหม่"
+                text="เพิ่มนัดครั้งต่อไป"
               />
             )}
           </motion.div>

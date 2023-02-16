@@ -53,7 +53,7 @@ function SimpleCalendar({currentDate, today,setToday, selectedDate, setSelectedD
                       today ? "bg-[#FFECA7] text-[#6C5137]" : "",
                       selectedDate.toDate().toDateString() ===
                         date.toDate().toDateString()
-                        ? "bg-[#FFECA7] text-[#6C5137]"
+                        ? "bg-[#6C5137] text-white"
                         : "",
                       "cursor-pointer font-semibold h-10 w-10 rounded-full grid place-content-center hover:bg-[#6C5137] hover:text-white hover:transition-all"
                     )}

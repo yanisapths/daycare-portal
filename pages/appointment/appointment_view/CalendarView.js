@@ -4,13 +4,13 @@ import AppointmentListCard from "../../../components/OLCard/AppointmentListCard"
 import SimpleCalendar from "../../../components/calendar/SimpleCalendar";
 import EventListCard from "../../../components/OLCard/EventListCard";
 
-function CalendarView({ data, event,user }) {
+function CalendarView({ data, event,user,staffs }) {
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
   return (
-    <div className="pt-12 space-y-12 md:space-y-0 xl:space-y-0 md:pt-10 xl:pt-10 md:flex xl:flex md:gap-10 xl:gap-32 xl:pl-24">
+    <div className="pt-12 space-y-12 md:space-y-0 xl:space-y-0 md:pt-10 xl:pt-10 md:flex xl:flex md:gap-10 xl:gap-10 xl:justify-center px-12">
       <SimpleCalendar
         className="w-2/6"
         currentDate={currentDate}
@@ -34,7 +34,7 @@ function CalendarView({ data, event,user }) {
             <div key={index} className="mb-6">
               {selectedDate.toDate().toDateString() ==
               new Date(d.appointmentDate).toDateString() ? (
-                <AppointmentListCard d={d} index={index} data={data} user={user} />
+                <AppointmentListCard d={d} index={index} data={data} user={user} staffs={staffs}/>
               ) : (
                 ""
               )}
@@ -46,7 +46,7 @@ function CalendarView({ data, event,user }) {
             <div key={index} className="mb-6">
               {selectedDate.toDate().toDateString() ==
               new Date(d.date).toDateString() ? (
-                <EventListCard d={d} index={index} data={data} event={event}/>
+                <EventListCard d={d} index={index} data={data} event={event} staffs={staffs}/>
               ) : (
                 ""
               )}

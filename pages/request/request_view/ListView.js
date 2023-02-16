@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import RequestListCard from "../../../components/common/RequestListCard";
 import SimpleCalendar from "../../../components/calendar/SimpleCalendar";
 
-function ListView({ data }) {
+function ListView({ data,staffs }) {
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectedDate, setSelectedDate] = useState(currentDate);
@@ -20,6 +20,7 @@ function ListView({ data }) {
                 request={request}
                 key={request._id}
                 data={data}
+                staffs={staffs}
               />
             </div>
           </div>
