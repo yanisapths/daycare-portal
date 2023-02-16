@@ -34,6 +34,30 @@ function AppointmentListCard({ data, d, index, user,staffs }) {
     setSelectedId(null);
   };
 
+    
+  async function Finalized(appointmentId) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Done" }),
+    };
+    const res = await fetch(
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      option
+    )
+      .then(async (res) => {
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+      });
+  }
+  
+  useEffect(() => {
+    {eventList.map((e,index)=> 
+     { e.status == "Done" && d.status != "reviewed" ? Finalized(e.appointment_id) : ""}
+    )}
+  }, []);
+
   async function markAsDone(appointmentId) {
     const option = {
       method: "PUT",

@@ -656,7 +656,7 @@ function AppointmentModal({
             </form>
           ))}
         </motion.div>
-        {data.status != "reviewed" && eventList.length == course.amount - 1 ? (
+        {eventList.length == course.amount - 1 ? (
           <motion.div className="text-center pt-4">
             <p className="caption md:h6 xl:h6 pb-2 text-black/50">
               ไม่สามารถเพิ่มได้เนื่องจากครบจำนวนนัดแล้ว
