@@ -22,6 +22,7 @@ const Request = ({user}) => {
   const [courseData, setCourseData] = useState([]);
   const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
+  const [staffs, setStaffs] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -65,24 +66,28 @@ const Request = ({user}) => {
     const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
     const patienturl = `${process.env.dev}/patient/match/${user.id}`;
     const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
+    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
 
     const appointment = await fetch(appointmenturl);
     const patient = await fetch(patienturl);
     const course = await fetch(courseurl);
     const avail = await fetch(availurl);
     const clinic = await fetch(clinicurl);
+    const staff = await fetch(staffurl);
 
     const appointmentData = await appointment.json();
     const courseData = await course.json();
     const availData = await avail.json();
     const patientData = await patient.json();
     const clinicData = await clinic.json();
+    const staffs = await staff.json();
     if (isSubscribed) {
       setData(clinicData);
       setAppointmentData(appointmentData);
       setCourseData(courseData);
       setAvailData(availData);
       setPatientData(patientData);
+      setStaffs(staffs);
     }
     return () => (isSubscribed = false);
   };
@@ -137,9 +142,9 @@ const Request = ({user}) => {
             ))}
           </div>
           {selected == "tableView" ? (
-            <TableView data={appointmentData} />
+            <TableView data={appointmentData} staffs={staffs} />
           ) : (
-            <ListView data={appointmentData} />
+            <ListView data={appointmentData} staffs={staffs}/>
           )}
         </div>
       </div>

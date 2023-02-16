@@ -12,14 +12,15 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function EventListCard({ data, d, index, user }) {
+function EventListCard({ data, d, index, user,staffs }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
-  const [appointment, setAppointment] = useState([]);
-  console.log(course.totalPrice);
+  const [appointment, setAppointment] = useState({});
+  console.log(appointment)
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -53,9 +54,10 @@ function EventListCard({ data, d, index, user }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option) 
       .then(async (res) => {
-        Router.reload();
+        toast.success("สำเร็จ");
+        console.log(res)
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -89,12 +91,12 @@ function EventListCard({ data, d, index, user }) {
   };
 
   useEffect(() => {
-    fetchData();
+    fetchData().catch((err) => console.error(err))
   }, []);
 
   return (
     <>
-      {d.status == "Approved" &&
+      {d.status == "Approved" && d.status != "Done" &&
       data.status != "Done" &&
       appointment.status != "Rejected" ? (
         <>
@@ -195,8 +197,19 @@ function EventListCard({ data, d, index, user }) {
                         <PermIdentityIcon />
                       </span>
                       <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                        {appointment.staff ? (
-                          appointment.staff
+                      {appointment.staff ? (
+                          <span>
+                            {staffs.map(
+                              (input) =>
+                                input._id == appointment.staff &&
+                                appointment.staff != "none" && (
+                                  <span key={input._id}>
+                                    ( {input.nickName} ) {input.firstName}{" "}
+                                    {input.lastName}
+                                  </span>
+                                )
+                            )}
+                          </span>
                         ) : (
                           <span className="text-sm text-black/40">-</span>
                         )}

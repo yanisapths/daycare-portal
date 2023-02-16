@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function AppointmentListCard({ data, d, index, user }) {
+function AppointmentListCard({ data, d, index, user,staffs }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
@@ -208,8 +208,19 @@ function AppointmentListCard({ data, d, index, user }) {
                         <PermIdentityIcon />
                       </span>
                       <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                        {d.staff ? (
-                          d.staff
+                      {d.staff ? (
+                          <span>
+                            {staffs.map(
+                              (input) =>
+                                input._id == d.staff &&
+                                d.staff != "none" && (
+                                  <span key={input._id}>
+                                    ( {input.nickName} ) {input.firstName}{" "}
+                                    {input.lastName}
+                                  </span>
+                                )
+                            )}
+                          </span>
                         ) : (
                           <span className="text-sm text-black/40">-</span>
                         )}
@@ -220,6 +231,8 @@ function AppointmentListCard({ data, d, index, user }) {
               </div>
             </motion.div>
             <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
+            {d.progressStatus != "Done" &&
+             <>
               <div>
                 <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
                 <FormModal open={open} handleClose={handleClose} request={d} />
@@ -255,7 +268,9 @@ function AppointmentListCard({ data, d, index, user }) {
                   })
                 }
               />
-            </div>
+            </>
+            }
+             </div>
           </article>
         </>
       ) : (

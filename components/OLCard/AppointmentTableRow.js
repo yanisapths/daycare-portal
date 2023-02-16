@@ -35,6 +35,8 @@ function AppointmentTableRow({ d, index, event, user }) {
   const [p, setPatient] = useState({});
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
+  let count = [];
+  const e = d.events.length + 1;
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -70,6 +72,23 @@ function AppointmentTableRow({ d, index, event, user }) {
     }
     return () => (isSubscribed = false);
   };
+
+  async function Finalized(appointmentId) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Done" }),
+    };
+    const res = await fetch(
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      option
+    )
+      .then(async (res) => {
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+      });
+  }
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -111,6 +130,17 @@ function AppointmentTableRow({ d, index, event, user }) {
       });
   }
 
+  for (let i = d.events.length; i < course.amount - 1; i++) {
+    count.push((props) => <div>{props.children}</div>);
+  }
+
+
+  useEffect(() => {
+    {eventList.map((e,index)=> 
+     { e.status == "Done" && d.status != "reviewed" ? Finalized(e.appointment_id) : ""}
+    )}
+  }, [e]);
+
   return (
     <>
       {selectedId && (
@@ -126,227 +156,231 @@ function AppointmentTableRow({ d, index, event, user }) {
           ></AppointmentModal>
         </Overlay>
       )}
-      {d.status != "pending" && 
-      <Tooltip title="ดูรายละเอียด" placement="top">
-        <tr
-          key={d._id}
-          layoutId={d._id}
-          onClick={() => setSelectedId(d._id)}
-          disable={d.status == "Done" ? true : false}
-          className={
-            d.status == "Approved"
-              ? "bg-[#2ED477]/5 cursor-pointer hover:bg-[#2ED477]/20 text-[#6C5137]"
-              : d.status == "Rejected"
-              ? "bg-[#FF2F3B]/5 cursor-pointer hover:bg-[#FF2F3B]/20 text-[#6C5137]" 
-              : "cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
-          }
-        >
-          <td className="flex w-24">
-            <p
+      {d.status != "pending" && (
+        <Tooltip title="ดูรายละเอียด" placement="top">
+          <tr
+            key={d._id}
+            layoutid={d._id}
+            onClick={() => setSelectedId(d._id)}
+            className={
+              d.status == "Approved"
+                ? "bg-[#2ED477]/5 cursor-pointer hover:bg-[#2ED477]/20 text-[#6C5137]"
+                : d.status == "Rejected"
+                ? "bg-[#FF2F3B]/5 cursor-pointer hover:bg-[#FF2F3B]/20 text-[#6C5137]"
+                : "cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
+            }
+          >
+            <td className="flex w-24">
+              <p
+                className={
+                  d.progressStatus == "Done" || d.status == "reviewed"
+                    ? "p-4 text-black/40 truncate"
+                    : "p-4 truncate"
+                }
+              >
+                {d._id}
+              </p>
+            </td>
+            <td
               className={
                 d.progressStatus == "Done" || d.status == "reviewed"
-                  ? "p-4 text-black/40 truncate"
-                  : "p-4 truncate"
+                  ? "p-4 text-black/40"
+                  : "p-4 text-gray-700 whitespace-nowrap"
               }
             >
-              {d._id}
-            </p>
-          </td>
-          <td
-            className={
-              d.progressStatus == "Done" || d.status == "reviewed"
-                ? "p-4 text-black/40"
-                : "p-4 text-gray-700 whitespace-nowrap"
-            }
-          >
-            {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
-              month: "long",
-              day: "2-digit",
-              year: "numeric",
-            })}
-          </td>
-          <td className="p-4 text-gray-700 whitespace-nowrap">
-            {d.endTime ? (
-              <p
-                className={
-                  d.progressStatus == "Done" || d.status == "reviewed"
-                    ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                    : "px-3 py-1.5 text-black text-xs font-medium"
-                }
-              >
-                {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-                {"-"}{" "}
-                {new Date(d.endTime).toLocaleTimeString("en-EN", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-              </p>
-            ) : (
-              <p
-                className={
-                  d.progressStatus == "Done" || d.status == "reviewed"
-                    ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                    : "px-3 py-1.5 text-black text-xs font-medium"
-                }
-              >
-                {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  hour12: true,
-                })}
-              </p>
-            )}
-          </td>
-          <td
-            className={
-              d.progressStatus == "Done" || d.status == "reviewed"
-                ? "p-4 text-black/40"
-                : "p-4 text-gray-700 whitespace-nowrap"
-            }
-          >
-            {d.patient_id ? (
-              <p>
-                ( {p.nickName} ) {p.firstName} {p.lastName}
-              </p>
-            ) : (
-              <p>
-                ( {d.nickName} ) {d.firstName} {d.lastName}
-              </p>
-            )}
-          </td>
-          <td className="p-4 text-gray-700 whitespace-nowrap">
-            {d.progressStatus == "Done" ? (
-              <strong className="text-black/40 text-xs font-medium">
-                เสร็จสิ้นการให้บริการ
-              </strong>
-            ) : (
-              <>
-                {d.status == "Approved" ? (
-                  <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
-                    ยืนยันแล้ว
-                  </strong>
-                ) : (
-                  <span className="text-xs font-medium text-[#f35685]">
-                    {d.status == "pending" ? (
-                      "รอยืนยัน"
-                    ) : (
-                      <>
-                        {d.status == "Rejected" ? (
-                          <CustomTooltip
-                            title={
-                              d.rejectReason ? (
-                                <div className="px-2 pb-3">
-                                  <div className="p-2">{d.rejectReason}</div>
-                                  <div className="px-3 rounded-full ">
-                                    <span className="text-sm text-[#7879F1]">
-                                      {d.tag}
-                                    </span>
+              {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
+                month: "long",
+                day: "2-digit",
+                year: "numeric",
+              })}
+            </td>
+            <td className="p-4 text-gray-700 whitespace-nowrap">
+              {d.endTime ? (
+                <p
+                  className={
+                    d.progressStatus == "Done" || d.status == "reviewed"
+                      ? "px-3 py-1.5 text-black/40 text-xs font-medium"
+                      : "px-3 py-1.5 text-black text-xs font-medium"
+                  }
+                >
+                  {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  })}
+                  {"-"}{" "}
+                  {new Date(d.endTime).toLocaleTimeString("en-EN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  })}
+                </p>
+              ) : (
+                <p
+                  className={
+                    d.progressStatus == "Done" || d.status == "reviewed"
+                      ? "px-3 py-1.5 text-black/40 text-xs font-medium"
+                      : "px-3 py-1.5 text-black text-xs font-medium"
+                  }
+                >
+                  {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    hour12: true,
+                  })}
+                </p>
+              )}
+            </td>
+            <td
+              className={
+                d.progressStatus == "Done" || d.status == "reviewed"
+                  ? "p-4 text-black/40"
+                  : "p-4 text-gray-700 whitespace-nowrap"
+              }
+            >
+              {d.patient_id ? (
+                <p>
+                  ( {p.nickName} ) {p.firstName} {p.lastName}
+                </p>
+              ) : (
+                <p>
+                  ( {d.nickName} ) {d.firstName} {d.lastName}
+                </p>
+              )}
+            </td>
+            <td className="p-4 text-gray-700 whitespace-nowrap">
+              {d.progressStatus == "Done" ? (
+                <strong className="text-black/40 text-xs font-medium">
+                  เสร็จสิ้นการให้บริการ
+                </strong>
+              ) : (
+                <>
+                  {d.status == "Approved" ? (
+                    <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
+                      ยืนยันแล้ว
+                    </strong>
+                  ) : (
+                    <span className="text-xs font-medium text-[#f35685]">
+                      {d.status == "pending" ? (
+                        "รอยืนยัน"
+                      ) : (
+                        <>
+                          {d.status == "Rejected" ? (
+                            <CustomTooltip
+                              title={
+                                d.rejectReason ? (
+                                  <div className="px-2 pb-3">
+                                    <div className="p-2">{d.rejectReason}</div>
+                                    <div className="px-3 rounded-full ">
+                                      <span className="text-sm text-[#7879F1]">
+                                        {d.tag}
+                                      </span>
+                                    </div>
                                   </div>
-                                </div>
-                              ) : (
-                                ""
-                              )
-                            }
-                            placement="top"
-                          >
-                            <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
-                              ปฏิเสธการให้บริการ
+                                ) : (
+                                  ""
+                                )
+                              }
+                              placement="top"
+                            >
+                              <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
+                                ปฏิเสธการให้บริการ
+                              </strong>
+                            </CustomTooltip>
+                          ) : (
+                            <strong className="text-black/40 text-xs font-medium">
+                              เสร็จสิ้นการให้บริการ
                             </strong>
-                          </CustomTooltip>
-                        ) : (
-                          <strong className="text-[#7879F1] px-3 py-1.5 rounded-full text-xs font-medium">
-                            รีวิวแล้ว
-                          </strong>
-                        )}
-                      </>
-                    )}{" "}
-                  </span>
-                )}
-              </>
-            )}
-          </td>
-          <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
-            {d.progressStatus != "Done" && d.status != "reviewed" && (
-              <BtnDetails
-                text="เสร็จสิ้น"
-                onClick={() =>
-                  Swal.fire({
-                    title: "เสร็จสิ้นการให้บริการ?",
-                    icon: "success",
-                    showCancelButton: true,
-                    confirmButtonText: "ใช่",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      markAsDone(d._id).then(() =>
+                          )}
+                        </>
+                      )}{" "}
+                    </span>
+                  )}
+                </>
+              )}
+            </td>
+            <td className="p-4 text-gray-700 whitespace-nowrap">
+              <p>
+                {eventList.length + 1}/{course.amount}
+              </p>
+            </td>
+            <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
+              {d.progressStatus != "Done" && d.status != "reviewed" && (
+                <BtnDetails
+                  text="เสร็จสิ้น"
+                  onClick={() =>
+                    Swal.fire({
+                      title: "เสร็จสิ้นการให้บริการ?",
+                      icon: "success",
+                      showCancelButton: true,
+                      confirmButtonText: "ใช่",
+                      cancelButtonText: "ยกเลิก",
+                      reverseButtons: true,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        markAsDone(d._id).then(() =>
+                          Swal.fire({
+                            title: "ให้บริการเสร็จสิ้นแล้ว",
+                            showConfirmButton: false,
+                            icon: "success",
+                            timer: 1000,
+                          })
+                        );
+                      } else if (result.dismiss === Swal.DismissReason.cancel) {
                         Swal.fire({
-                          title: "ให้บริการเสร็จสิ้นแล้ว",
+                          title: "ยกเลิก",
                           showConfirmButton: false,
-                          icon: "success",
-                          timer: 1000,
-                        })
-                      );
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                      Swal.fire({
-                        title: "ยกเลิก",
-                        showConfirmButton: false,
-                        icon: "error",
-                        timer: 800,
-                      });
-                    }
-                  })
-                }
-              />
-            )}
-          </td>
-          <td>
-            <Tooltip title="ลบ" placement="top">
-              <IconButton
-                aria-label="delete"
-                size="medium"
-                onClick={() =>
-                  Swal.fire({
-                    title: "ลบรายการนี้?",
-                    text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "ใช่ ลบเลย!",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      deleteRequest(d._id).then(() =>
+                          icon: "error",
+                          timer: 800,
+                        });
+                      }
+                    })
+                  }
+                />
+              )}
+            </td>
+            <td>
+              <Tooltip title="ลบ" placement="top">
+                <IconButton
+                  aria-label="delete"
+                  size="medium"
+                  onClick={() =>
+                    Swal.fire({
+                      title: "ลบรายการนี้?",
+                      text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "ใช่ ลบเลย!",
+                      cancelButtonText: "ยกเลิก",
+                      reverseButtons: true,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        deleteRequest(d._id).then(() =>
+                          Swal.fire({
+                            title: "ลบคำขอแล้ว",
+                            showConfirmButton: false,
+                            icon: "success",
+                            timer: 1000,
+                          })
+                        );
+                      } else if (result.dismiss === Swal.DismissReason.cancel) {
                         Swal.fire({
-                          title: "ลบคำขอแล้ว",
+                          title: "คำขอไม่ได้ถูกลบ :)",
                           showConfirmButton: false,
-                          icon: "success",
+                          icon: "error",
                           timer: 1000,
-                        })
-                      );
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                      Swal.fire({
-                        title: "คำขอไม่ได้ถูกลบ :)",
-                        showConfirmButton: false,
-                        icon: "error",
-                        timer: 1000,
-                      });
-                    }
-                  })
-                }
-              >
-                <DoDisturbIcon />
-              </IconButton>
-            </Tooltip>
-          </td>
-        </tr>
-      </Tooltip>
-      }
+                        });
+                      }
+                    })
+                  }
+                >
+                  <DoDisturbIcon />
+                </IconButton>
+              </Tooltip>
+            </td>
+          </tr>
+        </Tooltip>
+      )}
     </>
   );
 }

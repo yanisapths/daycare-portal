@@ -5,6 +5,7 @@ import FormModal from "../../pages/request/FormModal";
 import RequestModal from "../OLModal/RequestModal";
 import BtnCancel from "../BtnCancel";
 import BtnAccept from "../BtnAccept";
+import AppointmentModal from "../OLModal/AppointmentModal";
 import Overlay from "../OLLayout/Overlay";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
@@ -34,6 +35,9 @@ function EventTableRow({ event, user }) {
   const [p, setPatient] = useState({});
   const [course, setCourse] = useState({});
   const [appointment, setAppointment] = useState({});
+  const [eventList, setEvent] = useState([]);
+  console.log(eventList);
+  console.log(appointment);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -64,13 +68,18 @@ function EventTableRow({ event, user }) {
       `${process.env.dev}/appointment/${event.appointment_id}`
     );
 
+    const events = await fetch(
+      `${process.env.dev}/event/match/${event.appointment_id}`
+    );
     const course = await courseData.json();
     const p = await patientData.json();
     const appointment = await appointments.json();
+    const eventList = await events.json();
     if (isSubscribed) {
       setCourse(course);
       setPatient(p);
       setAppointment(appointment);
+      setEvent(eventList);
     }
     return () => (isSubscribed = false);
   };
@@ -107,7 +116,6 @@ function EventTableRow({ event, user }) {
     })
       .then(async (res) => {
         toast.success("ยกเลิกนัดแล้ว");
-        Router.reload();
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -132,9 +140,23 @@ function EventTableRow({ event, user }) {
   }
   return (
     <>
+      {selectedId && (
+        <Overlay close={closeModal}>
+          <AppointmentModal
+            data={appointment}
+            eventList={eventList}
+            user={user}
+            patient={p}
+            setSelectedId={setSelectedId}
+            course={course}
+            close={closeModal}
+          ></AppointmentModal>
+        </Overlay>
+      )}
       <tr
         key={event._id}
         layoutId={event._id}
+        onClick={() => setSelectedId(event._id)}
         disable={event.status == "Done" ? true : false}
         className={
           event.status == "Approved"
