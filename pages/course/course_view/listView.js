@@ -9,20 +9,11 @@ import { resolve } from "styled-jsx/css";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function ListView({ clinicData }) {
+function ListView({ clinicData,courseData }) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [courseData, setCourseData] = useState([]);
   const [open, setOpen] = useState(false);
   const [detialViewOpen, setDetialViewOpen] = useState(false);
-
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/auth/signin/");
-    } else {
-      fetchCourseData();
-    }
-  }, [status]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -32,38 +23,8 @@ function ListView({ clinicData }) {
       setOpen(false);
     }
   };
-
-  //detailView
-  const handleClickDetailViewOpen = () => {
-    setDetialViewOpen(true);
-  };
-  const handleClickDetailViewClose = (event, reason) => {
-    if (reason !== "backdropClick") {
-      setDetialViewOpen(false);
-    }
-  };
-
-  //course
-  async function fetchCourseData() {
-    await delay(1000);
-    const url = `${process.env.dev}/course/match/owner/${session.user.id}`;
-
-    if (session.user.id) {
-      const res = await fetch(url);
-      try {
-        const courseData = await res.json();
-        if (courseData) {
-          setCourseData(courseData);
-          console.log(url);
-          console.log(courseData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      await delay(3000);
-    }
-  }
+  
+ 
 
   if (courseData.length >= 1) {
     return (
@@ -80,11 +41,13 @@ function ListView({ clinicData }) {
 
         <div
           className="grid grid-cols-3 my-4 h-fit gap-4 justify-start sm:grid-cols-1 md:grid-cols-2 xxl:grid-cols-4"
-          onClick={handleClickDetailViewOpen}
+         
         >
           {courseData?.map((course) => (
+            <div key={course._id}>
             <HoverCard
               key={course._id}
+              id={course._id}
               name={course.courseName}
               amount={course.amount}
               duration={course.duration}
@@ -92,24 +55,11 @@ function ListView({ clinicData }) {
               procedures={course.procedures}
               type={course.type}
             />
+            </div>
+            
           ))}
         </div>
-        <div>
-          {courseData?.map((course) => (
-            <DetailView
-              open={detialViewOpen}
-              handleClose={handleClickDetailViewClose}
-              setOpen={setDetialViewOpen}
-              key={course._id}
-              name={course.courseName}
-              amount={course.amount}
-              duration={course.duration}
-              totalPrice={course.totalPrice}
-              procedures={course.procedures}
-              type={course.type}
-            />
-          ))}
-        </div>
+        
       </div>
     );
   } else {
@@ -137,8 +87,9 @@ function ListView({ clinicData }) {
 export default ListView;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-
+  
   return {
-    props: { session },
+    props: { session, }
+    
   };
 }

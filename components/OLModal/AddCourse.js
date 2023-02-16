@@ -20,20 +20,18 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 function AddCourse({ clinicData, open, handleClose, setOpen }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
-  console.log(clinicData);
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { type: [""] } });
+  } = useForm({ defaultValues: {  } });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "procedures",
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     data.owner_id = session.user.id;
     const json = JSON.stringify(data);
     let axiosConfig = {
@@ -66,6 +64,10 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
         open={open}
         onClose={handleClose}
         maxWidth="xl"
+        sx={{"& .MuiDialog-paper":{
+          borderRadius:"30px",
+        },
+      }}
       >
         <DialogTitle
           sx={{
