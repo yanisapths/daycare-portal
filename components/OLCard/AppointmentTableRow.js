@@ -137,7 +137,7 @@ function AppointmentTableRow({ d, index, event, user }) {
 
   useEffect(() => {
     {eventList.map((e,index)=> 
-     { e.status == "Done" && d.status != "reviewed" ? Finalized(e.appointment_id) : ""}
+     { e.status == "Done" && d.status == "Approved"? Finalized(e.appointment_id) : console.log("fas")}
     )}
   }, [e]);
 
@@ -305,7 +305,7 @@ function AppointmentTableRow({ d, index, event, user }) {
               </p>
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
-              {d.progressStatus != "Done" && d.status != "reviewed" && (
+              {d.progressStatus != "Done" && d.status != "reviewed" && d.status != "Rejected" && (
                 <BtnDetails
                   text="เสร็จสิ้น"
                   onClick={() =>

@@ -52,11 +52,11 @@ function AppointmentListCard({ data, d, index, user,staffs }) {
       });
   }
   
-  useEffect(() => {
-    {eventList.map((e,index)=> 
-     { e.status == "Done" && d.status != "reviewed" ? Finalized(e.appointment_id) : ""}
-    )}
-  }, []);
+  // useEffect(() => {
+  //   {eventList.map((e,index)=> 
+  //    { e.status == "Done" ? Finalized(e.appointment_id) : ""}
+  //   )}
+  // }, []);
 
   async function markAsDone(appointmentId) {
     const option = {
