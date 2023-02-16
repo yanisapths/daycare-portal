@@ -22,6 +22,7 @@ const Request = ({user}) => {
   const [courseData, setCourseData] = useState([]);
   const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
+  const [staffs, setStaffs] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -60,29 +61,41 @@ const Request = ({user}) => {
 
   const fetchData = async () => {
     let isSubscribed = true;
+<<<<<<< HEAD
     const clinicurl = `${process.env.url}/clinic/owner/${user.id}`;
     const courseurl = `${process.env.url}/course/match/owner/${user.id}`;
     const availurl = `${process.env.url}/available/match/owner/${user.id}`;
     const patienturl = `${process.env.url}/patient/match/${user.id}`;
     const appointmenturl = `${process.env.url}/appointment/match/owner/${user.id}`;
+=======
+    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
+    const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
+    const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
+    const patienturl = `${process.env.dev}/patient/match/${user.id}`;
+    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
+    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
+>>>>>>> 5c8571f0ab78f70754e077353cbc0ed59270124f
 
     const appointment = await fetch(appointmenturl);
     const patient = await fetch(patienturl);
     const course = await fetch(courseurl);
     const avail = await fetch(availurl);
     const clinic = await fetch(clinicurl);
+    const staff = await fetch(staffurl);
 
     const appointmentData = await appointment.json();
     const courseData = await course.json();
     const availData = await avail.json();
     const patientData = await patient.json();
     const clinicData = await clinic.json();
+    const staffs = await staff.json();
     if (isSubscribed) {
       setData(clinicData);
       setAppointmentData(appointmentData);
       setCourseData(courseData);
       setAvailData(availData);
       setPatientData(patientData);
+      setStaffs(staffs);
     }
     return () => (isSubscribed = false);
   };
@@ -102,13 +115,12 @@ const Request = ({user}) => {
         <link rel="icon" href="favicon.ico" />
       </Head>
 
-      <div className="divide-y divide-[#A17851] divide-opacity-30">
+      <div className="divide-y divide-[#A17851] divide-opacity-30 sm:divide-opacity-70">
         <Header />
-
         <div className="main xl:px-12 md:px-8 px-4">
           <h2 className="pageTitle">คำขอดูแล</h2>
-          <div className="font-semibold text-[#6C5137] flex justify-end space-x-8 xl:px-24 px-0">
-            <div className="pt-2">
+          <div className="font-semibold text-[#6C5137] flex justify-end">
+            <div className="pt-2 xl:px-6">
               <BtnAdd onClick={handleClickOpen}/>
               <AddRequestForm
                 open={open}
@@ -124,7 +136,7 @@ const Request = ({user}) => {
             {list.map((item) => (
               <div
                 key={item.id}
-                className="inline-flex transition duration-300 ease-in-out"
+                className="mx-2 transition duration-300 ease-in-out"
               >
                 <IconButton
                   active={selected === item.id}
@@ -138,9 +150,9 @@ const Request = ({user}) => {
             ))}
           </div>
           {selected == "tableView" ? (
-            <TableView data={appointmentData} />
+            <TableView data={appointmentData} staffs={staffs} />
           ) : (
-            <ListView data={appointmentData} />
+            <ListView data={appointmentData} staffs={staffs}/>
           )}
         </div>
       </div>

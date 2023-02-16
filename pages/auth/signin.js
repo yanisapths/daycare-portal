@@ -13,8 +13,8 @@ function signIn({ providers }) {
         <link rel="icon" href="favicon.ico" />
       </Head>
       {/* main */}
-      <div className="mx-auto py-32 h-screen bg-cover overflow-hidden justify-center items-center align-middle max-w-screen-md bg-[#A17851]">
-        <div className="text-center mx-4 xl:mx-auto max-w-lg py-20 bg-white backdrop-blur-sm drop-shadow-lg rounded-xl">
+      <div className="mx-auto py-32 h-screen bg-cover overflow-hidden flex justify-center items-center align-middle bg-[#A17851]  max-w-screen-md">
+        <div className="text-center mx-6 xl:mx-auto w-full xl:w-2/6 py-10 bg-white backdrop-blur-sm drop-shadow-lg rounded-xl align-middle">
           <div className="">
             <Image
               src="/asset/OLlogo.png"
@@ -23,15 +23,11 @@ function signIn({ providers }) {
               height="120"
               alt="/Avatar.png"
             />
-            <p className="md:text-5xl font-bold text-3xl font-mono ">
-              Welcome
-            </p>
+            <p className="md:text-5xl font-bold text-3xl font-mono ">Welcome</p>
 
             <p className="mt-4 text-gray-800 fonts-mono text-lg md:text-2xl md:mt-5">
               เข้าสู่ระบบเพื่อใช้งาน
-              <p className="block">
-                Olive Physiotherapy Clinic Management
-              </p>
+              <p className="block">Olive Physiotherapy Clinic Management</p>
             </p>
           </div>
           <div className="mt-8 mb-0 space-y-6 md:space-y-8">
@@ -41,7 +37,7 @@ function signIn({ providers }) {
                 <Image
                   src="/google.png"
                   alt="/Avatar.png"
-                  width={60}
+                  width={40}
                   height={10}
                 />
               </div>
@@ -52,19 +48,19 @@ function signIn({ providers }) {
                 <Image
                   src="/facebook.png"
                   alt="/Avatar.png"
-                  width={60}
-                  height={5}
+                  width={40}
+                  height={10}
                 />
               </div>
             </div>
             <div className="flex justify-center">
               <div className="flex cursor-pointer rounded-full bg-gradient-to-r from-green-50 via-green-100 to-teal-100 hover:text-emerald-600 active:text-opacity-75 focus:outline-none focus:ring shadow-gray-200 shadow-xl">
-                <BtnLogin provider={providers.line}/>
+                <BtnLogin provider={providers.line} />
                 <Image
                   src="/line.png"
                   alt="/Avatar.png"
-                  width={60}
-                  height={10}  
+                  width={40}
+                  height={10}
                 />
               </div>
             </div>

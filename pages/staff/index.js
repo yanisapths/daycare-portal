@@ -54,7 +54,7 @@ const Staff = ({ user }) => {
         </Head>
         <div className="divide-y divide-[#A17851] divide-opacity-30">
           <Header />
-          <div className="main xl:px-12 md:px-8 px-4">
+          <div className="main xl:px-12 md:px-8 px-4 pb-40">
             <h2 className="pageTitle">พนักงาน</h2>
             <div className="flex mx-3 justify-end">
               <BtnAdd onClick={handleClickOpen} />
@@ -66,25 +66,25 @@ const Staff = ({ user }) => {
                 id={clinic._id}
               />
             </div>
-            <div className=" lg:flex xl:grid xl:grid-cols-2 gap-5">
-              {staffData ? (
-                staffData.map((data, index) => {
-                  return (
-                    <div className="flex justify-center" key={index}>
-                      <ListView
-                        clinicData={clinic}
-                        id={clinic._id}
-                        key={data._id}
-                        staffData={data}
-                      />
-                    </div>
-                  );
-                })
-              ) : (
-                <div className="flex justify-center">
-                  <p className="h3 text-black/50">คุณยังไม่ได้เพิ่มพนักงาน</p>
-                </div>
-              )}
+            <div className="lg:flex xl:grid xl:grid-cols-2 gap-5">
+            {staffData ? (
+              staffData.map((data,index) => {
+                return (
+                  <div className="flex justify-center"  key={index}>
+                    <ListView
+                      clinicData={clinic}
+                      id={clinic._id}
+                      key={data._id}
+                      staffData={data}
+                    />
+                  </div>
+                );
+              })
+            ) : (
+              <div className="flex justify-center">
+                <p className="h3 text-black/50">คุณยังไม่ได้เพิ่มพนักงาน</p>
+              </div>
+            )}
             </div>
           </div>
         </div>

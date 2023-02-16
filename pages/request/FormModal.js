@@ -162,7 +162,7 @@ function FormModal({ request, open, handleClose }) {
             onClick={handleSubmit(onSubmit)}
             sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
-            ยกเลิก
+            ตกลง
           </button>
         </DialogActions>
       </Dialog>

@@ -32,7 +32,7 @@ module.exports = {
       xxl: "1440px",
       scTwo: "1536px",
       scThree: "1680px",
-      
+
       xxxl: "2560px",
       // => @media (min-width: 2560px) { ... }
     },

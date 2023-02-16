@@ -26,6 +26,13 @@ const income = [
   { id: 4, label: "สูงกว่า 100000" },
 ];
 
+const sex = [
+  { id: 1, label: "ชาย" },
+  { id: 2, label: "หญิง" },
+  { id: 3, label: "อื่นๆ" },
+];
+
+
 function AddPatientForm({ open, handleClose, setOpen }) {
   const { data: session, status } = useSession();
   const [document, setFile] = useState("");
@@ -182,13 +189,35 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                         >
                           เพศ
                         </label>
-
-                        <input
-                          type="text"
-                          id="sex"
+                        <Controller
+                          render={({ field: { field, onChange, value } }) => (
+                            <>
+                              <Select
+                                sx={{
+                                  borderRadius: "40px",
+                                  height: "46px",
+                                  "@media (min-width: 780px)": {
+                                    width: "120px",
+                                  },
+                                  px: 2,
+                                }}
+                                {...field}
+                                {...register("sex", { required: false })}
+                              >
+                                {sex.map((input, key) => (
+                                  <MenuItem
+                                    key={input.id}
+                                    value={input.label}
+                                    onChange={onChange}
+                                  >
+                                    {input.label}
+                                  </MenuItem>
+                                ))}
+                              </Select>
+                            </>
+                          )}
                           name="sex"
-                          className="inputOutline"
-                          {...register("sex", { required: false })}
+                          control={control}
                         />
                       </div>
                       <div className="col-span-6">
@@ -230,14 +259,22 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                         >
                           เบอร์โทร
                         </label>
-
                         <input
                           type="text"
                           id="phoneNumber"
                           name="phoneNumber"
                           className="inputOutline"
-                          {...register("phoneNumber", { required: false })}
+                          error={!!errors.phoneNumber}
+                          {...register("phoneNumber", {
+                            required: false,
+                            pattern: {
+                              value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                            },
+                          })}
                         />
+                        {errors.phoneNumber?.type === "pattern" && (
+                          <p role="alert" className="text-[#FF2F3B]">เบอร์โทรต้องเป็นตัวเลขเท่านั้น</p>
+                        )}
                       </div>
                       <div className="col-span-3">
                         <label
@@ -286,9 +323,9 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                                   borderRadius: "40px",
                                   height: "46px",
                                   "@media (min-width: 780px)": {
-                                    width: "285px",
+                                    width: "255px",
                                   },
-                                  px: 4,
+                                  px: 2,
                                 }}
                                 {...field}
                                 {...register("education", { required: false })}
@@ -324,9 +361,9 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                                   borderRadius: "40px",
                                   height: "46px",
                                   "@media (min-width: 780px)": {
-                                    width: "285px",
+                                    width: "255px",
                                   },
-                                  px: 4,
+                                  px: 2,
                                 }}
                                 {...field}
                                 {...register("income", { required: false })}

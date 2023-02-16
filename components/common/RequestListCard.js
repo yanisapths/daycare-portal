@@ -6,15 +6,18 @@ import BtnAccept from "../BtnAccept";
 import FormModal from "../../pages/request/FormModal";
 import RequestModal from "../OLModal/RequestModal";
 import Overlay from "../OLLayout/Overlay";
+import RoundTextIcon from "../OLIcon/RoundTextIcon";
+
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import HomeIcon from "@mui/icons-material/Home";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import { motion } from "framer-motion";
 
-function RequestListCard({ data, request }) {
+function RequestListCard({ data, request, staffs }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [course, setCourse] = useState({});
@@ -39,14 +42,19 @@ function RequestListCard({ data, request }) {
 
   const fetchData = async () => {
     let isSubscribed = true;
+    const patientData = await fetch(
+      `${process.env.dev}/patient/${request.patient_id}`
+    );
+
     const courseData = await fetch(
       `${process.env.url}/course/${request.course_id}`
     );
 
     const course = await courseData.json();
+    const p = await patientData.json();
     if (isSubscribed) {
       setCourse(course);
-      console.log(course);
+      setPatient(p);
     }
     return () => (isSubscribed = false);
   };
@@ -79,6 +87,7 @@ function RequestListCard({ data, request }) {
   }
 
   useEffect(() => {
+<<<<<<< HEAD
     {
       data &&
         data.map((r) => {
@@ -99,6 +108,9 @@ function RequestListCard({ data, request }) {
 
   useEffect(() => {
     const courseurl = `${process.env.url}/course/${request.course_id}`;
+=======
+    const courseurl = `${process.env.dev}/course/${request.course_id}`;
+>>>>>>> 5c8571f0ab78f70754e077353cbc0ed59270124f
     fetch(courseurl, {
       method: "GET",
     })
@@ -123,169 +135,174 @@ function RequestListCard({ data, request }) {
         </Overlay>
       )}
       {request.status == "pending" ? (
-        <div className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-3">
-          <motion.div
-            key={request._id}
-            layoutId={request._id}
-            onClick={() => setSelectedId(request._id)}
-            className="cursor-pointer"
-          >
-            <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4 px-12">
-              <div className="basis-12/12">
-                <div className="grid grid-col-6 gap-1 mt-4">
-                  <div className="col-start-1 col-end-7 lg:flex">
-                    <div className="w-fit h-fit pb-2">
-                      <p className="text-xs text-black/40 truncate">
-                        วันที่ขอ{" "}
-                        <span>{new Date(request.createdAt).toUTCString()}</span>
-                      </p>
+        <div>
+          <div className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white">
+            <motion.div
+              key={request._id}
+              layoutId={request._id}
+              onClick={() => setSelectedId(request._id)}
+              className="cursor-pointer"
+            >
+              <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4 px-12">
+                <div className="basis-12/12">
+                  <div className="grid grid-col-6 gap-1 mt-4">
+                    <div className="flex gap-4 sm:gap-12">
+                      <div className="font-semibold pb-2 text-base xl:text-lg sm:w-4/6 sm:truncate">
+                        <span className="text-base">คุณ </span>
+                        {request.patient_id ? (
+                          <span>
+                            ( {p.nickName} ) {p.firstName} {p.lastName}
+                          </span>
+                        ) : (
+                          <span>
+                            ( {request.nickName} ) {request.firstName}{" "}
+                            {request.lastName}
+                          </span>
+                        )}
+                      </div>
+                      <div className="sm:w-full">
+                        <RoundTextIcon
+                          icon={<BookmarksIcon className="w-5 h-5" />}
+                          text={course.courseName}
+                        />
+                      </div>
                     </div>
-                  </div>
-
-                  <div className="col-start-1 col-end-7 font-semibold pb-2">
-                    <span className="text-base md:text-lg xxl:text-2xl xxxl:text-3xl">
-                      คุณ{" "}
-                    </span>
-                    <div className="inline-block text-base sm:text-lg md:text-lg xxl:text-2xl xxxl:text-3xl">
-                      {request.patient_id ? (
-                        <p>
-                          ( {p.nickName} ) {p.firstName} {p.lastName}
-                        </p>
-                      ) : (
-                        <p>
-                          ( {request.nickName} ) {request.firstName}{" "}
-                          {request.lastName}
-                        </p>
-                      )}
-                    </div>
-                  </div>
-                  <div className="col-start-1 col-span-6">
-                    <span className="text-[#969696]">
-                      <CalendarMonthIcon />
-                    </span>
-                    <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
-                      {new Date(request.appointmentDate).toLocaleDateString(
-                        "th-TH",
-                        {
-                          month: "long",
-                          day: "2-digit",
-                          year: "numeric",
-                        }
-                      )}
-                    </span>
-                  </div>
-                  <div className="col-start-1 col-span-6">
-                    <span className="text-[#969696]">
-                      <AccessTimeIcon />
-                    </span>
-                    {request.endTime ? (
+                    <div className="col-start-1 col-span-6">
+                      <span className="text-[#969696]">
+                        <CalendarMonthIcon />
+                      </span>
                       <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
-                        <span className="">
+                        {new Date(request.appointmentDate).toLocaleDateString(
+                          "th-TH",
+                          {
+                            month: "long",
+                            day: "2-digit",
+                            year: "numeric",
+                          }
+                        )}
+                      </span>
+                    </div>
+                    <div className="col-start-1 col-span-6">
+                      <span className="text-[#969696]">
+                        <AccessTimeIcon />
+                      </span>
+                      {request.endTime ? (
+                        <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
+                          <span className="">
+                            {new Date(
+                              request.appointmentTime
+                            ).toLocaleTimeString("th-TH", {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}{" "}
+                            {"-"}{" "}
+                            {new Date(request.endTime).toLocaleTimeString(
+                              "th-TH",
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )}
+                          </span>
+                        </span>
+                      ) : (
+                        <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
                           {new Date(request.appointmentTime).toLocaleTimeString(
                             "th-TH",
                             {
                               hour: "2-digit",
                               minute: "2-digit",
-                            }
-                          )}{" "}
-                          {"-"}{" "}
-                          {new Date(request.endTime).toLocaleTimeString(
-                            "th-TH",
-                            {
-                              hour: "2-digit",
-                              minute: "2-digit",
+                              hour12: true,
                             }
                           )}
                         </span>
+                      )}
+                    </div>
+                    <div className="col-start-1 col-span-3">
+                      <span className="sm:hidden xxl:text-lg xxxl:text-xl">
+                        สถานที่นัด:
                       </span>
-                    ) : (
+                      <span className="text-[#969696] lg:hidden md:hidden ">
+                        <HomeIcon />
+                      </span>
                       <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
-                        {new Date(request.appointmentTime).toLocaleTimeString(
-                          "th-TH",
-                          {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                            hour12: true,
-                          }
+                        {" "}
+                        {request.appointmentPlace}
+                      </span>
+                    </div>
+                    <div className="col-start-1 col-span-3 sm:col-span-8">
+                      <span className="sm:hidden xxl:text-lg xxxl:text-xl">
+                        พนักงานผู้ดูแล:
+                      </span>
+                      <span className="text-[#969696] lg:hidden md:hidden ">
+                        <PermIdentityIcon />
+                      </span>
+                      <span className="mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl text-black/40">
+                        {request.staff ? (
+                          <span>
+                            {staffs.map(
+                              (input) =>
+                                input._id == request.staff &&
+                                request.staff != "none" && (
+                                  <span key={input._id}>
+                                    ( {input.nickName} ) {input.firstName}{" "}
+                                    {input.lastName}
+                                  </span>
+                                )
+                            )}
+                          </span>
+                        ) : (
+                          <span className="text-sm text-black/40">-</span>
                         )}
                       </span>
-                    )}
-                  </div>
-                  <div className="col-start-1 col-span-3">
-                    <span className="sm:hidden xxl:text-lg xxxl:text-xl">
-                      สถานที่นัด:
-                    </span>
-                    <span className="text-[#969696] lg:hidden md:hidden ">
-                      <HomeIcon />
-                    </span>
-                    <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
-                      {" "}
-                      {request.appointmentPlace}
-                    </span>
-                  </div>
-                  <div className="col-start-1 col-span-3 sm:col-span-8">
-                    <span className="sm:hidden xxl:text-lg xxxl:text-xl">
-                      พนักงานผู้ดูแล:
-                    </span>
-                    <span className="text-[#969696] lg:hidden md:hidden ">
-                      <PermIdentityIcon />
-                    </span>
-                    <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                      {request.staff ? (
-                        request.staff
-                      ) : (
-                        <span className="text-sm text-black/40">
-                          ไม่ได้กรอก
-                        </span>
-                      )}
-                    </span>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-          <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center mx-5 sm:justify-center my-3 xl:pt-0 pt-4 pb-5 px-5">
-            <div>
-              <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
-            </div>
-            <FormModal
-              open={open}
-              handleClose={handleClose}
-              request={request}
-            />
-            <div>
-              <BtnAccept
-                text="ยอมรับ"
-                onClick={() =>
-                  Swal.fire({
-                    title: "รับคำขอนี้?",
-                    text: "รับคำขอแล้วเพิ่มลงในนัดหมาย",
-                    icon: "success",
-                    showCancelButton: true,
-                    confirmButtonText: "ยอบรับ",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      acceptRequest(request._id, request.status).then(() =>
-                        Swal.fire({
-                          title: "รับคำขอแล้ว",
-                          showConfirmButton: false,
-                          icon: "success",
-                          timer: 1000,
-                        })
-                      );
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                      Swal.fire({
-                        title: "ยกเลิก",
-                        showConfirmButton: false,
-                        icon: "error",
-                        timer: 1000,
-                      });
-                    }
-                  })
-                }
+            </motion.div>
+            <div className="flex justify-end content-center sm:justify-center px-5 mt-[-24px] pb-4 sm:pt-8">
+              <div>
+                <BtnCancel text="ปฏิเสธ" onClick={handleClickOpen} />
+              </div>
+              <FormModal
+                open={open}
+                handleClose={handleClose}
+                request={request}
               />
+              <div>
+                <BtnAccept
+                  text="ยืนยัน"
+                  onClick={() =>
+                    Swal.fire({
+                      title: "ยืนยันรับคำขอนี้?",
+                      text: "ยืนยันรับคำขอแล้วเพิ่มลงในนัดหมาย",
+                      icon: "success",
+                      showCancelButton: true,
+                      confirmButtonText: "ยอบรับ",
+                      cancelButtonText: "ยกเลิก",
+                      reverseButtons: true,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        acceptRequest(request._id, request.status).then(() =>
+                          Swal.fire({
+                            title: "ยืนยันรับคำขอแล้ว",
+                            showConfirmButton: false,
+                            icon: "success",
+                            timer: 1000,
+                          })
+                        );
+                      } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire({
+                          title: "ยกเลิก",
+                          showConfirmButton: false,
+                          icon: "error",
+                          timer: 1000,
+                        });
+                      }
+                    })
+                  }
+                />
+              </div>
             </div>
           </div>
         </div>

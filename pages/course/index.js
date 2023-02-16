@@ -5,14 +5,14 @@ import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import Head from "next/head";
 import { useTheme } from "@mui/material/styles";
-import ListView from "./course_view/ListView";
+import ListView from "../course/course_view/listView"
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Course() {
   const theme = useTheme();
   const { data: session, status } = useSession();
   const router = useRouter();
-
+  const [courseData, setCourseData] = useState([]);
   const [clinicData, setData] = useState({});
 
   async function fetchData() {
@@ -36,11 +36,34 @@ function Course() {
     }
   }
 
+  //course
+  async function fetchCourseData() {
+    await delay(1000);
+    const url = `${process.env.dev}/course/match/owner/${session.user.id}`;
+
+    if (session.user.id) {
+      const res = await fetch(url);
+      try {
+        const courseData = await res.json();
+        if (courseData) {
+          setCourseData(courseData);
+          console.log(`url: ${url}`);
+          console.log(courseData);
+        } else return;
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
+      await delay(3000);
+    }
+  }
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
       fetchData();
+      fetchCourseData();
     }
   }, [status]);
 
@@ -60,7 +83,7 @@ function Course() {
               <div className="= px-10 w-full ">
                 <div className="">
                   {" "}
-                  <ListView clinicData={clinicData} />{" "}
+                  <ListView clinicData={clinicData} courseData={courseData} />{" "}
                 </div>
               </div>
             </div>

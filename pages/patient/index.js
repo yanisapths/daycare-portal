@@ -63,7 +63,7 @@ function Patient() {
 
         <main className="main">
           <div className="pageTitle">แบบบันทึกรายงานผู้ป่วย</div>
-          <section className="min-w-screen-md m-3">
+          <section className="min-w-screen-md m-3 mx-8">
             <div className="pt-2 flex justify-end">
               <BtnAdd onClick={handleClickOpen} />
               <AddPatientForm

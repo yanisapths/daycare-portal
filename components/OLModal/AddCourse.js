@@ -17,23 +17,21 @@ import Checkbox from "@mui/material/Checkbox";
 import Stack from "@mui/material/Stack";
 import FormControlLabel from "@mui/material/FormControlLabel";
 
-function SideView({ clinicData, open, handleClose, setOpen }) {
+function AddCourse({ clinicData, open, handleClose, setOpen }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
-  console.log(clinicData);
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm({ defaultValues: { type: [""] } });
+  } = useForm({ defaultValues: {  } });
   const { fields, append, remove } = useFieldArray({
     control,
     name: "procedures",
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     data.owner_id = session.user.id;
     const json = JSON.stringify(data);
     let axiosConfig = {
@@ -66,6 +64,10 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
         open={open}
         onClose={handleClose}
         maxWidth="xl"
+        sx={{"& .MuiDialog-paper":{
+          borderRadius:"30px",
+        },
+      }}
       >
         <DialogTitle
           sx={{
@@ -184,6 +186,9 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                       className="inputOutline text-center border-[#7C552F]/50"
                       {...register("amount", {
                         required: true,
+                        pattern: {
+                          value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                        },
                       })}
                     />
                     <Typography
@@ -193,6 +198,11 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
                       ครั้ง
                     </Typography>
                   </div>
+                  {errors.amount?.type === "pattern" && (
+                    <p role="alert" className="text-[#FF2F3B]">
+                      จำนวนต้องเป็นตัวเลขเท่านั้น
+                    </p>
+                  )}
                   {errors.amount && (
                     <Typography sx={{ color: theme.palette.error.main }}>
                       This is required.
@@ -374,4 +384,4 @@ function SideView({ clinicData, open, handleClose, setOpen }) {
   );
 }
 
-export default SideView;
+export default AddCourse;
