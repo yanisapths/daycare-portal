@@ -32,7 +32,6 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     data.owner_id = session.user.id;
     const json = JSON.stringify(data);
     let axiosConfig = {

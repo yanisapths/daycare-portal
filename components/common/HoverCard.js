@@ -18,8 +18,6 @@ function HoverCard({
 }) {
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  console.log(`keyHover: ${key}`);
-  console.log(`IDHover: ${id}`);
   const handleClickOpen = () => {
     setOpen(true);
     
