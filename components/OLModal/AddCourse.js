@@ -66,6 +66,10 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
         open={open}
         onClose={handleClose}
         maxWidth="xl"
+        sx={{"& .MuiDialog-paper":{
+          borderRadius:"30px",
+        },
+      }}
       >
         <DialogTitle
           sx={{

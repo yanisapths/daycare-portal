@@ -103,7 +103,7 @@ function AppointmentTableRow({ d, index,event,user }) {
       { method: "DELETE" }
     )
       .then(async (res) => {
-        toast.success("ลบรายการแล้ว");
+        toast.success("ลบรายการสำเร็จ");
       })
       .catch((err) => {
         console.log("ERROR: ", err);
