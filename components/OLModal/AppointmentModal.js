@@ -124,7 +124,7 @@ function AppointmentModal({
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll max-h-[500px] scrollbar-hide"
+        className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll max-h-[500px] md:max-h-[750px] lg:max-h-[750px] scrollbar-hide"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -373,16 +373,16 @@ function AppointmentModal({
               />
             </motion.div>
           </div>
-          <div className="flex justify-center text-black/60 align-middle gap-2">
+          <div className="flex justify-center text-black/60 align-middle gap-2 py-2">
             <Tooltip placement="top" title="Click To Copy">
               <Button
                 sx={{ borderRadius: 16, px: 2 }}
-                endIcon={<ContentCopyIcon />}
+                endIcon={<ContentCopyIcon size="small"/>}
                 onClick={() => {
                   navigator.clipboard.writeText(data._id);
                 }}
               >
-                appointment number
+                <p className="text-xs">No. {data._id}</p>
               </Button>
             </Tooltip>
           </div>

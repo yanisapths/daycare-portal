@@ -39,12 +39,12 @@ const Request = ({user}) => {
     {
       id: "listView",
       icon: <ViewListIcon className="w-8 h-8" />,
-      title: "List View",
+      title: "คำขอใหม่",
     },
     {
       id: "tableView",
       icon: <GridOnIcon className="w-8 h-8" />,
-      title: "Table View",
+      title: "คำขอทั้งหมด",
     },
   ];
 
