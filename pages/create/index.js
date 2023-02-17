@@ -97,7 +97,7 @@ function Create() {
     control,
     getValues,
     setValue,
-    formState: { isValid },
+    formState: { errors,isValid },
   } = useForm({
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -268,16 +268,27 @@ function Create() {
                   <label className="inputLabel" htmlFor="phoneNumber">
                     เบอร์โทรติดต่อของคลินิก
                   </label>
+
                   <input
-                    className="inputBox"
                     type="text"
                     id="phoneNumber"
                     name="phoneNumber"
+                    className="inputBox"
+                    error={!!errors.phoneNumber}
                     {...register("phoneNumber", {
-                      required: "Required",
+                      required: false,
+                      pattern: {
+                        value: /^([0-9]\d*)(\.\d+)?$/,
+                      },
                     })}
                   />
+                  {errors.phoneNumber?.type === "pattern" && (
+                    <p role="alert" className="text-[#FF2F3B]">
+                      เบอร์โทรต้องเป็นตัวเลขเท่านั้น
+                    </p>
+                  )}
                 </div>
+
                 <div className="col-start-1 col-span-2 md:col-start-1 md:col-span-4 lg:col-start-4 lg:col-span-3">
                   <label className="inputLabel" htmlFor="email">
                     อีเมล์

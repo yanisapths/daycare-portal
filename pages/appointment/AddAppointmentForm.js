@@ -319,7 +319,7 @@ function AddAppointmentForm({
                           {...register("phoneNumber", {
                             required: false,
                             pattern: {
-                              value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                              value: /^([0-9]\d*)(\.\d+)?$/,
                             },
                           })}
                         />

@@ -229,7 +229,13 @@ function RequestListCard({ data, request, staffs }) {
                             )}
                           </span>
                         ) : (
-                          <span className="text-sm text-black/40">-</span>
+                          <span>
+                            {request.staff == "none" ? (
+                              <span className="text-sm text-black/40"> -</span>
+                            ) : (
+                              <span className="text-sm text-black/40">-</span>
+                            )}
+                          </span>
                         )}
                       </span>
                     </div>

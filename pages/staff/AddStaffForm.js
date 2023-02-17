@@ -23,10 +23,6 @@ const sex = [
 function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
   const { data: session, status } = useSession();
   const theme = useTheme();
-  const [staffImage, setFile] = useState("");
-  const handleFileChange = (e) => {
-    setFile([...e.target.files[0]]);
-  };
 
   const {
     register,
@@ -244,7 +240,7 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
                           {...register("phoneNumber", {
                             required: false,
                             pattern: {
-                              value: /^(0|[1-9]\d*)(\.\d+)?$/,
+                              value: /^([0-9]\d*)(\.\d+)?$/,
                             },
                           })}
                         />
@@ -268,22 +264,6 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
                           name="email"
                           className="inputOutline"
                           {...register("email", { required: false })}
-                        />
-                      </div>
-                      <div className="col-span-3">
-                        <label
-                          className="inputLabel text-sm"
-                          htmlFor="staffImage"
-                        >
-                          รูปพนักงาน
-                        </label>
-                        <input
-                          type="file"
-                          accept="image/*"
-                          onChange={handleFileChange}
-                          {...register("staffImage", {
-                            required: false,
-                          })}
                         />
                       </div>
                     </div>

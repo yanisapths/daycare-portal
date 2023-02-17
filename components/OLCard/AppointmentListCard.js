@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function AppointmentListCard({ data, d, index, user,staffs }) {
+function AppointmentListCard({ data, d, index, user, staffs }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
@@ -34,7 +34,6 @@ function AppointmentListCard({ data, d, index, user,staffs }) {
     setSelectedId(null);
   };
 
-    
   async function Finalized(appointmentId) {
     const option = {
       method: "PUT",
@@ -45,18 +44,19 @@ function AppointmentListCard({ data, d, index, user,staffs }) {
       `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
-      .then(async (res) => {
-      })
+      .then(async (res) => {})
       .catch((err) => {
         console.log("ERROR: ", err);
       });
   }
-  
-  // useEffect(() => {
-  //   {eventList.map((e,index)=> 
-  //    { e.status == "Done" ? Finalized(e.appointment_id) : ""}
-  //   )}
-  // }, []);
+
+  useEffect(() => {
+    {
+      eventList.map((e, index) => {
+        e.status == "Done" ? Finalized(e.appointment_id) : "";
+      });
+    }
+  }, []);
 
   async function markAsDone(appointmentId) {
     const option = {
@@ -130,7 +130,6 @@ function AppointmentListCard({ data, d, index, user,staffs }) {
           ></AppointmentModal>
         </Overlay>
       )}
-
       {d.status == "Approved" && data.status != "Done" ? (
         <>
           <article
@@ -232,7 +231,7 @@ function AppointmentListCard({ data, d, index, user,staffs }) {
                         <PermIdentityIcon />
                       </span>
                       <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                      {d.staff ? (
+                        {d.staff ? (
                           <span>
                             {staffs.map(
                               (input) =>
@@ -255,46 +254,52 @@ function AppointmentListCard({ data, d, index, user,staffs }) {
               </div>
             </motion.div>
             <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
-            {d.progressStatus != "Done" &&
-             <>
-              <div>
-                <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
-                <FormModal open={open} handleClose={handleClose} request={d} />
-              </div>
-              <BtnDetails
-                text="เสร็จสิ้น"
-                onClick={() =>
-                  Swal.fire({
-                    title: "เสร็จสิ้นการให้บริการ?",
-                    icon: "success",
-                    showCancelButton: true,
-                    confirmButtonText: "ใช่",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      markAsDone(d._id).then(() =>
-                        Swal.fire({
-                          title: "ให้บริการเสร็จสิ้นแล้ว",
-                          showConfirmButton: false,
-                          icon: "success",
-                          timer: 1000,
-                        })
-                      );
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+              {d.progressStatus != "Done" && (
+                <>
+                  <div>
+                    <BtnCancel text="ยกเลิก" onClick={handleClickOpen} />
+                    <FormModal
+                      open={open}
+                      handleClose={handleClose}
+                      request={d}
+                    />
+                  </div>
+                  <BtnDetails
+                    text="เสร็จสิ้น"
+                    onClick={() =>
                       Swal.fire({
-                        title: "ยกเลิก",
-                        showConfirmButton: false,
-                        icon: "error",
-                        timer: 800,
-                      });
+                        title: "เสร็จสิ้นการให้บริการ?",
+                        icon: "success",
+                        showCancelButton: true,
+                        confirmButtonText: "ใช่",
+                        cancelButtonText: "ยกเลิก",
+                        reverseButtons: true,
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          markAsDone(d._id).then(() =>
+                            Swal.fire({
+                              title: "ให้บริการเสร็จสิ้นแล้ว",
+                              showConfirmButton: false,
+                              icon: "success",
+                              timer: 1000,
+                            })
+                          );
+                        } else if (
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                          Swal.fire({
+                            title: "ยกเลิก",
+                            showConfirmButton: false,
+                            icon: "error",
+                            timer: 800,
+                          });
+                        }
+                      })
                     }
-                  })
-                }
-              />
-            </>
-            }
-             </div>
+                  />
+                </>
+              )}
+            </div>
           </article>
         </>
       ) : (

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import BtnDetails from "../BtnDetails";
-import FormModal from "../../pages/request/FormModal";
+import Overlay from "../OLLayout/Overlay";
+import AppointmentModal from "../OLModal/AppointmentModal";
 import BtnCancel from "../BtnCancel";
 import RoundTextIcon from "../OLIcon/RoundTextIcon";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -12,15 +13,13 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function EventListCard({ data, d, index, user,staffs }) {
+function EventListCard({ data, d, index, user, staffs }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
   const [appointment, setAppointment] = useState({});
-  console.log(appointment)
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -57,7 +56,7 @@ function EventListCard({ data, d, index, user,staffs }) {
     const res = await fetch(`${process.env.url}/event/update/${eid}`, option) 
       .then(async (res) => {
         toast.success("สำเร็จ");
-        console.log(res)
+        console.log(res);
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -66,7 +65,7 @@ function EventListCard({ data, d, index, user,staffs }) {
   }
   const fetchData = async () => {
     let isSubscribed = true;
-    const eventUrl = `${process.env.url}/event/match/${d._id}`;
+    const eventUrl = `${process.env.url}/event/match/${d.appointment_id}`;
     const patienturl = `${process.env.url}/patient/${d.patient_id}`;
     const appointmenturl = `${process.env.url}/appointment/${d.appointment_id}`;
     const courseurl = `${process.env.url}/course/${d.course_id}`;
@@ -91,12 +90,26 @@ function EventListCard({ data, d, index, user,staffs }) {
   };
 
   useEffect(() => {
-    fetchData().catch((err) => console.error(err))
+    fetchData().catch((err) => console.error(err));
   }, []);
 
   return (
     <>
-      {d.status == "Approved" && d.status != "Done" &&
+      {selectedId && (
+        <Overlay close={handleClose}>
+          <AppointmentModal
+            eventList={eventList}
+            user={user}
+            data={appointment}
+            patient={p}
+            setSelectedId={setSelectedId}
+            course={course}
+            close={handleClose}
+          ></AppointmentModal>
+        </Overlay>
+      )}
+      {d.status == "Approved" &&
+      d.status != "Done" &&
       data.status != "Done" &&
       appointment.status != "Rejected" ? (
         <>
@@ -197,7 +210,7 @@ function EventListCard({ data, d, index, user,staffs }) {
                         <PermIdentityIcon />
                       </span>
                       <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                      {appointment.staff ? (
+                        {appointment.staff ? (
                           <span>
                             {staffs.map(
                               (input) =>
