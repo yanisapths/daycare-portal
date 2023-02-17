@@ -373,16 +373,16 @@ function AppointmentModal({
               />
             </motion.div>
           </div>
-          <div className="flex justify-center text-black/60 align-middle gap-2">
+          <div className="flex justify-center text-black/60 align-middle gap-2 py-2">
             <Tooltip placement="top" title="Click To Copy">
               <Button
                 sx={{ borderRadius: 16, px: 2 }}
-                endIcon={<ContentCopyIcon />}
+                endIcon={<ContentCopyIcon size="small"/>}
                 onClick={() => {
                   navigator.clipboard.writeText(data._id);
                 }}
               >
-                appointment number
+                <p className="text-xs">No. {data._id}</p>
               </Button>
             </Tooltip>
           </div>
