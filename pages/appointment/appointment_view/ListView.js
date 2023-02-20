@@ -40,14 +40,11 @@ function ListView({ data, user, events,staffs }) {
               </tr>
             </thead>
 
-            <tbody className="divide-y divide-gray-100">
               {data?.map((d, index) => (
+            <tbody className="divide-y divide-gray-100" key={d._id}>
                 <AppointmentTableRow d={d} index={index} key={d._id} user={user} staffs={staffs} />
-              ))}
-              {/* {events?.map((event, index) => (
-                <EventTableRow event={event} index={index} key={event._id} user={user}/>
-              ))} */}
             </tbody>
+              ))}
           </table>
         </div>
       </div>
