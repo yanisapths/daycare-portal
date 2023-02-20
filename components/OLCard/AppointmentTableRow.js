@@ -109,6 +109,7 @@ function AppointmentTableRow({ d, index, event, user }) {
       option
     )
       .then(async (res) => {
+        toast.success("สำเร็จ");
         Router.reload();
       })
       .catch((err) => {

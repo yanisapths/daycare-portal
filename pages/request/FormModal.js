@@ -64,7 +64,7 @@ function FormModal({ request, open, handleClose }) {
       })
       .catch((err) => {
         console.log("AXIOS ERROR: ", err);
-        toast.success("ไม่สามารถปฏิเสธคำขอ");
+        toast.error("ไม่สามารถปฏิเสธคำขอ");
       });
   };
 

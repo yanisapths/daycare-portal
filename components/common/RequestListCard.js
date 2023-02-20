@@ -78,7 +78,7 @@ function RequestListCard({ data, request, staffs }) {
       option
     )
       .then(async (res) => {
-        toast.error("ยอมรับคำขอสำเร็จ");
+        toast.success("ยอมรับคำขอสำเร็จ");
         Router.reload();
       })
       .catch((err) => {

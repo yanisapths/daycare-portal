@@ -131,7 +131,7 @@ function AddAppointmentForm({
             textAlign: "center",
           }}
         >
-          เพิ่มนัด
+          เพิ่มนัดหมาย
         </DialogTitle>
         <DialogContent>
           <Box>
@@ -456,81 +456,8 @@ function AddAppointmentForm({
                         )}
                       </section>
                       <div className="col-span-6">
-                        <label
-                          htmlFor="appointmentDate"
-                          className="inputLabel pb-0 text-sm"
-                        >
-                          วัน
-                        </label>
-                        <FormControl>
-                          <Controller
-                            control={control}
-                            name="appointmentDate"
-                            render={({ field: { onChange, value } }) => (
-                              <ReactDatePicker
-                                className="inputOutline"
-                                onChange={onChange}
-                                selected={value}
-                              />
-                            )}
-                          />
-                        </FormControl>
-                      </div>
-                      <div className="col-span-3">
-                        <label
-                          htmlFor="appointmentTime"
-                          className="inputLabel pb-0 text-sm"
-                        >
-                          เวลา
-                        </label>
-                        <FormControl>
-                          <Controller
-                            control={control}
-                            name="appointmentTime"
-                            render={({ field: { onChange, value } }) => (
-                              <DatePicker
-                                onChange={onChange}
-                                className="inputOutline"
-                                selected={value}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={15}
-                                timeCaption="Time"
-                                dateFormat="h:mm aa"
-                              />
-                            )}
-                          />
-                        </FormControl>
-                      </div>
-                      <div className="col-span-3">
-                        <label
-                          htmlFor="endTime"
-                          className="inputLabel pb-0 text-sm"
-                        >
-                          เวลาสิ้นสุด
-                        </label>
-                        <FormControl>
-                          <Controller
-                            control={control}
-                            name="endTime"
-                            render={({ field: { onChange, value } }) => (
-                              <DatePicker
-                                onChange={onChange}
-                                className="inputOutline"
-                                selected={value}
-                                showTimeSelect
-                                showTimeSelectOnly
-                                timeIntervals={15}
-                                timeCaption="Time"
-                                dateFormat="h:mm aa"
-                              />
-                            )}
-                          />
-                        </FormControl>
-                      </div>
-                      <div className="col-span-6">
                         <label htmlFor="course" className="inputLabel">
-                          คอร์ส*
+                          คอร์ส<span className="text-[#FF2F3B]">*</span>
                         </label>
                         <FormControl sx={{ width: "100%" }}>
                           <Controller
@@ -583,7 +510,7 @@ function AddAppointmentForm({
                                   htmlFor="appointmentPlace"
                                   className="inputLabel"
                                 >
-                                  สถานที่นัดหมาย*
+                                  สถานที่นัดหมาย<span className="text-[#FF2F3B]">*</span>
                                 </label>
                                 <Select
                                   sx={{
@@ -622,7 +549,7 @@ function AddAppointmentForm({
                         </FormControl>
                       </div>
                       <div className="col-span-6">
-                        <label htmlFor="precaution" className="inputLabel">
+                        <label htmlFor="description" className="inputLabel">
                           ข้อควรระวัง หรือ รายละเอียดเพิ่มเติม
                         </label>
                         <FormControl sx={{ width: "100%" }} variant="standard">
@@ -632,7 +559,7 @@ function AddAppointmentForm({
                                 <TextField
                                   id="outlined-textarea"
                                   placeholder="เช่น เรื่องที่ควรระวัง หรือส่วนที่ต้องดูแลเป็นพิเศษ"
-                                  {...register("precaution", {
+                                  {...register("description", {
                                     required: false,
                                   })}
                                   onChange={onChange}
@@ -640,7 +567,7 @@ function AddAppointmentForm({
                                 />
                               </>
                             )}
-                            name="precaution"
+                            name="description"
                             control={control}
                             rules={{
                               required: false,
