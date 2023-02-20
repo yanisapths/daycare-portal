@@ -622,7 +622,7 @@ function AddAppointmentForm({
                         </FormControl>
                       </div>
                       <div className="col-span-6">
-                        <label htmlFor="description" className="inputLabel">
+                        <label htmlFor="precaution" className="inputLabel">
                           ข้อควรระวัง หรือ รายละเอียดเพิ่มเติม
                         </label>
                         <FormControl sx={{ width: "100%" }} variant="standard">
@@ -632,7 +632,7 @@ function AddAppointmentForm({
                                 <TextField
                                   id="outlined-textarea"
                                   placeholder="เช่น เรื่องที่ควรระวัง หรือส่วนที่ต้องดูแลเป็นพิเศษ"
-                                  {...register("description", {
+                                  {...register("precaution", {
                                     required: false,
                                   })}
                                   onChange={onChange}
@@ -640,7 +640,7 @@ function AddAppointmentForm({
                                 />
                               </>
                             )}
-                            name="description"
+                            name="precaution"
                             control={control}
                             rules={{
                               required: false,

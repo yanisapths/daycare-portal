@@ -282,10 +282,11 @@ function AppointmentModal({
                     <span className="body2 text-[#A17851] font-bold">
                       ข้อควรระวัง{" "}
                     </span>{" "}
-                    {data.description ? (
+                    {data.description && (
                       <span className="text-[#FF2F3B]">{data.description}</span>
-                    ) : (
-                      "-"
+                    )}
+                    {data.precaution && (
+                      <span className="text-[#FF2F3B]">{data.precaution}</span>
                     )}
                   </div>
                 </motion.h6>
@@ -377,7 +378,7 @@ function AppointmentModal({
             <Tooltip placement="top" title="Click To Copy">
               <Button
                 sx={{ borderRadius: 16, px: 2 }}
-                endIcon={<ContentCopyIcon size="small"/>}
+                endIcon={<ContentCopyIcon size="small" />}
                 onClick={() => {
                   navigator.clipboard.writeText(data._id);
                 }}
@@ -664,9 +665,9 @@ function AppointmentModal({
           </motion.div>
         ) : (
           <motion.div className="flex justify-center pt-16">
-            {data.status != "reviewed" && (
+            {data.status != "reviewed" && data.status != "rejected"  (
               <CircleIconButton
-               handleClick={() =>
+                handleClick={() =>
                   append({
                     date: "",
                     startTime: "",

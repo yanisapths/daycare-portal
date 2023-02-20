@@ -69,6 +69,7 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
       option
     )
       .then(async (res) => {
+        toast.success("สำเร็จ");
         Router.reload();
       })
       .catch((err) => {
@@ -130,7 +131,7 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
           ></AppointmentModal>
         </Overlay>
       )}
-      {d.status == "Approved" && data.status != "Done" ? (
+      {d.status == "Approved" && d.status != "Done" && d.progressStatus != "Done" ? (
         <>
           <article
             key={d._id}

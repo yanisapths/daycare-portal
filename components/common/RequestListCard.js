@@ -78,6 +78,7 @@ function RequestListCard({ data, request, staffs }) {
       option
     )
       .then(async (res) => {
+        toast.error("ยอมรับคำขอสำเร็จ");
         Router.reload();
       })
       .catch((err) => {
@@ -152,9 +153,9 @@ function RequestListCard({ data, request, staffs }) {
                         {new Date(request.appointmentDate).toLocaleDateString(
                           "th-TH",
                           {
-                            month: "long",
-                            day: "2-digit",
                             year: "numeric",
+                            month: "long",
+                            day: "numeric",
                           }
                         )}
                       </span>

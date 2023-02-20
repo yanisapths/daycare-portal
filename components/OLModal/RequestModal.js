@@ -214,10 +214,11 @@ function RequestModal({
                     <span className="caption text-[#A17851] font-bold">
                       ข้อควรระวัง{" "}
                     </span>{" "}
-                    {data.description ? (
+                    {data.description && (
                       <span className="text-[#FF2F3B]">{data.description}</span>
-                    ) : (
-                      "-"
+                    )}
+                    {data.precaution && (
+                      <span className="text-[#FF2F3B]">{data.precaution}</span>
                     )}
                   </div>
                 </motion.h6>

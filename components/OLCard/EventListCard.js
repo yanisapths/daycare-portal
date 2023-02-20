@@ -56,7 +56,7 @@ function EventListCard({ data, d, index, user, staffs }) {
     const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
       .then(async (res) => {
         toast.success("สำเร็จ");
-        console.log(res);
+        Router.reload();
       })
       .catch((err) => {
         console.log("ERROR: ", err);
