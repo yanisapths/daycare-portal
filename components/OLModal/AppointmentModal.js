@@ -64,7 +64,14 @@ function AppointmentModal({
     count.push((props) => <div>{props.children}</div>);
   }
 
-  async function finishTask(appointmentId) {
+  useEffect(() => {
+    {
+      eventList.map((e, index) => {
+        e.status == "Done" ? Finalized(e.appointment_id) : "";
+      });
+    }
+  }, []);
+  async function Finalized(appointmentId) {
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -74,12 +81,9 @@ function AppointmentModal({
       `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
-      .then(async (res) => {
-        Router.reload();
-      })
+      .then(async (res) => {})
       .catch((err) => {
         console.log("ERROR: ", err);
-        toast.error("ไม่สำเร็จ");
       });
   }
 
@@ -112,12 +116,12 @@ function AppointmentModal({
     const response = await axios
       .post(url, json, axiosConfig)
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.req);
         toast.success("กำลังเพิ่มนัด...🛠️🚧");
         Router.reload();
       })
       .catch((err) => {
         console.log("AXIOS ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
       });
   };
 
@@ -282,12 +286,9 @@ function AppointmentModal({
                     <span className="body2 text-[#A17851] font-bold">
                       ข้อควรระวัง{" "}
                     </span>{" "}
-                    {data.description && (
+                    {data.description ? (
                       <span className="text-[#FF2F3B]">{data.description}</span>
-                    )}
-                    {data.precaution && (
-                      <span className="text-[#FF2F3B]">{data.precaution}</span>
-                    )}
+                    ) : <span className="text-sm text-black/40">-</span>}
                   </div>
                 </motion.h6>
                 <motion.h6 className="flex space-x-24">
@@ -665,7 +666,7 @@ function AppointmentModal({
           </motion.div>
         ) : (
           <motion.div className="flex justify-center pt-16">
-            {data.status != "reviewed" && data.status != "rejected"  (
+            {data.status != "reviewed" && data.status != "rejected" && (
               <CircleIconButton
                 handleClick={() =>
                   append({
