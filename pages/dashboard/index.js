@@ -2,7 +2,7 @@ import { getSession, useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
 import LinkGridCard from "../../components/LinkGridCard";
 import AmountCard from "../../components/AmountCard";
-import VerifiedIcon from '@mui/icons-material/Verified';
+import VerifiedIcon from "@mui/icons-material/Verified";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 
@@ -15,7 +15,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
     boxShadow: theme.shadows[10],
     fontSize: 14,
     borderRadius: 12,
-    p:8
+    p: 8,
   },
 }));
 
@@ -46,14 +46,23 @@ function Dashboard({ data }) {
     fetchRequest().catch(console.error);
 
     return () => (isSubscribed = false);
-  },);
+  });
 
   return (
     <>
       {/* Clinic Hours */}
-      <div className="px-4 pt-8">
-        <p className="h2">{data.clinic_name}
-        {data.approvalStatus == "Authorized" ? <span className="px-2"><CustomTooltip title="Verified Clinic" placement="top" ><VerifiedIcon className="text-[#ECE656]" fontSize="large" /></CustomTooltip></span>:"" }
+      <div className="px-4 pt-8 flex-wrap">
+        <p className="h2">
+          {data.clinic_name}
+          {data.approvalStatus == "Authorized" ? (
+            <span className="px-2">
+              <CustomTooltip title="Verified Clinic" placement="top">
+                <VerifiedIcon className="text-[#ECE656]" fontSize="large" />
+              </CustomTooltip>
+            </span>
+          ) : (
+            ""
+          )}
         </p>
         <p className="mt-2 text-xl font-bold text-black/75">{data.address}</p>
         <p className="mt-4 text-lg text-black/75 sm:truncate ">
@@ -65,7 +74,7 @@ function Dashboard({ data }) {
             เบอร์ติดต่อคลินิก
           </span>
 
-          <p className="block text-2xl font-medium text-gray-900 hover:opacity-75 sm:text-3xl">
+          <p className="block text-xl font-medium text-gray-900 hover:opacity-75 sm:text-3xl">
             {data.phoneNumber}
           </p>
         </div>
@@ -74,8 +83,10 @@ function Dashboard({ data }) {
           <span className="caption tracking-wide text-gray-500 uppercase">
             วันและเวลาทำการ
           </span>
-          <li className="h5">
-            {data.openDay}: {data.openTime} - {data.closeTime}
+          <li className="text-lg flex flex-wrap">
+            {data.openDay}
+            {": "}
+            {data.openTime} - {data.closeTime}
           </li>
         </ul>
       </div>

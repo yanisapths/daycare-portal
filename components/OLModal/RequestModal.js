@@ -63,8 +63,17 @@ function RequestModal({
           }}
         >
           <div className="text-[#121212]">
-            <p className="text-xs pb-2 text-black/40">
-              วันที่ขอ <span>{new Date(data.createdAt).toUTCString()}</span>
+            <p className="text-xs pb-2 text-black/50">
+              วันที่ส่งคำขอ -{" "}
+              <span>
+                {new Date(data.createdAt).toLocaleDateString("th-Th", {
+                  month: "long",
+                  day: "2-digit",
+                  year: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </span>
             </p>
             <p className="text-lg pb-2 text-black/70 md:flex xl:flex">
               <span className="md:pr-4 xl:pr-4">
@@ -97,16 +106,17 @@ function RequestModal({
                 icon={<BookmarksIcon className="w-5 h-5" />}
                 text={course.courseName}
               />
-                <Tooltip placement="top" title="สถานที่นัด">
-              <div className="cursor-pointer">
+              <Tooltip placement="top" title="สถานที่นัด">
+                <div className="cursor-pointer">
                   <RoundTextIcon
                     className="cursor-pointer"
                     icon={<MeetingRoomIcon className="w-5 h-5" />}
                     text={data.appointmentPlace}
                   />
-              </div>
-                </Tooltip>
+                </div>
+              </Tooltip>
             </div>
+            {/* select exist patient */}
             {data.patient_id ? (
               <div className="pb-2">
                 <motion.div>
@@ -115,36 +125,45 @@ function RequestModal({
                     {patient.lastName}
                   </p>
                 </motion.div>
-                <motion.h6 className="flex space-x-10 pb-2">
-                  <div className="flex items-center align-middle gap-2">
-                    {" "}
-                    <CircleIcon icon={<PersonIcon className="text-sm" />} />
-                    <span className="caption text-[#A17851] font-bold">
-                      อายุ{" "}
-                    </span>
-                    {patient.age}
+                <motion.h6 className="grid grid-col-2 text-sm pt-2 ">
+                  <div className="col-start-1">
+                    <div className="flex items-center align-middle gap-2">
+                      {" "}
+                      <CircleIcon icon={<PersonIcon className="text-sm" />} />
+                      <span className="caption text-[#A17851] font-bold">
+                        อายุ{" "}
+                      </span>
+                      {patient.age}
+                    </div>
                   </div>
-                  <div className="flex items-center align-middle gap-2">
-                    {" "}
-                    <CircleIcon icon={<WcIcon className="text-sm" />} />
-                    <span className="caption text-[#A17851] font-bold">
-                      เพศ{" "}
-                    </span>
-                    {patient.sex}
+                  <div className="col-start-2">
+                    <div className="flex items-center gap-2 pr-12">
+                      {" "}
+                      <CircleIcon icon={<WcIcon className="text-sm" />} />
+                      <span className="caption text-[#A17851] font-bold">
+                        เพศ{" "}
+                      </span>
+                      {patient.sex}
+                    </div>
                   </div>
                   <div className="flex items-center align-middle gap-2">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
-                    <span className="caption text-[#A17851] font-bold">
-                      ข้อควรระวัง{" "}
-                    </span>{" "}
-                    {patient.precaution ? (
-                      <span className="text-[#FF2F3B]">
-                        {patient.precaution}
-                      </span>
-                    ) : (
-                      "-"
+                    <span className="caption text-[#A17851] font-bold w-20 sm:w-20">
+                      ข้อควรระวัง
+                    </span>
+                    {patient.precuation?(
+                      <span className="text-[#FF2F3B] w-32">
+                      {patient.precuation}
+                    </span>
+                    ):(
+                      data.description?(
+                        <span className="text-[#FF2F3B] w-32">{data.description}</span>
+                      ):(
+                        "-"
+                      )
                     )}
+                    
                   </div>
                 </motion.h6>
                 <motion.h6 className="flex space-x-24 pb-2">
@@ -158,7 +177,9 @@ function RequestModal({
                   </div>
                   <div className="flex items-center align-middle gap-2">
                     {" "}
-                    <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
+                    <CircleIcon
+                      icon={<ChatBubbleIcon className="text-sm " />}
+                    />
                     <span className="caption text-[#A17851] font-bold">
                       LINE ID{" "}
                     </span>
@@ -172,11 +193,12 @@ function RequestModal({
                     <span className="caption text-[#A17851] font-bold">
                       ที่อยู่{" "}
                     </span>
-                    {patient.address}
+                    <span className=" text-sm">{patient.address}</span>
                   </div>
                 </motion.h6>
               </div>
             ) : (
+              // add new customer
               <div className="h6 space-y-4 font-medium">
                 <motion.h6>
                   <span className="h4">

@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 @import url("https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Kodchasan:ital,wght@0,300;0,400;0,500;0,600;0,700;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Chonburi&display=swap");
@@ -63,7 +64,6 @@ a {
     @apply font-light text-sm;
   }
 
-  
   .caption {
     @apply font-light text-sm;
   }
@@ -74,7 +74,7 @@ a {
   /*------------------------------------*/
 
   .main {
-    @apply h-screen overflow-scroll scrollbar-hide bg-[#FFFBF2];
+    @apply h-screen overflow-scroll scrollbar-hide bg-[#FFFBF2] md:w-screen;
   }
 
   /*----------------Input-----------------*/
@@ -140,7 +140,7 @@ a {
 
   /* Nav Bar*/
   .navBarContainer {
-    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3  sm:flex-wrap sm:hidden md:hidden  xxxl:h-16 xxxl:items-center;
+    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3  sm:flex-wrap sm:hidden md:text-[13px]  xxxl:h-16 xxxl:items-center;
   }
   .navbarItem {
     @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] xxxl:text-2xl lg:items-center lg:text-sm;
@@ -151,6 +151,6 @@ a {
   }
   /* Staff Card */
   .itemContainer {
-    @apply col-start-1 col-span-3 sm:col-start-1 space-x-2
+    @apply col-start-1 col-span-3 sm:col-start-1 space-x-2;
   }
 }
