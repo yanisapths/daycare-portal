@@ -36,12 +36,12 @@ const Appointment = ({ user }) => {
     {
       id: "calendarView",
       icon: <CalendarMonthIcon className="w-8 h-8" />,
-      title: "Calendar View",
+      title: "ปฏิทิน",
     },
     {
       id: "listView",
       icon: <ViewListIcon className="w-8 h-8" />,
-      title: "List View",
+      title: "นัดทั้งหมด",
     },
   ];
 

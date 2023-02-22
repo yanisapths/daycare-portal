@@ -4,7 +4,7 @@ import AppointmentListCard from "../../../components/OLCard/AppointmentListCard"
 import SimpleCalendar from "../../../components/calendar/SimpleCalendar";
 import EventListCard from "../../../components/OLCard/EventListCard";
 
-function CalendarView({ data, event,user,staffs }) {
+function CalendarView({ data, event, user, staffs }) {
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectedDate, setSelectedDate] = useState(currentDate);
@@ -34,19 +34,31 @@ function CalendarView({ data, event,user,staffs }) {
             <div key={index} className="mb-6">
               {selectedDate.toDate().toDateString() ==
               new Date(d.appointmentDate).toDateString() ? (
-                <AppointmentListCard d={d} index={index} data={data} user={user} staffs={staffs}/>
+                <AppointmentListCard
+                  d={d}
+                  index={index}
+                  data={data}
+                  user={user}
+                  staffs={staffs}
+                />
               ) : (
                 ""
               )}
             </div>
           ))}
         {/*event list */}
-        {event && 
+        {event &&
           event?.map((d, index) => (
             <div key={index} className="mb-6">
               {selectedDate.toDate().toDateString() ==
               new Date(d.date).toDateString() ? (
-                <EventListCard d={d} index={index} data={data} event={event} staffs={staffs}/>
+                <EventListCard
+                  d={d}
+                  index={index}
+                  data={data}
+                  event={event}
+                  staffs={staffs}
+                />
               ) : (
                 ""
               )}
