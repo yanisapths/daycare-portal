@@ -47,7 +47,8 @@ function Dashboard({ data }) {
 
     return () => (isSubscribed = false);
   });
-
+  
+  
   return (
     <>
       {/* Clinic Hours */}
@@ -74,7 +75,7 @@ function Dashboard({ data }) {
             เบอร์ติดต่อคลินิก
           </span>
 
-          <p className="block text-xl font-medium text-gray-900 hover:opacity-75 sm:text-3xl">
+          <p className="block text-xl font-medium text-gray-900 hover:opacity-75 sm:text-sm">
             {data.phoneNumber}
           </p>
         </div>
@@ -83,7 +84,7 @@ function Dashboard({ data }) {
           <span className="caption tracking-wide text-gray-500 uppercase">
             วันและเวลาทำการ
           </span>
-          <li className="text-lg flex flex-wrap">
+          <li className="text-lg flex flex-wrap sm:text-[14px] text-gray-900 ">
             {data.openDay}
             {": "}
             {data.openTime} - {data.closeTime}

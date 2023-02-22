@@ -10,7 +10,7 @@ import FolderSharedIcon from "@mui/icons-material/FolderShared";
 function LinkGridCard({ data }) {
   return (
     <section className="">
-      <div className="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+      <div className="mt-10 grid grid-cols-1 gap-8  sm:gap-6 md:grid-cols-2 lg:grid-cols-3">
         <Link href="/appointment">
           <div className="linkGridCardContainer">
             <BookOnlineIcon className="h-10 w-10" />

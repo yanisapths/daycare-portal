@@ -15,12 +15,12 @@ function BannerCard({ username }) {
         </div>
         <div className="px-6 py-4 mt-6 absolute">
           <div className="flex text-[#FFFBF2]">
-            <p className="h3 pr-2 text-[#FFFBF2] ">Welcome, </p>
-            <p className="h3 ">{username}</p>
+            <p className="h3 pr-2 text-[#FFFBF2] sm:text-xl ">Welcome, </p>
+            <p className="h3 sm:text-xl sm:flex sm:flex-wrap ">{username}</p>
           </div>
-          <p className="h5 mt-6 ">Administrator</p>
+          <p className="h5 mt-6 sm:text-lg sm:mt-6">Administrator</p>
         </div>
-        <div className="caption px-6 md:h5 md:px-8 md:mt-2 mt-2 absolute">
+        <div className="caption px-6  md:mt-2 mt-2 absolute">
           {new Date().toLocaleDateString("th-TH", {
             year: "numeric",
             month: "long",

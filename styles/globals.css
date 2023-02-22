@@ -134,13 +134,13 @@ a {
 
   /* Home Landing Link Grid Card */
   .linkGridCardContainer {
-    @apply cursor-pointer block rounded-xl text-[#6C5137] bg-[#ffdf8e]/40 p-8 shadow-2xl transition hover:bg-white shadow-[#ffdf8e]/40 hover:shadow-[#ffdf8e]/80;
+    @apply cursor-pointer block rounded-xl text-[#6C5137] bg-[#ffdf8e]/40 p-8 shadow-2xl transition hover:bg-white hover:shadow-2xl hover:-translate-y-1 hover:scale-110 ;
   }
   /*------------------------------------*/
 
   /* Nav Bar*/
   .navBarContainer {
-    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3  sm:flex-wrap sm:hidden md:text-[13px]  xxxl:h-16 xxxl:items-center;
+    @apply bg-[#FFFBF2] flex justify-center gap-4 py-3  sm:flex-wrap sm:hidden md:text-[12px] md:px-3  xxxl:h-16 xxxl:items-center;
   }
   .navbarItem {
     @apply cursor-pointer text-[#6C5137] hover:text-[#e0b038] xxxl:text-2xl lg:items-center lg:text-sm;
