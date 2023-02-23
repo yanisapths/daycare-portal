@@ -4,13 +4,14 @@ import Image from "next/image";
 function BannerCard({ username }) {
   return (
     <div className="rounded-2xl  shadow-lg shadow-[#A17851]/60 text-[#FFFBF2] ">
-      <div className="md:flex relative h-40 rounded-2xl bg-[#A17851] p-2 justify-between pb-4">
-        <div className="">
+      <div className="md:flex relative h-40 rounded-2xl  p-2 justify-between pb-4">
+        <div className=" ">
           <Image
             src="/dashboardBG.jpg"
             alt="background of dashboard"
-            layout="fill"
-            className="rounded-2xl"
+           objectFit="cover"
+           layout='fill'
+            className="rounded-2xl "
           />
         </div>
         <div className="px-6 py-4 mt-6 absolute">

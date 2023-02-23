@@ -44,16 +44,16 @@ function Home() {
 
   if (clinicData) {
     return (
-      <div className="">
+      <div className="relative">
         <Head>
           <title>Olive | Physiotherapy Clinic </title>
           <link rel="icon" href="favicon.ico" />
         </Head>
-        <Header />
+        <Header className="absolute" />
 
-        <main className="mb-72 max-w-screen md:px-12 xl:mx-24">
-          <div className="p-3 -ml-3 mx-auto px-6 lg:px-8 sm:-ml-0">
-            {session ? <BannerCard username={session.user.name} /> : <></>}
+        <main className="mb-72 max-w-screen md:px-12 xl:mx-24 ">
+          <div className="p-3 -ml-3 mx-auto px-6 lg:px-8 sm:-ml-0 ">
+            {session ? <BannerCard username={session.user.name}  /> : <></>}
             <div />
             <Dashboard data={clinicData} />
           </div>
