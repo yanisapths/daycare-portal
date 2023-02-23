@@ -55,6 +55,7 @@
     "recoil": "^0.6.1",
     "styled-components": "^5.3.6",
     "sweetalert2": "^11.7.0",
+    "swr": "^2.0.3",
     "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-filters": "^3.0.0"
   },
