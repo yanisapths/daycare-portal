@@ -249,7 +249,6 @@ function AppointmentModal({
                 </motion.h6>
               </div>
             ) : (
-              //fix here
               <div className="h6 space-y-4 font-medium">
                 <motion.h6>
                   <span className="h4">
@@ -471,13 +470,17 @@ function AppointmentModal({
                       ? "#E0B186"
                       : data.status == "reviewed"
                       ? "#7879F1"
-                      : "#2ED477"
+                      : data.status == "Rejected"
+                      ? "#FF2F3B"
+                      :"#2ED477"
                   }
                   textColor={
                     data.progressStatus == "Done"
                       ? "#E0B186"
                       : data.status == "reviewed"
                       ? "#7879F1"
+                      : data.status == "Rejected"
+                      ? "#FF2F3B"
                       : "#2ED477"
                   }
                 />
