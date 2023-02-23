@@ -30,13 +30,13 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-2 xl:mx-auto pb-6 p-10 py-6 relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto w-[550px]"
+        className="bg-white mx-2  pb-6 p-10 py-6 relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto w-[550px] h-[500px] sm:h-[600px] overflow-scroll-hidden"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="flex justify-between items-center xl:gap-60 gap-24">
+        <div className="flex justify-between items-center  gap-24">
           <motion.h6
             className="body2 pt-4 text-black/50"
             animate={{ y: -8 }}
@@ -131,7 +131,7 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
             {patient.sex}
           </div>
         </motion.div>
-        <motion.div className="md:flex md:space-x-12 md:pb-2 xl:flex xl:space-x-12 xl:pb-2">
+        <motion.div className="md:flex md:space-x-12 md:pb-2 xl:flex xl:space-x-10 xl:pb-2">
           <div className="flex items-center align-middle gap-2">
             {" "}
             <CircleIcon icon={<PhoneIcon className="text-sm" />} />
@@ -146,16 +146,16 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
           </div>
         </motion.div>
         <motion.div>
-          <div className="flex items-center align-middle gap-2">
+          <div className="flex items-start align-start gap-2">
             {" "}
             <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
-            <span className="caption text-[#A17851] font-bold">ที่อยู่ </span>
+            <span className="caption text-[#A17851] font-bold w-20">ที่อยู่ปัจุบัน </span>
             {patient.address}
           </div>
         </motion.div>
-        <div className="px-8 pt-4">
-          <motion.div className="flex space-x-12 pb-2">
-            <div className="flex items-center align-middle gap-2">
+        <div className="px-8 pt-4 ">
+          <motion.div className="grid grid-cols-2 gap-20 pb-2">
+            <div className="flex items-center align-middle gap-2 ">
               {" "}
               <span className=" caption text-[#A17851]">อาชีพ</span>
               {patient.occupation}
@@ -166,12 +166,12 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
               {patient.position}
             </div>
           </motion.div>
-          <motion.div className="flex space-x-12 pb-2">
-            <div className="flex items-center align-middle gap-2">
+          <motion.div className="grid grid-cols-2 gap-2 pb-2">
+            <div className="flex items-center align-middle col-span-2 gap-2">
               <span className="caption text-[#A17851]">ระดับการศึกษา </span>
               {patient.education}
             </div>
-            <div className="flex items-center align-middle gap-2">
+            <div className="flex items-center align-middle gap-2 col-start-1 col-span-2">
               <span className="caption text-[#A17851]">รายได้ </span>
               {patient.income}
             </div>

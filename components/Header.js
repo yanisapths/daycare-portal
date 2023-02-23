@@ -15,7 +15,7 @@ function Header({ placeholder }) {
 
   return (
     <>
-      <div className="flex-row justify-between divide-y divide-[#A17851] divide-opacity-30">
+      <div className="flex-row justify-between divide-y divide-[#A17851] divide-opacity-30 relative">
         <header
           className="sticky top-0 justify-between item-center flex flex-wrap  w-full 
           bg-[#FFFBF2]  sm:landscape:h-12 sm:landscape:items-center md:h-16 md:items-center  lg:items-center
@@ -23,9 +23,9 @@ function Header({ placeholder }) {
         >
           {" "}
           {/* Left */}
-          <div >
+          
             <SideBar />
-          </div>
+          
           {/* Middle */}
           <div >
             <h1
