@@ -17,7 +17,7 @@ function StatusCheckIcon({ icon, text, bgColor, textColor }) {
       }}
     >
       <p className="">{icon}</p>
-      <span className="px-1 text-sm font-bold">{text}</span>
+      <span className="px-1 text-[12px] font-bold">{text}</span>
     </Button>
   );
 }
