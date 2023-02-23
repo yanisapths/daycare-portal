@@ -197,7 +197,6 @@ const Availability = () => {
                                   minute: "2-digit",
                                 }
                               )}
-                              am
                             </p>
                             <p className="px-2">-</p>
                             <p className="tracking-wide">
@@ -208,7 +207,6 @@ const Availability = () => {
                                   minute: "2-digit",
                                 }
                               )}
-                              am
                             </p>
                           </div>
                           <div className="pt-3 px-2">
