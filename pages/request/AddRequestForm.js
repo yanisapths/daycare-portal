@@ -388,8 +388,8 @@ function AddRequestForm({
                                       onChange={onChange}
                                       {...register("appointmentDate", {
                                         required: false,
-                                      })}
-                                    >
+                                      })}                              
+                                    > 
                                       {new Date(appointmentDate).toDateString()}
                                     </strong>
                                   </div>
