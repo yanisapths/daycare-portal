@@ -198,7 +198,10 @@ function AppointmentModal({
                       ข้อควรระวัง{" "}
                     </span>
                     {patient.precaution ? (
-                      <span className="text-[#FF2F3B]"> {patient.precaution}</span>
+                      <span className="text-[#FF2F3B]">
+                        {" "}
+                        {patient.precaution}
+                      </span>
                     ) : (
                       "-"
                     )}
@@ -246,7 +249,6 @@ function AppointmentModal({
                 </motion.h6>
               </div>
             ) : (
-
               //fix here
               <div className="h6 space-y-4 font-medium">
                 <motion.h6>
@@ -284,7 +286,10 @@ function AppointmentModal({
                       ข้อควรระวัง{" "}
                     </span>{" "}
                     {data.description ? (
-                      <span className="text-[#FF2F3B]"> {data.description}</span>
+                      <span className="text-[#FF2F3B]">
+                        {" "}
+                        {data.description}
+                      </span>
                     ) : (
                       "-"
                     )}
@@ -358,27 +363,27 @@ function AppointmentModal({
             </Link>
             <motion.div className=" flex justify-center pt-2 gap-2 ">
               <div className="grid grid-cols-3 w-fit sm:grid-cols-2 sm:gap-2 ">
-              <div className=" flex justify-center">
-              <SimpleChip
-                prefix="จำนวน"
-                text={course.amount}
-                quantify="ครั้ง"
-              />
-              </div>
-              <div className=" flex justify-center">
-              <SimpleChip
-                prefix="ราคา"
-                text={course.totalPrice}
-                quantify="บาท"
-              />
-              </div>
-              <div className=" flex justify-center sm:col-span-2">
-              <SimpleChip
-                prefix="ครั้งละ"
-                text={course.duration}
-                quantify="ชั่วโมง"
-              />
-              </div>
+                <div className=" flex justify-center">
+                  <SimpleChip
+                    prefix="จำนวน"
+                    text={course.amount}
+                    quantify="ครั้ง"
+                  />
+                </div>
+                <div className=" flex justify-center">
+                  <SimpleChip
+                    prefix="ราคา"
+                    text={course.totalPrice}
+                    quantify="บาท"
+                  />
+                </div>
+                <div className=" flex justify-center sm:col-span-2">
+                  <SimpleChip
+                    prefix="ครั้งละ"
+                    text={course.duration}
+                    quantify="ชั่วโมง"
+                  />
+                </div>
               </div>
             </motion.div>
           </div>
@@ -452,7 +457,6 @@ function AppointmentModal({
                   <></>
                 )}
               </p>
-             
             </div>
             <div className="flex justify-center items-center ">
               <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center ">
@@ -492,20 +496,20 @@ function AppointmentModal({
                 <div className="sm:text-xs flex justify-center items-center ">
                   {event.date ? (
                     <>
-                    <p className="md:hidden sm:hidden">
-                      {new Date(event.date).toLocaleDateString("th-TH", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </p>
-                    <p className="lg:hidden xl:hidden xxl:hidden">
-                    {new Date(event.date).toLocaleDateString("th-TH", {
-                      year: "numeric",
-                      month: "numeric",
-                      day: "numeric",
-                    })}
-                  </p>
+                      <p className="md:hidden sm:hidden">
+                        {new Date(event.date).toLocaleDateString("th-TH", {
+                          year: "numeric",
+                          month: "long",
+                          day: "numeric",
+                        })}
+                      </p>
+                      <p className="lg:hidden xl:hidden xxl:hidden">
+                        {new Date(event.date).toLocaleDateString("th-TH", {
+                          year: "numeric",
+                          month: "numeric",
+                          day: "numeric",
+                        })}
+                      </p>
                     </>
                   ) : (
                     ""
@@ -646,7 +650,6 @@ function AppointmentModal({
                         timeCaption="Time"
                         dateFormat="h:mm aa"
                         placeholderText="เวลาเริ่ม"
-                        
                         error={Boolean(errors?.startTime)}
                         helperText="กรุณาเลือกเวลา"
                       />
@@ -697,6 +700,8 @@ function AppointmentModal({
               ไม่สามารถเพิ่มนัดได้เนื่องจากครบจำนวนนัดแล้ว
             </p>
           </motion.div>
+        ) : data.status == "Rejected" ? (
+          " "
         ) : (
           <motion.div className="flex justify-center pt-16">
             {data.status != "reviewed" && (
