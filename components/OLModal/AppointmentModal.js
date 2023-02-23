@@ -28,6 +28,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FormControl from "@mui/material/FormControl";
 import ReactDatePicker from "react-datepicker";
 import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
 import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
@@ -124,6 +125,42 @@ function AppointmentModal({
         toast.error("ไม่สำเร็จ");
       });
   };
+
+  async function finishTask(eid) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Done" }),
+    };
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
+      .then(async (res) => {
+        toast.success("สำเร็จ");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
+  async function markAsDone(appointmentId) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ progressStatus: "Done" }),
+    };
+    const res = await fetch(
+      `${process.env.dev}/appointment/markdone/${appointmentId}`,
+      option
+    )
+      .then(async (res) => {
+        toast.success("สำเร็จ");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
 
   return (
     <AnimatePresence>
@@ -288,7 +325,9 @@ function AppointmentModal({
                     </span>{" "}
                     {data.description ? (
                       <span className="text-[#FF2F3B]">{data.description}</span>
-                    ) : <span className="text-sm text-black/40">-</span>}
+                    ) : (
+                      <span className="text-sm text-black/40">-</span>
+                    )}
                   </div>
                 </motion.h6>
                 <motion.h6 className="flex space-x-24">
@@ -439,30 +478,62 @@ function AppointmentModal({
                 )}
               </p>
             </div>
-            <p className="w-1/6 text-[#2ED477]/80 md:invisible lg:invisible xl:invisible lg:w-0 xl:w-0">
-              {data.progressStatus ? data.progressStatus : data.status}
-            </p>
-            <div className="invisible md:visible xl:visible xl:w-1/6 lg:w-1/6 md:w-1/6 w-0">
-              <StatusCheckIcon
+            <div className="w-1/6">
+              {data.progressStatus == "Done" &&
+                  <StatusCheckIcon
                 icon={<CheckCircleIcon />}
                 text={data.progressStatus ? data.progressStatus : data.status}
-                bgColor={
-                  data.progressStatus == "Done"
-                    ? "#E0B186"
-                    : data.status == "reviewed"
-                    ? "#7879F1"
-                    : "#2ED477"
-                }
-                textColor={
-                  data.progressStatus == "Done"
-                    ? "#E0B186"
-                    : data.status == "reviewed"
-                    ? "#7879F1"
-                    : "#2ED477"
-                }
-              />
+                bgColor="#E0B186"
+                textColor="#E0B186"
+              /> 
+              }
+              {data.progressStatus != "Done" && (
+                <Tooltip title="เสร็จสิ้น" placement="top">
+                  <div className="border-2 rounded-full w-fit h-fit hover:bg-[#E0B186]/20 hover:border-[#E0B186]/20">
+                    <IconButton
+                      aria-label="delete"
+                      size="small"
+                      className="text-[#E0B186]"
+                      onClick={() =>
+                        Swal.fire({
+                          title: "เสร็จสิ้นการให้บริการ?",
+                          text: "ไม่สามารถย้อนกลับได้",
+                          icon: "warning",
+                          showCancelButton: true,
+                          confirmButtonText: "ใช่ เสร็จสิ้น!",
+                          cancelButtonText: "ยกเลิก",
+                          reverseButtons: true,
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            markAsDone(data._id).then(() =>
+                              Swal.fire({
+                                title: "เสร็จสิ้นแล้ว",
+                                showConfirmButton: false,
+                                icon: "success",
+                                timer: 1000,
+                              })
+                            );
+                          } else if (
+                            result.dismiss === Swal.DismissReason.cancel
+                          ) {
+                            Swal.fire({
+                              title: "ยกเลิก :)",
+                              showConfirmButton: false,
+                              icon: "error",
+                              timer: 1000,
+                            });
+                          }
+                        })
+                      }
+                    >
+                      <CheckIcon />
+                    </IconButton>
+                  </div>
+                </Tooltip>
+              )}
             </div>
-            <div className="w-1/6"></div>
+            <div className="w-1/6">
+            </div>
           </div>
           {eventList.map((event, index) => {
             return (
@@ -509,18 +580,60 @@ function AppointmentModal({
                     ""
                   )}
                 </div>
-                <p className="w-1/6 text-[#2ED477]/80 md:invisible xl:invisible lg:invisible xl:w-0 lg:w-0">
-                  {event.status}
-                </p>
-                <div className="invisible md:visible xl:visible lg:visible xl:w-1/6 md:w-1/6 w-0">
+                <div className="w-1/6">
+                {event.status == "Done" &&
                   <StatusCheckIcon
                     icon={<CheckCircleIcon />}
                     text={event.status}
-                    bgColor={event.status == "Done" ? "#E0B186" : "#2ED477"}
-                    textColor={event.status == "Done" ? "#E0B186" : "#2ED477"}
-                  />
+                    bgColor="#E0B186"
+                    textColor="#E0B186"
+                  />}
+                  {event.status != "Done" && (
+                    <Tooltip title="เสร็จสิ้น" placement="top">
+                      <div className="border-2 rounded-full w-fit h-fit hover:bg-[#E0B186]/20 hover:border-[#E0B186]/20">
+                        <IconButton
+                          aria-label="delete"
+                          size="small"
+                          className="text-[#E0B186]"
+                          onClick={() =>
+                            Swal.fire({
+                              title: "เสร็จสิ้นการให้บริการ?",
+                              text: "ไม่สามารถย้อนกลับได้",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonText: "ใช่ เสร็จสิ้น!",
+                              cancelButtonText: "ยกเลิก",
+                              reverseButtons: true,
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                finishTask(event._id).then(() =>
+                                  Swal.fire({
+                                    title: "ยกเลิกแล้ว",
+                                    showConfirmButton: false,
+                                    icon: "success",
+                                    timer: 1000,
+                                  })
+                                );
+                              } else if (
+                                result.dismiss === Swal.DismissReason.cancel
+                              ) {
+                                Swal.fire({
+                                  title: "ยกเลิก :)",
+                                  showConfirmButton: false,
+                                  icon: "error",
+                                  timer: 1000,
+                                });
+                              }
+                            })
+                          }
+                        >
+                          <CheckIcon />
+                        </IconButton>
+                      </div>
+                    </Tooltip>
+                  )}
                 </div>
-                <div className="xl:w-1/6 w-1/12">
+                <div className="xl:w-1/6 w-1/12 space-x-4">
                   <Tooltip title="ยกเลิกนัด" placement="top">
                     <IconButton
                       aria-label="delete"

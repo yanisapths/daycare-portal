@@ -7,6 +7,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import CircleIcon from "@mui/icons-material/Circle";
 const status = [
+  {id: 0, label: "ทั้งหมด"},
   { id: 1, label: "กำลังดำเนินการ" },
   { id: 2, label: "ปฏิเสธ/ยกเลิก" },
   { id: 3, label: "เสร็จสิ้น" },
@@ -17,7 +18,7 @@ function ListView({ data, user, events, staffs }) {
     setResult(event.target.value);
   };
   return (
-    <div className="pb-24 mx-12">
+    <div className="pb-24">
       <div className="flex mx-auto items-center">
         <p className="h6 font-semibold px-6">นัดทั้งหมด</p>
         <div className="">
@@ -35,6 +36,8 @@ function ListView({ data, user, events, staffs }) {
                     <MenuItem key={input.id} value={input.id} className="gap-4">
                       <CircleIcon
                         className={
+                          input.id == 0
+                          ? "w-4 h-3 text-[#ffe898]" :
                           input.id == 1
                             ? "w-4 h-3 text-[#2ED477]"
                             : input.id == 2
@@ -83,7 +86,7 @@ function ListView({ data, user, events, staffs }) {
               </tr>
             </thead>
 
-            {result == "" &&
+            {result == "" && result == 0 &&
               data.map((d, index) => (
                 <tbody className="divide-y divide-gray-100" key={d._id}>
                   <AppointmentTableRow
@@ -95,7 +98,6 @@ function ListView({ data, user, events, staffs }) {
                   />
                 </tbody>
               ))}
-
             {data.map((d, index) => {
               return result == 1 && d.status == "Approved" ? (
                 <tbody

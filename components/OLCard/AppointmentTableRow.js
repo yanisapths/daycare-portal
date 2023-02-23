@@ -85,7 +85,10 @@ function AppointmentTableRow({ d, index, event, user }) {
       `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
-      .then((res) => {})
+      .then((res) => {
+        toast.success("สำเร็จ");
+        Router.reload();
+      })
       .catch((err) => {
         console.log("ERROR: ", err);
       });
@@ -96,41 +99,9 @@ function AppointmentTableRow({ d, index, event, user }) {
       router.push("/auth/signin/");
     } else {
       fetchData().catch(console.error);
-      {
-        eventList.map((e) => {
-          e.status == "Done" &&
-            d.status == "Approved" &&
-            d.progressStatus == "Done" &&
-            left == 0 && (Finalized(e.appointment_id));
-        });
-      }
-      {
-        d.status == "Approved" &&
-          d.progressStatus == "Done" &&
-          left == 0 && (Finalized(d._id));
-      }
     }
   }, [status]);
 
-  async function markAsDone(appointmentId) {
-    const option = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ progressStatus: "Done" }),
-    };
-    const res = await fetch(
-      `${process.env.dev}/appointment/markdone/${appointmentId}`,
-      option
-    )
-      .then(async (res) => {
-        toast.success("สำเร็จ");
-        Router.reload();
-      })
-      .catch((err) => {
-        console.log("ERROR: ", err);
-        toast.error("ไม่สำเร็จ");
-      });
-  }
   async function deleteRequest(appointmentId) {
     const res = await fetch(
       `${process.env.dev}/appointment/delete/${appointmentId}`,
@@ -176,13 +147,14 @@ function AppointmentTableRow({ d, index, event, user }) {
                 ? "bg-[#2ED477]/5 cursor-pointer hover:bg-[#2ED477]/20 text-[#6C5137]"
                 : d.status == "Rejected"
                 ? "bg-[#FF2F3B]/5 cursor-pointer hover:bg-[#FF2F3B]/20 text-[#6C5137]"
-                : "cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
+                :  d.status == "Done"
+                ? "bg-[#4B5563]/5 cursor-pointer hover:bg-[#4B5563]/10 text-[#4B5563]" :"cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
             }
           >
             <td className="flex w-24">
               <p
                 className={
-                  d.progressStatus == "Done" || d.status == "reviewed"
+                  d.status == "Done" || d.status == "reviewed"
                     ? "p-4 text-black/40 truncate"
                     : "p-4 truncate"
                 }
@@ -192,7 +164,7 @@ function AppointmentTableRow({ d, index, event, user }) {
             </td>
             <td
               className={
-                d.progressStatus == "Done" || d.status == "reviewed"
+                d.status == "Done" || d.status == "reviewed"
                   ? "p-4 text-black/40"
                   : "p-4 text-gray-700 whitespace-nowrap"
               }
@@ -207,7 +179,7 @@ function AppointmentTableRow({ d, index, event, user }) {
               {d.endTime ? (
                 <p
                   className={
-                    d.progressStatus == "Done" || d.status == "reviewed"
+                    d.status == "Done" || d.status == "reviewed"
                       ? "px-3 py-1.5 text-black/40 text-xs font-medium"
                       : "px-3 py-1.5 text-black text-xs font-medium"
                   }
@@ -227,7 +199,7 @@ function AppointmentTableRow({ d, index, event, user }) {
               ) : (
                 <p
                   className={
-                    d.progressStatus == "Done" || d.status == "reviewed"
+                    d.status == "Done" || d.status == "reviewed"
                       ? "px-3 py-1.5 text-black/40 text-xs font-medium"
                       : "px-3 py-1.5 text-black text-xs font-medium"
                   }
@@ -242,9 +214,9 @@ function AppointmentTableRow({ d, index, event, user }) {
             </td>
             <td
               className={
-                d.progressStatus == "Done" || d.status == "reviewed"
-                  ? "p-4 text-black/40"
-                  : "p-4 text-gray-700 whitespace-nowrap"
+                d.status == "Done" || d.status == "reviewed" 
+                ? "p-4 text-black/40"
+                : "p-4 text-gray-700 whitespace-nowrap"
               }
             >
               {d.patient_id ? (
@@ -258,12 +230,6 @@ function AppointmentTableRow({ d, index, event, user }) {
               )}
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap">
-              {d.progressStatus == "Done" ? (
-                <strong className="text-black/40 text-xs font-medium">
-                  เสร็จสิ้นการให้บริการ
-                </strong>
-              ) : (
-                <>
                   {d.status == "Approved" ? (
                     <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
                       ยืนยันแล้ว
@@ -305,20 +271,20 @@ function AppointmentTableRow({ d, index, event, user }) {
                       )}{" "}
                     </span>
                   )}
-                </>
-              )}
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap">
-              <p>
+              <p className={d.status == "Done" ? "text-black/40" : ""}>
                 {eventList.length + 1}/{course.amount}
               </p>
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
-              {d.progressStatus != "Done" &&
+              {d.progressStatus == "Done" &&
+                d.status != "Done" &&
                 d.status != "reviewed" &&
                 d.status != "Rejected" && (
-                  <BtnDetails
-                    text="เสร็จสิ้น"
+                  <button
+                  className="w-20 h-9 rounded-full bg-[#4B5563]/20 text-[#6C514B556337] hover:bg-[#4B5563]/60 hover:text-white hover:shadow-xl
+                  sm:text-sm lg:text-base xxxl:h-11 xxxl:text-lg"
                     onClick={() =>
                       Swal.fire({
                         title: "เสร็จสิ้นการให้บริการ?",
@@ -329,14 +295,13 @@ function AppointmentTableRow({ d, index, event, user }) {
                         reverseButtons: true,
                       }).then((result) => {
                         if (result.isConfirmed) {
-                          markAsDone(d._id).then(() =>
-                            Swal.fire({
-                              title: "ให้บริการเสร็จสิ้นแล้ว",
-                              showConfirmButton: false,
-                              icon: "success",
-                              timer: 1000,
-                            })
-                          );
+                          Finalized(d._id);
+                          Swal.fire({
+                            title: "ให้บริการเสร็จสิ้นแล้ว",
+                            showConfirmButton: false,
+                            icon: "success",
+                            timer: 1000,
+                          });
                         } else if (
                           result.dismiss === Swal.DismissReason.cancel
                         ) {
@@ -349,7 +314,9 @@ function AppointmentTableRow({ d, index, event, user }) {
                         }
                       })
                     }
-                  />
+                    >
+                      เสร็จสิ้น
+                    </button>
                 )}
             </td>
             <td>
