@@ -19,7 +19,7 @@ function SmallCalendar({
   removeSelectedDate,
   appointmentDate,
   appointmentTime,
-  endTime
+  endTime,
 }) {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
 
@@ -99,7 +99,9 @@ function SmallCalendar({
                   <div
                     key={data._id}
                     className={
-                      appointmentDate == data.availableDate && appointmentTime == data.startTime && endTime == data.endTime
+                      appointmentDate == data.availableDate &&
+                      appointmentTime == data.startTime &&
+                      endTime == data.endTime
                         ? "text-center cursor-pointer flex gap-2 rounded-lg text-[#6C5137] body1 bg-[#ffe898]/40  px-3 w-fit whitespace-nowrap my-2 shadow-xl shadow-[#ffe898]/40"
                         : "text-center cursor-pointer flex gap-2 rounded-lg text-[#6C5137] body1 border-2 border-[#ffe898]/60 px-3 w-fit whitespace-nowrap my-2 hover:text-black hover:bg-[#ffe898]/40 hover:shadow-xl hover:shadow-[#ffe898]/40 active:text-black active:bg-[#ffe898]/40 active:shadow-xl active:shadow-[#ffe898]/40"
                     }
@@ -111,7 +113,7 @@ function SmallCalendar({
                       )
                     }
                   >
-                     <p className="tracking-wide pr-2">
+                    <p className="tracking-wide pr-2">
                       {new Date(data.availableDate).toLocaleDateString("th-TH")}
                     </p>
                     <p className="tracking-wide">
@@ -128,17 +130,22 @@ function SmallCalendar({
                       })}
                     </p>
                   </div>
-                  {appointmentTime ? (
+                  {appointmentDate == data.availableDate &&
+                  appointmentTime == data.startTime &&
+                  endTime == data.endTime ? (
                     <div>
                       <PrimaryIconButton
                         handleClick={() => getSelectedDate("", "", "")}
                         icon={
-                          <CancelIcon className="text-[#6C5137]" size="medium" />
+                          <CancelIcon
+                            className="text-[#6C5137]"
+                            size="medium"
+                          />
                         }
                       />
                     </div>
                   ) : (
-                    ""
+                    <div className="w-10"></div>
                   )}
                 </div>
               );
