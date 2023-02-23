@@ -151,6 +151,6 @@ a {
   }
   /* Staff Card */
   .itemContainer {
-    @apply col-start-1 col-span-3 sm:col-start-1 space-x-2;
+    @apply col-start-1 col-span-3 sm:col-start-1 ;
   }
 }

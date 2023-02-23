@@ -11,6 +11,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Tooltip from "@mui/material/Tooltip";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import BadgeIcon from '@mui/icons-material/Badge';
 
 function ListView({ staffData }) {
   async function deleteStaff(sid) {
@@ -30,78 +31,98 @@ function ListView({ staffData }) {
   if (staffData) {
     return (
       <>
-        <article className="w-full overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white mt-4 p-4">
-          <div className="flex flex-row gap-3 justify-start content-center text-sm pt-2 px-6">
-            <div className="basis-12/12">
-              <div className="grid grid-col-6 gap-2 mt-4">
-                <div className="col-start-1 col-end-7 lg:flex">
-                  {staffData.nickName ? (
-                    <p className="font-bold text-base text-[#6C5137] sm:text-lg md:text-xl lg:text-2xl">
-                      {staffData.nickName}
-                    </p>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <div className="itemContainer">
-                  <span className="font-semibold sm:hidden">ชื่อ:</span>
-                  {staffData.firstName ? (
-                    <span className="text-xl">
-                      {staffData.firstName} {staffData.lastName}
-                    </span>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <div className="itemContainer">
-                  <span className="text-[#969696]">
-                    <WorkIcon />
-                  </span>
-                  <span className="font-semibold sm:hidden">ตำแหน่ง:</span>
-                  {staffData.position ? (
-                    <span className="lg:text-xl"> {staffData.position}</span>
-                  ) : (
-                    <></>
-                  )}
-                </div>
-                <div className="itemContainer">
-                  <span className="text-[#969696] ">
-                    <HowToRegIcon />
-                  </span>
-                  <span className="font-semibold sm:hidden">อายุ:</span>
-                  <span className="lg:text-xl"> {staffData.age}</span>
-                </div>
-                <div className="itemContainer">
-                  <span className="text-[#969696] ">
-                    <VerifiedIcon />
-                  </span>
-                  <span className="font-semibold sm:hidden">เพศ:</span>
-                  <span className="lg:text-xl"> {staffData.sex}</span>
-                </div>
-                <div className="itemContainer">
-                  <span className="text-[#969696] ">
-                    <InfoIcon />
-                  </span>
-                  <span className="font-semibold sm:hidden">LINE ID:</span>
-                  <span className="lg:text-xl"> {staffData.lineId}</span>
-                </div>
-                <div className="itemContainer">
-                  <span className="text-[#969696] ">
-                    <LocalPhoneIcon />
-                  </span>
-                  <span className="font-semibold sm:hidden">
-                    เบอร์โทรศัพท์:
-                  </span>
-                  <span className="lg:text-xl"> {staffData.phoneNumber}</span>
-                </div>
-              </div>
+        <article className="w-full overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white mt-4 p-2 ">
+          <div className="grid grid-cols-2 gap-2 text-sm  px-2 mt-4 pb-3 ">
+            <div className=" col-start-1 ">
+              {staffData.nickName ? (
+                <p className="font-bold text-base text-[#6C5137] sm:text-xl md:text-xl lg:text-2xl">
+                  {staffData.nickName}
+                </p>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className="col-start-2 flex justify-end  ">
+              <Tooltip title="ลบ" placement="top">
+                <IconButton
+                  aria-label="delete"
+                  size="small"
+                  className="text-[#FF2F3B]"
+                  onClick={() =>
+                    Swal.fire({
+                      title: "ลบรายการนี้?",
+                      text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "ใช่ ลบเลย!",
+                      cancelButtonText: "ยกเลิก",
+                      reverseButtons: true,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        deleteStaff(staffData._id).then(() =>
+                          Swal.fire({
+                            title: "ลบแล้ว",
+                            showConfirmButton: false,
+                            icon: "success",
+                            timer: 1000,
+                          })
+                        );
+                      } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire({
+                          title: "ยกเลิก :)",
+                          showConfirmButton: false,
+                          icon: "error",
+                          timer: 1000,
+                        });
+                      }
+                    })
+                  }
+                >
+                  <DeleteIcon />
+                </IconButton>
+              </Tooltip>
+            </div>
+            <div className=" col-start-1 col-span-2 md:col-start-1 md:col-span-1">
+              <span className="font-semibold">ชื่อ-นามสกุล: </span>
+              {staffData.firstName ? (
+                <span className="text-base ">
+                  {staffData.firstName} {staffData.lastName}
+                </span>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className=" col-start-1 col-span-2 md:col-start-2">
+              <span className="font-semibold ">ตำแหน่ง: </span>
+              {staffData.position ? (
+                <span className="text-base"> {staffData.position}</span>
+              ) : (
+                <></>
+              )}
+            </div>
+            <div className=" col-start-1 ">
+              <span className="font-semibold ">อายุ: </span>
+              <span className="text-base"> {staffData.age}</span>
+            </div>
+            <div className=" col-start-2 ">
+              <span className="font-semibold ">เพศ: </span>
+              <span className="text-base"> {staffData.sex}</span>
+            </div>
+            <div className="md:col-start-1 ">
+              <span className="font-semibold">LINE ID: </span>
+              <span className="text-base"> {staffData.lineId}</span>
+            </div>
+            <div className="sm:col-start-1 sm:col-span-2">
+              <span className="font-semibold">เบอร์โทรศัพท์: </span>
+              <span className="text-base lg:text-sm"> {staffData.phoneNumber}</span>
             </div>
           </div>
-          <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center px-4 pb-2">
+
+          <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center px-4 pb-2 ">
             <div>
               <BtnDetails text="ดูเพิ่มเติม" />
             </div>
-            <Tooltip title="ลบ" placement="top">
+            {/* <Tooltip title="ลบ" placement="top">
               <IconButton
                 aria-label="delete"
                 size="small"
@@ -138,7 +159,7 @@ function ListView({ staffData }) {
               >
                 <DeleteIcon />
               </IconButton>
-            </Tooltip>
+            </Tooltip> */}
           </div>
         </article>
       </>
