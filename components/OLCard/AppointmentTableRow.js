@@ -35,8 +35,10 @@ function AppointmentTableRow({ d, index, event, user }) {
   const [p, setPatient] = useState({});
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
+  const left = (eventList.length + 1) % course.amount;
   let count = [];
   const e = d.events.length + 1;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -73,18 +75,17 @@ function AppointmentTableRow({ d, index, event, user }) {
     return () => (isSubscribed = false);
   };
 
-  async function Finalized(appointmentId) {
+  function Finalized(appointmentId) {
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(
+    const res = fetch(
       `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
-      .then(async (res) => {
-      })
+      .then((res) => {})
       .catch((err) => {
         console.log("ERROR: ", err);
       });
@@ -95,6 +96,19 @@ function AppointmentTableRow({ d, index, event, user }) {
       router.push("/auth/signin/");
     } else {
       fetchData().catch(console.error);
+      {
+        eventList.map((e) => {
+          e.status == "Done" &&
+            d.status == "Approved" &&
+            d.progressStatus == "Done" &&
+            left == 0 && (Finalized(e.appointment_id));
+        });
+      }
+      {
+        d.status == "Approved" &&
+          d.progressStatus == "Done" &&
+          left == 0 && (Finalized(d._id));
+      }
     }
   }, [status]);
 
@@ -124,6 +138,7 @@ function AppointmentTableRow({ d, index, event, user }) {
     )
       .then(async (res) => {
         toast.success("ลบรายการสำเร็จ");
+        Router.reload();
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -134,13 +149,6 @@ function AppointmentTableRow({ d, index, event, user }) {
   for (let i = d.events.length; i < course.amount - 1; i++) {
     count.push((props) => <div>{props.children}</div>);
   }
-
-
-  useEffect(() => {
-    {eventList.map((e,index)=> 
-     { e.status == "Done" && d.status == "Approved"? Finalized(e.appointment_id) : console.log("fas")}
-    )}
-  }, [e]);
 
   return (
     <>
@@ -306,39 +314,43 @@ function AppointmentTableRow({ d, index, event, user }) {
               </p>
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
-              {d.progressStatus != "Done" && d.status != "reviewed" && d.status != "Rejected" && (
-                <BtnDetails
-                  text="เสร็จสิ้น"
-                  onClick={() =>
-                    Swal.fire({
-                      title: "เสร็จสิ้นการให้บริการ?",
-                      icon: "success",
-                      showCancelButton: true,
-                      confirmButtonText: "ใช่",
-                      cancelButtonText: "ยกเลิก",
-                      reverseButtons: true,
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        markAsDone(d._id).then(() =>
+              {d.progressStatus != "Done" &&
+                d.status != "reviewed" &&
+                d.status != "Rejected" && (
+                  <BtnDetails
+                    text="เสร็จสิ้น"
+                    onClick={() =>
+                      Swal.fire({
+                        title: "เสร็จสิ้นการให้บริการ?",
+                        icon: "success",
+                        showCancelButton: true,
+                        confirmButtonText: "ใช่",
+                        cancelButtonText: "ยกเลิก",
+                        reverseButtons: true,
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          markAsDone(d._id).then(() =>
+                            Swal.fire({
+                              title: "ให้บริการเสร็จสิ้นแล้ว",
+                              showConfirmButton: false,
+                              icon: "success",
+                              timer: 1000,
+                            })
+                          );
+                        } else if (
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
                           Swal.fire({
-                            title: "ให้บริการเสร็จสิ้นแล้ว",
+                            title: "ยกเลิก",
                             showConfirmButton: false,
-                            icon: "success",
-                            timer: 1000,
-                          })
-                        );
-                      } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire({
-                          title: "ยกเลิก",
-                          showConfirmButton: false,
-                          icon: "error",
-                          timer: 800,
-                        });
-                      }
-                    })
-                  }
-                />
-              )}
+                            icon: "error",
+                            timer: 800,
+                          });
+                        }
+                      })
+                    }
+                  />
+                )}
             </td>
             <td>
               <Tooltip title="ลบ" placement="top">

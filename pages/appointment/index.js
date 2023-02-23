@@ -122,7 +122,7 @@ const Appointment = ({ user }) => {
                 clinicData={clinicData}
                 user={user}
                 courseData={courseData}
-                availData={availData}
+                availables={availData}
               />
             </div>
             {list.map((item) => (

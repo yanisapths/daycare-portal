@@ -21,6 +21,7 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
   const [selectedId, setSelectedId] = useState(null);
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
+  const left = (eventList.length + 1) % course.amount;
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -33,30 +34,6 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
   const closeModal = () => {
     setSelectedId(null);
   };
-
-  async function Finalized(appointmentId) {
-    const option = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ status: "Done" }),
-    };
-    const res = await fetch(
-      `${process.env.dev}/appointment/accept/${appointmentId}`,
-      option
-    )
-      .then(async (res) => {})
-      .catch((err) => {
-        console.log("ERROR: ", err);
-      });
-  }
-
-  useEffect(() => {
-    {
-      eventList.map((e, index) => {
-        e.status == "Done" ? Finalized(e.appointment_id) : "";
-      });
-    }
-  }, []);
 
   async function markAsDone(appointmentId) {
     const option = {
@@ -102,6 +79,19 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
 
   useEffect(() => {
     fetchData();
+    {
+      eventList.map((e) => {
+        e.status == "Done" &&
+          d.status == "Approved" &&
+          d.progressStatus == "Done" &&
+          left == 0 && (Finalized(e.appointment_id));
+      });
+    }
+    {
+      d.status == "Approved" &&
+        d.progressStatus == "Done" &&
+        left == 0 && (Finalized(d._id));
+    }
   }, []);
 
   useEffect(() => {
@@ -115,6 +105,22 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
       })
       .catch((err) => console.log(err));
   }, []);
+
+  function Finalized(appointmentId) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Done" }),
+    };
+    const res = fetch(
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      option
+    )
+      .then((res) => {})
+      .catch((err) => {
+        console.log("ERROR: ", err);
+      });
+    }
 
   return (
     <>

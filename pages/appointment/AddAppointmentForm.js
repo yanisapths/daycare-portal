@@ -17,8 +17,10 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import TextField from "@mui/material/TextField";
 import TimeModal from "./TimeModal";
+import SmallCalendar from "../../components/calendar/SmallCalendar";
 
 import "react-datepicker/dist/react-datepicker.css";
+import dayjs from "dayjs";
 
 const place = [
   { id: 1, label: "คลินิก" },
@@ -38,7 +40,7 @@ function AddAppointmentForm({
   open,
   handleClose,
   setOpen,
-  availData,
+  availables,
   courseData,
 }) {
   const { data: session, status } = useSession();
@@ -47,6 +49,9 @@ function AddAppointmentForm({
   const [appointmentTime, setAppointmentTime] = useState("");
   const [endTime, setEndTime] = useState("");
   const [openCalendar, setOpenCalendar] = useState(false);
+  const currentDate = dayjs();
+  const [today, setToday] = useState(currentDate);
+  const [selectedDate, setSelectedDate] = useState(currentDate);
 
   const {
     register,
@@ -86,11 +91,19 @@ function AddAppointmentForm({
     setAppointmentTime(appointmentTime);
     setEndTime(endTime);
   }
+  function removeSelectedDate() {
+    setAppointmentDate();
+    setAppointmentTime();
+    setEndTime();
+  }
 
   const onSubmit = async (data) => {
     console.log(data);
     data.owner_id = user.id;
     data.status = "Approved";
+    data.appointmentDate = appointmentDate;
+    data.appointmentTime = appointmentTime;
+    data.endTime = endTime;
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {
@@ -98,6 +111,10 @@ function AddAppointmentForm({
         "Access-Control-Allow-Origin": "*",
       },
     };
+    console.log(json);
+    console.log(new Date(appointmentDate).toDateString());
+    console.log(new Date(appointmentTime).toTimeString());
+    console.log(new Date(endTime).toTimeString());
     const response = await axios
       .post(
         `${process.env.dev}/appointment/create/${clinicData._id}`,
@@ -360,100 +377,23 @@ function AddAppointmentForm({
                           เลือกวันเวลาที่คลินิกว่าง
                         </p>
                         <div className="border-black/20  border-b-[1px] border-dashed" />
-                        <button
-                          onClick={handleClickOpen}
-                          className="rounded-xl bg-[#A17851]/30 shadow-lg px-10 py-2"
-                        >
-                          <p className="text-[#6C5137] font-semibold text-lg">
-                            เลือกวัน/เวลา
-                          </p>
-                        </button>
-                        <TimeModal
-                          open={openCalendar}
-                          handleClose={handleCloseCalendar}
-                          data={availData}
-                          handleDateSelect={handleDateSelect}
-                          getSelectedDate={getSelectedDate}
-                        />
-                        {appointmentDate && appointmentTime ? (
-                          <div className="text-center whitespace-nowrap space-x-4 flex w-fit px-4 rounded-lg text-[#6C5137] body1 bg-[#ffe898]/30">
-                            <FormControl>
-                              <Controller
-                                control={control}
-                                name="appointmentDate"
-                                render={({ field: { onChange, value } }) => (
-                                  <div>
-                                    <strong
-                                      className="body1 pt-2"
-                                      onChange={onChange}
-                                      {...register("appointmentDate", {
-                                        required: false,
-                                      })}
-                                    >
-                                      {new Date(appointmentDate).toDateString()}
-                                    </strong>
-                                  </div>
-                                )}
-                              />
-                            </FormControl>
-                            <FormControl>
-                              <Controller
-                                control={control}
-                                name="appointmentTime"
-                                render={({ field: { onChange, value } }) => (
-                                  <div className="">
-                                    <strong
-                                      className="body1 pt-2"
-                                      onChange={onChange}
-                                      {...register("appointmentTime", {
-                                        required: false,
-                                      })}
-                                    >
-                                      {new Date(
-                                        appointmentTime
-                                      ).toLocaleTimeString("en-EN", {
-                                        hour: "numeric",
-                                        minute: "2-digit",
-                                        hour12: true,
-                                      })}{" "}
-                                      -{" "}
-                                    </strong>
-                                  </div>
-                                )}
-                              />
-                            </FormControl>
-                            <FormControl>
-                              <Controller
-                                control={control}
-                                name="endTime"
-                                render={({ field: { onChange, value } }) => (
-                                  <div className="">
-                                    <div className="">
-                                      <strong
-                                        className="body1 pt-2"
-                                        onChange={onChange}
-                                        {...register("endTime", {
-                                          required: false,
-                                        })}
-                                      >
-                                        {new Date(endTime).toLocaleTimeString(
-                                          "en-EN",
-                                          {
-                                            hour: "numeric",
-                                            minute: "2-digit",
-                                            hour12: true,
-                                          }
-                                        )}
-                                      </strong>
-                                    </div>
-                                  </div>
-                                )}
-                              />
-                            </FormControl>
+                        <div className="pt-10 px-8">
+                          <div className="col-span-6 pb-6 flex justify-center">
+                            <SmallCalendar
+                              currentDate={currentDate}
+                              today={today}
+                              setToday={setToday}
+                              selectedDate={selectedDate}
+                              setSelectedDate={setSelectedDate}
+                              availables={availables}
+                              getSelectedDate={getSelectedDate}
+                              removeSelectedDate={removeSelectedDate}
+                              appointmentDate={appointmentDate}
+                              appointmentTime={appointmentTime}
+                              endTime={endTime}
+                            />
                           </div>
-                        ) : (
-                          <></>
-                        )}
+                        </div>
                       </section>
                       <div className="col-span-6">
                         <label htmlFor="course" className="inputLabel">
@@ -510,7 +450,8 @@ function AddAppointmentForm({
                                   htmlFor="appointmentPlace"
                                   className="inputLabel"
                                 >
-                                  สถานที่นัดหมาย<span className="text-[#FF2F3B]">*</span>
+                                  สถานที่นัดหมาย
+                                  <span className="text-[#FF2F3B]">*</span>
                                 </label>
                                 <Select
                                   sx={{
