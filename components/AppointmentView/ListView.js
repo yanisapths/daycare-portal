@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import AppointmentTableRow from "../../../components/OLCard/AppointmentTableRow";
+import AppointmentTableRow from "../OLCard/AppointmentTableRow";
 import Box from "@mui/material/Box";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
@@ -12,7 +12,7 @@ const status = [
   { id: 2, label: "ปฏิเสธ/ยกเลิก" },
   { id: 3, label: "เสร็จสิ้น" },
 ];
-function ListView({ data, user, events, staffs }) {
+const ListView = ({ data, user, events, staffs  }) => {
   const [result, setResult] = useState("");
   const handleChange = (event) => {
     setResult(event.target.value);

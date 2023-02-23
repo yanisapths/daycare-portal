@@ -4,8 +4,8 @@ import { useForm, Controller } from "react-hook-form";
 import Router, { useRouter } from "next/router";
 import axios from "axios";
 import toast from "react-hot-toast";
-import PrimaryIconButton from "../../components/OLButton/PrimaryIconButton";
-import SmallCalendar from "../../components/calendar/SmallCalendar";
+import PrimaryIconButton from "../OLButton/PrimaryIconButton";
+import SmallCalendar from "../calendar/SmallCalendar";
 
 import { useTheme } from "@mui/material/styles";
 import FormControl from "@mui/material/FormControl";
