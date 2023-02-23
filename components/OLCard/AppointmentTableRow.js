@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import FormModal from "../../pages/request/FormModal";
-import RequestModal from "../OLModal/RequestModal";
-import BtnCancel from "../BtnCancel";
-import BtnAccept from "../BtnAccept";
 import Overlay from "../OLLayout/Overlay";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
@@ -12,7 +8,6 @@ import IconButton from "@mui/material/IconButton";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import BtnDetails from "../BtnDetails";
 import AppointmentModal from "../OLModal/AppointmentModal";
 
 const CustomTooltip = styled(({ className, ...props }) => (
@@ -147,8 +142,9 @@ function AppointmentTableRow({ d, index, event, user }) {
                 ? "bg-[#2ED477]/5 cursor-pointer hover:bg-[#2ED477]/20 text-[#6C5137]"
                 : d.status == "Rejected"
                 ? "bg-[#FF2F3B]/5 cursor-pointer hover:bg-[#FF2F3B]/20 text-[#6C5137]"
-                :  d.status == "Done"
-                ? "bg-[#4B5563]/5 cursor-pointer hover:bg-[#4B5563]/10 text-[#4B5563]" :"cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
+                : d.status == "Done"
+                ? "bg-[#4B5563]/5 cursor-pointer hover:bg-[#4B5563]/10 text-[#4B5563]"
+                : "cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
             }
           >
             <td className="flex w-24">
@@ -184,16 +180,14 @@ function AppointmentTableRow({ d, index, event, user }) {
                       : "px-3 py-1.5 text-black text-xs font-medium"
                   }
                 >
-                  {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
+                  {new Date(d.appointmentTime).toLocaleTimeString("th-TH", {
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: true,
                   })}
                   {"-"}{" "}
-                  {new Date(d.endTime).toLocaleTimeString("en-EN", {
+                  {new Date(d.endTime).toLocaleTimeString("th-TH", {
                     hour: "2-digit",
                     minute: "2-digit",
-                    hour12: true,
                   })}
                 </p>
               ) : (
@@ -214,9 +208,9 @@ function AppointmentTableRow({ d, index, event, user }) {
             </td>
             <td
               className={
-                d.status == "Done" || d.status == "reviewed" 
-                ? "p-4 text-black/40"
-                : "p-4 text-gray-700 whitespace-nowrap"
+                d.status == "Done" || d.status == "reviewed"
+                  ? "p-4 text-black/40"
+                  : "p-4 text-gray-700 whitespace-nowrap"
               }
             >
               {d.patient_id ? (
@@ -230,47 +224,47 @@ function AppointmentTableRow({ d, index, event, user }) {
               )}
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap">
-                  {d.status == "Approved" ? (
-                    <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
-                      ยืนยันแล้ว
-                    </strong>
+              {d.status == "Approved" ? (
+                <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
+                  ยืนยันแล้ว
+                </strong>
+              ) : (
+                <span className="text-xs font-medium text-[#f35685]">
+                  {d.status == "pending" ? (
+                    "รอยืนยัน"
                   ) : (
-                    <span className="text-xs font-medium text-[#f35685]">
-                      {d.status == "pending" ? (
-                        "รอยืนยัน"
+                    <>
+                      {d.status == "Rejected" ? (
+                        <CustomTooltip
+                          title={
+                            d.rejectReason ? (
+                              <div className="px-2 pb-3">
+                                <div className="p-2">{d.rejectReason}</div>
+                                <div className="px-3 rounded-full ">
+                                  <span className="text-sm text-[#7879F1]">
+                                    {d.tag}
+                                  </span>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )
+                          }
+                          placement="top"
+                        >
+                          <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
+                            ปฏิเสธการให้บริการ
+                          </strong>
+                        </CustomTooltip>
                       ) : (
-                        <>
-                          {d.status == "Rejected" ? (
-                            <CustomTooltip
-                              title={
-                                d.rejectReason ? (
-                                  <div className="px-2 pb-3">
-                                    <div className="p-2">{d.rejectReason}</div>
-                                    <div className="px-3 rounded-full ">
-                                      <span className="text-sm text-[#7879F1]">
-                                        {d.tag}
-                                      </span>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  ""
-                                )
-                              }
-                              placement="top"
-                            >
-                              <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
-                                ปฏิเสธการให้บริการ
-                              </strong>
-                            </CustomTooltip>
-                          ) : (
-                            <strong className="text-black/40 text-xs font-medium">
-                              เสร็จสิ้นการให้บริการ
-                            </strong>
-                          )}
-                        </>
-                      )}{" "}
-                    </span>
-                  )}
+                        <strong className="text-black/40 text-xs font-medium">
+                          เสร็จสิ้นการให้บริการ
+                        </strong>
+                      )}
+                    </>
+                  )}{" "}
+                </span>
+              )}
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap">
               <p className={d.status == "Done" ? "text-black/40" : ""}>
@@ -283,7 +277,7 @@ function AppointmentTableRow({ d, index, event, user }) {
                 d.status != "reviewed" &&
                 d.status != "Rejected" && (
                   <button
-                  className="w-20 h-9 rounded-full bg-[#4B5563]/20 text-[#6C514B556337] hover:bg-[#4B5563]/60 hover:text-white hover:shadow-xl
+                    className="w-20 h-9 rounded-full bg-[#4B5563]/20 text-[#6C514B556337] hover:bg-[#4B5563]/60 hover:text-white hover:shadow-xl
                   sm:text-sm lg:text-base xxxl:h-11 xxxl:text-lg"
                     onClick={() =>
                       Swal.fire({
@@ -314,9 +308,9 @@ function AppointmentTableRow({ d, index, event, user }) {
                         }
                       })
                     }
-                    >
-                      เสร็จสิ้น
-                    </button>
+                  >
+                    เสร็จสิ้น
+                  </button>
                 )}
             </td>
             <td>

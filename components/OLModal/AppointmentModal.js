@@ -448,13 +448,7 @@ function AppointmentModal({
             </Tooltip>
           </div>
           <section className="mb-2 pt-2 text-black/50 border-black/20 border-b-[1px] border-dashed  ">
-            <div
-              className={
-                data.status != "Done" && data.status != "Rejected"
-                  ? "grid grid-cols-5 caption text-lg sm:text-sm justify-center items-center self-center tracking-wide text-center"
-                  : "grid grid-cols-4 caption text-lg sm:text-sm justify-center  items-center  self-center tracking-wide text-center"
-              }
-            >
+            <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
               <div className="">
                 <p>ครั้งที่</p>
               </div>
@@ -472,13 +466,7 @@ function AppointmentModal({
               </div>
             </div>
           </section>
-          <div
-            className={
-              data.status != "Done" && data.status != "Rejected"
-                ? "text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2"
-                : "text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2"
-            }
-          >
+          <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
             <div className=" text-lg md:text-base sm:text-xs ">
               <p className="flex justify-center">1</p>
             </div>
@@ -517,42 +505,79 @@ function AppointmentModal({
                 )}
               </p>
             </div>
-            <div className="flex justify-center items-center">
-              <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center">
-                {data.progressStatus ? data.progressStatus : data.status}
-              </span>
-              <div className="sm:hidden flex justify-center items-center">
-                <StatusCheckIcon
-                  icon={<CheckCircleIcon className="w-5 h-5" />}
-                  text={data.progressStatus ? data.progressStatus : data.status}
-                  bgColor={
-                    data.progressStatus == "Done"
-                      ? "#E0B186"
-                      : data.status == "reviewed"
-                      ? "#7879F1"
-                      : data.status == "Rejected"
-                      ? "#FF2F3B"
-                      : "#2ED477"
-                  }
-                  textColor={
-                    data.progressStatus == "Done"
-                      ? "#E0B186"
-                      : data.status == "reviewed"
-                      ? "#7879F1"
-                      : data.status == "Rejected"
-                      ? "#FF2F3B"
-                      : "#2ED477"
-                  }
-                />
+            {data.progressStatus == "Done" && (
+              <div className="flex justify-center items-center">
+                <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center">
+                  {data.progressStatus ? data.progressStatus : data.status}
+                </span>
+                <div className="sm:hidden flex justify-center items-center">
+                  <StatusCheckIcon
+                    icon={<CheckCircleIcon className="w-5 h-5" />}
+                    text={
+                      data.progressStatus ? data.progressStatus : data.status
+                    }
+                    bgColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                    textColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                  />
+                </div>
               </div>
-            </div>
+            )}
+            {data.status == "Rejected" && (
+              <div className="flex justify-center items-center">
+                <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center">
+                  {data.progressStatus ? data.progressStatus : data.status}
+                </span>
+                <div className="sm:hidden flex justify-center items-center">
+                  <StatusCheckIcon
+                    icon={<CheckCircleIcon className="w-5 h-5" />}
+                    text={
+                      data.progressStatus ? data.progressStatus : data.status
+                    }
+                    bgColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                    textColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                  />
+                </div>
+              </div>
+            )}
             {data.progressStatus != "Done" &&
               data.status != "Rejected" &&
               data.status != "reviewed" &&
               data.status != "Done" && (
-                <div className="flex w-1/6 gap-4">
+                <div className="flex w-1/6 gap-2 lg:gap-4 px-12">
                   <Tooltip title="เสร็จสิ้น" placement="top">
-                    <div className="border-[1px] p-1 rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
+                    <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
                       <IconButton
                         aria-label="delete"
                         size="small"
@@ -594,7 +619,7 @@ function AppointmentModal({
                     </div>
                   </Tooltip>
                   <Tooltip title="ยกเลิกนัด" placement="top">
-                    <div className="border-[1px] p-1 rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                    <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
                       <IconButton
                         aria-label="delete"
                         size="small"
@@ -617,11 +642,7 @@ function AppointmentModal({
             eventList.map((event, index) => {
               return (
                 <div
-                  className={
-                    event.status != "Done"
-                      ? "text-[#121212] grid grid-cols-5 text-center items-center text-lg mb-2 caption w-full gap-2"
-                      : "text-[#121212] grid grid-cols-4 text-center items-center text-lg  mb-2 caption w-full gap-2"
-                  }
+                  className="text-[#121212] grid grid-cols-4 text-center items-center text-lg mb-2 caption w-full gap-2"
                   key={index}
                 >
                   <div className="flex justify-center sm:text-xs pt-0.5">
@@ -675,29 +696,31 @@ function AppointmentModal({
                       ""
                     )}
                   </div>
-                  <div className="items-center">
-                    <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs">
-                      {event.status}
-                    </p>
-                    <div className="flex justify-center">
-                      <div className="sm:hidden flex justify-center items-center">
-                        <StatusCheckIcon
-                          icon={<CheckCircleIcon className="w-5 h-5" />}
-                          text={event.status}
-                          bgColor={
-                            event.status == "Done" ? "#E0B186" : "#2ED477"
-                          }
-                          textColor={
-                            event.status == "Done" ? "#E0B186" : "#2ED477"
-                          }
-                        />
+                  {event.status == "Done" && (
+                    <div className="items-center">
+                      <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs">
+                        {event.status}
+                      </p>
+                      <div className="flex justify-center">
+                        <div className="sm:hidden flex justify-center items-center">
+                          <StatusCheckIcon
+                            icon={<CheckCircleIcon className="w-5 h-5" />}
+                            text={event.status}
+                            bgColor={
+                              event.status == "Done" ? "#E0B186" : "#2ED477"
+                            }
+                            textColor={
+                              event.status == "Done" ? "#E0B186" : "#2ED477"
+                            }
+                          />
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  )}
                   {event.status != "Done" && (
-                    <div className="flex w-1/6 gap-4">
+                    <div className="flex w-1/6 gap-2 lg:gap-4 px-12">
                       <Tooltip title="เสร็จสิ้น" placement="top">
-                        <div className="border-[1px] p-1 rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
+                        <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
                           <IconButton
                             aria-label="delete"
                             size="small"
@@ -739,7 +762,7 @@ function AppointmentModal({
                         </div>
                       </Tooltip>
                       <Tooltip title="ยกเลิกนัด" placement="top">
-                        <div className="border-[1px] p-1 rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                        <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
                           <IconButton
                             aria-label="delete"
                             size="small"
@@ -787,7 +810,7 @@ function AppointmentModal({
             })}
           {fields.map((item, index) => (
             <form
-              className="text-[#121212] grid grid-cols-5 items-center text-center text-lg  w-full  gap-2"
+              className="text-[#121212] grid grid-cols-4 items-center text-center text-lg  w-full  gap-2"
               key={index}
               onSubmit={handleSubmit(onSubmit)}
             >
