@@ -427,114 +427,118 @@ function AppointmentModal({
               </Button>
             </Tooltip>
           </div>
+          {data.status != "Rejected" && (
+            <>
           <section className="mb-2 pt-4 text-black/50 border-black/20 border-b-[1px] border-dashed mx-auto">
-            <div className="flex caption lg:body1 tracking-wide xl:px-12 xl:gap-20">
+              <div className="flex caption lg:body1 tracking-wide xl:px-12 xl:gap-20">
+                <div className="w-1/6">
+                  <p className="">ครั้งที่</p>
+                </div>
+                <div className="w-2/6">
+                  <p>วันนัด</p>
+                </div>
+                <div className="w-2/6">
+                  <p>เวลานัด</p>
+                </div>
+                <div className="w-1/6">
+                  <p>สถานะ</p>
+                </div>
+                <div className="w-1/6">
+                  <p></p>
+                </div>
+              </div>
+            </section>
+            <div className="text-[#121212] flex xl:text-center p-2 mb-1 caption md:h6 lg:h5 w-full mx-auto gap-5 md:gap-2 lg:gap-2 xl:gap-2">
+              <div className="xl:w-1/6 w-1/12">
+                <p>1</p>
+              </div>
+              <div className="xl:w-2/6 w-5/12">
+                <p>
+                  {new Date(data.appointmentDate).toLocaleDateString("th-TH", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </p>
+              </div>
+              <div className="xl:w-2/6 w-5/12">
+                <p>
+                  {new Date(data.appointmentTime).toLocaleTimeString("th-TH", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
+                  {data.endTime ? (
+                    <>
+                      {" - "}
+                      {new Date(data.endTime).toLocaleTimeString("th-TH", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                      })}
+                    </>
+                  ) : (
+                    <></>
+                  )}
+                </p>
+              </div>
               <div className="w-1/6">
-                <p className="">ครั้งที่</p>
-              </div>
-              <div className="w-2/6">
-                <p>วันนัด</p>
-              </div>
-              <div className="w-2/6">
-                <p>เวลานัด</p>
-              </div>
-              <div className="w-1/6">
-                <p>สถานะ</p>
-              </div>
-              <div className="w-1/6">
-                <p></p>
-              </div>
-            </div>
-          </section>
-          <div className="text-[#121212] flex xl:text-center p-2 mb-1 caption md:h6 lg:h5 w-full mx-auto gap-5 md:gap-2 lg:gap-2 xl:gap-2">
-            <div className="xl:w-1/6 w-1/12">
-              <p>1</p>
-            </div>
-            <div className="xl:w-2/6 w-5/12">
-              <p>
-                {new Date(data.appointmentDate).toLocaleDateString("th-TH", {
-                  year: "numeric",
-                  month: "long",
-                  day: "numeric",
-                })}
-              </p>
-            </div>
-            <div className="xl:w-2/6 w-5/12">
-              <p>
-                {new Date(data.appointmentTime).toLocaleTimeString("th-TH", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                })}
-                {data.endTime ? (
-                  <>
-                    {" - "}
-                    {new Date(data.endTime).toLocaleTimeString("th-TH", {
-                      hour: "2-digit",
-                      minute: "2-digit",
-                    })}
-                  </>
-                ) : (
-                  <></>
-                )}
-              </p>
-            </div>
-            <div className="w-1/6">
-              {data.progressStatus == "Done" &&
-                  <StatusCheckIcon
-                icon={<CheckCircleIcon />}
-                text={data.progressStatus ? data.progressStatus : data.status}
-                bgColor="#E0B186"
-                textColor="#E0B186"
-              /> 
-              }
-              {data.progressStatus != "Done" && (
-                <Tooltip title="เสร็จสิ้น" placement="top">
-                  <div className="border-2 rounded-full w-fit h-fit hover:bg-[#E0B186]/20 hover:border-[#E0B186]/20">
-                    <IconButton
-                      aria-label="delete"
-                      size="small"
-                      className="text-[#E0B186]"
-                      onClick={() =>
-                        Swal.fire({
-                          title: "เสร็จสิ้นการให้บริการ?",
-                          text: "ไม่สามารถย้อนกลับได้",
-                          icon: "warning",
-                          showCancelButton: true,
-                          confirmButtonText: "ใช่ เสร็จสิ้น!",
-                          cancelButtonText: "ยกเลิก",
-                          reverseButtons: true,
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            markAsDone(data._id).then(() =>
+                {data.progressStatus == "Done" &&
+                    <StatusCheckIcon
+                  icon={<CheckCircleIcon />}
+                  text={data.progressStatus ? data.progressStatus : data.status}
+                  bgColor="#E0B186"
+                  textColor="#E0B186"
+                /> 
+                }
+                {data.progressStatus != "Done" && (
+                  <Tooltip title="เสร็จสิ้น" placement="top">
+                    <div className="border-2 rounded-full w-fit h-fit hover:bg-[#E0B186]/20 hover:border-[#E0B186]/20">
+                      <IconButton
+                        aria-label="delete"
+                        size="small"
+                        className="text-[#E0B186]"
+                        onClick={() =>
+                          Swal.fire({
+                            title: "เสร็จสิ้นการให้บริการ?",
+                            text: "ไม่สามารถย้อนกลับได้",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "ใช่ เสร็จสิ้น!",
+                            cancelButtonText: "ยกเลิก",
+                            reverseButtons: true,
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              markAsDone(data._id).then(() =>
+                                Swal.fire({
+                                  title: "เสร็จสิ้นแล้ว",
+                                  showConfirmButton: false,
+                                  icon: "success",
+                                  timer: 1000,
+                                })
+                              );
+                            } else if (
+                              result.dismiss === Swal.DismissReason.cancel
+                            ) {
                               Swal.fire({
-                                title: "เสร็จสิ้นแล้ว",
+                                title: "ยกเลิก :)",
                                 showConfirmButton: false,
-                                icon: "success",
+                                icon: "error",
                                 timer: 1000,
-                              })
-                            );
-                          } else if (
-                            result.dismiss === Swal.DismissReason.cancel
-                          ) {
-                            Swal.fire({
-                              title: "ยกเลิก :)",
-                              showConfirmButton: false,
-                              icon: "error",
-                              timer: 1000,
-                            });
-                          }
-                        })
-                      }
-                    >
-                      <CheckIcon />
-                    </IconButton>
-                  </div>
-                </Tooltip>
-              )}
-            </div>
-            <div className="w-1/6">
-            </div>
-          </div>
+                              });
+                            }
+                          })
+                        }
+                      >
+                        <CheckIcon />
+                      </IconButton>
+                    </div>
+                  </Tooltip>
+                )}
+              </div>
+              <div className="w-1/6">
+              </div>
+            </div> 
+            </>
+          )}
           {eventList.map((event, index) => {
             return (
               <div
@@ -779,7 +783,7 @@ function AppointmentModal({
           </motion.div>
         ) : (
           <motion.div className="flex justify-center pt-16">
-            {data.status != "reviewed" && data.status != "rejected" && (
+            {data.status != "reviewed" && data.status != "Rejected" && (
               <CircleIconButton
                 handleClick={() =>
                   append({
