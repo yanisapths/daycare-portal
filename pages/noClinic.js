@@ -53,7 +53,7 @@ const NoClinic = () => {
                       sm:landscape:text-base md:text-base sm:text-base lg:text-base xxl:text-lg xxxl:text-3xl   "
                   >
                     {" "}
-                    Add Daycare{" "}
+                    Create Clinic{" "}
                   </span>
                   <AddHomeIcon className="xxxl:w-10 xxxl:h-10" />
                 </div>

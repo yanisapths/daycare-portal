@@ -5,9 +5,9 @@ import Head from "next/head";
 import BtnAdd from "../../components/common/BtnAdd";
 import IconButton from "../../components/common/OLIconButton";
 import Header from "../../components/Header";
-import ListView from "./appointment_view/ListView";
+import ListView from "../../components/AppointmentView/ListView";
 import CalendarView from "./appointment_view/CalendarView";
-import AddAppointmentForm from "./AddAppointmentForm";
+import AddAppointmentForm from "../../components/OLForm/AddAppointmentForm"
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
@@ -122,7 +122,7 @@ const Appointment = ({ user }) => {
                 clinicData={clinicData}
                 user={user}
                 courseData={courseData}
-                availData={availData}
+                availables={availData}
               />
             </div>
             {list.map((item) => (

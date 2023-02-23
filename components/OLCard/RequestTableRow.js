@@ -162,16 +162,14 @@ function RequestTableRow({ d, index }) {
                     : "px-3 py-1.5 text-black text-xs font-medium"
                 }
               >
-                {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
-                  hour: "2-digit",
+                {new Date(d.appointmentTime).toLocaleTimeString("th-TH", {
+                  hour: "numeric",
                   minute: "2-digit",
-                  hour12: true,
                 })}
                 {"-"}{" "}
-                {new Date(d.endTime).toLocaleTimeString("en-EN", {
-                  hour: "2-digit",
+                {new Date(d.endTime).toLocaleTimeString("th-TH", {
+                  hour: "numeric",
                   minute: "2-digit",
-                  hour12: true,
                 })}
               </p>
             ) : (

@@ -35,7 +35,7 @@ function LinkGridCard({ data }) {
           </div>
         </Link>
 
-        <Link href="/schedule">
+        <Link href="/availability">
           <div className="linkGridCardContainer">
             <EventAvailableIcon className="h-10 w-10" />
             <h2 className="mt-4 text-xl font-bold ">Available Slot</h2>

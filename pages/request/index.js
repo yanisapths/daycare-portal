@@ -4,10 +4,8 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "../../components/Header";
 import ListView from "./request_view/ListView";
-import BtnAdd from "../../components/common/BtnAdd";
 import IconButton from "../../components/common/OLIconButton";
 import TableView from "./request_view/TableView";
-import AddRequestForm from "./AddRequestForm";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
@@ -112,19 +110,6 @@ const Request = ({user}) => {
         <div className="main xl:px-12 md:px-8 px-4">
           <h2 className="pageTitle">คำขอดูแล</h2>
           <div className="font-semibold text-[#6C5137] flex justify-end">
-            <div className="pt-2 xl:px-6">
-              <BtnAdd onClick={handleClickOpen}/>
-              <AddRequestForm
-                open={open}
-                setOpen={setOpen}
-                handleClose={handleClose}
-                patientData={patientData}
-                clinicData={clinicData}
-                user={user}
-                courseData={courseData}
-                availData={availData}
-              />
-            </div>
             {list.map((item) => (
               <div
                 key={item.id}

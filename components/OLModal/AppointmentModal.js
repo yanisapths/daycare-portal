@@ -9,8 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import CircleIcon from "../../components/OLIcon/CircleIcon";
 import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import CircleIconButton from "../../components/OLButton/CircleIconButton";
-import BtnDetails from "../BtnDetails";
 import SimpleChip from "../OLButton/SimpleChip";
+import FormModal from "../../pages/request/FormModal";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Button } from "@mui/material";
@@ -27,7 +27,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FormControl from "@mui/material/FormControl";
 import ReactDatePicker from "react-datepicker";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
 import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
@@ -43,8 +43,16 @@ function AppointmentModal({
   course,
   index,
 }) {
+  const [open, setOpen] = useState(false);
   let count = [];
   const event = data.events.length + 1;
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
 
   async function deleteEvent(eid) {
     const res = await fetch(`${process.env.dev}/event/delete/${eid}`, {
@@ -64,7 +72,14 @@ function AppointmentModal({
     count.push((props) => <div>{props.children}</div>);
   }
 
-  async function finishTask(appointmentId) {
+  useEffect(() => {
+    {
+      eventList.map((e, index) => {
+        e.status == "Done" ? Finalized(e.appointment_id) : "";
+      });
+    }
+  }, []);
+  async function Finalized(appointmentId) {
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -74,12 +89,9 @@ function AppointmentModal({
       `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
-      .then(async (res) => {
-        Router.reload();
-      })
+      .then(async (res) => {})
       .catch((err) => {
         console.log("ERROR: ", err);
-        toast.error("ไม่สำเร็จ");
       });
   }
 
@@ -112,14 +124,50 @@ function AppointmentModal({
     const response = await axios
       .post(url, json, axiosConfig)
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.req);
         toast.success("กำลังเพิ่มนัด...🛠️🚧");
         Router.reload();
       })
       .catch((err) => {
         console.log("AXIOS ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
       });
   };
+
+  async function finishTask(eid) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Done" }),
+    };
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
+      .then(async (res) => {
+        toast.success("สำเร็จ");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
+  async function markAsDone(appointmentId) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ progressStatus: "Done" }),
+    };
+    const res = await fetch(
+      `${process.env.dev}/appointment/markdone/${appointmentId}`,
+      option
+    )
+      .then(async (res) => {
+        toast.success("สำเร็จ");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
 
   return (
     <AnimatePresence>
@@ -290,7 +338,7 @@ function AppointmentModal({
                         {data.description}
                       </span>
                     ) : (
-                      "-"
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
@@ -400,7 +448,7 @@ function AppointmentModal({
             </Tooltip>
           </div>
           <section className="mb-2 pt-2 text-black/50 border-black/20 border-b-[1px] border-dashed  ">
-            <div className=" grid grid-cols-4 caption text-lg sm:text-sm justify-center  items-center  self-center tracking-wide text-center  ">
+            <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
               <div className="">
                 <p>ครั้งที่</p>
               </div>
@@ -418,12 +466,12 @@ function AppointmentModal({
               </div>
             </div>
           </section>
-          <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption  w-full  gap-2">
+          <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
             <div className=" text-lg md:text-base sm:text-xs ">
               <p className="flex justify-center">1</p>
             </div>
             <div className=" text-lg md:text-[20px] sm:text-xs flex justify-center items-center">
-              <p className="md:hidden sm:hidden ">
+              <p className="md:hidden sm:hidden">
                 {new Date(data.appointmentDate).toLocaleDateString("th-TH", {
                   year: "numeric",
                   month: "long",
@@ -438,7 +486,7 @@ function AppointmentModal({
                 })}
               </p>
             </div>
-            <div className=" text-lg sm:text-xs text-center ">
+            <div className="text-lg sm:text-xs text-center">
               <p className="text-center">
                 {new Date(data.appointmentTime).toLocaleTimeString("th-TH", {
                   hour: "2-digit",
@@ -457,152 +505,309 @@ function AppointmentModal({
                 )}
               </p>
             </div>
-            <div className="flex justify-center items-center ">
-              <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center ">
-                {data.progressStatus ? data.progressStatus : data.status}
-              </span>
-              <div className="sm:hidden  flex justify-center items-center ">
-                <StatusCheckIcon
-                  icon={<CheckCircleIcon className="w-5 h-5" />}
-                  text={data.progressStatus ? data.progressStatus : data.status}
-                  bgColor={
-                    data.progressStatus == "Done"
-                      ? "#E0B186"
-                      : data.status == "reviewed"
-                      ? "#7879F1"
-                      : data.status == "Rejected"
-                      ? "#FF2F3B"
-                      :"#2ED477"
-                  }
-                  textColor={
-                    data.progressStatus == "Done"
-                      ? "#E0B186"
-                      : data.status == "reviewed"
-                      ? "#7879F1"
-                      : data.status == "Rejected"
-                      ? "#FF2F3B"
-                      : "#2ED477"
-                  }
-                />
+            {data.progressStatus == "Done" && (
+              <div className="flex justify-center items-center">
+                <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center">
+                  {data.progressStatus ? data.progressStatus : data.status}
+                </span>
+                <div className="sm:hidden flex justify-center items-center">
+                  <StatusCheckIcon
+                    icon={<CheckCircleIcon className="w-5 h-5" />}
+                    text={
+                      data.progressStatus ? data.progressStatus : data.status
+                    }
+                    bgColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                    textColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                  />
+                </div>
               </div>
-            </div>
-          </div>
-          {eventList.map((event, index) => {
-            return (
-              <div
-                className="text-[#121212] grid grid-cols-4 text-center items-center text-lg  mb-2 caption w-full gap-2"
-                key={index}
-              >
-                <div className="flex justify-center sm:text-xs pt-0.5">
-                  <p>{index + 2}</p>
+            )}
+            {data.status == "Rejected" && (
+              <div className="flex justify-center items-center">
+                <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center">
+                  {data.progressStatus ? data.progressStatus : data.status}
+                </span>
+                <div className="sm:hidden flex justify-center items-center">
+                  <StatusCheckIcon
+                    icon={<CheckCircleIcon className="w-5 h-5" />}
+                    text={
+                      data.progressStatus ? data.progressStatus : data.status
+                    }
+                    bgColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                    textColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                  />
                 </div>
-                <div className="sm:text-xs flex justify-center items-center ">
-                  {event.date ? (
-                    <>
-                      <p className="md:hidden sm:hidden">
-                        {new Date(event.date).toLocaleDateString("th-TH", {
-                          year: "numeric",
-                          month: "long",
-                          day: "numeric",
-                        })}
-                      </p>
-                      <p className="lg:hidden xl:hidden xxl:hidden">
-                        {new Date(event.date).toLocaleDateString("th-TH", {
-                          year: "numeric",
-                          month: "numeric",
-                          day: "numeric",
-                        })}
-                      </p>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="flex justify-center items-center sm:text-xs">
-                  {event.startTime ? (
-                    <p>
-                      {new Date(event.startTime).toLocaleTimeString("th-TH", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                      {event.endTime ? (
-                        <>
-                          {" - "}
-                          {new Date(event.endTime).toLocaleTimeString("th-TH", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className=" flex items-center ">
-                  <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs ">
-                    {event.status}
-                  </p>
-                  <div className="flex justify-center ">
-                    <div className="invisible md:visible xl:visible lg:visible text-sm md:pl-4 lg:pl-8">
-                      <StatusCheckIcon
-                        icon={<CheckCircleIcon className="w-4 h-4" />}
-                        text={event.status}
-                        bgColor={event.status == "Done" ? "#E0B186" : "#2ED477"}
-                        textColor={
-                          event.status == "Done" ? "#E0B186" : "#2ED477"
-                        }
-                      />
-                    </div>
-                    <div className="flex justify-center items-center">
-                      <Tooltip title="ยกเลิกนัด" placement="top">
-                        <IconButton
-                          aria-label="delete"
-                          size="small"
-                          className="text-[#FF2F3B]"
-                          onClick={() =>
-                            Swal.fire({
-                              title: "ยกเลิกนัดนี้?",
-                              text: "หากยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
-                              icon: "warning",
-                              showCancelButton: true,
-                              confirmButtonText: "ใช่ ลบเลย!",
-                              cancelButtonText: "ยกเลิก",
-                              reverseButtons: true,
-                            }).then((result) => {
-                              if (result.isConfirmed) {
-                                deleteEvent(event._id).then(() =>
-                                  Swal.fire({
-                                    title: "ยกเลิกแล้ว",
-                                    showConfirmButton: false,
-                                    icon: "success",
-                                    timer: 1000,
-                                  })
-                                );
-                              } else if (
-                                result.dismiss === Swal.DismissReason.cancel
-                              ) {
+              </div>
+            )}
+            {data.progressStatus != "Done" &&
+              data.status != "Rejected" &&
+              data.status != "reviewed" &&
+              data.status != "Done" && (
+                <div className="flex w-1/6 gap-2 lg:gap-4 px-12">
+                  <Tooltip title="เสร็จสิ้น" placement="top">
+                    <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
+                      <IconButton
+                        aria-label="delete"
+                        size="small"
+                        className="text-[#0921FF]"
+                        onClick={() =>
+                          Swal.fire({
+                            title: "เสร็จสิ้นการให้บริการ?",
+                            text: "ไม่สามารถย้อนกลับได้",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "ใช่ เสร็จสิ้น!",
+                            cancelButtonText: "ยกเลิก",
+                            reverseButtons: true,
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              markAsDone(data._id).then(() =>
                                 Swal.fire({
-                                  title: "ไม่ได้ยกเลิกนัด :)",
+                                  title: "เสร็จสิ้นแล้ว",
                                   showConfirmButton: false,
-                                  icon: "error",
+                                  icon: "success",
                                   timer: 1000,
-                                });
+                                })
+                              );
+                            } else if (
+                              result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                              Swal.fire({
+                                title: "ยกเลิก :)",
+                                showConfirmButton: false,
+                                icon: "error",
+                                timer: 1000,
+                              });
+                            }
+                          })
+                        }
+                      >
+                        <CheckIcon />
+                      </IconButton>
+                    </div>
+                  </Tooltip>
+                  <Tooltip title="ยกเลิกนัด" placement="top">
+                    <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                      <IconButton
+                        aria-label="delete"
+                        size="small"
+                        className="text-[#FF2F3B]"
+                        onClick={handleClickOpen}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </div>
+                  </Tooltip>
+                  <FormModal
+                    open={open}
+                    handleClose={handleClose}
+                    request={data}
+                  />
+                </div>
+              )}
+          </div>
+          {data.status != "Rejected" &&
+            eventList.map((event, index) => {
+              return (
+                <div
+                  className="text-[#121212] grid grid-cols-4 text-center items-center text-lg mb-2 caption w-full gap-2"
+                  key={index}
+                >
+                  <div className="flex justify-center sm:text-xs pt-0.5">
+                    <p>{index + 2}</p>
+                  </div>
+                  <div className="sm:text-xs flex justify-center items-center ">
+                    {event.date ? (
+                      <>
+                        <p className="md:hidden sm:hidden">
+                          {new Date(event.date).toLocaleDateString("th-TH", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </p>
+                        <p className="lg:hidden xl:hidden xxl:hidden">
+                          {new Date(event.date).toLocaleDateString("th-TH", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                          })}
+                        </p>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="flex justify-center items-center sm:text-xs">
+                    {event.startTime ? (
+                      <p>
+                        {new Date(event.startTime).toLocaleTimeString("th-TH", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                        {event.endTime ? (
+                          <>
+                            {" - "}
+                            {new Date(event.endTime).toLocaleTimeString(
+                              "th-TH",
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
                               }
-                            })
-                          }
-                        >
-                          <DeleteIcon />
-                        </IconButton>
+                            )}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  {event.status == "Done" && (
+                    <div className="items-center">
+                      <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs">
+                        {event.status}
+                      </p>
+                      <div className="flex justify-center">
+                        <div className="sm:hidden flex justify-center items-center">
+                          <StatusCheckIcon
+                            icon={<CheckCircleIcon className="w-5 h-5" />}
+                            text={event.status}
+                            bgColor={
+                              event.status == "Done" ? "#E0B186" : "#2ED477"
+                            }
+                            textColor={
+                              event.status == "Done" ? "#E0B186" : "#2ED477"
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {event.status != "Done" && (
+                    <div className="flex w-1/6 gap-2 lg:gap-4 px-12">
+                      <Tooltip title="เสร็จสิ้น" placement="top">
+                        <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            className="text-[#0921FF]"
+                            onClick={() =>
+                              Swal.fire({
+                                title: "เสร็จสิ้นการให้บริการ?",
+                                text: "ไม่สามารถย้อนกลับได้",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "ใช่ เสร็จสิ้น!",
+                                cancelButtonText: "ยกเลิก",
+                                reverseButtons: true,
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  finishTask(event._id).then(() =>
+                                    Swal.fire({
+                                      title: "เสร็จสิ้นแล้ว",
+                                      showConfirmButton: false,
+                                      icon: "success",
+                                      timer: 1000,
+                                    })
+                                  );
+                                } else if (
+                                  result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                  Swal.fire({
+                                    title: "ยกเลิก :)",
+                                    showConfirmButton: false,
+                                    icon: "error",
+                                    timer: 1000,
+                                  });
+                                }
+                              })
+                            }
+                          >
+                            <CheckIcon />
+                          </IconButton>
+                        </div>
+                      </Tooltip>
+                      <Tooltip title="ยกเลิกนัด" placement="top">
+                        <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            className="text-[#FF2F3B]"
+                            onClick={() =>
+                              Swal.fire({
+                                title: "ยกเลิกนัดนี้?",
+                                text: "หากยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "ใช่ ลบเลย!",
+                                cancelButtonText: "ยกเลิก",
+                                reverseButtons: true,
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  deleteEvent(event._id).then(() =>
+                                    Swal.fire({
+                                      title: "ยกเลิกแล้ว",
+                                      showConfirmButton: false,
+                                      icon: "success",
+                                      timer: 1000,
+                                    })
+                                  );
+                                } else if (
+                                  result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                  Swal.fire({
+                                    title: "ไม่ได้ยกเลิกนัด :)",
+                                    showConfirmButton: false,
+                                    icon: "error",
+                                    timer: 1000,
+                                  });
+                                }
+                              })
+                            }
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                        </div>
                       </Tooltip>
                     </div>
-                  </div>
+                  )}
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
           {fields.map((item, index) => (
             <form
               className="text-[#121212] grid grid-cols-4 items-center text-center text-lg  w-full  gap-2"
@@ -707,7 +912,7 @@ function AppointmentModal({
           " "
         ) : (
           <motion.div className="flex justify-center pt-16">
-            {data.status != "reviewed" && (
+            {data.status != "reviewed" && data.status != "Rejected" && (
               <CircleIconButton
                 handleClick={() =>
                   append({
