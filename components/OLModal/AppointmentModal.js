@@ -9,8 +9,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import CircleIcon from "../../components/OLIcon/CircleIcon";
 import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import CircleIconButton from "../../components/OLButton/CircleIconButton";
-import BtnDetails from "../BtnDetails";
 import SimpleChip from "../OLButton/SimpleChip";
+import FormModal from "../../pages/request/FormModal";
 
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Button } from "@mui/material";
@@ -27,7 +27,7 @@ import Tooltip from "@mui/material/Tooltip";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import FormControl from "@mui/material/FormControl";
 import ReactDatePicker from "react-datepicker";
-import DeleteIcon from "@mui/icons-material/Delete";
+import CheckIcon from "@mui/icons-material/Check";
 import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
@@ -43,8 +43,16 @@ function AppointmentModal({
   course,
   index,
 }) {
+  const [open, setOpen] = useState(false);
   let count = [];
   const event = data.events.length + 1;
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = (event, reason) => {
+    setOpen(false);
+  };
 
   async function deleteEvent(eid) {
     const res = await fetch(`${process.env.url}/event/delete/${eid}`, {
@@ -64,7 +72,14 @@ function AppointmentModal({
     count.push((props) => <div>{props.children}</div>);
   }
 
-  async function finishTask(appointmentId) {
+  useEffect(() => {
+    {
+      eventList.map((e, index) => {
+        e.status == "Done" ? Finalized(e.appointment_id) : "";
+      });
+    }
+  }, []);
+  async function Finalized(appointmentId) {
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
@@ -74,12 +89,9 @@ function AppointmentModal({
       `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
-      .then(async (res) => {
-        Router.reload();
-      })
+      .then(async (res) => {})
       .catch((err) => {
         console.log("ERROR: ", err);
-        toast.error("ไม่สำเร็จ");
       });
   }
 
@@ -112,19 +124,56 @@ function AppointmentModal({
     const response = await axios
       .post(url, json, axiosConfig)
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.req);
         toast.success("กำลังเพิ่มนัด...🛠️🚧");
         Router.reload();
       })
       .catch((err) => {
         console.log("AXIOS ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
       });
   };
+
+  async function finishTask(eid) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: "Done" }),
+    };
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
+      .then(async (res) => {
+        toast.success("สำเร็จ");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
+  async function markAsDone(appointmentId) {
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ progressStatus: "Done" }),
+    };
+    const res = await fetch(
+      `${process.env.dev}/appointment/markdone/${appointmentId}`,
+      option
+    )
+      .then(async (res) => {
+        toast.success("สำเร็จ");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
 
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll max-h-[500px] md:max-h-[750px] lg:max-h-[750px] scrollbar-hide"
+        className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll 
+        h-[550px] scrollbar-hide"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -168,11 +217,11 @@ function AppointmentModal({
                     {patient.lastName}
                   </span>
                 </motion.h6>
-                <motion.h6 className="flex  md:space-x-10 xl:space-x-10 space-x-2 xl:h6 md:h6 caption">
-                  <div className="flex items-center align-middle gap-2">
+                <motion.h6 className="grid grid-cols-3 sm:grid-cols-2 xl:h6 md:h6 caption">
+                  <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
+                    <span className="body2 text-[#A17851] font-bold ">
                       อายุ{" "}
                     </span>
                     {patient.age ? (
@@ -181,7 +230,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2">
+                  <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<WcIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold">เพศ </span>
@@ -191,13 +240,14 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle md:gap-2 xl:gap-2">
+                  <div className="flex items-center align-middle gap-2  text-base sm:pt-4">
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
                       ข้อควรระวัง{" "}
                     </span>
                     {patient.precaution ? (
                       <span className="text-[#FF2F3B]">
+                        {" "}
                         {patient.precaution}
                       </span>
                     ) : (
@@ -205,7 +255,7 @@ function AppointmentModal({
                     )}
                   </div>
                 </motion.h6>
-                <motion.h6 className="flex md:space-x-24 xl:space-x-24 space-x-4 xl:h6 md:h6 caption">
+                <motion.h6 className="grid grid-cols-3 sm:grid-cols-1 sm:gap-2 xl:h6 md:h6 caption text-base">
                   <div className="flex items-center align-middle gap-2">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
@@ -215,10 +265,10 @@ function AppointmentModal({
                     {patient.phoneNumber ? (
                       patient.phoneNumber
                     ) : (
-                      <span className="text-sm text-black/40">-</span>
+                      <span className="text-sm text-black/40"> -</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle md:gap-2 xl:gap-2">
+                  <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
@@ -232,10 +282,10 @@ function AppointmentModal({
                   </div>
                 </motion.h6>
                 <motion.h6>
-                  <div className="flex items-center align-middle gap-2 xl:h6 md:h6 caption">
+                  <div className="flex items-start align-start gap-2 xl:h6 md:h6 caption text-base">
                     {" "}
                     <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
+                    <span className="body2 text-[#A17851] font-bold sm:w-20">
                       ที่อยู่{" "}
                     </span>
                     {patient.address ? (
@@ -253,8 +303,8 @@ function AppointmentModal({
                     ( {data.nickName} ) {data.firstName} {data.lastName}
                   </span>
                 </motion.h6>
-                <motion.h6 className="flex space-x-10">
-                  <div className="flex items-center align-middle gap-2">
+                <motion.h6 className="grid grid-cols-3 sm:grid-cols-2 xl:h6 md:h6 caption">
+                  <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold">
@@ -266,7 +316,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2">
+                  <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<WcIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold">เพศ </span>
@@ -276,21 +326,24 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2">
+                  <div className="flex items-center gap-2 text-base sm:pt-4">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
-                      ข้อควรระวัง{" "}
-                    </span>{" "}
+                    <span className="body2 text-[#A17851] font-bold xl:w-20">
+                      ข้อควรระวัง
+                    </span>
                     {data.description ? (
-                      <span className="text-[#FF2F3B]">{data.description}</span>
+                      <span className="text-[#FF2F3B]  flex items-start justify-start ">
+                        {" "}
+                        {data.description}
+                      </span>
                     ) : (
-                      "-"
+                      <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
                 </motion.h6>
-                <motion.h6 className="flex space-x-24">
-                  <div className="flex items-center align-middle gap-2">
+                <motion.h6 className="grid grid-cols-3 sm:grid-cols-1 xl:h6 md:h6 caption  text-base">
+                  <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold">
@@ -302,7 +355,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2">
+                  <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold">
@@ -316,7 +369,7 @@ function AppointmentModal({
                   </div>
                 </motion.h6>
                 <motion.h6>
-                  <div className="flex items-center align-middle gap-2">
+                  <div className="flex items-start align-start gap-2 xl:h6 md:h6 caption text-base">
                     {" "}
                     <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold">
@@ -332,7 +385,7 @@ function AppointmentModal({
               </div>
             )}
             <div className="pt-4 h6">
-              <div className="flex items-center align-middle gap-2">
+              <div className="flex items-center align-middle gap-2 text-base">
                 {" "}
                 <CircleIcon icon={<MeetingRoomIcon className="text-sm" />} />
                 <span className="body2 text-[#A17851] font-bold">
@@ -355,29 +408,37 @@ function AppointmentModal({
                 </div>
               </div>
             </Link>
-            <motion.div className="flex justify-center gap-2 pt-2 px-40 md:px-0 lg:px-0 xl:px-0">
-              <SimpleChip
-                prefix="จำนวน"
-                text={course.amount}
-                quantify="ครั้ง"
-              />
-              <SimpleChip
-                prefix="ราคา"
-                text={course.totalPrice}
-                quantify="บาท"
-              />
-              <SimpleChip
-                prefix="ครั้งละ"
-                text={course.duration}
-                quantify="ชั่วโมง"
-              />
+            <motion.div className=" flex justify-center pt-2 gap-2 ">
+              <div className="grid grid-cols-3 w-fit sm:grid-cols-2 sm:gap-2 ">
+                <div className=" flex justify-center">
+                  <SimpleChip
+                    prefix="จำนวน"
+                    text={course.amount}
+                    quantify="ครั้ง"
+                  />
+                </div>
+                <div className=" flex justify-center">
+                  <SimpleChip
+                    prefix="ราคา"
+                    text={course.totalPrice}
+                    quantify="บาท"
+                  />
+                </div>
+                <div className=" flex justify-center sm:col-span-2">
+                  <SimpleChip
+                    prefix="ครั้งละ"
+                    text={course.duration}
+                    quantify="ชั่วโมง"
+                  />
+                </div>
+              </div>
             </motion.div>
           </div>
           <div className="flex justify-center text-black/60 align-middle gap-2 py-2">
             <Tooltip placement="top" title="Click To Copy">
               <Button
                 sx={{ borderRadius: 16, px: 2 }}
-                endIcon={<ContentCopyIcon size="small"/>}
+                endIcon={<ContentCopyIcon size="small" />}
                 onClick={() => {
                   navigator.clipboard.writeText(data._id);
                 }}
@@ -386,40 +447,47 @@ function AppointmentModal({
               </Button>
             </Tooltip>
           </div>
-          <section className="mb-2 pt-4 text-black/50 border-black/20 border-b-[1px] border-dashed mx-auto">
-            <div className="flex caption lg:body1 tracking-wide xl:px-12 xl:gap-20">
-              <div className="w-1/6">
-                <p className="">ครั้งที่</p>
+          <section className="mb-2 pt-2 text-black/50 border-black/20 border-b-[1px] border-dashed  ">
+            <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
+              <div className="">
+                <p>ครั้งที่</p>
               </div>
-              <div className="w-2/6">
+              <div className="">
                 <p>วันนัด</p>
               </div>
-              <div className="w-2/6">
+              <div className="">
                 <p>เวลานัด</p>
               </div>
-              <div className="w-1/6">
+              <div className="">
                 <p>สถานะ</p>
               </div>
-              <div className="w-1/6">
+              <div>
                 <p></p>
               </div>
             </div>
           </section>
-          <div className="text-[#121212] flex xl:text-center p-2 mb-1 caption md:h6 lg:h5 w-full mx-auto gap-5 md:gap-2 lg:gap-2 xl:gap-2">
-            <div className="xl:w-1/6 w-1/12">
-              <p>1</p>
+          <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
+            <div className=" text-lg md:text-base sm:text-xs ">
+              <p className="flex justify-center">1</p>
             </div>
-            <div className="xl:w-2/6 w-5/12">
-              <p>
+            <div className=" text-lg md:text-[20px] sm:text-xs flex justify-center items-center">
+              <p className="md:hidden sm:hidden">
                 {new Date(data.appointmentDate).toLocaleDateString("th-TH", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
                 })}
               </p>
+              <p className="lg:hidden xl:hidden xxl:hidden">
+                {new Date(data.appointmentDate).toLocaleDateString("th-TH", {
+                  year: "numeric",
+                  month: "numeric",
+                  day: "numeric",
+                })}
+              </p>
             </div>
-            <div className="xl:w-2/6 w-5/12">
-              <p>
+            <div className="text-lg sm:text-xs text-center">
+              <p className="text-center">
                 {new Date(data.appointmentTime).toLocaleTimeString("th-TH", {
                   hour: "2-digit",
                   minute: "2-digit",
@@ -437,142 +505,319 @@ function AppointmentModal({
                 )}
               </p>
             </div>
-            <p className="w-1/6 text-[#2ED477]/80 md:invisible lg:invisible xl:invisible lg:w-0 xl:w-0">
-              {data.progressStatus ? data.progressStatus : data.status}
-            </p>
-            <div className="invisible md:visible xl:visible xl:w-1/6 lg:w-1/6 md:w-1/6 w-0">
-              <StatusCheckIcon
-                icon={<CheckCircleIcon />}
-                text={data.progressStatus ? data.progressStatus : data.status}
-                bgColor={
-                  data.progressStatus == "Done"
-                    ? "#E0B186"
-                    : data.status == "reviewed"
-                    ? "#7879F1"
-                    : "#2ED477"
-                }
-                textColor={
-                  data.progressStatus == "Done"
-                    ? "#E0B186"
-                    : data.status == "reviewed"
-                    ? "#7879F1"
-                    : "#2ED477"
-                }
-              />
-            </div>
-            <div className="w-1/6"></div>
-          </div>
-          {eventList.map((event, index) => {
-            return (
-              <div
-                className="text-[#121212] flex xl:text-center p-2 mb-1 caption md:h6 lg:h5 w-full mx-auto gap-5 md:gap-2 lg:gap-2 xl:gap-2"
-                key={index}
-              >
-                <div className="xl:w-1/6 w-1/12">
-                  <p>{index + 2}</p>
-                </div>
-                <div className="xl:w-2/6 w-5/12">
-                  {event.date ? (
-                    <p>
-                      {new Date(event.date).toLocaleDateString("th-TH", {
-                        year: "numeric",
-                        month: "long",
-                        day: "numeric",
-                      })}
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <div className="xl:w-2/6 w-5/12">
-                  {event.startTime ? (
-                    <p>
-                      {new Date(event.startTime).toLocaleTimeString("th-TH", {
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      })}
-                      {event.endTime ? (
-                        <>
-                          {" - "}
-                          {new Date(event.endTime).toLocaleTimeString("th-TH", {
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          })}
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </p>
-                  ) : (
-                    ""
-                  )}
-                </div>
-                <p className="w-1/6 text-[#2ED477]/80 md:invisible xl:invisible lg:invisible xl:w-0 lg:w-0">
-                  {event.status}
-                </p>
-                <div className="invisible md:visible xl:visible lg:visible xl:w-1/6 md:w-1/6 w-0">
+            {data.progressStatus == "Done" && (
+              <div className="flex justify-center items-center">
+                <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center">
+                  {data.progressStatus ? data.progressStatus : data.status}
+                </span>
+                <div className="sm:hidden flex justify-center items-center">
                   <StatusCheckIcon
-                    icon={<CheckCircleIcon />}
-                    text={event.status}
-                    bgColor={event.status == "Done" ? "#E0B186" : "#2ED477"}
-                    textColor={event.status == "Done" ? "#E0B186" : "#2ED477"}
+                    icon={<CheckCircleIcon className="w-5 h-5" />}
+                    text={
+                      data.progressStatus ? data.progressStatus : data.status
+                    }
+                    bgColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                    textColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
                   />
                 </div>
-                <div className="xl:w-1/6 w-1/12">
-                  <Tooltip title="ยกเลิกนัด" placement="top">
-                    <IconButton
-                      aria-label="delete"
-                      size="small"
-                      className="text-[#FF2F3B]"
-                      onClick={() =>
-                        Swal.fire({
-                          title: "ยกเลิกนัดนี้?",
-                          text: "หากยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
-                          icon: "warning",
-                          showCancelButton: true,
-                          confirmButtonText: "ใช่ ลบเลย!",
-                          cancelButtonText: "ยกเลิก",
-                          reverseButtons: true,
-                        }).then((result) => {
-                          if (result.isConfirmed) {
-                            deleteEvent(event._id).then(() =>
-                              Swal.fire({
-                                title: "ยกเลิกแล้ว",
-                                showConfirmButton: false,
-                                icon: "success",
-                                timer: 1000,
-                              })
-                            );
-                          } else if (
-                            result.dismiss === Swal.DismissReason.cancel
-                          ) {
-                            Swal.fire({
-                              title: "ไม่ได้ยกเลิกนัด :)",
-                              showConfirmButton: false,
-                              icon: "error",
-                              timer: 1000,
-                            });
-                          }
-                        })
-                      }
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  </Tooltip>
+              </div>
+            )}
+            {data.status == "Rejected" && (
+              <div className="flex justify-center items-center">
+                <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center">
+                  {data.progressStatus ? data.progressStatus : data.status}
+                </span>
+                <div className="sm:hidden flex justify-center items-center">
+                  <StatusCheckIcon
+                    icon={<CheckCircleIcon className="w-5 h-5" />}
+                    text={
+                      data.progressStatus ? data.progressStatus : data.status
+                    }
+                    bgColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                    textColor={
+                      data.progressStatus == "Done"
+                        ? "#E0B186"
+                        : data.status == "reviewed"
+                        ? "#7879F1"
+                        : data.status == "Rejected"
+                        ? "#FF2F3B"
+                        : "#2ED477"
+                    }
+                  />
                 </div>
               </div>
-            );
-          })}
+            )}
+            {data.progressStatus != "Done" &&
+              data.status != "Rejected" &&
+              data.status != "reviewed" &&
+              data.status != "Done" && (
+                <div className="flex  gap-2  justify-center">
+                  <Tooltip title="เสร็จสิ้นการนัดครั้งนี้" placement="top">
+                    <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
+                      <IconButton
+                        aria-label="delete"
+                        size="small"
+                        className="text-[#0921FF]"
+                        onClick={() =>
+                          Swal.fire({
+                            title: "เสร็จสิ้นนัดครั้งนี้?",
+                            text: "ไม่สามารถย้อนกลับได้",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "ใช่ เสร็จสิ้น!",
+                            cancelButtonText: "ยกเลิก",
+                            reverseButtons: true,
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              markAsDone(data._id).then(() =>
+                                Swal.fire({
+                                  title: "นัดครั้งนี้เสร็จสิ้นแล้ว",
+                                  showConfirmButton: false,
+                                  icon: "success",
+                                  timer: 1000,
+                                })
+                              );
+                            } else if (
+                              result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                              Swal.fire({
+                                title: "ยกเลิก)",
+                                showConfirmButton: false,
+                                icon: "error",
+                                timer: 1000,
+                              });
+                            }
+                          })
+                        }
+                      >
+                        <CheckIcon />
+                      </IconButton>
+                    </div>
+                  </Tooltip>
+                  <Tooltip title="ยกเลิกการนัดครั้งนี้" placement="top">
+                    <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                      <IconButton
+                        aria-label="delete"
+                        size="small"
+                        className="text-[#FF2F3B]"
+                        onClick={handleClickOpen}
+                      >
+                        <CloseIcon />
+                      </IconButton>
+                    </div>
+                  </Tooltip>
+                  <FormModal
+                    open={open}
+                    handleClose={handleClose}
+                    request={data}
+                  />
+                </div>
+              )}
+          </div>
+          {data.status != "Rejected" &&
+            eventList.map((event, index) => {
+              return (
+                <div
+                  className="text-[#121212] grid grid-cols-4 text-center items-center text-lg mb-2 caption w-full gap-2"
+                  key={index}
+                >
+                  <div className="flex justify-center sm:text-xs pt-0.5">
+                    <p>{index + 2}</p>
+                  </div>
+                  <div className="sm:text-xs flex justify-center items-center ">
+                    {event.date ? (
+                      <>
+                        <p className="md:hidden sm:hidden">
+                          {new Date(event.date).toLocaleDateString("th-TH", {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                          })}
+                        </p>
+                        <p className="lg:hidden xl:hidden xxl:hidden">
+                          {new Date(event.date).toLocaleDateString("th-TH", {
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                          })}
+                        </p>
+                      </>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  <div className="flex justify-center items-center sm:text-xs">
+                    {event.startTime ? (
+                      <p>
+                        {new Date(event.startTime).toLocaleTimeString("th-TH", {
+                          hour: "2-digit",
+                          minute: "2-digit",
+                        })}
+                        {event.endTime ? (
+                          <>
+                            {" - "}
+                            {new Date(event.endTime).toLocaleTimeString(
+                              "th-TH",
+                              {
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              }
+                            )}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </p>
+                    ) : (
+                      ""
+                    )}
+                  </div>
+                  {event.status == "Done" && (
+                    <div className="items-center">
+                      <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs">
+                        {event.status}
+                      </p>
+                      <div className="flex justify-center items-center">
+                        <div className="sm:hidden flex justify-center items-center">
+                          <StatusCheckIcon
+                            icon={<CheckCircleIcon className="w-5 h-5" />}
+                            text={event.status}
+                            bgColor={
+                              event.status == "Done" ? "#E0B186" : "#2ED477"
+                            }
+                            textColor={
+                              event.status == "Done" ? "#E0B186" : "#2ED477"
+                            }
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  {event.status != "Done" && (
+                    <div className="flex  gap-2 justify-center ">
+                      <Tooltip title="เสร็จสิ้นการนัดครั้งนี้" placement="top">
+                        <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            className="text-[#0921FF]"
+                            onClick={() =>
+                              Swal.fire({
+                                title: "เสร็จสิ้นการนัดครั้งนี้?",
+                                text: "ไม่สามารถย้อนกลับได้",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "ใช่ เสร็จสิ้น!",
+                                cancelButtonText: "ยกเลิก",
+                                reverseButtons: true,
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  finishTask(event._id).then(() =>
+                                    Swal.fire({
+                                      title: "นัดครั้งนี้เสร็จสิ้นแล้ว",
+                                      showConfirmButton: false,
+                                      icon: "success",
+                                      timer: 1000,
+                                    })
+                                  );
+                                } else if (
+                                  result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                  Swal.fire({
+                                    title: "ยกเลิก",
+                                    showConfirmButton: false,
+                                    icon: "error",
+                                    timer: 1000,
+                                  });
+                                }
+                              })
+                            }
+                          >
+                            <CheckIcon />
+                          </IconButton>
+                        </div>
+                      </Tooltip>
+                      <Tooltip title="ยกเลิกการนัดครั้งนี้" placement="top">
+                        <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                          <IconButton
+                            aria-label="delete"
+                            size="small"
+                            className="text-[#FF2F3B]"
+                            onClick={() =>
+                              Swal.fire({
+                                title: "ยกเลิกบริการนัดครั้งนี้?",
+                                text: "หากยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
+                                icon: "warning",
+                                showCancelButton: true,
+                                confirmButtonText: "ใช่ ลบเลย!",
+                                cancelButtonText: "ยกเลิก",
+                                reverseButtons: true,
+                              }).then((result) => {
+                                if (result.isConfirmed) {
+                                  deleteEvent(event._id).then(() =>
+                                    Swal.fire({
+                                      title: "ยกเลิกแล้ว",
+                                      showConfirmButton: false,
+                                      icon: "success",
+                                      timer: 1000,
+                                    })
+                                  );
+                                } else if (
+                                  result.dismiss === Swal.DismissReason.cancel
+                                ) {
+                                  Swal.fire({
+                                    title: "ไม่ได้ยกเลิกนัด :)",
+                                    showConfirmButton: false,
+                                    icon: "error",
+                                    timer: 1000,
+                                  });
+                                }
+                              })
+                            }
+                          >
+                            <CloseIcon />
+                          </IconButton>
+                        </div>
+                      </Tooltip>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
           {fields.map((item, index) => (
             <form
-              className="text-[#121212] flex items-center xl:text-center p-1 body1 md:h6 lg:h5 w-full mx-auto gap-2"
+              className="text-[#121212] grid grid-cols-4 items-center text-center text-lg  w-full  gap-2"
               key={index}
               onSubmit={handleSubmit(onSubmit)}
             >
-              <div className="w-1/6">
+              <div className="flex justify-center sm:text-sm">
                 <p>{eventList.length + index + 2}</p>
               </div>
-              <div className="w-2/6">
+              <div className="flex justify-center">
                 <FormControl required>
                   <Controller
                     rules={{ required: true }}
@@ -580,7 +825,7 @@ function AppointmentModal({
                     name="date"
                     render={({ field: { onChange, value } }) => (
                       <ReactDatePicker
-                        className="inputOutline"
+                        className="inputOutline sm:text-xs  text-center"
                         onChange={onChange}
                         selected={value}
                         placeholderText="วัน"
@@ -596,7 +841,7 @@ function AppointmentModal({
                   )}
                 </FormControl>
               </div>
-              <div className="w-2/6 flex gap-4">
+              <div className="flex justify-center sm:flex-col gap-1 ">
                 <FormControl>
                   <Controller
                     rules={{ required: true }}
@@ -605,7 +850,7 @@ function AppointmentModal({
                     render={({ field: { onChange, value } }) => (
                       <DatePicker
                         onChange={onChange}
-                        className="inputOutline"
+                        className="inputOutline sm:text-[9px] md:placeholder:text-[12px] text-center"
                         selected={value}
                         showTimeSelect
                         showTimeSelectOnly
@@ -632,23 +877,24 @@ function AppointmentModal({
                     render={({ field: { onChange, value } }) => (
                       <DatePicker
                         onChange={onChange}
-                        className="inputOutline"
+                        className="inputOutline sm:text-[9px] md:placeholder:text-[12px] text-center "
                         selected={value}
                         showTimeSelect
                         showTimeSelectOnly
                         timeIntervals={15}
                         timeCaption="Time"
                         dateFormat="h:mm aa"
-                        placeholderText="เวลาเสร็จสิ้น"
+                        placeholderText="เสร็จสิ้น"
                       />
                     )}
                   />
                 </FormControl>
               </div>
-              <div className="w-1/6">
+              <div className="">
                 <button
                   type="submit"
-                  className="body2 w-fit h-fit px-6 p-1.5 rounded-full border-2 border-[#AD8259]/60 bg-[#AD8259] text-white hover:bg-[#AD8259]/20 hover:text-[#AD8259]"
+                  className="body2 w-fit h-fit px-6 p-1.5 rounded-full border-2 border-[#AD8259]/60 bg-[#AD8259] text-white hover:bg-[#AD8259]/20 hover:text-[#AD8259]
+                  sm:text-sm sm:px-5 sm:p-1 md:text-sm lg:text-sm"
                 >
                   เพิ่ม
                 </button>
@@ -657,16 +903,23 @@ function AppointmentModal({
           ))}
         </motion.div>
         {eventList.length == course.amount - 1 ? (
-          <motion.div className="text-center pt-4">
+          event.status == "Done" || event.status =="Rejected"?(
+            <motion.div className="text-center pt-4">
             <p className="caption md:h6 xl:h6 pb-2 text-black/50">
-              ไม่สามารถเพิ่มได้เนื่องจากครบจำนวนนัดแล้ว
+              ไม่สามารถเพิ่มนัดได้เนื่องจากครบจำนวนนัดแล้ว
             </p>
           </motion.div>
+          ):(
+            " "
+          )
+          
+        ) : data.status == "Rejected" ? (
+          " "
         ) : (
           <motion.div className="flex justify-center pt-16">
-            {data.status != "reviewed" && (
+            {data.status != "reviewed" && data.status != "Rejected" && (
               <CircleIconButton
-               handleClick={() =>
+                handleClick={() =>
                   append({
                     date: "",
                     startTime: "",

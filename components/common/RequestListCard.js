@@ -78,6 +78,7 @@ function RequestListCard({ data, request, staffs }) {
       option
     )
       .then(async (res) => {
+        toast.success("ยอมรับคำขอสำเร็จ");
         Router.reload();
       })
       .catch((err) => {
@@ -138,33 +139,35 @@ function RequestListCard({ data, request, staffs }) {
                         )}
                       </div>
                       <div className="sm:w-full">
-                        <RoundTextIcon
-                          icon={<BookmarksIcon className="w-5 h-5" />}
+                        <RoundTextIcon className="text-sm"
+                          icon={<BookmarksIcon className="w-4 h-4" />}
                           text={course.courseName}
                         />
                       </div>
                     </div>
-                    <div className="col-start-1 col-span-6">
-                      <span className="text-[#969696]">
-                        <CalendarMonthIcon />
+                    <div className="col-start-1 col-span-6 ">
+                      <span className="  justify-center">
+                        {/* <CalendarMonthIcon/> */}
+                        วันที่ขอรับบริการ:
                       </span>
-                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
+                      <span className="text-[#969696] mx-2 xxl:mx-4 text-base">
                         {new Date(request.appointmentDate).toLocaleDateString(
                           "th-TH",
                           {
-                            month: "long",
-                            day: "2-digit",
                             year: "numeric",
+                            month: "long",
+                            day: "numeric",
                           }
                         )}
                       </span>
                     </div>
                     <div className="col-start-1 col-span-6">
-                      <span className="text-[#969696]">
-                        <AccessTimeIcon />
+                      <span className="">
+                       {/*  <AccessTimeIcon /> */}
+                       เวลา:
                       </span>
                       {request.endTime ? (
-                        <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
+                        <span className="text-[#969696] mx-2 xxl:mx-4 text-base">
                           <span className="">
                             {new Date(
                               request.appointmentTime
@@ -180,6 +183,7 @@ function RequestListCard({ data, request, staffs }) {
                                 minute: "2-digit",
                               }
                             )}
+                            {" "}{"น."}
                           </span>
                         </span>
                       ) : (
@@ -196,13 +200,13 @@ function RequestListCard({ data, request, staffs }) {
                       )}
                     </div>
                     <div className="col-start-1 col-span-3">
-                      <span className="sm:hidden xxl:text-lg xxxl:text-xl">
+                      <span className="sm:hidden xxl:text-lg xxxl:text-base">
                         สถานที่นัด:
                       </span>
                       <span className="text-[#969696] lg:hidden md:hidden ">
                         <HomeIcon />
                       </span>
-                      <span className="text-[#969696] mx-2 xxl:mx-4 text-lg">
+                      <span className="text-[#969696] mx-2 xxl:mx-4 text-base">
                         {" "}
                         {request.appointmentPlace}
                       </span>

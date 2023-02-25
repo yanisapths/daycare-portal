@@ -14,6 +14,7 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import BtnCancel from "../../components/BtnCancel";
 import { InputLabel } from "@mui/material";
+import toast from "react-hot-toast";
 
 const tag = [
   { id: 1, label: "เวลาไม่สะดวก" },
@@ -58,11 +59,12 @@ function FormModal({ request, open, handleClose }) {
         axiosConfig
       )
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
+        toast.success("ปฏิเสธคำขอแล้ว");
         Router.reload();
       })
       .catch((err) => {
         console.log("AXIOS ERROR: ", err);
+        toast.error("ไม่สามารถปฏิเสธคำขอ");
       });
   };
 
