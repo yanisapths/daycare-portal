@@ -326,14 +326,14 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2 text-base sm:pt-4">
+                  <div className="flex items-center gap-2 text-base sm:pt-4">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
-                      ข้อควรระวัง{" "}
-                    </span>{" "}
+                    <span className="body2 text-[#A17851] font-bold xl:w-20">
+                      ข้อควรระวัง
+                    </span>
                     {data.description ? (
-                      <span className="text-[#FF2F3B]">
+                      <span className="text-[#FF2F3B]  flex items-start justify-start ">
                         {" "}
                         {data.description}
                       </span>
@@ -575,16 +575,16 @@ function AppointmentModal({
               data.status != "Rejected" &&
               data.status != "reviewed" &&
               data.status != "Done" && (
-                <div className="flex w-1/6 gap-2 lg:gap-4 px-12">
-                  <Tooltip title="เสร็จสิ้น" placement="top">
-                    <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
+                <div className="flex  gap-2  justify-center">
+                  <Tooltip title="เสร็จสิ้นการนัดครั้งนี้" placement="top">
+                    <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
                       <IconButton
                         aria-label="delete"
                         size="small"
                         className="text-[#0921FF]"
                         onClick={() =>
                           Swal.fire({
-                            title: "เสร็จสิ้นการให้บริการ?",
+                            title: "เสร็จสิ้นนัดครั้งนี้?",
                             text: "ไม่สามารถย้อนกลับได้",
                             icon: "warning",
                             showCancelButton: true,
@@ -595,7 +595,7 @@ function AppointmentModal({
                             if (result.isConfirmed) {
                               markAsDone(data._id).then(() =>
                                 Swal.fire({
-                                  title: "เสร็จสิ้นแล้ว",
+                                  title: "นัดครั้งนี้เสร็จสิ้นแล้ว",
                                   showConfirmButton: false,
                                   icon: "success",
                                   timer: 1000,
@@ -605,7 +605,7 @@ function AppointmentModal({
                               result.dismiss === Swal.DismissReason.cancel
                             ) {
                               Swal.fire({
-                                title: "ยกเลิก :)",
+                                title: "ยกเลิก)",
                                 showConfirmButton: false,
                                 icon: "error",
                                 timer: 1000,
@@ -618,8 +618,8 @@ function AppointmentModal({
                       </IconButton>
                     </div>
                   </Tooltip>
-                  <Tooltip title="ยกเลิกนัด" placement="top">
-                    <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                  <Tooltip title="ยกเลิกนัดครั้งนี้" placement="top">
+                    <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
                       <IconButton
                         aria-label="delete"
                         size="small"
@@ -701,7 +701,7 @@ function AppointmentModal({
                       <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs">
                         {event.status}
                       </p>
-                      <div className="flex justify-center">
+                      <div className="flex justify-center items-center">
                         <div className="sm:hidden flex justify-center items-center">
                           <StatusCheckIcon
                             icon={<CheckCircleIcon className="w-5 h-5" />}
@@ -718,16 +718,16 @@ function AppointmentModal({
                     </div>
                   )}
                   {event.status != "Done" && (
-                    <div className="flex w-1/6 gap-2 lg:gap-4 px-12">
-                      <Tooltip title="เสร็จสิ้น" placement="top">
-                        <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
+                    <div className="flex  gap-2 justify-center ">
+                      <Tooltip title="เสร็จสิ้นการนัดครั้งนี้" placement="top">
+                        <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
                           <IconButton
                             aria-label="delete"
                             size="small"
                             className="text-[#0921FF]"
                             onClick={() =>
                               Swal.fire({
-                                title: "เสร็จสิ้นการให้บริการ?",
+                                title: "เสร็จสิ้นนัดครั้งนี้?",
                                 text: "ไม่สามารถย้อนกลับได้",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -738,7 +738,7 @@ function AppointmentModal({
                                 if (result.isConfirmed) {
                                   finishTask(event._id).then(() =>
                                     Swal.fire({
-                                      title: "เสร็จสิ้นแล้ว",
+                                      title: "นัดครั้งนี้เสร็จสิ้นแล้ว",
                                       showConfirmButton: false,
                                       icon: "success",
                                       timer: 1000,
@@ -748,7 +748,7 @@ function AppointmentModal({
                                   result.dismiss === Swal.DismissReason.cancel
                                 ) {
                                   Swal.fire({
-                                    title: "ยกเลิก :)",
+                                    title: "ยกเลิก",
                                     showConfirmButton: false,
                                     icon: "error",
                                     timer: 1000,
@@ -761,15 +761,15 @@ function AppointmentModal({
                           </IconButton>
                         </div>
                       </Tooltip>
-                      <Tooltip title="ยกเลิกนัด" placement="top">
-                        <div className="border-[1px] lg:p-1 rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                      <Tooltip title="ยกเลิกนัดครั้งนี้" placement="top">
+                        <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
                           <IconButton
                             aria-label="delete"
                             size="small"
                             className="text-[#FF2F3B]"
                             onClick={() =>
                               Swal.fire({
-                                title: "ยกเลิกนัดนี้?",
+                                title: "ยกเลิกนัดครั้งนี้?",
                                 text: "หากยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -894,7 +894,7 @@ function AppointmentModal({
                 <button
                   type="submit"
                   className="body2 w-fit h-fit px-6 p-1.5 rounded-full border-2 border-[#AD8259]/60 bg-[#AD8259] text-white hover:bg-[#AD8259]/20 hover:text-[#AD8259]
-                  sm:text-sm sm:px-5 sm:p-1 md:text-sm"
+                  sm:text-sm sm:px-5 sm:p-1 md:text-sm lg:text-sm"
                 >
                   เพิ่ม
                 </button>

@@ -10,16 +10,20 @@ function CalendarView({ data, event, user, staffs }) {
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
   return (
-    <div className="pt-12 space-y-12 md:space-y-0 xl:space-y-0 md:pt-10 xl:pt-10 md:flex xl:flex md:gap-10 xl:gap-10 xl:justify-center px-12">
+    <div className="space-y-12 md:space-y-0 md:flex-col md:items-center md:px-0 md:pt-6 lg:pt-7 lg:pl-7 lg:gap-10 lg:flex lg:space-y-0 lg:px-0 xxl:pt-4 xl:space-y-0  xl:pt-4 
+     xl:flex xl:gap-10 xl:justify-center px-12 sm:space-y-6 sm:pt-4 sm:px-0 sm:mx-6 ">
+      <div className="md:flex md:justify-center lg:flex lg:justify-center  ">
       <SimpleCalendar
-        className="w-2/6"
+        className=""
         currentDate={currentDate}
         today={today}
         setToday={setToday}
         selectedDate={selectedDate}
         setSelectedDate={setSelectedDate}
       />
-      <div className="w-4/6 min-w-full xl:min-w-[750px] md:min-w-[550px]">
+      </div>
+     
+      <div className="md:px-10  min-w-full md:pt-12 lg:min-w-[550px]  xl:min-w-[650px] md:min-w-[550px] ">
         <p className="text-lg font-semibold">
           {" "}
           {selectedDate.toDate().toLocaleDateString("th-TH", {
@@ -31,7 +35,7 @@ function CalendarView({ data, event, user, staffs }) {
         {/*appointment list */}
         {data &&
           data?.map((d, index) => (
-            <div key={index} className="mb-6">
+            <div key={index} className="mb-4">
               {selectedDate.toDate().toDateString() ==
               new Date(d.appointmentDate).toDateString() ? (
                 <AppointmentListCard
@@ -49,7 +53,7 @@ function CalendarView({ data, event, user, staffs }) {
         {/*event list */}
         {event &&
           event?.map((d, index) => (
-            <div key={index} className="mb-6">
+            <div key={index} className="mb-4">
               {selectedDate.toDate().toDateString() ==
               new Date(d.date).toDateString() ? (
                 <EventListCard

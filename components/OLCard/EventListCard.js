@@ -115,7 +115,7 @@ function EventListCard({ data, d, index, user, staffs }) {
         <>
           <article
             key={d._id}
-            className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-3 px-4 md:pl-12 xl:pl-12"
+            className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white px-4 lg:pl-10 md:pl-10 xl:pl-10"
           >
             <motion.div
               key={d._id}
@@ -133,8 +133,8 @@ function EventListCard({ data, d, index, user, staffs }) {
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-4 sm:gap-12">
-                      <div className="font-semibold pb-2 text-base xl:text-lg sm:w-4/6 sm:truncate">
+                    <div className="flex gap-4 sm:gap-12 sm:col-start-1 sm:col-span-6">
+                      <div className="font-semibold pb-2 text-base xl:text-lg  sm:truncate">
                         <span className="text-base">คุณ </span>
                         {appointment.firstName ? (
                           <span>
@@ -153,13 +153,13 @@ function EventListCard({ data, d, index, user, staffs }) {
                           </span>
                         )}
                       </div>
-                      <div className="sm:w-full">
+                    </div>
+                    <div className="sm:w-full sm:col-start-1 sm:pb-1">
                         <RoundTextIcon
                           icon={<BookmarksIcon className="w-5 h-5" />}
                           text={course.courseName}
                         />
                       </div>
-                    </div>
                     <div className="col-start-1 col-span-6">
                       <span className="text-[#969696]">
                         <AccessTimeIcon />
@@ -232,7 +232,7 @@ function EventListCard({ data, d, index, user, staffs }) {
                 </div>
               </div>
             </motion.div>
-            <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
+            <div className="flex flex-wrap  justify-end  content-center mx-2  sm:mb-4 sm:mx-2 lg:pb-2 md:pb-3 xl:pb-3">
               <div>
                 <BtnCancel
                   text="ยกเลิก"
