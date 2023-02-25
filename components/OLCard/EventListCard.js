@@ -232,7 +232,7 @@ function EventListCard({ data, d, index, user, staffs }) {
                 </div>
               </div>
             </motion.div>
-            <div className="flex flex-wrap  justify-end  content-center mx-2  sm:mb-4 sm:mx-2 lg:pb-2 md:pb-3 xl:pb-3">
+            <div className="flex  justify-end content-center mx-2  sm:mb-4 sm:mx-0  sm:justify-center lg:pb-2 md:pb-3 xl:pb-3">
               <div>
                 <BtnCancel
                   text="ยกเลิก"
@@ -267,8 +267,10 @@ function EventListCard({ data, d, index, user, staffs }) {
                   }
                 />
               </div>
-              <BtnDetails
-                text="เสร็จสิ้น"
+              <div>
+              <button
+                className="w-40  text-sm h-9 rounded-full bg-[#AD8259]/20 text-[#6C5137] hover:bg-[#AD8259] hover:text-white hover:shadow-xl"
+                
                 onClick={() =>
                   Swal.fire({
                     title: "เสร็จสิ้นการให้บริการ?",
@@ -296,8 +298,11 @@ function EventListCard({ data, d, index, user, staffs }) {
                       });
                     }
                   })
-                }
-              />
+                }>
+                  เสร็จสิ้นบริการนัดครั้งนี้
+                </button>
+              </div>
+              
             </div>
           </article>
         </>

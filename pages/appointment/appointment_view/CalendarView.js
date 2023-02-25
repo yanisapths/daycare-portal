@@ -23,7 +23,7 @@ function CalendarView({ data, event, user, staffs }) {
       />
       </div>
      
-      <div className="md:px-10  min-w-full md:pt-12 lg:min-w-[550px]  xl:min-w-[650px] md:min-w-[550px] ">
+      <div className="md:px-10  min-w-full md:pt-12 lg:min-w-[550px] xxl:min-w-[750px]  xl:min-w-[650px] md:min-w-[550px] ">
         <p className="text-lg font-semibold">
           {" "}
           {selectedDate.toDate().toLocaleDateString("th-TH", {

@@ -618,7 +618,7 @@ function AppointmentModal({
                       </IconButton>
                     </div>
                   </Tooltip>
-                  <Tooltip title="ยกเลิกนัดครั้งนี้" placement="top">
+                  <Tooltip title="ยกเลิกการนัดครั้งนี้" placement="top">
                     <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
                       <IconButton
                         aria-label="delete"
@@ -727,7 +727,7 @@ function AppointmentModal({
                             className="text-[#0921FF]"
                             onClick={() =>
                               Swal.fire({
-                                title: "เสร็จสิ้นนัดครั้งนี้?",
+                                title: "เสร็จสิ้นการนัดครั้งนี้?",
                                 text: "ไม่สามารถย้อนกลับได้",
                                 icon: "warning",
                                 showCancelButton: true,
@@ -761,7 +761,7 @@ function AppointmentModal({
                           </IconButton>
                         </div>
                       </Tooltip>
-                      <Tooltip title="ยกเลิกนัดครั้งนี้" placement="top">
+                      <Tooltip title="ยกเลิกการนัดครั้งนี้" placement="top">
                         <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
                           <IconButton
                             aria-label="delete"
@@ -769,7 +769,7 @@ function AppointmentModal({
                             className="text-[#FF2F3B]"
                             onClick={() =>
                               Swal.fire({
-                                title: "ยกเลิกนัดครั้งนี้?",
+                                title: "ยกเลิกบริการนัดครั้งนี้?",
                                 text: "หากยกเลิกแล้วจะไม่สามารถย้อนกลับได้",
                                 icon: "warning",
                                 showCancelButton: true,

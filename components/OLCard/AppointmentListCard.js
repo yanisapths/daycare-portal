@@ -260,7 +260,7 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
                 </div>
               </div>
             </motion.div>
-            <div className="flex flex-wrap  justify-end  content-center mx-2  sm:mb-4 sm:mx-2 lg:pb-2 md:pb-3 xl:pb-3">
+            <div className="flex flex-wrap  justify-end sm:justify-center content-center mx-2  sm:mb-4 sm:mx-0 lg:pb-2 md:pb-3 xl:pb-3">
               {d.progressStatus != "Done" && (
                 <>
                   <div>
@@ -271,11 +271,11 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
                       request={d}
                     />
                   </div>
-                  <BtnDetails
-                    text="เสร็จสิ้น"
+                  <button
+                    className="w-36 text-sm h-9 rounded-full bg-[#AD8259]/20 text-[#6C5137] hover:bg-[#AD8259] hover:text-white hover:shadow-xl"
                     onClick={() =>
                       Swal.fire({
-                        title: "เสร็จสิ้นการให้บริการ?",
+                        title: "เสร็จสิ้นการให้บริการนัดครั้งนี้?",
                         icon: "success",
                         showCancelButton: true,
                         confirmButtonText: "ใช่",
@@ -285,7 +285,7 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
                         if (result.isConfirmed) {
                           markAsDone(d._id).then(() =>
                             Swal.fire({
-                              title: "ให้บริการเสร็จสิ้นแล้ว",
+                              title: "ให้บริการนัดครั้งนี้เสร็จสิ้นแล้ว",
                               showConfirmButton: false,
                               icon: "success",
                               timer: 1000,
@@ -302,8 +302,10 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
                           });
                         }
                       })
-                    }
-                  />
+                    }>
+                      เสร็จสิ้นบริการนัดครั้งนี้
+                    </button>
+                  
                 </>
               )}
             </div>
