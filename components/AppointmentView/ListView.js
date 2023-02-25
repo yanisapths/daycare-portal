@@ -59,23 +59,23 @@ const ListView = ({ data, user, events, staffs  }) => {
           <table className="min-w-full text-sm divide-y divide-gray-200 bg-white">
             <thead>
               <tr className="bg-[#AD8259] text-white">
-                <th className="p-4 text-left whitespace-nowrap">
-                  <div className="flex items-center">หมายเลข</div>
+                <th className="p-4 text-center whitespace-nowrap">
+                  <div className="flex justify-center items-center">หมายเลข</div>
                 </th>
                 <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex items-center">ลูกค้า</div>
                 </th>
-                <th className="p-4 text-left whitespace-nowrap">
-                  <div className="flex items-center">สถานะ</div>
+                <th className="p-4 text-center whitespace-nowrap">
+                  <div className="flex justify-center items-center">สถานะ</div>
                 </th>
-                <th className="p-4 text-left whitespace-nowrap">
-                  <div className="flex items-center">คงเหลือ</div>
+                <th className="p-4 text-center whitespace-nowrap">
+                  <div className="flex justify-center items-center">คงเหลือ</div>
                 </th>
-                <th className="p-4 text-left whitespace-nowrap">
-                  <div className="flex items-center"></div>
+                <th className="p-4 text-center whitespace-nowrap">
+                  <div className="flex justify-center items-center"></div>
                 </th>
-                <th className="p-4 text-left whitespace-nowrap">
-                  <div className="flex items-center"></div>
+                <th className="p-4 text-center whitespace-nowrap">
+                  <div className="flex justify-center items-center"></div>
                 </th>
               </tr>
             </thead>

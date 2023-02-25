@@ -139,12 +139,12 @@ function AppointmentTableRow({ d, index, event, user }) {
             onClick={() => setSelectedId(d._id)}
             className={
               d.status == "Approved"
-                ? "bg-[#2ED477]/5 cursor-pointer hover:bg-[#2ED477]/20 text-[#6C5137]"
+                ? "bg-[#2ED477]/5 cursor-pointer text-center hover:bg-[#2ED477]/20 text-[#6C5137]"
                 : d.status == "Rejected"
-                ? "bg-[#FF2F3B]/5 cursor-pointer hover:bg-[#FF2F3B]/20 text-[#6C5137]"
+                ? "bg-[#FF2F3B]/5 cursor-pointer text-center hover:bg-[#FF2F3B]/20 text-[#6C5137]"
                 : d.status == "Done"
-                ? "bg-[#4B5563]/5 cursor-pointer hover:bg-[#4B5563]/10 text-[#4B5563]"
-                : "cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
+                ? "bg-[#4B5563]/5 cursor-pointer text-center hover:bg-[#4B5563]/10 text-[#4B5563]"
+                : "cursor-pointer text-center hover:bg-[#AD8259]/20 text-[#6C5137]"
             }
           >
             <td className="flex w-24">
@@ -229,8 +229,7 @@ function AppointmentTableRow({ d, index, event, user }) {
                 d.status != "reviewed" &&
                 d.status != "Rejected" && (
                   <button
-                    className="w-20 h-9 rounded-full bg-[#4B5563]/20 text-[#6C514B556337] hover:bg-[#4B5563]/60 hover:text-white hover:shadow-xl
-                  sm:text-sm lg:text-base xxxl:h-11 xxxl:text-lg"
+                    className="w-36 text-sm h-9 rounded-full bg-[#4B5563]/20 text-[#6C514B556337] hover:bg-[#4B5563]/60 hover:text-white hover:shadow-xl"
                     onClick={() =>
                       Swal.fire({
                         title: "เสร็จสิ้นการให้บริการ?",
@@ -261,7 +260,7 @@ function AppointmentTableRow({ d, index, event, user }) {
                       })
                     }
                   >
-                    เสร็จสิ้น
+                    เสร็จสิ้นการให้บริการ
                   </button>
                 )}
             </td>
