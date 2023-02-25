@@ -62,14 +62,8 @@ const ListView = ({ data, user, events, staffs  }) => {
                 <th className="p-4 text-center whitespace-nowrap">
                   <div className="flex justify-center items-center">หมายเลข</div>
                 </th>
-                <th className="p-4 text-center whitespace-nowrap">
-                  <div className="flex justify-center items-center">วันที่</div>
-                </th>
-                <th className="p-4 text-center whitespace-nowrap">
-                  <div className="flex justify-center items-center">เวลา</div>
-                </th>
-                <th className="p-4 text-center whitespace-nowrap">
-                  <div className="flex justify-center items-center">ลูกค้า</div>
+                <th className="p-4 text-left whitespace-nowrap">
+                  <div className="flex items-center">ลูกค้า</div>
                 </th>
                 <th className="p-4 text-center whitespace-nowrap">
                   <div className="flex justify-center items-center">สถานะ</div>

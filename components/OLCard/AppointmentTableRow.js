@@ -165,54 +165,6 @@ function AppointmentTableRow({ d, index, event, user }) {
                   : "p-4 text-gray-700 whitespace-nowrap"
               }
             >
-              {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
-                month: "long",
-                day: "2-digit",
-                year: "numeric",
-              })}
-            </td>
-            <td className="p-4 text-gray-700 whitespace-nowrap">
-              {d.endTime ? (
-                <p
-                  className={
-                    d.status == "Done" || d.status == "reviewed"
-                      ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                      : "px-3 py-1.5 text-black text-xs font-medium"
-                  }
-                >
-                  {new Date(d.appointmentTime).toLocaleTimeString("th-TH", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                  {"-"}{" "}
-                  {new Date(d.endTime).toLocaleTimeString("th-TH", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
-              ) : (
-                <p
-                  className={
-                    d.status == "Done" || d.status == "reviewed"
-                      ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                      : "px-3 py-1.5 text-black text-xs font-medium"
-                  }
-                >
-                  {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </p>
-              )}
-            </td>
-            <td
-              className={
-                d.status == "Done" || d.status == "reviewed"
-                  ? "p-4 text-black/40"
-                  : "p-4 text-gray-700 whitespace-nowrap"
-              }
-            >
               {d.patient_id ? (
                 <p>
                   ( {p.nickName} ) {p.firstName} {p.lastName}

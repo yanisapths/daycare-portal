@@ -24,6 +24,7 @@ import InputLabel from "@mui/material/InputLabel";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 const Availability = () => {
@@ -114,7 +115,9 @@ const Availability = () => {
       `${process.env.dev}/available/delete/${availableId}`,
       { method: "DELETE" }
     )
-      .then(async (res) => {})
+      .then(async (res) => {
+        toast.success("ลบสำเร็จ")
+      })
       .catch((err) => {
         console.log("ERROR: ", err);
       });
@@ -139,6 +142,7 @@ const Availability = () => {
       )
       .then(async (res) => {
         console.log("RESPONSE RECEIVED: ", res.data);
+        toast.success("เพิ่มวันเวลาว่างสำเร็จ")
         Router.reload();
       })
       .catch((err) => {
