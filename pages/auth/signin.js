@@ -24,9 +24,9 @@ function signIn({ providers }) {
               height="120"
               alt="/Avatar.png"
             />
-            <p className=" font-bold text-3xl font-mono ">Welcome</p>
+            <p className="xl:text-3xl font-bold text-2xl font-mono">Welcome</p>
 
-            <p className="mt-4 text-gray-800 fonts-mono text-lg lg:text-base md:text-base md:mt-5 sm:text-sm">
+            <p className="mt-4 text-gray-800 fonts-mono text-md md:text-xl md:mt-5">
               เข้าสู่ระบบเพื่อใช้งาน
               <p className="block ">Olive Physiotherapy Clinic Management</p>
             </p>

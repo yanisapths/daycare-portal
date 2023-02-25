@@ -134,8 +134,8 @@ function RequestTableRow({ d, index }) {
           <td
             className={
               d.status == "Done" || d.status == "reviewed"
-                ? "p-4 text-black/40"
-                : "p-4 mx-4 px-4"
+                ? "p-4 text-black/40 text-center"
+                : "p-4 text-center"
             }
           >
             {index}
@@ -143,8 +143,8 @@ function RequestTableRow({ d, index }) {
           <td
             className={
               d.status == "Done" || d.status == "reviewed"
-                ? "p-4 text-black/40"
-                : "p-4 text-gray-700 whitespace-nowrap"
+                ? "p-4 text-black/40 text-center"
+                : "p-4 text-gray-700 whitespace-nowrap text-center"
             }
           >
             {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
@@ -158,8 +158,8 @@ function RequestTableRow({ d, index }) {
               <p
                 className={
                   d.status == "Done" || d.status == "reviewed"
-                    ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                    : "px-3 py-1.5 text-black text-xs font-medium"
+                    ? "px-3 py-1.5 text-black/40 text-xs font-medium text-center"
+                    : "px-3 py-1.5 text-black text-xs font-medium text-center"
                 }
               >
                 {new Date(d.appointmentTime).toLocaleTimeString("th-TH", {
@@ -176,8 +176,8 @@ function RequestTableRow({ d, index }) {
               <p
                 className={
                   d.status == "Done" || d.status == "reviewed"
-                    ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                    : "px-3 py-1.5 text-black text-xs font-medium"
+                    ? "px-3 py-1.5 text-black/40 text-xs font-medium text-center"
+                    : "px-3 py-1.5 text-black text-xs font-medium text-center"
                 }
               >
                 {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
@@ -191,8 +191,8 @@ function RequestTableRow({ d, index }) {
           <td
             className={
               d.status == "Done" || d.status == "reviewed"
-                ? "p-4 text-black/40"
-                : "p-4 text-gray-700 whitespace-nowrap"
+                ? "py-4 text-black/40 text-center"
+                : "py-4 text-gray-700 whitespace-nowrap text-center"
             }
           >
             {d.patient_id ? (
@@ -208,8 +208,8 @@ function RequestTableRow({ d, index }) {
           <td
             className={
               d.status == "Done" || d.status == "reviewed"
-                ? "p-4 text-black/40"
-                : "p-4 text-gray-700 whitespace-nowrap"
+                ? "p-4 text-black/40 text-center"
+                : "p-4 text-gray-700 whitespace-nowrap text-center"
             }
           >
             {" "}
@@ -217,7 +217,7 @@ function RequestTableRow({ d, index }) {
           </td>
 
           {d.status == "pending" ? (
-            <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
+            <td className="p-4 text-gray-700 whitespace-nowrap space-x-2 text-center">
               <BtnAccept
                 text="ยืนยัน"
                 onClick={() =>
@@ -254,15 +254,15 @@ function RequestTableRow({ d, index }) {
               <FormModal open={open} handleClose={handleClose} request={d} />
             </td>
           ) : (
-            <td className="p-4 text-gray-700 whitespace-nowrap">
+            <td className="p-4 text-gray-700 whitespace-nowrap text-center">
               {d.status == "Done" ? (
-                <strong className="text-black/40 text-xs font-medium">
+                <strong className="text-black/40 text-xs font-medium text-center">
                   เสร็จสิ้นการให้บริการ
                 </strong>
               ) : (
                 <>
                   {d.status == "Approved" ? (
-                    <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
+                    <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium text-center">
                       ยืนยันแล้ว
                     </strong>
                   ) : (
@@ -290,7 +290,7 @@ function RequestTableRow({ d, index }) {
                           </strong>
                         </CustomTooltip>
                       ) : (
-                        <strong className="text-[#7879F1] px-3 py-1.5 rounded-full text-xs font-medium">
+                        <strong className="text-[#7879F1] px-3 py-1.5 rounded-full text-xs font-medium text-center">
                           รีวิวแล้ว
                         </strong>
                       )}
@@ -301,7 +301,7 @@ function RequestTableRow({ d, index }) {
             </td>
           )}
 
-          <td>
+          <td className="px-2 text-center">
             <Tooltip title="ลบ" placement="top">
               <IconButton
                 aria-label="delete"
