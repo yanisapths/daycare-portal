@@ -54,7 +54,7 @@ const Review = ({ user }) => {
           <Header />
           <div className="main">
             <div className="pageTitle">รีวิวและคะแนนจากลูกค้า</div>
-            <div className="px-24 lg:flex gap-10 xl:grid xl:grid-cols-3 ">
+            <div className="pt-6 xl:px-24 px-10 grid grid-cols-1 md:px-12 md:grid md:grid-cols-1 lg:flex gap-10 xl:grid xl:grid-cols-3">
               {reviews.map(
                 ({ _id, customerName, comments, score, createdAt }) => (
                   <div className="" key={_id}>
