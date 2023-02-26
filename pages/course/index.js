@@ -25,7 +25,6 @@ function Course() {
         const clinicData = await res.json();
         if (clinicData) {
           setData(clinicData);
-          console.log(clinicData._id);
         } else return;
       } catch (err) {
         console.log(err);
@@ -36,10 +35,9 @@ function Course() {
     }
   }
 
-  //course
   async function fetchCourseData() {
     await delay(1000);
-    const url = `${process.env.dev}/course/match/owner/${session.user.id}`;
+    const url = `${process.env.dev}/course/match/${clinicData._id}`;
 
     if (session.user.id) {
       const res = await fetch(url);
@@ -47,8 +45,6 @@ function Course() {
         const courseData = await res.json();
         if (courseData) {
           setCourseData(courseData);
-          console.log(`url: ${url}`);
-          console.log(courseData);
         } else return;
       } catch (err) {
         console.log(err);
@@ -58,12 +54,16 @@ function Course() {
     }
   }
 
+  //course
+  if(clinicData._id) {
+    fetchCourseData();
+  }
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
       fetchData();
-      fetchCourseData();
     }
   }, [status]);
 

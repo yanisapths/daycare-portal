@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useTheme } from "@mui/material/styles";
 import { useForm, Controller } from "react-hook-form";
+import Router from "next/router";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
@@ -32,7 +33,7 @@ const sex = [
   { id: 3, label: "อื่นๆ" },
 ];
 
-function AddPatientForm({ open, handleClose, setOpen }) {
+function AddPatientForm({ open, handleClose, setOpen,clinic }) {
   const { data: session, status } = useSession();
   const theme = useTheme();
 
@@ -53,6 +54,7 @@ function AddPatientForm({ open, handleClose, setOpen }) {
 
   const onSubmit = async (data) => {
     data.owner_id = session.user.id;
+    data.clinic_id = clinic._id;
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {
@@ -69,6 +71,7 @@ function AddPatientForm({ open, handleClose, setOpen }) {
       .then(async (res) => {
         console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("เพิ่มแบบบันทึก");
+        Router.reload();
         setOpen(false);
       })
       .catch((err) => {

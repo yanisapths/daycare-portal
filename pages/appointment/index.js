@@ -7,7 +7,7 @@ import IconButton from "../../components/common/OLIconButton";
 import Header from "../../components/Header";
 import ListView from "../../components/AppointmentView/ListView";
 import CalendarView from "./appointment_view/CalendarView";
-import AddAppointmentForm from "../../components/OLForm/AddAppointmentForm"
+import AddAppointmentForm from "../../components/OLForm/AddAppointmentForm";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
@@ -59,36 +59,18 @@ const Appointment = ({ user }) => {
   const fetchData = async () => {
     let isSubscribed = true;
     const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
-    const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
-    const patienturl = `${process.env.dev}/patient/match/${user.id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
-    const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
-    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
-
-    const appointment = await fetch(appointmenturl);
-    const patient = await fetch(patienturl);
-    const course = await fetch(courseurl);
-    const avail = await fetch(availurl);
     const clinic = await fetch(clinicurl);
-    const events = await fetch(eventurl);
-    const staff = await fetch(staffurl);
 
-    const appointmentData = await appointment.json();
-    const courseData = await course.json();
-    const availData = await avail.json();
-    const patientData = await patient.json();
-    const clinicData = await clinic.json();
-    const eventData = await events.json();
-    const staffs = await staff.json();
     if (isSubscribed) {
-      setData(clinicData);
-      setAppointmentData(appointmentData);
-      setCourseData(courseData);
-      setAvailData(availData);
-      setPatientData(patientData);
-      setEventData(eventData);
-      setStaffs(staffs);
+      try {
+        const clinicData = await clinic.json();
+        if (clinicData) {
+          setData(clinicData);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
+      }
     }
     return () => (isSubscribed = false);
   };
@@ -101,10 +83,45 @@ const Appointment = ({ user }) => {
     }
   }, [status]);
 
+  async function fetchDatails() {
+    const courseurl = `${process.env.dev}/course/match/${clinicData._id}`;
+    const availurl = `${process.env.dev}/available/match/${clinicData._id}`;
+    const patienturl = `${process.env.dev}/patient/match/clinic/${clinicData._id}`;
+    const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
+    const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
+    const eventurl = `${process.env.dev}/event/match/clinic/${clinicData._id}`;
+
+    const appointment = await fetch(appointmenturl);
+    const patient = await fetch(patienturl);
+    const course = await fetch(courseurl);
+    const avail = await fetch(availurl);
+    const staff = await fetch(staffurl);
+    const events = await fetch(eventurl);
+    try {
+      const appointmentData = await appointment.json();
+      const courseData = await course.json();
+      const availData = await avail.json();
+      const patientData = await patient.json();
+      const staffs = await staff.json();
+      const eventData = await events.json();
+      setAppointmentData(appointmentData);
+      setCourseData(courseData);
+      setAvailData(availData);
+      setPatientData(patientData);
+      setStaffs(staffs);
+      setEventData(eventData);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  if (clinicData._id) {
+    fetchDatails();
+  }
+
   return (
     <div>
       <Head>
-        <title>Daycare | Appointment </title>
+        <title>Clinic | Appointment </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
       <div className="divide-y divide-[#A17851] divide-opacity-30 sm:divide-opacity-70">
@@ -142,13 +159,20 @@ const Appointment = ({ user }) => {
             ))}
           </div>
           {selected == "listView" ? (
-            <ListView data={appointmentData} events={eventData} user={user} staffs={staffs} />
+            <ListView
+              data={appointmentData}
+              events={eventData}
+              user={user}
+              staffs={staffs}
+              clinic={clinicData}
+            />
           ) : (
             <CalendarView
               data={appointmentData}
               event={eventData}
               user={user}
               staffs={staffs}
+              clinic={clinicData}
             />
           )}
         </div>

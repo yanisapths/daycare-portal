@@ -26,28 +26,41 @@ const Schedule = ({ user, patient }) => {
   const [result, setResult] = useState("");
   const [staffs, setStaffs] = useState([]);
 
+  async function fetchClinic() {
+    const url = `${process.env.dev}/clinic/owner/${user.id}`;
+    if (user.id) {
+      const res = await fetch(url);
+      try {
+        const clinic = await res.json();
+        if (clinic) {
+          setData(clinic);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
+      }
+    } else {
+    }
+  }
+
   const fetchData = async () => {
     let isSubscribed = true;
-    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}/approved`;
-    const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
-    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
+    const courseurl = `${process.env.dev}/course/match/${clinic._id}`;
+    const appointmenturl = `${process.env.dev}/appointment/match/${clinic._id}/approved`;
+    const eventurl = `${process.env.dev}/event/match/clinic/${clinic._id}`;
+    const staffurl = `${process.env.dev}/staff/match/${clinic._id}`;
 
     const appointments = await fetch(appointmenturl);
     const courses = await fetch(courseurl);
-    const clinics = await fetch(clinicurl);
     const events = await fetch(eventurl);
     const staff = await fetch(staffurl);
 
     const appointment = await appointments.json();
     const course = await courses.json();
-    const clinic = await clinics.json();
     const event = await events.json();
     const staffs = await staff.json();
 
     if (isSubscribed) {
-      setData(clinic);
       setAppointmentData(appointment);
       setCourseData(course);
       setEventData(event);
@@ -60,9 +73,13 @@ const Schedule = ({ user, patient }) => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      fetchClinic();
     }
   }, [status]);
+
+  if(clinic._id){
+    fetchData();
+  }
 
   const handleChange = (event) => {
     setResult(event.target.value);
@@ -121,6 +138,7 @@ const Schedule = ({ user, patient }) => {
                 return (
                   <div key={result._id}>
                     <AppointmentListCard
+                      clinic={clinic}
                       key={result._id}
                       data={appointment}
                       d={result}
@@ -132,6 +150,7 @@ const Schedule = ({ user, patient }) => {
                         <div key={index}>
                           {e.appointment_id == result._id ? (
                             <EventListCard
+                              clinic={clinic}
                               d={e}
                               index={index}
                               data={appointment}

@@ -62,7 +62,7 @@ const Availability = () => {
 
   async function fetchAvailableData() {
     await delay(1000);
-    const url = `${process.env.dev}/available/match/owner/${session.user.id}`;
+    const url = `${process.env.dev}/available/match/${clinicData._id}`;
     //course
     if (session.user.id) {
       const res = await fetch(url);
@@ -82,9 +82,12 @@ const Availability = () => {
       router.push("/auth/signin/");
     } else {
       fetchData();
-      fetchAvailableData();
     }
   }, [status]);
+  
+  if(clinicData._id) {
+    fetchAvailableData();
+  }
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -127,6 +130,7 @@ const Availability = () => {
   const onSubmit = async (data) => {
     console.log(data);
     data.owner_id = session.user.id;
+    data.clinic_id = clinicData._id;
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {

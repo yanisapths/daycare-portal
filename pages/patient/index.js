@@ -12,7 +12,8 @@ function Patient() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [clinicData, setData] = useState({});
+  const [clinicData, setClinic] = useState({});
+  const [patientData, setPatientData] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -24,7 +25,6 @@ function Patient() {
   };
 
   async function fetchData() {
-    await delay(1000);
     if (session.user.id) {
       const res = await fetch(
         `${process.env.dev}/clinic/owner/${session.user.id}`
@@ -32,15 +32,28 @@ function Patient() {
       try {
         const clinicData = await res.json();
         if (clinicData) {
-          setData(clinicData);
+          setClinic(clinicData);
         } else return;
       } catch (err) {
-        console.log(err);
         return router.push("/noClinic");
       }
     } else {
-      await delay(3000);
     }
+  }
+
+  async function fetchPatient() {
+    const res = await fetch(`${process.env.dev}/patient/match/clinic/${clinicData._id}`);
+    try {
+      const patientData = await res.json();
+      if (patientData) {
+        setPatientData(patientData);
+      } else return;
+    } catch (err) {
+      console.log(err);
+    }
+  } 
+  if (clinicData._id) {
+    fetchPatient();
   }
 
   useEffect(() => {
@@ -70,10 +83,11 @@ function Patient() {
                 open={open}
                 setOpen={setOpen}
                 handleClose={handleClose}
+                clinic={clinicData}
               />
             </div>
             <div className="">
-              <TableView />
+              <TableView patientData={patientData} />
             </div>
           </section>
         </main>

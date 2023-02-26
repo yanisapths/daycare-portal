@@ -56,40 +56,24 @@ const Request = ({user}) => {
         setView(clinicData);
     }
   }, [selected]);
-
   const fetchData = async () => {
     let isSubscribed = true;
     const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
-    const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
-    const patienturl = `${process.env.dev}/patient/match/${user.id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
-    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
-
-    const appointment = await fetch(appointmenturl);
-    const patient = await fetch(patienturl);
-    const course = await fetch(courseurl);
-    const avail = await fetch(availurl);
     const clinic = await fetch(clinicurl);
-    const staff = await fetch(staffurl);
-
-    const appointmentData = await appointment.json();
-    const courseData = await course.json();
-    const availData = await avail.json();
-    const patientData = await patient.json();
-    const clinicData = await clinic.json();
-    const staffs = await staff.json();
     if (isSubscribed) {
-      setData(clinicData);
-      setAppointmentData(appointmentData);
-      setCourseData(courseData);
-      setAvailData(availData);
-      setPatientData(patientData);
-      setStaffs(staffs);
+      try {
+        const clinicData = await clinic.json();
+        if (clinicData) {
+          setData(clinicData);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
+      }
     }
     return () => (isSubscribed = false);
   };
-  
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
@@ -98,6 +82,35 @@ const Request = ({user}) => {
     }
   }, [status]);
 
+  async function fetchDatails() {
+    const courseurl = `${process.env.dev}/course/match/${clinicData._id}`;
+    const availurl = `${process.env.dev}/available/match/${clinicData._id}`;
+    const patienturl = `${process.env.dev}/patient/match/clinic/${clinicData._id}`;
+    const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
+    const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
+    const appointment = await fetch(appointmenturl);
+    const patient = await fetch(patienturl);
+    const course = await fetch(courseurl);
+    const avail = await fetch(availurl);
+    const staff = await fetch(staffurl);
+    try {
+    const appointmentData = await appointment.json();
+    const courseData = await course.json();
+    const availData = await avail.json();
+    const patientData = await patient.json();
+    const staffs = await staff.json();
+    setAppointmentData(appointmentData);
+    setCourseData(courseData);
+    setAvailData(availData);
+    setPatientData(patientData);
+    setStaffs(staffs);
+    } catch (err) {
+      console.log(err);
+    }
+  } 
+  if (clinicData._id) {
+    fetchDatails();
+  }
   return (
     <div>
       <Head>
