@@ -22,7 +22,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function AppointmentTableRow({ d, index, event, user }) {
+function AppointmentTableRow({ clinic,d, index, event, user }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -128,6 +128,7 @@ function AppointmentTableRow({ d, index, event, user }) {
             setSelectedId={setSelectedId}
             close={closeModal}
             course={course}
+            clinic={clinic}
           ></AppointmentModal>
         </Overlay>
       )}

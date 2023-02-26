@@ -33,6 +33,7 @@ import Swal from "sweetalert2";
 import "react-datepicker/dist/react-datepicker.css";
 
 function AppointmentModal({
+  clinic,
   user,
   eventList,
   patient,
@@ -113,6 +114,7 @@ function AppointmentModal({
     req.owner_id = user.id;
     req.course_id = course._id;
     req.patient_id = patient._id;
+    req.cinic_id = clinic._id;
     const url = `${process.env.dev}/event/create/${data._id}`;
     const json = JSON.stringify(req);
     let axiosConfig = {
@@ -929,6 +931,7 @@ function AppointmentModal({
                     owner_id: user.id,
                     patient_id: patient._id,
                     course_id: course._id,
+                    clinic_id: clinic._id,
                   })
                 }
                 icon={<AddCircleOutlineIcon />}

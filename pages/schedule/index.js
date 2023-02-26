@@ -121,6 +121,7 @@ const Schedule = ({ user, patient }) => {
                 return (
                   <div key={result._id}>
                     <AppointmentListCard
+                      clinic={clinic}
                       key={result._id}
                       data={appointment}
                       d={result}
@@ -132,6 +133,7 @@ const Schedule = ({ user, patient }) => {
                         <div key={index}>
                           {e.appointment_id == result._id ? (
                             <EventListCard
+                              clinic={clinic}
                               d={e}
                               index={index}
                               data={appointment}

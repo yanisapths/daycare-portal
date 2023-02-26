@@ -13,7 +13,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function EventListCard({ data, d, index, user, staffs }) {
+function EventListCard({ clinic,data, d, index, user, staffs }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
@@ -105,6 +105,7 @@ function EventListCard({ data, d, index, user, staffs }) {
             setSelectedId={setSelectedId}
             course={course}
             close={handleClose}
+            clinic={clinic}
           ></AppointmentModal>
         </Overlay>
       )}

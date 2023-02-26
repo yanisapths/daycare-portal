@@ -59,15 +59,11 @@ const Appointment = ({ user }) => {
   const fetchData = async () => {
     let isSubscribed = true;
     const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
     const clinic = await fetch(clinicurl);
-    const events = await fetch(eventurl);
 
-    const eventData = await events.json();
     const clinicData = await clinic.json();
     if (isSubscribed) {
       setData(clinicData);
-      setEventData(eventData);
     }
     return () => (isSubscribed = false);
   };
@@ -86,22 +82,27 @@ const Appointment = ({ user }) => {
     const patienturl = `${process.env.dev}/patient/match/clinic/${clinicData._id}`;
     const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
     const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
+    const eventurl = `${process.env.dev}/event/match/clinic/${clinicData._id}`;
+
     const appointment = await fetch(appointmenturl);
     const patient = await fetch(patienturl);
     const course = await fetch(courseurl);
     const avail = await fetch(availurl);
     const staff = await fetch(staffurl);
+    const events = await fetch(eventurl);
     try {
       const appointmentData = await appointment.json();
       const courseData = await course.json();
       const availData = await avail.json();
       const patientData = await patient.json();
       const staffs = await staff.json();
+      const eventData = await events.json();
       setAppointmentData(appointmentData);
       setCourseData(courseData);
       setAvailData(availData);
       setPatientData(patientData);
       setStaffs(staffs);
+      setEventData(eventData);
     } catch (err) {
       console.log(err);
     }
@@ -156,6 +157,7 @@ const Appointment = ({ user }) => {
               events={eventData}
               user={user}
               staffs={staffs}
+              clinic={clinicData}
             />
           ) : (
             <CalendarView
@@ -163,6 +165,7 @@ const Appointment = ({ user }) => {
               event={eventData}
               user={user}
               staffs={staffs}
+              clinic={clinicData}
             />
           )}
         </div>
