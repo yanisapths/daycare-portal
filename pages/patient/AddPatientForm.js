@@ -32,10 +32,8 @@ const sex = [
   { id: 3, label: "อื่นๆ" },
 ];
 
-
 function AddPatientForm({ open, handleClose, setOpen }) {
   const { data: session, status } = useSession();
-  const [document, setFile] = useState("");
   const theme = useTheme();
 
   const {
@@ -53,20 +51,7 @@ function AddPatientForm({ open, handleClose, setOpen }) {
     },
   });
 
-  const handleFileChange = (e) => {
-    setFile([...e.target.files[0]]);
-  };
-
   const onSubmit = async (data) => {
-    console.log(data);
-    if (data.document || document) {
-      const formData = new FormData();
-      formData.append("document", data.document[0]);
-      formData.append("document", data.document[0].name);
-      data.document = data.document[0].name;
-    } else {
-      data.document = "";
-    }
     data.owner_id = session.user.id;
     const json = JSON.stringify(data);
     let axiosConfig = {
@@ -273,7 +258,9 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                           })}
                         />
                         {errors.phoneNumber?.type === "pattern" && (
-                          <p role="alert" className="text-[#FF2F3B]">เบอร์โทรต้องเป็นตัวเลขเท่านั้น</p>
+                          <p role="alert" className="text-[#FF2F3B]">
+                            เบอร์โทรต้องเป็นตัวเลขเท่านั้น
+                          </p>
                         )}
                       </div>
                       <div className="col-span-3">
@@ -449,25 +436,6 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                           name="precaution"
                           className="inputOutline"
                           {...register("precaution", { required: false })}
-                        />
-                      </div>
-                      <div className="col-span-6">
-                        <label
-                          className="inputLabel text-sm"
-                          htmlFor="document"
-                        >
-                          Upload a file
-                        </label>
-                        <input
-                          className="border-0"
-                          type="file"
-                          id="document"
-                          name="document"
-                          multiple={false}
-                          onChange={handleFileChange}
-                          {...register("document", {
-                            required: false,
-                          })}
                         />
                       </div>
                     </div>
