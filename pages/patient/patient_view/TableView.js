@@ -2,30 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import PatientCard from "../../../components/OLCard/PatientCard";
 
-function TableView() {
-  const { data: session, status } = useSession();
-  const [patientData, setPatientData] = useState([]);
-
-  const fetchData = async () => {
-    let isSubscribed = true;
-    const res = await fetch(
-      `${process.env.dev}/patient/match/${session.user.id}`
-    );
-
-    const patientData = await res.json();
-    if (isSubscribed) {
-      setPatientData(patientData);
-    }
-    return () => (isSubscribed = false);
-  };
-
-  useEffect(() => {
-    fetchData().catch(console.error);
-  });
-
+function TableView({patientData}) {
   return (
     <div className="mt-12 shadow-xl rounded-2xl">
-      <div className="overflow-x-auto rounded-2xl">
+      <div className="overflow-x-auto rounded-2xl scrollbar-hide">
         <table className="table-auto min-w-full text-sm divide-y divide-gray-200 bg-white rounded-2xl">
           <thead>
             <tr className="bg-[#AD8259] text-white">

@@ -21,22 +21,33 @@ const Staff = ({ user }) => {
       setOpen(false);
     }
   };
-
-  const fetchData = async () => {
-    let isSubscribed = true;
-    const res = await fetch(`${process.env.dev}/clinic/owner/${user.id}`);
-    const staff = await fetch(`${process.env.dev}/staff/owner/${user.id}`);
-
-    const staffData = await staff.json();
-
-    const clinic = await res.json();
-    if (isSubscribed) {
-      setClinic(clinic);
-      setStaff(staffData);
+  async function fetchData() {
+    if (session.user.id) {
+      const res = await fetch(
+        `${process.env.dev}/clinic/owner/${session.user.id}`
+      );
+      try {
+        const clinic = await res.json();
+        if (clinic) {
+          setClinic(clinic);
+        } else return;
+      } catch (err) {
+        return router.push("/noClinic");
+      }
+    } else {
     }
-    return () => (isSubscribed = false);
-  };
-
+  }
+  async function fetchStaff() {
+    const res = await fetch(`${process.env.dev}/staff/match/${clinic._id}`);
+    try {
+      const staffData = await res.json();
+      setStaff(staffData);
+      if (staffData) {
+      } else return;
+    } catch (err) {
+      console.log(err);
+    }
+  }
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
@@ -45,33 +56,34 @@ const Staff = ({ user }) => {
     }
   }, [status]);
 
-  if (clinic) {
-    return (
-      <div>
-        <Head>
-          <title>Clinic | Staff </title>
-          <link rel="icon" href="favicon.ico" />
-        </Head>
-        <div className="divide-y divide-[#A17851] divide-opacity-30">
-          <Header />
-          <div className="main xl:px-12 md:px-8 px-4 pb-40">
-            <h2 className="pageTitle">พนักงาน</h2>
-            <div className="flex mx-3 justify-end">
-              <BtnAdd onClick={handleClickOpen}  />
-              <AddStaffForm
-                open={open}
-                setOpen={setOpen}
-                handleClose={handleClose}
-                clinicData={clinic}
-                id={clinic._id}
-              />
-            </div>
-            <div className="grid grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:gap-5">
-             
-              {staffData ? (
-              staffData.map((data,index) => {
+  if (clinic._id) {
+    fetchStaff();
+  }
+  return (
+    <div>
+      <Head>
+        <title>Clinic | Staff </title>
+        <link rel="icon" href="favicon.ico" />
+      </Head>
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
+        <Header />
+        <div className="main xl:px-12 md:px-8 px-4 pb-40">
+          <h2 className="pageTitle">พนักงาน</h2>
+          <div className="flex mx-3 justify-end">
+            <BtnAdd onClick={handleClickOpen} />
+            <AddStaffForm
+              open={open}
+              setOpen={setOpen}
+              handleClose={handleClose}
+              clinicData={clinic}
+              id={clinic._id}
+            />
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:gap-5">
+            {staffData ? (
+              staffData.map((data, index) => {
                 return (
-                  <div className="flex justify-center"  key={index}>
+                  <div className="flex justify-center" key={index}>
                     <ListView
                       clinicData={clinic}
                       id={clinic._id}
@@ -86,16 +98,11 @@ const Staff = ({ user }) => {
                 <p className="h3 text-black/50">คุณยังไม่ได้เพิ่มพนักงาน</p>
               </div>
             )}
-              
-            
-            </div>
           </div>
         </div>
       </div>
-    );
-  } else {
-    return <></>;
-  }
+    </div>
+  );
 };
 
 export default Staff;
