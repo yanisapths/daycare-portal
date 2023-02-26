@@ -46,7 +46,7 @@ const Schedule = ({ user, patient }) => {
   const fetchData = async () => {
     let isSubscribed = true;
     const courseurl = `${process.env.dev}/course/match/${clinic._id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}/approved`;
+    const appointmenturl = `${process.env.dev}/appointment/match/${clinic._id}/approved`;
     const eventurl = `${process.env.dev}/event/match/clinic/${clinic._id}`;
     const staffurl = `${process.env.dev}/staff/match/${clinic._id}`;
 

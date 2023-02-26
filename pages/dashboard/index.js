@@ -21,34 +21,58 @@ const CustomTooltip = styled(({ className, ...props }) => (
 
 function Dashboard({ data }) {
   const { data: session, status } = useSession();
+  const [clinic, setData] = useState([]);
   const [requestData, setRequestData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
 
-  useEffect(() => {
-    let isSubscribed = true;
-    const fetchRequest = async () => {
-      const res = await fetch(
-        `${process.env.dev}/appointment/match/owner/${session.user.id}/pending`
-      );
-
-      const approve = await fetch(
-        `${process.env.dev}/appointment/match/owner/${session.user.id}/approved`
-      );
-      const requestData = await res.json();
-      const appointmentData = await approve.json();
-
-      if (isSubscribed) {
-        setRequestData(requestData);
-        setAppointmentData(appointmentData);
+  async function fetchClinic() {
+    const url = `${process.env.dev}/clinic/owner/${user.id}`;
+    if (user.id) {
+      const res = await fetch(url);
+      try {
+        const clinic = await res.json();
+        if (clinic) {
+          setData(clinic);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
       }
-    };
+    } else {
+    }
+  }
 
-    fetchRequest().catch(console.error);
+  const fetchData = async () => {
+    let isSubscribed = true;
+    const res = await fetch(
+      `${process.env.dev}/appointment/match/${clinic._id}/pending`
+    );
 
+    const approve = await fetch(
+      `${process.env.dev}/appointment/match/${clinic._id}/approved`
+    );
+    const requestData = await res.json();
+    const appointmentData = await approve.json();
+
+    if (isSubscribed) {
+      setRequestData(requestData);
+      setAppointmentData(appointmentData);
+    }
     return () => (isSubscribed = false);
-  });
-  
-  
+  };
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/auth/signin/");
+    } else {
+      fetchClinic();
+    }
+  }, [status]);
+
+  if (clinic._id) {
+    fetchData();
+  }
+
   return (
     <>
       {/* Clinic Hours */}
