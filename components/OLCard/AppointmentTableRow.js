@@ -147,12 +147,12 @@ function AppointmentTableRow({ d, index, event, user }) {
                 : "cursor-pointer text-center hover:bg-[#AD8259]/20 text-[#6C5137]"
             }
           >
-            <td className="flex w-24">
+            <td className="flex justify-center">
               <p
                 className={
                   d.status == "Done" || d.status == "reviewed"
-                    ? "p-4 text-black/40 truncate"
-                    : "p-4 truncate"
+                    ? "p-4 text-black/40 truncate w-32"
+                    : "p-4 truncate w-32"
                 }
               >
                 {d._id}
