@@ -61,9 +61,16 @@ const Appointment = ({ user }) => {
     const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
     const clinic = await fetch(clinicurl);
 
-    const clinicData = await clinic.json();
     if (isSubscribed) {
-      setData(clinicData);
+      try {
+        const clinicData = await clinic.json();
+        if (clinicData) {
+          setData(clinicData);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
+      }
     }
     return () => (isSubscribed = false);
   };
