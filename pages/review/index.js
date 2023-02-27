@@ -5,33 +5,19 @@ import Head from "next/head";
 import Header from "../../components/Header";
 import PeopleReviewCard from "../../components/OLCard/PeopleReviewCard";
 
-const Review = ({ user }) => {
+const Review = ({ clinic }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [reviews, setReviews] = useState([]);
-  const [clinicData, setData] = useState({});
-
   async function fetchData() {
-    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
-    if (user.id) {
-      const res = await fetch(url);
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-          const res = await fetch(
-            `${process.env.dev}/review/match/${clinicData._id}`
-          );
-          const reviews = await res.json();
-          if (reviews) {
-            setReviews(reviews);
-          }
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
+    if (session) {
+      const res = await fetch(`${process.env.dev}/review/match/${clinic._id}`);
+      const reviews = await res.json();
+      if (reviews) {
+        setReviews(reviews);
       }
     } else {
+      router.push("/auth/signin/");
     }
   }
 
@@ -43,63 +29,73 @@ const Review = ({ user }) => {
     }
   }, [status]);
 
-  if (clinicData) {
-    return (
-      <div>
-        <Head>
-          <title>Clinic | Review </title>
-          <link rel="icon" href="favicon.ico" />
-        </Head>
-        <div className="divide-y divide-[#A17851] divide-opacity-30">
-          <Header />
-          <div className="main">
-            <div className="pageTitle">รีวิวและคะแนนจากลูกค้า</div>
-            <div className="pt-6 xl:px-24 px-10 grid grid-cols-1 md:px-12 md:grid md:grid-cols-1 lg:flex gap-10 xl:grid xl:grid-cols-3">
-              {reviews.map(
-                ({ _id, customerName, comments, score, createdAt }) => (
-                  <div className="" key={_id}>
-                    {reviews ? (
-                      <div className="" key={_id}>
-                        <PeopleReviewCard
-                          customerName={customerName}
-                          comments={comments}
-                          score={score}
-                          createdAt={createdAt}
-                        />
+  return (
+    <div>
+      <Head>
+        <title>Clinic | Review </title>
+        <link rel="icon" href="favicon.ico" />
+      </Head>
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
+        <Header />
+        <div className="main">
+          <div className="pageTitle">รีวิวและคะแนนจากลูกค้า</div>
+          <div className="pt-6 xl:px-24 px-10 grid grid-cols-1 md:px-12 md:grid md:grid-cols-1 lg:flex gap-10 xl:grid xl:grid-cols-3">
+            {reviews.map(
+              ({ _id, customerName, comments, score, createdAt }) => (
+                <div className="" key={_id}>
+                  {reviews ? (
+                    <div className="" key={_id}>
+                      <PeopleReviewCard
+                        customerName={customerName}
+                        comments={comments}
+                        score={score}
+                        createdAt={createdAt}
+                      />
+                    </div>
+                  ) : (
+                    <div className="mx-4 space-y-4">
+                      <div className="py-12">
+                        <p className="h4 text-black/50 pt-8">
+                          คลินิกของคุณยังไม่มีรีวิว
+                        </p>
                       </div>
-                    ) : (
-                      <div className="mx-4 space-y-4">
-                        <div className="py-12">
-                          <p className="h4 text-black/50 pt-8">
-                            คลินิกของคุณยังไม่มีรีวิว
-                          </p>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                )
-              )}
-            </div>
+                    </div>
+                  )}
+                </div>
+              )
+            )}
           </div>
         </div>
       </div>
-    );
-  } else {
-    return router.push("/noClinic");
-  }
+    </div>
+  );
 };
 
 export default Review;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinic = await res.json();
+      if (!clinic) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinic } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true,
+    },
   };
 }

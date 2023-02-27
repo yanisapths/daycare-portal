@@ -37,7 +37,6 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
     data.owner_id = session.user.id;
     data.clinic_id = id;
     let axiosConfig = {
