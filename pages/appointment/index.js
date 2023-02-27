@@ -11,13 +11,12 @@ import AddAppointmentForm from "../../components/OLForm/AddAppointmentForm";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
-const Appointment = ({ user }) => {
+const Appointment = ({ user, clinicData }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [selected, setSelected] = useState("");
   const [view, setView] = useState([]);
   const [open, setOpen] = useState(false);
-  const [clinicData, setData] = useState([]);
   const [patientData, setPatientData] = useState([]);
   const [courseData, setCourseData] = useState([]);
   const [availData, setAvailData] = useState([]);
@@ -56,70 +55,50 @@ const Appointment = ({ user }) => {
     }
   }, [selected]);
 
-  const fetchData = async () => {
-    let isSubscribed = true;
-    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const clinic = await fetch(clinicurl);
-
-    if (isSubscribed) {
-      try {
-        const clinicData = await clinic.json();
-        if (clinicData) {
-          setData(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    }
-    return () => (isSubscribed = false);
-  };
-
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      fetchDatails();
     }
   }, [status]);
 
   async function fetchDatails() {
-    const courseurl = `${process.env.dev}/course/match/${clinicData._id}`;
-    const availurl = `${process.env.dev}/available/match/${clinicData._id}`;
-    const patienturl = `${process.env.dev}/patient/match/clinic/${clinicData._id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
-    const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
-    const eventurl = `${process.env.dev}/event/match/clinic/${clinicData._id}`;
+    if (session && clinicData) {
+      const courseurl = `${process.env.dev}/course/match/${clinicData._id}`;
+      const availurl = `${process.env.dev}/available/match/${clinicData._id}`;
+      const patienturl = `${process.env.dev}/patient/match/clinic/${clinicData._id}`;
+      const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
+      const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
+      const eventurl = `${process.env.dev}/event/match/clinic/${clinicData._id}`;
 
-    const appointment = await fetch(appointmenturl);
-    const patient = await fetch(patienturl);
-    const course = await fetch(courseurl);
-    const avail = await fetch(availurl);
-    const staff = await fetch(staffurl);
-    const events = await fetch(eventurl);
-    try {
-      const appointmentData = await appointment.json();
-      const courseData = await course.json();
-      const availData = await avail.json();
-      const patientData = await patient.json();
-      const staffs = await staff.json();
-      const eventData = await events.json();
-      setAppointmentData(appointmentData);
-      setCourseData(courseData);
-      setAvailData(availData);
-      setPatientData(patientData);
-      setStaffs(staffs);
-      setEventData(eventData);
-    } catch (err) {
-      console.log(err);
+      const appointment = await fetch(appointmenturl);
+      const patient = await fetch(patienturl);
+      const course = await fetch(courseurl);
+      const avail = await fetch(availurl);
+      const staff = await fetch(staffurl);
+      const events = await fetch(eventurl);
+      try {
+        const appointmentData = await appointment.json();
+        const courseData = await course.json();
+        const availData = await avail.json();
+        const patientData = await patient.json();
+        const staffs = await staff.json();
+        const eventData = await events.json();
+        setAppointmentData(appointmentData);
+        setCourseData(courseData);
+        setAvailData(availData);
+        setPatientData(patientData);
+        setStaffs(staffs);
+        setEventData(eventData);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
-
-  useEffect(() => {
-    if (clinicData._id) {
-      fetchDatails();
-    }
-  }, []);
 
   return (
     <div>
@@ -165,7 +144,7 @@ const Appointment = ({ user }) => {
             <ListView
               data={appointmentData}
               events={eventData}
-              user={user}
+              user={session}
               staffs={staffs}
               clinic={clinicData}
             />
@@ -173,7 +152,7 @@ const Appointment = ({ user }) => {
             <CalendarView
               data={appointmentData}
               event={eventData}
-              user={user}
+              user={session}
               staffs={staffs}
               clinic={clinicData}
             />
@@ -188,13 +167,28 @@ export default Appointment;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const { user } = session;
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData, user } };
+    } catch (error) {
+      return {
+        props: {
+          error: true,
+          user,
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true,
+    },
   };
 }

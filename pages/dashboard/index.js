@@ -1,5 +1,6 @@
 import { getSession, useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import LinkGridCard from "../../components/LinkGridCard";
 import AmountCard from "../../components/AmountCard";
 import VerifiedIcon from "@mui/icons-material/Verified";
@@ -20,6 +21,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
 }));
 
 function Dashboard({ data }) {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [clinic, setData] = useState([]);
   const [requestData, setRequestData] = useState([]);
@@ -74,7 +76,6 @@ function Dashboard({ data }) {
       fetchData();
     }
   }, []);
-  
   return (
     <>
       {/* Clinic Hours */}

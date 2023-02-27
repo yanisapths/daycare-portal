@@ -9,7 +9,7 @@ import { resolve } from "styled-jsx/css";
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function ListView({ clinicData,courseData }) {
+function ListView({ clinicData, courseData }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -23,8 +23,6 @@ function ListView({ clinicData,courseData }) {
       setOpen(false);
     }
   };
-  
- 
 
   if (courseData.length >= 1) {
     return (
@@ -39,27 +37,21 @@ function ListView({ clinicData,courseData }) {
           />
         </div>
 
-        <div
-          className="grid grid-cols-3 my-4 h-fit gap-4 justify-start sm:grid-cols-1 md:grid-cols-2 xxl:grid-cols-4"
-         
-        >
-          {courseData?.map((course) => (
-            <div key={course._id}>
-            <HoverCard
-              key={course._id}
-              id={course._id}
-              name={course.courseName}
-              amount={course.amount}
-              duration={course.duration}
-              totalPrice={course.totalPrice}
-              procedures={course.procedures}
-              type={course.type}
-            />
+        <div className="grid grid-cols-3 my-4 h-fit gap-4 justify-start sm:grid-cols-1 md:grid-cols-2 xxl:grid-cols-4">
+          {courseData?.map((course, index) => (
+            <div key={index}>
+              <HoverCard
+                id={course._id}
+                name={course.courseName}
+                amount={course.amount}
+                duration={course.duration}
+                totalPrice={course.totalPrice}
+                procedures={course.procedures}
+                type={course.type}
+              />
             </div>
-            
           ))}
         </div>
-        
       </div>
     );
   } else {
@@ -87,9 +79,8 @@ function ListView({ clinicData,courseData }) {
 export default ListView;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  
+
   return {
-    props: { session, }
-    
+    props: { session },
   };
 }

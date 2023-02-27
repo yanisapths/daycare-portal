@@ -7,9 +7,8 @@ import BtnAdd from "../../components/common/BtnAdd";
 import AddStaffForm from "./AddStaffForm";
 import ListView from "./staff_view/ListView";
 
-const Staff = ({ user }) => {
+const Staff = ({ clinic }) => {
   const [open, setOpen] = useState(false);
-  const [clinic, setClinic] = useState({});
   const [staffData, setStaff] = useState([]);
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -21,46 +20,29 @@ const Staff = ({ user }) => {
       setOpen(false);
     }
   };
-  async function fetchData() {
-    if (session.user.id) {
-      const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
-      );
-      try {
-        const clinic = await res.json();
-        if (clinic) {
-          setClinic(clinic);
-        } else return;
-      } catch (err) {
-        return router.push("/noClinic");
-      }
-    } else {
-    }
-  }
   async function fetchStaff() {
-    const res = await fetch(`${process.env.dev}/staff/match/${clinic._id}`);
-    try {
-      const staffData = await res.json();
-      setStaff(staffData);
-      if (staffData) {
-      } else return;
-    } catch (err) {
-      console.log(err);
+    if (session && clinic) {
+      const res = await fetch(`${process.env.dev}/staff/match/${clinic._id}`);
+      try {
+        const staffData = await res.json();
+        setStaff(staffData);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
+
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData().catch(console.error);
+      if (!clinic) {
+        return router.push("/noClinic");
+      }
+      fetchStaff();
     }
   }, [status]);
 
-  useEffect(() => {
-    if (clinic._id) {
-      fetchStaff();
-    }
-  }, []);
   return (
     <div>
       <Head>
@@ -73,13 +55,15 @@ const Staff = ({ user }) => {
           <h2 className="pageTitle">พนักงาน</h2>
           <div className="flex mx-3 justify-end">
             <BtnAdd onClick={handleClickOpen} />
-            <AddStaffForm
-              open={open}
-              setOpen={setOpen}
-              handleClose={handleClose}
-              clinicData={clinic}
-              id={clinic._id}
-            />
+            {session && clinic && (
+              <AddStaffForm
+                open={open}
+                setOpen={setOpen}
+                handleClose={handleClose}
+                clinicData={clinic}
+                id={clinic._id}
+              />
+            )}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:gap-5">
             {staffData ? (
@@ -111,13 +95,27 @@ export default Staff;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinic = await res.json();
+      if (!clinic) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinic } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true,
+    },
   };
 }

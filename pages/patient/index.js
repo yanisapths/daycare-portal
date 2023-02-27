@@ -8,11 +8,10 @@ import Head from "next/head";
 import AddPatientForm from "./AddPatientForm";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function Patient() {
+function Patient({ clinicData }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [clinicData, setClinic] = useState({});
   const [patientData, setPatientData] = useState([]);
 
   const handleClickOpen = () => {
@@ -23,46 +22,25 @@ function Patient() {
       setOpen(false);
     }
   };
-
   async function fetchData() {
-    if (session.user.id) {
+    if (session && clinicData) {
       const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
+        `${process.env.dev}/patient/match/clinic/${clinicData._id}`
       );
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setClinic(clinicData);
-        } else return;
-      } catch (err) {
-        return router.push("/noClinic");
-      }
-    } else {
-    }
-  }
-
-  async function fetchPatient() {
-    const res = await fetch(`${process.env.dev}/patient/match/clinic/${clinicData._id}`);
-    try {
       const patientData = await res.json();
       if (patientData) {
         setPatientData(patientData);
-      } else return;
-    } catch (err) {
-      console.log(err);
+      }
     }
-  } 
-  
-  useEffect(() => {
-    if (clinicData._id) {
-      fetchPatient();
-    }
-  }, []);
+  }
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
       fetchData();
     }
   }, [status]);
@@ -103,7 +81,27 @@ export default Patient;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
+  }
   return {
-    props: { session },
+    props: {
+      error: true,
+    },
   };
 }

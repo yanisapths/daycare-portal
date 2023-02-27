@@ -6,41 +6,19 @@ import FooterSocial from "../../components/FooterSocial";
 import Head from "next/head";
 import { useTheme } from "@mui/material/styles";
 import ListView from "../course/course_view/listView";
+import axios from "axios";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function Course() {
+function Course({ clinicData }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
   const router = useRouter();
   const [courseData, setCourseData] = useState([]);
-  const [clinicData, setData] = useState({});
-
-  async function fetchData() {
-    await delay(1000);
-    if (session.user.id) {
-      const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
-      );
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    } else {
-      await delay(3000);
-    }
-  }
 
   async function fetchCourseData() {
-    await delay(1000);
-    const url = `${process.env.dev}/course/match/${clinicData._id}`;
-
-    if (session.user.id) {
-      const res = await fetch(url);
+    if (session && clinicData) {
+      const url = `${process.env.dev}/course/match/${clinicData._id}`;
+      const res = await fetch(url, { method: "GET" });
       try {
         const courseData = await res.json();
         if (courseData) {
@@ -49,23 +27,17 @@ function Course() {
       } catch (err) {
         console.log(err);
       }
-    } else {
-      await delay(3000);
     }
   }
-
-  useEffect(() => {
-    //course
-    if (clinicData._id) {
-      fetchCourseData();
-    }
-  }, []);
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if(!clinicData){
+        return router.push("/noClinic");
+       }
+       fetchCourseData();
     }
   }, [status]);
 
@@ -104,8 +76,27 @@ export default Course;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
+  }
   return {
-    props: { session },
+    props: {
+      error: true,
+    },
   };
 }

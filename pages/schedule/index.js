@@ -16,72 +16,53 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-const Schedule = ({ user, patient }) => {
+const Schedule = ({ patient,clinic,user }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [clinic, setData] = useState([]);
   const [course, setCourseData] = useState([]);
   const [appointment, setAppointmentData] = useState([]);
   const [event, setEventData] = useState([]);
   const [result, setResult] = useState("");
   const [staffs, setStaffs] = useState([]);
 
-  async function fetchClinic() {
-    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
-    if (session.user.id) {
-      const res = await fetch(url);
-      try {
-        const clinic = await res.json();
-        if (clinic) {
-          setData(clinic);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    } else {
-    }
-  }
-
   const fetchData = async () => {
     let isSubscribed = true;
-    const courseurl = `${process.env.dev}/course/match/${clinic._id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/${clinic._id}/approved`;
-    const eventurl = `${process.env.dev}/event/match/clinic/${clinic._id}`;
-    const staffurl = `${process.env.dev}/staff/match/${clinic._id}`;
-
-    const appointments = await fetch(appointmenturl);
-    const courses = await fetch(courseurl);
-    const events = await fetch(eventurl);
-    const staff = await fetch(staffurl);
-
-    const appointment = await appointments.json();
-    const course = await courses.json();
-    const event = await events.json();
-    const staffs = await staff.json();
-
-    if (isSubscribed) {
-      setAppointmentData(appointment);
-      setCourseData(course);
-      setEventData(event);
-      setStaffs(staffs);
+    if(session){
+      const courseurl = `${process.env.dev}/course/match/${clinic._id}`;
+      const appointmenturl = `${process.env.dev}/appointment/match/${clinic._id}/approved`;
+      const eventurl = `${process.env.dev}/event/match/clinic/${clinic._id}`;
+      const staffurl = `${process.env.dev}/staff/match/${clinic._id}`;
+  
+      const appointments = await fetch(appointmenturl);
+      const courses = await fetch(courseurl);
+      const events = await fetch(eventurl);
+      const staff = await fetch(staffurl);
+  
+      const appointment = await appointments.json();
+      const course = await courses.json();
+      const event = await events.json();
+      const staffs = await staff.json();
+  
+      if (isSubscribed) {
+        setAppointmentData(appointment);
+        setCourseData(course);
+        setEventData(event);
+        setStaffs(staffs);
+      }
+      return () => (isSubscribed = false);
     }
-    return () => (isSubscribed = false);
+    else {
+      router.push("/auth/signin/");
+    }
   };
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchClinic();
-    }
-  }, [status]);
-  
-  useEffect(() => {
-    if (clinic._id) {
       fetchData();
     }
-  }, []);
+  }, [status]);
 
   const handleChange = (event) => {
     setResult(event.target.value);
@@ -195,13 +176,28 @@ export default Schedule;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const { user } = session;
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinic = await res.json();
+      if (!clinic) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinic,user } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,user
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true
+    },
   };
 }
