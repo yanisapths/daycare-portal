@@ -7,7 +7,6 @@ import { useState } from "react";
 import Overlay from "../OLLayout/Overlay";
 
 function HoverCard({
-  key,
   id,
   name,
   amount,
@@ -34,7 +33,6 @@ function HoverCard({
           open={open}
           handleClose={handleClose}
           setOpen={setOpen}
-          key={key}
           id={id}
           name={name}
           amount={amount}

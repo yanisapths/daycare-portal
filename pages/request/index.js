@@ -9,29 +9,13 @@ import TableView from "./request_view/TableView";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
-const Request = ({user}) => {
+const Request = ({clinicData}) => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [clinicData, setData] = useState([]);
   const [selected, setSelected] = useState("");
   const [view, setView] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [patientData, setPatientData] = useState([]);
-  const [courseData, setCourseData] = useState([]);
-  const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
   const [staffs, setStaffs] = useState([]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = (event, reason) => {
-    if (reason !== "backdropClick") {
-      setOpen(false);
-    } else {
-      setOpen(false);
-    }
-  };
 
   const list = [
     {
@@ -56,61 +40,35 @@ const Request = ({user}) => {
         setView(clinicData);
     }
   }, [selected]);
-  const fetchData = async () => {
-    let isSubscribed = true;
-    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const clinic = await fetch(clinicurl);
-    if (isSubscribed) {
-      try {
-        const clinicData = await clinic.json();
-        if (clinicData) {
-          setData(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    }
-    return () => (isSubscribed = false);
-  };
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if(!clinicData){
+        return router.push("/noClinic");
+       }
+       fetchDatails();
     }
   }, [status]);
 
   async function fetchDatails() {
-    const courseurl = `${process.env.dev}/course/match/${clinicData._id}`;
-    const availurl = `${process.env.dev}/available/match/${clinicData._id}`;
-    const patienturl = `${process.env.dev}/patient/match/clinic/${clinicData._id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
-    const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
-    const appointment = await fetch(appointmenturl);
-    const patient = await fetch(patienturl);
-    const course = await fetch(courseurl);
-    const avail = await fetch(availurl);
-    const staff = await fetch(staffurl);
-    try {
-    const appointmentData = await appointment.json();
-    const courseData = await course.json();
-    const availData = await avail.json();
-    const patientData = await patient.json();
-    const staffs = await staff.json();
-    setAppointmentData(appointmentData);
-    setCourseData(courseData);
-    setAvailData(availData);
-    setPatientData(patientData);
-    setStaffs(staffs);
-    } catch (err) {
-      console.log(err);
+    if(session && clinicData){
+      const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
+      const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
+      const appointment = await fetch(appointmenturl);
+      const staff = await fetch(staffurl);
+      try {
+      const appointmentData = await appointment.json();
+      const staffs = await staff.json();
+      setAppointmentData(appointmentData);
+      setStaffs(staffs);
+      } catch (err) {
+        console.log(err);
+      }
     }
   } 
-  if (clinicData._id) {
-    fetchDatails();
-  }
+
   return (
     <div>
       <Head>
@@ -154,14 +112,27 @@ export default Request;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true,
+    },
   };
 }
-
