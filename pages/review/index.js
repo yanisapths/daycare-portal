@@ -10,14 +10,12 @@ const Review = ({ clinic }) => {
   const { data: session, status } = useSession();
   const [reviews, setReviews] = useState([]);
   async function fetchData() {
-    if (session) {
+    if (session && clinic) {
       const res = await fetch(`${process.env.dev}/review/match/${clinic._id}`);
       const reviews = await res.json();
       if (reviews) {
         setReviews(reviews);
       }
-    } else {
-      router.push("/auth/signin/");
     }
   }
 
@@ -25,6 +23,9 @@ const Review = ({ clinic }) => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
+      if(!clinic){
+        return router.push("/noClinic");
+      }
       fetchData();
     }
   }, [status]);

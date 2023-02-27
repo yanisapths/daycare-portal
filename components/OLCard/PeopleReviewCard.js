@@ -21,7 +21,7 @@ function PeopleReviewCard({
       <div className="flex items-center space-x-4">
         {!imageUrl && (
           <>
-            <Image
+          <Image
               className="rounded-full cursor-pointer"
               src="/Avatar.png"
               alt="/Avatar.png"
@@ -33,13 +33,16 @@ function PeopleReviewCard({
         {imageUrl && (
           <>
             {imageUrl && (
-              <Image
+              <div>
+                <Image
                 alt="/Avatar.png"
                 className="rounded-full cursor-pointer"
                 src={imageUrl}
                 width="60"
                 height="60"
               />
+              </div>
+              
             )}
           </>
         )}
@@ -50,11 +53,11 @@ function PeopleReviewCard({
           </p>
         </div>
       </div>
-      <div className="items-center mb-1 lg:px-16 px-2">
-        <div className="px-2 pt-2">
+      <div className="items-center mb-1  ">
+        <div className=" pt-2">
           <ReactStars {...ratingStar} />
         </div>
-        <p className="body2 lg:h6 px-2">{comments}</p>
+        <p className="text-base xxl:text-lg  px-2 ">{comments}</p>
       </div>
     </div>
   );
