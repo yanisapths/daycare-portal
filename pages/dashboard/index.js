@@ -5,6 +5,7 @@ import AmountCard from "../../components/AmountCard";
 import VerifiedIcon from "@mui/icons-material/Verified";
 import { styled } from "@mui/material/styles";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import { useRouter } from "next/router";
 
 const CustomTooltip = styled(({ className, ...props }) => (
   <Tooltip {...props} classes={{ popper: className }} />
@@ -24,10 +25,11 @@ function Dashboard({ data }) {
   const [clinic, setData] = useState([]);
   const [requestData, setRequestData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
+  const router = useRouter();
 
   async function fetchClinic() {
-    const url = `${process.env.dev}/clinic/owner/${user.id}`;
-    if (user.id) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    if (session.user.id) {
       const res = await fetch(url);
       try {
         const clinic = await res.json();

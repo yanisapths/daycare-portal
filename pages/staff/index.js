@@ -22,10 +22,9 @@ const Staff = ({ user }) => {
     }
   };
   async function fetchData() {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
     if (session.user.id) {
-      const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
-      );
+      const res = await fetch(url);
       try {
         const clinic = await res.json();
         if (clinic) {
@@ -38,7 +37,8 @@ const Staff = ({ user }) => {
     }
   }
   async function fetchStaff() {
-    const res = await fetch(`${process.env.dev}/staff/match/${clinic._id}`);
+    const url = `${process.env.dev}/staff/match/${clinic._id}`;
+    const res = await fetch(url);
     try {
       const staffData = await res.json();
       setStaff(staffData);
