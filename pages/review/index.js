@@ -12,7 +12,7 @@ const Review = ({ user }) => {
   const [clinicData, setData] = useState({});
 
   async function fetchData() {
-    const url = `${process.env.dev}/clinic/owner/${user.id}`;
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
     if (user.id) {
       const res = await fetch(url);
       try {

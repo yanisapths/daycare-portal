@@ -43,9 +43,8 @@ const Availability = () => {
   async function fetchData() {
     await delay(1000);
     if (session.user.id) {
-      const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
-      );
+      const url =`${process.env.dev}/clinic/owner/${session.user.id}`
+      const res = await fetch(url);
       try {
         const clinicData = await res.json();
         if (clinicData) {

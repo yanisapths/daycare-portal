@@ -273,7 +273,7 @@ function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
                     />
                   </div>
                   <button
-                    className="w-36 text-sm h-9 rounded-full bg-[#AD8259]/20 text-[#6C5137] hover:bg-[#AD8259] hover:text-white hover:shadow-xl"
+                    className="w-40 text-sm h-9 rounded-full bg-[#AD8259]/20 text-[#6C5137] hover:bg-[#AD8259] hover:text-white hover:shadow-xl"
                     onClick={() =>
                       Swal.fire({
                         title: "เสร็จสิ้นการให้บริการนัดครั้งนี้?",

@@ -26,8 +26,8 @@ function Dashboard({ data }) {
   const [appointmentData, setAppointmentData] = useState([]);
 
   async function fetchClinic() {
-    const url = `${process.env.dev}/clinic/owner/${user.id}`;
-    if (user.id) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    if (session.user.id) {
       const res = await fetch(url);
       try {
         const clinic = await res.json();

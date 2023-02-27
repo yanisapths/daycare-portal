@@ -58,7 +58,7 @@ const Appointment = ({ user }) => {
 
   const fetchData = async () => {
     let isSubscribed = true;
-    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
+    const clinicurl = `${process.env.dev}/clinic/owner/${session.user.id}`;
     const clinic = await fetch(clinicurl);
 
     if (isSubscribed) {
