@@ -4,47 +4,29 @@ import { useRouter } from "next/router";
 import Head from "next/head";
 import Header from "../../components/Header";
 import ListView from "./request_view/ListView";
-import BtnAdd from "../../components/common/BtnAdd";
 import IconButton from "../../components/common/OLIconButton";
 import TableView from "./request_view/TableView";
-import AddRequestForm from "./AddRequestForm";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
-const Request = ({user}) => {
+const Request = ({clinicData}) => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [clinicData, setData] = useState([]);
   const [selected, setSelected] = useState("");
   const [view, setView] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [patientData, setPatientData] = useState([]);
-  const [courseData, setCourseData] = useState([]);
-  const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
   const [staffs, setStaffs] = useState([]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = (event, reason) => {
-    if (reason !== "backdropClick") {
-      setOpen(false);
-    } else {
-      setOpen(false);
-    }
-  };
 
   const list = [
     {
       id: "listView",
       icon: <ViewListIcon className="w-8 h-8" />,
-      title: "List View",
+      title: "คำขอใหม่",
     },
     {
       id: "tableView",
       icon: <GridOnIcon className="w-8 h-8" />,
-      title: "Table View",
+      title: "คำขอทั้งหมด",
     },
   ];
 
@@ -59,46 +41,33 @@ const Request = ({user}) => {
     }
   }, [selected]);
 
-  const fetchData = async () => {
-    let isSubscribed = true;
-    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
-    const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
-    const patienturl = `${process.env.dev}/patient/match/${user.id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
-    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
-
-    const appointment = await fetch(appointmenturl);
-    const patient = await fetch(patienturl);
-    const course = await fetch(courseurl);
-    const avail = await fetch(availurl);
-    const clinic = await fetch(clinicurl);
-    const staff = await fetch(staffurl);
-
-    const appointmentData = await appointment.json();
-    const courseData = await course.json();
-    const availData = await avail.json();
-    const patientData = await patient.json();
-    const clinicData = await clinic.json();
-    const staffs = await staff.json();
-    if (isSubscribed) {
-      setData(clinicData);
-      setAppointmentData(appointmentData);
-      setCourseData(courseData);
-      setAvailData(availData);
-      setPatientData(patientData);
-      setStaffs(staffs);
-    }
-    return () => (isSubscribed = false);
-  };
-  
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if(!clinicData){
+        return router.push("/noClinic");
+       }
+       fetchDatails();
     }
   }, [status]);
+
+  async function fetchDatails() {
+    if(session && clinicData){
+      const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
+      const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
+      const appointment = await fetch(appointmenturl);
+      const staff = await fetch(staffurl);
+      try {
+      const appointmentData = await appointment.json();
+      const staffs = await staff.json();
+      setAppointmentData(appointmentData);
+      setStaffs(staffs);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  } 
 
   return (
     <div>
@@ -112,19 +81,6 @@ const Request = ({user}) => {
         <div className="main xl:px-12 md:px-8 px-4">
           <h2 className="pageTitle">คำขอดูแล</h2>
           <div className="font-semibold text-[#6C5137] flex justify-end">
-            <div className="pt-2 xl:px-6">
-              <BtnAdd onClick={handleClickOpen}/>
-              <AddRequestForm
-                open={open}
-                setOpen={setOpen}
-                handleClose={handleClose}
-                patientData={patientData}
-                clinicData={clinicData}
-                user={user}
-                courseData={courseData}
-                availData={availData}
-              />
-            </div>
             {list.map((item) => (
               <div
                 key={item.id}
@@ -156,14 +112,27 @@ export default Request;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true,
+    },
   };
 }
-

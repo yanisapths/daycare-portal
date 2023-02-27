@@ -7,9 +7,8 @@ import BtnAdd from "../../components/common/BtnAdd";
 import AddStaffForm from "./AddStaffForm";
 import ListView from "./staff_view/ListView";
 
-const Staff = ({ user }) => {
+const Staff = ({ clinic }) => {
   const [open, setOpen] = useState(false);
-  const [clinic, setClinic] = useState({});
   const [staffData, setStaff] = useState([]);
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -21,43 +20,42 @@ const Staff = ({ user }) => {
       setOpen(false);
     }
   };
-
-  const fetchData = async () => {
-    let isSubscribed = true;
-    const res = await fetch(`${process.env.dev}/clinic/owner/${user.id}`);
-    const staff = await fetch(`${process.env.dev}/staff/owner/${user.id}`);
-
-    const staffData = await staff.json();
-
-    const clinic = await res.json();
-    if (isSubscribed) {
-      setClinic(clinic);
-      setStaff(staffData);
+  async function fetchStaff() {
+    if (session && clinic) {
+      const res = await fetch(`${process.env.dev}/staff/match/${clinic._id}`);
+      try {
+        const staffData = await res.json();
+        setStaff(staffData);
+      } catch (err) {
+        console.log(err);
+      }
     }
-    return () => (isSubscribed = false);
-  };
+  }
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData().catch(console.error);
+      if (!clinic) {
+        return router.push("/noClinic");
+      }
+      fetchStaff();
     }
   }, [status]);
 
-  if (clinic) {
-    return (
-      <div>
-        <Head>
-          <title>Clinic | Staff </title>
-          <link rel="icon" href="favicon.ico" />
-        </Head>
-        <div className="divide-y divide-[#A17851] divide-opacity-30">
-          <Header />
-          <div className="main xl:px-12 md:px-8 px-4 pb-40">
-            <h2 className="pageTitle">พนักงาน</h2>
-            <div className="flex mx-3 justify-end">
-              <BtnAdd onClick={handleClickOpen} />
+  return (
+    <div>
+      <Head>
+        <title>Clinic | Staff </title>
+        <link rel="icon" href="favicon.ico" />
+      </Head>
+      <div className="divide-y divide-[#A17851] divide-opacity-30">
+        <Header />
+        <div className="main xl:px-12 md:px-8 px-4 pb-40">
+          <h2 className="pageTitle">พนักงาน</h2>
+          <div className="flex mx-3 justify-end">
+            <BtnAdd onClick={handleClickOpen} />
+            {session && clinic && (
               <AddStaffForm
                 open={open}
                 setOpen={setOpen}
@@ -65,12 +63,13 @@ const Staff = ({ user }) => {
                 clinicData={clinic}
                 id={clinic._id}
               />
-            </div>
-            <div className="lg:flex xl:grid xl:grid-cols-2 gap-5">
+            )}
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-1 sm:grid-cols-1 lg:gap-5">
             {staffData ? (
-              staffData.map((data,index) => {
+              staffData.map((data, index) => {
                 return (
-                  <div className="flex justify-center"  key={index}>
+                  <div className="flex justify-center" key={index}>
                     <ListView
                       clinicData={clinic}
                       id={clinic._id}
@@ -85,27 +84,38 @@ const Staff = ({ user }) => {
                 <p className="h3 text-black/50">คุณยังไม่ได้เพิ่มพนักงาน</p>
               </div>
             )}
-            </div>
           </div>
         </div>
       </div>
-    );
-  } else {
-    return <></>;
-  }
+    </div>
+  );
 };
 
 export default Staff;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinic = await res.json();
+      if (!clinic) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinic } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true,
+    },
   };
 }

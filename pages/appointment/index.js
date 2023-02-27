@@ -5,19 +5,18 @@ import Head from "next/head";
 import BtnAdd from "../../components/common/BtnAdd";
 import IconButton from "../../components/common/OLIconButton";
 import Header from "../../components/Header";
-import ListView from "./appointment_view/ListView";
+import ListView from "../../components/AppointmentView/ListView";
 import CalendarView from "./appointment_view/CalendarView";
-import AddAppointmentForm from "./AddAppointmentForm";
+import AddAppointmentForm from "../../components/OLForm/AddAppointmentForm";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
-const Appointment = ({ user }) => {
+const Appointment = ({ user, clinicData }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [selected, setSelected] = useState("");
   const [view, setView] = useState([]);
   const [open, setOpen] = useState(false);
-  const [clinicData, setData] = useState([]);
   const [patientData, setPatientData] = useState([]);
   const [courseData, setCourseData] = useState([]);
   const [availData, setAvailData] = useState([]);
@@ -36,12 +35,12 @@ const Appointment = ({ user }) => {
     {
       id: "calendarView",
       icon: <CalendarMonthIcon className="w-8 h-8" />,
-      title: "Calendar View",
+      title: "ปฏิทิน",
     },
     {
       id: "listView",
       icon: <ViewListIcon className="w-8 h-8" />,
-      title: "List View",
+      title: "นัดทั้งหมด",
     },
   ];
 
@@ -56,55 +55,55 @@ const Appointment = ({ user }) => {
     }
   }, [selected]);
 
-  const fetchData = async () => {
-    let isSubscribed = true;
-    const clinicurl = `${process.env.dev}/clinic/owner/${user.id}`;
-    const courseurl = `${process.env.dev}/course/match/owner/${user.id}`;
-    const availurl = `${process.env.dev}/available/match/owner/${user.id}`;
-    const patienturl = `${process.env.dev}/patient/match/${user.id}`;
-    const appointmenturl = `${process.env.dev}/appointment/match/owner/${user.id}`;
-    const eventurl = `${process.env.dev}/event/match/owner/${user.id}`;
-    const staffurl = `${process.env.dev}/staff/owner/${user.id}`;
-
-    const appointment = await fetch(appointmenturl);
-    const patient = await fetch(patienturl);
-    const course = await fetch(courseurl);
-    const avail = await fetch(availurl);
-    const clinic = await fetch(clinicurl);
-    const events = await fetch(eventurl);
-    const staff = await fetch(staffurl);
-
-    const appointmentData = await appointment.json();
-    const courseData = await course.json();
-    const availData = await avail.json();
-    const patientData = await patient.json();
-    const clinicData = await clinic.json();
-    const eventData = await events.json();
-    const staffs = await staff.json();
-    if (isSubscribed) {
-      setData(clinicData);
-      setAppointmentData(appointmentData);
-      setCourseData(courseData);
-      setAvailData(availData);
-      setPatientData(patientData);
-      setEventData(eventData);
-      setStaffs(staffs);
-    }
-    return () => (isSubscribed = false);
-  };
-
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      fetchDatails();
     }
   }, [status]);
+
+  async function fetchDatails() {
+    if (session && clinicData) {
+      const courseurl = `${process.env.dev}/course/match/${clinicData._id}`;
+      const availurl = `${process.env.dev}/available/match/${clinicData._id}`;
+      const patienturl = `${process.env.dev}/patient/match/clinic/${clinicData._id}`;
+      const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
+      const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
+      const eventurl = `${process.env.dev}/event/match/clinic/${clinicData._id}`;
+
+      const appointment = await fetch(appointmenturl);
+      const patient = await fetch(patienturl);
+      const course = await fetch(courseurl);
+      const avail = await fetch(availurl);
+      const staff = await fetch(staffurl);
+      const events = await fetch(eventurl);
+      try {
+        const appointmentData = await appointment.json();
+        const courseData = await course.json();
+        const availData = await avail.json();
+        const patientData = await patient.json();
+        const staffs = await staff.json();
+        const eventData = await events.json();
+        setAppointmentData(appointmentData);
+        setCourseData(courseData);
+        setAvailData(availData);
+        setPatientData(patientData);
+        setStaffs(staffs);
+        setEventData(eventData);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
 
   return (
     <div>
       <Head>
-        <title>Daycare | Appointment </title>
+        <title>Clinic | Appointment </title>
         <link rel="icon" href="favicon.ico" />
       </Head>
       <div className="divide-y divide-[#A17851] divide-opacity-30 sm:divide-opacity-70">
@@ -122,7 +121,7 @@ const Appointment = ({ user }) => {
                 clinicData={clinicData}
                 user={user}
                 courseData={courseData}
-                availData={availData}
+                availables={availData}
               />
             </div>
             {list.map((item) => (
@@ -142,13 +141,20 @@ const Appointment = ({ user }) => {
             ))}
           </div>
           {selected == "listView" ? (
-            <ListView data={appointmentData} events={eventData} user={user} staffs={staffs} />
+            <ListView
+              data={appointmentData}
+              events={eventData}
+              user={session}
+              staffs={staffs}
+              clinic={clinicData}
+            />
           ) : (
             <CalendarView
               data={appointmentData}
               event={eventData}
-              user={user}
+              user={session}
               staffs={staffs}
+              clinic={clinicData}
             />
           )}
         </div>
@@ -161,13 +167,28 @@ export default Appointment;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const { user } = session;
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData, user } };
+    } catch (error) {
+      return {
+        props: {
+          error: true,
+          user,
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true,
+    },
   };
 }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Router from "next/router";
 import BtnDetails from "../BtnDetails";
-import FormModal from "../../pages/request/FormModal";
+import Overlay from "../OLLayout/Overlay";
+import AppointmentModal from "../OLModal/AppointmentModal";
 import BtnCancel from "../BtnCancel";
 import RoundTextIcon from "../OLIcon/RoundTextIcon";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
@@ -12,15 +13,13 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function EventListCard({ data, d, index, user,staffs }) {
+function EventListCard({ clinic,data, d, index, user, staffs }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
   const [appointment, setAppointment] = useState({});
-  console.log(appointment)
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -54,10 +53,10 @@ function EventListCard({ data, d, index, user,staffs }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option) 
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
       .then(async (res) => {
         toast.success("สำเร็จ");
-        console.log(res)
+        Router.reload();
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -66,7 +65,7 @@ function EventListCard({ data, d, index, user,staffs }) {
   }
   const fetchData = async () => {
     let isSubscribed = true;
-    const eventUrl = `${process.env.dev}/event/match/${d._id}`;
+    const eventUrl = `${process.env.dev}/event/match/${d.appointment_id}`;
     const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
     const appointmenturl = `${process.env.dev}/appointment/${d.appointment_id}`;
     const courseurl = `${process.env.dev}/course/${d.course_id}`;
@@ -91,18 +90,33 @@ function EventListCard({ data, d, index, user,staffs }) {
   };
 
   useEffect(() => {
-    fetchData().catch((err) => console.error(err))
+    fetchData().catch((err) => console.error(err));
   }, []);
 
   return (
     <>
-      {d.status == "Approved" && d.status != "Done" &&
+      {selectedId && (
+        <Overlay close={handleClose}>
+          <AppointmentModal
+            eventList={eventList}
+            user={user}
+            data={appointment}
+            patient={p}
+            setSelectedId={setSelectedId}
+            course={course}
+            close={handleClose}
+            clinic={clinic}
+          ></AppointmentModal>
+        </Overlay>
+      )}
+      {d.status == "Approved" &&
+      d.status != "Done" &&
       data.status != "Done" &&
       appointment.status != "Rejected" ? (
         <>
           <article
             key={d._id}
-            className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-3 px-4 md:pl-12 xl:pl-12"
+            className="overflow-hidden rounded-2xl shadow-lg transition hover:shadow-2xl bg-white px-4 lg:pl-10 md:pl-10 xl:pl-10"
           >
             <motion.div
               key={d._id}
@@ -120,8 +134,8 @@ function EventListCard({ data, d, index, user,staffs }) {
                         </p>
                       </div>
                     </div>
-                    <div className="flex gap-4 sm:gap-12">
-                      <div className="font-semibold pb-2 text-base xl:text-lg sm:w-4/6 sm:truncate">
+                    <div className="flex gap-4 sm:gap-12 sm:col-start-1 sm:col-span-6">
+                      <div className="font-semibold pb-2 text-base xl:text-lg  sm:truncate">
                         <span className="text-base">คุณ </span>
                         {appointment.firstName ? (
                           <span>
@@ -140,13 +154,13 @@ function EventListCard({ data, d, index, user,staffs }) {
                           </span>
                         )}
                       </div>
-                      <div className="sm:w-full">
+                    </div>
+                    <div className="sm:w-full sm:col-start-1 sm:pb-1">
                         <RoundTextIcon
                           icon={<BookmarksIcon className="w-5 h-5" />}
                           text={course.courseName}
                         />
                       </div>
-                    </div>
                     <div className="col-start-1 col-span-6">
                       <span className="text-[#969696]">
                         <AccessTimeIcon />
@@ -197,7 +211,7 @@ function EventListCard({ data, d, index, user,staffs }) {
                         <PermIdentityIcon />
                       </span>
                       <span className="font-semibold mx-2 xxl:mx-4 xxl:text-lg xxxl:text-xl">
-                      {appointment.staff ? (
+                        {appointment.staff ? (
                           <span>
                             {staffs.map(
                               (input) =>
@@ -219,7 +233,7 @@ function EventListCard({ data, d, index, user,staffs }) {
                 </div>
               </div>
             </motion.div>
-            <div className="flex flex-wrap gap-2 md:justify-end xl:justify-end content-center mx-5 justify-center sm:my-3 md:pb-5 xl:pb-5">
+            <div className="flex  justify-end content-center mx-2  sm:mb-4 sm:mx-0  sm:justify-center lg:pb-2 md:pb-3 xl:pb-3">
               <div>
                 <BtnCancel
                   text="ยกเลิก"
@@ -254,8 +268,10 @@ function EventListCard({ data, d, index, user,staffs }) {
                   }
                 />
               </div>
-              <BtnDetails
-                text="เสร็จสิ้น"
+              <div>
+              <button
+                className="w-40  text-sm h-9 rounded-full bg-[#AD8259]/20 text-[#6C5137] hover:bg-[#AD8259] hover:text-white hover:shadow-xl"
+                
                 onClick={() =>
                   Swal.fire({
                     title: "เสร็จสิ้นการให้บริการ?",
@@ -283,8 +299,11 @@ function EventListCard({ data, d, index, user,staffs }) {
                       });
                     }
                   })
-                }
-              />
+                }>
+                  เสร็จสิ้นบริการนัดครั้งนี้
+                </button>
+              </div>
+              
             </div>
           </article>
         </>

@@ -7,7 +7,6 @@ import Header from "../components/Header";
 import Dashboard from "./dashboard";
 import BannerCard from "../components/common/BannerCard";
 import FooterSocial from "../components/FooterSocial";
-const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
 function Home() {
   const { data: session, status } = useSession();
@@ -15,7 +14,6 @@ function Home() {
   const [clinicData, setData] = useState({});
 
   async function fetchData() {
-    await delay(1000);
     if (session.user.id) {
       const res = await fetch(
         `${process.env.dev}/clinic/owner/${session.user.id}`
@@ -30,7 +28,6 @@ function Home() {
         return router.push("/noClinic");
       }
     } else {
-      await delay(3000);
     }
   }
 
@@ -44,15 +41,15 @@ function Home() {
 
   if (clinicData) {
     return (
-      <div className="">
+      <div className="relative">
         <Head>
           <title>Olive | Physiotherapy Clinic </title>
           <link rel="icon" href="favicon.ico" />
         </Head>
-        <Header />
+        <Header className="absolute" />
 
-        <main className="mb-72 max-w-screen md:px-12 xl:mx-24">
-          <div className="p-3 -ml-3 mx-auto px-6 lg:px-8">
+        <main className="mb-72 max-w-screen md:px-12 xl:mx-24 ">
+          <div className="p-3 -ml-3 mx-auto px-6 lg:px-8 sm:-ml-0 ">
             {session ? <BannerCard username={session.user.name} /> : <></>}
             <div />
             <Dashboard data={clinicData} />

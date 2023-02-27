@@ -1,10 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
-import FormModal from "../../pages/request/FormModal";
-import RequestModal from "../OLModal/RequestModal";
-import BtnCancel from "../BtnCancel";
-import BtnAccept from "../BtnAccept";
 import Overlay from "../OLLayout/Overlay";
 import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { styled } from "@mui/material/styles";
@@ -12,7 +8,6 @@ import IconButton from "@mui/material/IconButton";
 import DoDisturbIcon from "@mui/icons-material/DoDisturb";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import BtnDetails from "../BtnDetails";
 import AppointmentModal from "../OLModal/AppointmentModal";
 
 const CustomTooltip = styled(({ className, ...props }) => (
@@ -27,7 +22,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function AppointmentTableRow({ d, index, event, user }) {
+function AppointmentTableRow({ clinic,d, index, event, user }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -35,8 +30,10 @@ function AppointmentTableRow({ d, index, event, user }) {
   const [p, setPatient] = useState({});
   const [course, setCourse] = useState({});
   const [eventList, setEvent] = useState([]);
+  const left = (eventList.length + 1) % course.amount;
   let count = [];
   const e = d.events.length + 1;
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -73,17 +70,19 @@ function AppointmentTableRow({ d, index, event, user }) {
     return () => (isSubscribed = false);
   };
 
-  async function Finalized(appointmentId) {
+  function Finalized(appointmentId) {
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(
+    const res = fetch(
       `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
-      .then(async (res) => {
+      .then((res) => {
+        toast.success("สำเร็จ");
+        Router.reload();
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -98,31 +97,14 @@ function AppointmentTableRow({ d, index, event, user }) {
     }
   }, [status]);
 
-  async function markAsDone(appointmentId) {
-    const option = {
-      method: "PUT",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ progressStatus: "Done" }),
-    };
-    const res = await fetch(
-      `${process.env.dev}/appointment/markdone/${appointmentId}`,
-      option
-    )
-      .then(async (res) => {
-        Router.reload();
-      })
-      .catch((err) => {
-        console.log("ERROR: ", err);
-        toast.error("ไม่สำเร็จ");
-      });
-  }
   async function deleteRequest(appointmentId) {
     const res = await fetch(
       `${process.env.dev}/appointment/delete/${appointmentId}`,
       { method: "DELETE" }
     )
       .then(async (res) => {
-        toast.success("ลบรายการแล้ว");
+        toast.success("ลบรายการสำเร็จ");
+        Router.reload();
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -133,13 +115,6 @@ function AppointmentTableRow({ d, index, event, user }) {
   for (let i = d.events.length; i < course.amount - 1; i++) {
     count.push((props) => <div>{props.children}</div>);
   }
-
-
-  useEffect(() => {
-    {eventList.map((e,index)=> 
-     { e.status == "Done" && d.status == "Approved"? Finalized(e.appointment_id) : console.log("fas")}
-    )}
-  }, [e]);
 
   return (
     <>
@@ -153,6 +128,7 @@ function AppointmentTableRow({ d, index, event, user }) {
             setSelectedId={setSelectedId}
             close={closeModal}
             course={course}
+            clinic={clinic}
           ></AppointmentModal>
         </Overlay>
       )}
@@ -164,18 +140,20 @@ function AppointmentTableRow({ d, index, event, user }) {
             onClick={() => setSelectedId(d._id)}
             className={
               d.status == "Approved"
-                ? "bg-[#2ED477]/5 cursor-pointer hover:bg-[#2ED477]/20 text-[#6C5137]"
+                ? "bg-[#2ED477]/5 cursor-pointer text-center hover:bg-[#2ED477]/20 text-[#6C5137]"
                 : d.status == "Rejected"
-                ? "bg-[#FF2F3B]/5 cursor-pointer hover:bg-[#FF2F3B]/20 text-[#6C5137]"
-                : "cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
+                ? "bg-[#FF2F3B]/5 cursor-pointer text-center hover:bg-[#FF2F3B]/20 text-[#6C5137]"
+                : d.status == "Done"
+                ? "bg-[#4B5563]/5 cursor-pointer text-center hover:bg-[#4B5563]/10 text-[#4B5563]"
+                : "cursor-pointer text-center hover:bg-[#AD8259]/20 text-[#6C5137]"
             }
           >
-            <td className="flex w-24">
+            <td className="flex justify-center">
               <p
                 className={
-                  d.progressStatus == "Done" || d.status == "reviewed"
-                    ? "p-4 text-black/40 truncate"
-                    : "p-4 truncate"
+                  d.status == "Done" || d.status == "reviewed"
+                    ? "p-4 text-black/40 truncate w-32"
+                    : "p-4 truncate w-32"
                 }
               >
                 {d._id}
@@ -183,57 +161,7 @@ function AppointmentTableRow({ d, index, event, user }) {
             </td>
             <td
               className={
-                d.progressStatus == "Done" || d.status == "reviewed"
-                  ? "p-4 text-black/40"
-                  : "p-4 text-gray-700 whitespace-nowrap"
-              }
-            >
-              {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
-                month: "long",
-                day: "2-digit",
-                year: "numeric",
-              })}
-            </td>
-            <td className="p-4 text-gray-700 whitespace-nowrap">
-              {d.endTime ? (
-                <p
-                  className={
-                    d.progressStatus == "Done" || d.status == "reviewed"
-                      ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                      : "px-3 py-1.5 text-black text-xs font-medium"
-                  }
-                >
-                  {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                  {"-"}{" "}
-                  {new Date(d.endTime).toLocaleTimeString("en-EN", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </p>
-              ) : (
-                <p
-                  className={
-                    d.progressStatus == "Done" || d.status == "reviewed"
-                      ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                      : "px-3 py-1.5 text-black text-xs font-medium"
-                  }
-                >
-                  {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </p>
-              )}
-            </td>
-            <td
-              className={
-                d.progressStatus == "Done" || d.status == "reviewed"
+                d.status == "Done" || d.status == "reviewed"
                   ? "p-4 text-black/40"
                   : "p-4 text-gray-700 whitespace-nowrap"
               }
@@ -249,95 +177,93 @@ function AppointmentTableRow({ d, index, event, user }) {
               )}
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap">
-              {d.progressStatus == "Done" ? (
-                <strong className="text-black/40 text-xs font-medium">
-                  เสร็จสิ้นการให้บริการ
+              {d.status == "Approved" ? (
+                <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
+                  ยืนยันแล้ว
                 </strong>
               ) : (
-                <>
-                  {d.status == "Approved" ? (
-                    <strong className="text-[#2ED477] px-3 py-1.5 rounded-full text-xs font-medium">
-                      ยืนยันแล้ว
-                    </strong>
+                <span className="text-xs font-medium text-[#f35685]">
+                  {d.status == "pending" ? (
+                    "รอยืนยัน"
                   ) : (
-                    <span className="text-xs font-medium text-[#f35685]">
-                      {d.status == "pending" ? (
-                        "รอยืนยัน"
+                    <>
+                      {d.status == "Rejected" ? (
+                        <CustomTooltip
+                          title={
+                            d.rejectReason ? (
+                              <div className="px-2 pb-3">
+                                <div className="p-2">{d.rejectReason}</div>
+                                <div className="px-3 rounded-full ">
+                                  <span className="text-sm text-[#7879F1]">
+                                    {d.tag}
+                                  </span>
+                                </div>
+                              </div>
+                            ) : (
+                              ""
+                            )
+                          }
+                          placement="top"
+                        >
+                          <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
+                            ปฏิเสธการให้บริการ
+                          </strong>
+                        </CustomTooltip>
                       ) : (
-                        <>
-                          {d.status == "Rejected" ? (
-                            <CustomTooltip
-                              title={
-                                d.rejectReason ? (
-                                  <div className="px-2 pb-3">
-                                    <div className="p-2">{d.rejectReason}</div>
-                                    <div className="px-3 rounded-full ">
-                                      <span className="text-sm text-[#7879F1]">
-                                        {d.tag}
-                                      </span>
-                                    </div>
-                                  </div>
-                                ) : (
-                                  ""
-                                )
-                              }
-                              placement="top"
-                            >
-                              <strong className="cursor-pointer hover:bg-[#FF2F3B]/20 text-[#FF2F3B] px-3 py-1.5 rounded-full text-xs font-medium">
-                                ปฏิเสธการให้บริการ
-                              </strong>
-                            </CustomTooltip>
-                          ) : (
-                            <strong className="text-black/40 text-xs font-medium">
-                              เสร็จสิ้นการให้บริการ
-                            </strong>
-                          )}
-                        </>
-                      )}{" "}
-                    </span>
-                  )}
-                </>
+                        <strong className="text-black/40 text-xs font-medium">
+                          เสร็จสิ้นการให้บริการ
+                        </strong>
+                      )}
+                    </>
+                  )}{" "}
+                </span>
               )}
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap">
-              <p>
+              <p className={d.status == "Done" ? "text-black/40" : ""}>
                 {eventList.length + 1}/{course.amount}
               </p>
             </td>
             <td className="p-4 text-gray-700 whitespace-nowrap space-x-2">
-              {d.progressStatus != "Done" && d.status != "reviewed" && d.status != "Rejected" && (
-                <BtnDetails
-                  text="เสร็จสิ้น"
-                  onClick={() =>
-                    Swal.fire({
-                      title: "เสร็จสิ้นการให้บริการ?",
-                      icon: "success",
-                      showCancelButton: true,
-                      confirmButtonText: "ใช่",
-                      cancelButtonText: "ยกเลิก",
-                      reverseButtons: true,
-                    }).then((result) => {
-                      if (result.isConfirmed) {
-                        markAsDone(d._id).then(() =>
+              {d.progressStatus == "Done" &&
+                d.status != "Done" &&
+                d.status != "reviewed" &&
+                d.status != "Rejected" && (
+                  <button
+                    className="w-36 text-sm h-9 rounded-full bg-[#4B5563]/20 text-[#6C514B556337] hover:bg-[#4B5563]/60 hover:text-white hover:shadow-xl"
+                    onClick={() =>
+                      Swal.fire({
+                        title: "เสร็จสิ้นการให้บริการ?",
+                        icon: "success",
+                        showCancelButton: true,
+                        confirmButtonText: "ใช่",
+                        cancelButtonText: "ยกเลิก",
+                        reverseButtons: true,
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          Finalized(d._id);
                           Swal.fire({
                             title: "ให้บริการเสร็จสิ้นแล้ว",
                             showConfirmButton: false,
                             icon: "success",
                             timer: 1000,
-                          })
-                        );
-                      } else if (result.dismiss === Swal.DismissReason.cancel) {
-                        Swal.fire({
-                          title: "ยกเลิก",
-                          showConfirmButton: false,
-                          icon: "error",
-                          timer: 800,
-                        });
-                      }
-                    })
-                  }
-                />
-              )}
+                          });
+                        } else if (
+                          result.dismiss === Swal.DismissReason.cancel
+                        ) {
+                          Swal.fire({
+                            title: "ยกเลิก",
+                            showConfirmButton: false,
+                            icon: "error",
+                            timer: 800,
+                          });
+                        }
+                      })
+                    }
+                  >
+                    เสร็จสิ้นการให้บริการ
+                  </button>
+                )}
             </td>
             <td>
               <Tooltip title="ลบ" placement="top">

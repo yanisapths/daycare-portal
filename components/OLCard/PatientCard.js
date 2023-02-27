@@ -28,7 +28,7 @@ function PatientCard({ d, index }) {
         onClick={() => setSelectedId(d._id)}
         className="cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
       >
-        <td className="p-4">{index}</td>
+        <td className="p-4">{index+1}</td>
         <td className="p-4 whitespace-nowrap">
           {d.HN}
         </td>

@@ -5,34 +5,28 @@ import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import Head from "next/head";
 import { useTheme } from "@mui/material/styles";
-import ListView from "../course/course_view/listView"
+import ListView from "../course/course_view/listView";
+import axios from "axios";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function Course() {
+function Course({ clinicData }) {
   const theme = useTheme();
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [courseData, setCourseData] = useState([]);
 
-  const [clinicData, setData] = useState({});
-
-  async function fetchData() {
-    await delay(1000);
-    if (session.user.id) {
-      const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
-      );
+  async function fetchCourseData() {
+    if (session && clinicData) {
+      const url = `${process.env.dev}/course/match/${clinicData._id}`;
+      const res = await fetch(url, { method: "GET" });
       try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-          console.log(clinicData._id);
+        const courseData = await res.json();
+        if (courseData) {
+          setCourseData(courseData);
         } else return;
       } catch (err) {
         console.log(err);
-        return router.push("/noClinic");
       }
-    } else {
-      await delay(3000);
     }
   }
 
@@ -40,7 +34,10 @@ function Course() {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if(!clinicData){
+        return router.push("/noClinic");
+       }
+       fetchCourseData();
     }
   }, [status]);
 
@@ -60,7 +57,10 @@ function Course() {
               <div className="= px-10 w-full ">
                 <div className="">
                   {" "}
-                  <ListView clinicData={clinicData} />{" "}
+                  <ListView
+                    clinicData={clinicData}
+                    courseData={courseData}
+                  />{" "}
                 </div>
               </div>
             </div>
@@ -76,8 +76,27 @@ export default Course;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
+  }
   return {
-    props: { session },
+    props: {
+      error: true,
+    },
   };
 }
