@@ -27,7 +27,7 @@ function RequestModal({
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-2 xl:mx-auto pb-6 p-10 py-6 relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto w-[550px] "
+        className="bg-white mx-2 xl:mx-auto lg:mx-auto pb-6 p-10 py-6 relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto w-[550px] "
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -125,7 +125,7 @@ function RequestModal({
                     {patient.lastName}
                   </p>
                 </motion.div>
-                <motion.h6 className="grid grid-col-2 text-sm pt-2 ">
+                <motion.h6 className="grid grid-col-2 gap-2 text-sm pt-2 ">
                   <div className="col-start-1">
                     <div className="flex items-center align-middle gap-2">
                       {" "}
@@ -137,7 +137,7 @@ function RequestModal({
                     </div>
                   </div>
                   <div className="col-start-2">
-                    <div className="flex items-center gap-2 pr-12 ">
+                    <div className="flex items-center gap-2  ">
                       {" "}
                       <CircleIcon icon={<WcIcon className="text-sm" />} />
                       <span className="caption text-[#A17851] font-bold">
@@ -152,21 +152,20 @@ function RequestModal({
                     <span className="caption text-[#A17851] font-bold w-20 sm:w-20">
                       ข้อควรระวัง
                     </span>
-                    {patient.precuation?(
+                    {patient.precuation ? (
                       <span className="text-[#FF2F3B] w-32">
-                      {patient.precuation}
-                    </span>
-                    ):(
-                      data.description?(
-                        <span className="text-[#FF2F3B] w-32">{data.description}</span>
-                      ):(
-                        "-"
-                      )
+                        {patient.precuation}
+                      </span>
+                    ) : data.description ? (
+                      <span className="text-[#FF2F3B] w-32">
+                        {data.description}
+                      </span>
+                    ) : (
+                      "-"
                     )}
-                    
                   </div>
                 </motion.h6>
-                <motion.h6 className="flex pt-2 space-x-3 pb-2 sm:grid sm:grid-cols-1 sm:space-x-0 sm:gap-2">
+                <motion.h6 className="grid grid-cols-2 gap-2 pt-2 pb-2 sm:grid sm:grid-cols-1  sm:gap-2">
                   <div className="flex items-center align-middle gap-2 text-sm">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
@@ -175,15 +174,17 @@ function RequestModal({
                     </span>
                     {patient.phoneNumber}
                   </div>
-                  <div className="flex items-center align-middle gap-2 ">
-                    {" "}
-                    <CircleIcon
-                      icon={<ChatBubbleIcon className="text-sm " />}
-                    />
-                    <span className="caption text-[#A17851] font-bold">
-                      LINE ID{" "}
-                    </span>
-                    {patient.lineId}
+                  <div className="col-start-2 sm:col-start-1 sm:col-span-2">
+                    <div className="flex items-center align-middle gap-2 ">
+                      {" "}
+                      <CircleIcon
+                        icon={<ChatBubbleIcon className="text-sm " />}
+                      />
+                      <span className="caption text-[#A17851] font-bold">
+                        LINE ID{" "}
+                      </span>
+                      {patient.lineId}
+                    </div>
                   </div>
                 </motion.h6>
                 <motion.h6>
@@ -207,34 +208,34 @@ function RequestModal({
                 </motion.h6>
                 <motion.h6 className="grid grid-col-2 text-sm pt-1 ">
                   <div className="col-start-1">
-                  <div className="flex items-center align-middle gap-2">
-                    {" "}
-                    <CircleIcon icon={<PersonIcon className="text-sm" />} />
-                    <span className="caption text-[#A17851] font-bold">
-                      อายุ{" "}
-                    </span>
-                    {data.age ? (
-                      data.age
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
+                    <div className="flex items-center align-middle gap-2">
+                      {" "}
+                      <CircleIcon icon={<PersonIcon className="text-sm" />} />
+                      <span className="caption text-[#A17851] font-bold">
+                        อายุ{" "}
+                      </span>
+                      {data.age ? (
+                        data.age
+                      ) : (
+                        <span className="text-sm text-black/40">-</span>
+                      )}
+                    </div>
                   </div>
                   <div className="col-start-2">
-                  <div className="flex items-center align-middle gap-2">
-                    {" "}
-                    <CircleIcon icon={<WcIcon className="text-sm" />} />
-                    <span className="caption text-[#A17851] font-bold">
-                      เพศ{" "}
-                    </span>
-                    {data.sex ? (
-                      data.sex
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
+                    <div className="flex items-center align-middle gap-2">
+                      {" "}
+                      <CircleIcon icon={<WcIcon className="text-sm" />} />
+                      <span className="caption text-[#A17851] font-bold">
+                        เพศ{" "}
+                      </span>
+                      {data.sex ? (
+                        data.sex
+                      ) : (
+                        <span className="text-sm text-black/40">-</span>
+                      )}
+                    </div>
                   </div>
-                  </div>
-                 
+
                   <div className="flex items-center align-middle gap-2 pt-2">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
@@ -248,7 +249,7 @@ function RequestModal({
                     )}
                   </div>
                 </motion.h6>
-                <motion.h6 className="flex space-x-3 sm:grid sm:grid-cols-1 sm:space-x-0 sm:gap-2 ">
+                <motion.h6 className="grid grid-cols-2 gap-2 sm:grid sm:grid-cols-1  sm:gap-2 ">
                   <div className="flex items-center align-middle gap-2 text-sm">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
@@ -261,6 +262,7 @@ function RequestModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
+                  <div className="col-start-2 sm:col-start-1 sm:col-span-2">
                   <div className="flex items-center align-middle gap-2 text-sm ">
                     {" "}
                     <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
@@ -273,6 +275,8 @@ function RequestModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
+                  </div>
+                  
                 </motion.h6>
                 <motion.h6>
                   <div className="flex items-start align-middle gap-2 text-sm ">
