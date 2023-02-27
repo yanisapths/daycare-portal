@@ -108,9 +108,13 @@ const Request = ({user}) => {
       console.log(err);
     }
   } 
-  if (clinicData._id) {
-    fetchDatails();
-  }
+  
+  useEffect(() => {
+    if (clinicData._id) {
+      fetchDatails();
+    }
+  }, []);
+
   return (
     <div>
       <Head>

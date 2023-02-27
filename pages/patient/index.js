@@ -52,9 +52,12 @@ function Patient() {
       console.log(err);
     }
   } 
-  if (clinicData._id) {
-    fetchPatient();
-  }
+  
+  useEffect(() => {
+    if (clinicData._id) {
+      fetchPatient();
+    }
+  }, []);
 
   useEffect(() => {
     if (status === "unauthenticated") {

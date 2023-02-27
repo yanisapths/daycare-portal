@@ -27,8 +27,8 @@ const Schedule = ({ user, patient }) => {
   const [staffs, setStaffs] = useState([]);
 
   async function fetchClinic() {
-    const url = `${process.env.dev}/clinic/owner/${user.id}`;
-    if (user.id) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    if (session.user.id) {
       const res = await fetch(url);
       try {
         const clinic = await res.json();
@@ -76,10 +76,12 @@ const Schedule = ({ user, patient }) => {
       fetchClinic();
     }
   }, [status]);
-
-  if(clinic._id){
-    fetchData();
-  }
+  
+  useEffect(() => {
+    if (clinic._id) {
+      fetchData();
+    }
+  }, []);
 
   const handleChange = (event) => {
     setResult(event.target.value);

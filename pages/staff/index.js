@@ -56,9 +56,11 @@ const Staff = ({ user }) => {
     }
   }, [status]);
 
-  if (clinic._id) {
-    fetchStaff();
-  }
+  useEffect(() => {
+    if (clinic._id) {
+      fetchStaff();
+    }
+  }, []);
   return (
     <div>
       <Head>
