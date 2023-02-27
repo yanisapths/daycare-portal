@@ -21,11 +21,11 @@ const CustomTooltip = styled(({ className, ...props }) => (
 }));
 
 function Dashboard({ data }) {
-  const router = useRouter();
   const { data: session, status } = useSession();
   const [clinic, setData] = useState([]);
   const [requestData, setRequestData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
+  const router = useRouter();
 
   async function fetchClinic() {
     const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
