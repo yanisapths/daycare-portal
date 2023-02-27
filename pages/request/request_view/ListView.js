@@ -10,7 +10,7 @@ function ListView({ data,staffs }) {
 
   return (
     <div className="flex justify-center">
-      <div className="sm:w-full xl:min-w-[950px] sm:pt-12">
+      <div className="sm:w-full xl:min-w-[950px] lg:w-5/6 md:w-5/6 ">
         <p className="text-lg font-semibold">คำขอใหม่รอการตอบรับ</p>
         {/*request list */}
         {data?.map((request) => (

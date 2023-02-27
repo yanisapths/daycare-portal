@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useTheme } from "@mui/material/styles";
 import { useForm, Controller } from "react-hook-form";
+import Router from "next/router";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
@@ -32,10 +33,8 @@ const sex = [
   { id: 3, label: "อื่นๆ" },
 ];
 
-
-function AddPatientForm({ open, handleClose, setOpen }) {
+function AddPatientForm({ open, handleClose, setOpen,clinic }) {
   const { data: session, status } = useSession();
-  const [document, setFile] = useState("");
   const theme = useTheme();
 
   const {
@@ -53,21 +52,9 @@ function AddPatientForm({ open, handleClose, setOpen }) {
     },
   });
 
-  const handleFileChange = (e) => {
-    setFile([...e.target.files[0]]);
-  };
-
   const onSubmit = async (data) => {
-    console.log(data);
-    if (data.document || document) {
-      const formData = new FormData();
-      formData.append("document", data.document[0]);
-      formData.append("document", data.document[0].name);
-      data.document = data.document[0].name;
-    } else {
-      data.document = "";
-    }
     data.owner_id = session.user.id;
+    data.clinic_id = clinic._id;
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {
@@ -84,6 +71,7 @@ function AddPatientForm({ open, handleClose, setOpen }) {
       .then(async (res) => {
         console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("เพิ่มแบบบันทึก");
+        Router.reload();
         setOpen(false);
       })
       .catch((err) => {
@@ -273,7 +261,9 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                           })}
                         />
                         {errors.phoneNumber?.type === "pattern" && (
-                          <p role="alert" className="text-[#FF2F3B]">เบอร์โทรต้องเป็นตัวเลขเท่านั้น</p>
+                          <p role="alert" className="text-[#FF2F3B]">
+                            เบอร์โทรต้องเป็นตัวเลขเท่านั้น
+                          </p>
                         )}
                       </div>
                       <div className="col-span-3">
@@ -449,25 +439,6 @@ function AddPatientForm({ open, handleClose, setOpen }) {
                           name="precaution"
                           className="inputOutline"
                           {...register("precaution", { required: false })}
-                        />
-                      </div>
-                      <div className="col-span-6">
-                        <label
-                          className="inputLabel text-sm"
-                          htmlFor="document"
-                        >
-                          Upload a file
-                        </label>
-                        <input
-                          className="border-0"
-                          type="file"
-                          id="document"
-                          name="document"
-                          multiple={false}
-                          onChange={handleFileChange}
-                          {...register("document", {
-                            required: false,
-                          })}
                         />
                       </div>
                     </div>

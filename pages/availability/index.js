@@ -24,55 +24,33 @@ import InputLabel from "@mui/material/InputLabel";
 import ReactDatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const Availability = () => {
+const Availability = ({ clinicData }) => {
   const { data: session, status } = useSession();
   const [open, setOpen] = useState(false);
   const theme = useTheme();
   const router = useRouter();
-  const [clinicData, setData] = useState({});
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const [availableData, setAvailableData] = useState([]);
-  console.log(availableData);
-  async function fetchData() {
-    await delay(1000);
-    if (session.user.id) {
-      const res = await fetch(
-        `${process.env.url}/clinic/owner/${session.user.id}`
-      );
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    } else {
-      await delay(3000);
-    }
-  }
 
   async function fetchAvailableData() {
-    await delay(1000);
-    const url = `${process.env.dev}/available/match/owner/${session.user.id}`;
-    //course
-    if (session.user.id) {
+    if (session && clinicData) {
+      const url = `${process.env.url}/available/match/${clinicData._id}`;
       const res = await fetch(url);
       try {
         const availableData = await res.json();
         if (availableData) {
           setAvailableData(availableData);
         } else return;
-      } catch (err) {}
-    } else {
-      await delay(3000);
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 
@@ -80,7 +58,9 @@ const Availability = () => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
       fetchAvailableData();
     }
   }, [status]);
@@ -111,10 +91,12 @@ const Availability = () => {
   });
   async function deleteAvailable(availableId) {
     const res = await fetch(
-      `${process.env.dev}/available/delete/${availableId}`,
+      `${process.env.url}/available/delete/${availableId}`,
       { method: "DELETE" }
     )
-      .then(async (res) => {})
+      .then(async (res) => {
+        toast.success("ลบสำเร็จ");
+      })
       .catch((err) => {
         console.log("ERROR: ", err);
       });
@@ -124,6 +106,7 @@ const Availability = () => {
   const onSubmit = async (data) => {
     console.log(data);
     data.owner_id = session.user.id;
+    data.clinic_id = clinicData._id;
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {
@@ -139,6 +122,7 @@ const Availability = () => {
       )
       .then(async (res) => {
         console.log("RESPONSE RECEIVED: ", res.data);
+        toast.success("เพิ่มวันเวลาว่างสำเร็จ");
         Router.reload();
       })
       .catch((err) => {
@@ -384,7 +368,27 @@ export default Availability;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
+  if (session) {
+    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
+  }
   return {
-    props: { session },
+    props: {
+      error: true,
+    },
   };
 }

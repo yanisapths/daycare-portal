@@ -121,10 +121,10 @@ function RequestListCard({ data, request, staffs }) {
               onClick={() => setSelectedId(request._id)}
               className="cursor-pointer"
             >
-              <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4 px-12">
+              <div className="flex flex-row gap-3 justify-start content-center text-sm pt-4 px-12 sm:px-4">
                 <div className="basis-12/12">
                   <div className="grid grid-col-6 gap-1 mt-4">
-                    <div className="flex gap-4 sm:gap-12">
+                    <div className="flex gap-4 ">
                       <div className="font-semibold pb-2 text-base xl:text-lg sm:w-4/6 sm:truncate">
                         <span className="text-base">คุณ </span>
                         {request.patient_id ? (

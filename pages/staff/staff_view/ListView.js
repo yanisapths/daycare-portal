@@ -1,23 +1,15 @@
 import React from "react";
 import Router from "next/router";
-import BtnDetails from "../../../components/BtnDetails";
 import { IconButton } from "@mui/material";
-import WorkIcon from "@mui/icons-material/Work";
-import HowToRegIcon from "@mui/icons-material/HowToReg";
-import VerifiedIcon from "@mui/icons-material/Verified";
-import InfoIcon from "@mui/icons-material/Info";
-import LocalPhoneIcon from "@mui/icons-material/LocalPhone";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Tooltip from "@mui/material/Tooltip";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import BadgeIcon from '@mui/icons-material/Badge';
 
 function ListView({ staffData }) {
   async function deleteStaff(sid) {
-    const res = await fetch(`${process.env.url}/staff/delete/${sid}`, {
-      method: "DELETE",
-    })
+    const url = `${process.env.url}/staff/delete/${sid}`;
+    const res = await fetch(url, { method: "DELETE" })
       .then(async (res) => {
         toast.success("ลบพนักงานแล้ว");
         Router.reload();
@@ -82,7 +74,7 @@ function ListView({ staffData }) {
                 </IconButton>
               </Tooltip>
             </div>
-            <div className=" col-start-1 col-span-2 md:col-start-1 md:col-span-1">
+            <div className=" col-start-1 col-span-1 sm:col-span-2 lg:col-span-2 xl:col-span-1">
               <span className="font-semibold">ชื่อ-นามสกุล: </span>
               {staffData.firstName ? (
                 <span className="text-base ">
@@ -92,7 +84,7 @@ function ListView({ staffData }) {
                 <></>
               )}
             </div>
-            <div className=" col-start-1 col-span-2 md:col-start-2">
+            <div className=" col-start-2 col-span-2 sm:col-start-1 md:col-start-2 md:col-span-1 lg:col-start-1 xl:col-start-2 xl:col-span-1">
               <span className="font-semibold ">ตำแหน่ง: </span>
               {staffData.position ? (
                 <span className="text-base"> {staffData.position}</span>
@@ -108,58 +100,21 @@ function ListView({ staffData }) {
               <span className="font-semibold ">เพศ: </span>
               <span className="text-base"> {staffData.sex}</span>
             </div>
-            <div className="md:col-start-1 ">
+            <div className="col-start-1 col-span-2 ">
               <span className="font-semibold">LINE ID: </span>
               <span className="text-base"> {staffData.lineId}</span>
             </div>
             <div className="sm:col-start-1 sm:col-span-2">
               <span className="font-semibold">เบอร์โทรศัพท์: </span>
-              <span className="text-base lg:text-sm"> {staffData.phoneNumber}</span>
+              <span className="text-base lg:text-sm">
+                {" "}
+                {staffData.phoneNumber}
+              </span>
             </div>
-          </div>
-
-          <div className="flex flex-wrap basis-1/5 gap-2 justify-end content-center px-4 pb-2 ">
-            <div>
-              <BtnDetails text="ดูเพิ่มเติม" />
+            <div className="col-start-1 col-span-2 sm:col-start-1 ">
+              <span className="font-semibold">อีเมล์: </span>
+              <span className="text-base lg:text-sm"> {staffData.email}</span>
             </div>
-            {/* <Tooltip title="ลบ" placement="top">
-              <IconButton
-                aria-label="delete"
-                size="small"
-                className="text-[#FF2F3B]"
-                onClick={() =>
-                  Swal.fire({
-                    title: "ลบรายการนี้?",
-                    text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "ใช่ ลบเลย!",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      deleteStaff(staffData._id).then(() =>
-                        Swal.fire({
-                          title: "ลบแล้ว",
-                          showConfirmButton: false,
-                          icon: "success",
-                          timer: 1000,
-                        })
-                      );
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                      Swal.fire({
-                        title: "ยกเลิก :)",
-                        showConfirmButton: false,
-                        icon: "error",
-                        timer: 1000,
-                      });
-                    }
-                  })
-                }
-              >
-                <DeleteIcon />
-              </IconButton>
-            </Tooltip> */}
           </div>
         </article>
       </>

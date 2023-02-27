@@ -9,29 +9,13 @@ import TableView from "./request_view/TableView";
 import GridOnIcon from "@mui/icons-material/GridOn";
 import ViewListIcon from "@mui/icons-material/ViewList";
 
-const Request = ({user}) => {
+const Request = ({clinicData}) => {
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [clinicData, setData] = useState([]);
   const [selected, setSelected] = useState("");
   const [view, setView] = useState([]);
-  const [open, setOpen] = useState(false);
-  const [patientData, setPatientData] = useState([]);
-  const [courseData, setCourseData] = useState([]);
-  const [availData, setAvailData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
   const [staffs, setStaffs] = useState([]);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = (event, reason) => {
-    if (reason !== "backdropClick") {
-      setOpen(false);
-    } else {
-      setOpen(false);
-    }
-  };
 
   const list = [
     {
@@ -57,46 +41,33 @@ const Request = ({user}) => {
     }
   }, [selected]);
 
-  const fetchData = async () => {
-    let isSubscribed = true;
-    const clinicurl = `${process.env.url}/clinic/owner/${user.id}`;
-    const courseurl = `${process.env.url}/course/match/owner/${user.id}`;
-    const availurl = `${process.env.url}/available/match/owner/${user.id}`;
-    const patienturl = `${process.env.url}/patient/match/${user.id}`;
-    const appointmenturl = `${process.env.url}/appointment/match/owner/${user.id}`;
-    const staffurl = `${process.env.url}/staff/owner/${user.id}`;
-
-    const appointment = await fetch(appointmenturl);
-    const patient = await fetch(patienturl);
-    const course = await fetch(courseurl);
-    const avail = await fetch(availurl);
-    const clinic = await fetch(clinicurl);
-    const staff = await fetch(staffurl);
-
-    const appointmentData = await appointment.json();
-    const courseData = await course.json();
-    const availData = await avail.json();
-    const patientData = await patient.json();
-    const clinicData = await clinic.json();
-    const staffs = await staff.json();
-    if (isSubscribed) {
-      setData(clinicData);
-      setAppointmentData(appointmentData);
-      setCourseData(courseData);
-      setAvailData(availData);
-      setPatientData(patientData);
-      setStaffs(staffs);
-    }
-    return () => (isSubscribed = false);
-  };
-  
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if(!clinicData){
+        return router.push("/noClinic");
+       }
+       fetchDatails();
     }
   }, [status]);
+
+  async function fetchDatails() {
+    if(session && clinicData){
+      const appointmenturl = `${process.env.url}/appointment/match/${clinicData._id}`;
+      const staffurl = `${process.env.url}/staff/match/${clinicData._id}`;
+      const appointment = await fetch(appointmenturl);
+      const staff = await fetch(staffurl);
+      try {
+      const appointmentData = await appointment.json();
+      const staffs = await staff.json();
+      setAppointmentData(appointmentData);
+      setStaffs(staffs);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  } 
 
   return (
     <div>
@@ -141,14 +112,27 @@ export default Request;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true,
+    },
   };
 }
-

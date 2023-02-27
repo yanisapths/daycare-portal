@@ -22,7 +22,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function AppointmentTableRow({ d, index, event, user }) {
+function AppointmentTableRow({ clinic,d, index, event, user }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -104,7 +104,7 @@ function AppointmentTableRow({ d, index, event, user }) {
       body: JSON.stringify({ progressStatus: "Done" }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/markdone/${appointmentId}`,
+      `${process.env.url}/appointment/markdone/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -146,6 +146,7 @@ function AppointmentTableRow({ d, index, event, user }) {
             setSelectedId={setSelectedId}
             close={closeModal}
             course={course}
+            clinic={clinic}
           ></AppointmentModal>
         </Overlay>
       )}
@@ -165,64 +166,16 @@ function AppointmentTableRow({ d, index, event, user }) {
                 : "cursor-pointer text-center hover:bg-[#AD8259]/20 text-[#6C5137]"
             }
           >
-            <td className="flex w-24">
+            <td className="flex justify-center">
               <p
                 className={
                   d.status == "Done" || d.status == "reviewed"
-                    ? "p-4 text-black/40 truncate"
-                    : "p-4 truncate"
+                    ? "p-4 text-black/40 truncate w-32"
+                    : "p-4 truncate w-32"
                 }
               >
                 {d._id}
               </p>
-            </td>
-            <td
-              className={
-                d.status == "Done" || d.status == "reviewed"
-                  ? "p-4 text-black/40"
-                  : "p-4 text-gray-700 whitespace-nowrap"
-              }
-            >
-              {new Date(d.appointmentDate).toLocaleDateString("th-TH", {
-                month: "long",
-                day: "2-digit",
-                year: "numeric",
-              })}
-            </td>
-            <td className="p-4 text-gray-700 whitespace-nowrap">
-              {d.endTime ? (
-                <p
-                  className={
-                    d.status == "Done" || d.status == "reviewed"
-                      ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                      : "px-3 py-1.5 text-black text-xs font-medium"
-                  }
-                >
-                  {new Date(d.appointmentTime).toLocaleTimeString("th-TH", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                  {"-"}{" "}
-                  {new Date(d.endTime).toLocaleTimeString("th-TH", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                  })}
-                </p>
-              ) : (
-                <p
-                  className={
-                    d.status == "Done" || d.status == "reviewed"
-                      ? "px-3 py-1.5 text-black/40 text-xs font-medium"
-                      : "px-3 py-1.5 text-black text-xs font-medium"
-                  }
-                >
-                  {new Date(d.appointmentTime).toLocaleTimeString("en-EN", {
-                    hour: "2-digit",
-                    minute: "2-digit",
-                    hour12: true,
-                  })}
-                </p>
-              )}
             </td>
             <td
               className={

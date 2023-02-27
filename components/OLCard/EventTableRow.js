@@ -27,7 +27,7 @@ const CustomTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-function EventTableRow({ event, user }) {
+function EventTableRow({ clinic,event, user }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -150,6 +150,7 @@ function EventTableRow({ event, user }) {
             setSelectedId={setSelectedId}
             course={course}
             close={closeModal}
+            clinic={clinic}
           ></AppointmentModal>
         </Overlay>
       )}

@@ -16,10 +16,9 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-const Schedule = ({ user, patient }) => {
+const Schedule = ({ patient,clinic,user }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [clinic, setData] = useState([]);
   const [course, setCourseData] = useState([]);
   const [appointment, setAppointmentData] = useState([]);
   const [event, setEventData] = useState([]);
@@ -28,32 +27,33 @@ const Schedule = ({ user, patient }) => {
 
   const fetchData = async () => {
     let isSubscribed = true;
-    const clinicurl = `${process.env.url}/clinic/owner/${user.id}`;
-    const courseurl = `${process.env.url}/course/match/owner/${user.id}`;
-    const appointmenturl = `${process.env.url}/appointment/match/owner/${user.id}/approved`;
-    const eventurl = `${process.env.url}/event/match/owner/${user.id}`;
-    const staffurl = `${process.env.url}/staff/owner/${user.id}`;
-
-    const appointments = await fetch(appointmenturl);
-    const courses = await fetch(courseurl);
-    const clinics = await fetch(clinicurl);
-    const events = await fetch(eventurl);
-    const staff = await fetch(staffurl);
-
-    const appointment = await appointments.json();
-    const course = await courses.json();
-    const clinic = await clinics.json();
-    const event = await events.json();
-    const staffs = await staff.json();
-
-    if (isSubscribed) {
-      setData(clinic);
-      setAppointmentData(appointment);
-      setCourseData(course);
-      setEventData(event);
-      setStaffs(staffs);
+    if(session){
+      const courseurl = `${process.env.url}/course/match/${clinic._id}`;
+      const appointmenturl = `${process.env.url}/appointment/match/${clinic._id}/approved`;
+      const eventurl = `${process.env.url}/event/match/clinic/${clinic._id}`;
+      const staffurl = `${process.env.url}/staff/match/${clinic._id}`;
+  
+      const appointments = await fetch(appointmenturl);
+      const courses = await fetch(courseurl);
+      const events = await fetch(eventurl);
+      const staff = await fetch(staffurl);
+  
+      const appointment = await appointments.json();
+      const course = await courses.json();
+      const event = await events.json();
+      const staffs = await staff.json();
+  
+      if (isSubscribed) {
+        setAppointmentData(appointment);
+        setCourseData(course);
+        setEventData(event);
+        setStaffs(staffs);
+      }
+      return () => (isSubscribed = false);
     }
-    return () => (isSubscribed = false);
+    else {
+      router.push("/auth/signin/");
+    }
   };
 
   useEffect(() => {
@@ -121,6 +121,7 @@ const Schedule = ({ user, patient }) => {
                 return (
                   <div key={result._id}>
                     <AppointmentListCard
+                      clinic={clinic}
                       key={result._id}
                       data={appointment}
                       d={result}
@@ -132,6 +133,7 @@ const Schedule = ({ user, patient }) => {
                         <div key={index}>
                           {e.appointment_id == result._id ? (
                             <EventListCard
+                              clinic={clinic}
                               d={e}
                               index={index}
                               data={appointment}
@@ -174,13 +176,28 @@ export default Schedule;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-  if (!session) {
-    return {
-      props: {},
-    };
+  if (session) {
+    const { user } = session;
+    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinic = await res.json();
+      if (!clinic) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinic,user } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,user
+        },
+      };
+    }
   }
-  const { user } = session;
   return {
-    props: { user },
+    props: {
+      error: true
+    },
   };
 }

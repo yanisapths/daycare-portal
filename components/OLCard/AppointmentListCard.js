@@ -15,7 +15,7 @@ import Swal from "sweetalert2";
 import toast from "react-hot-toast";
 import { motion } from "framer-motion";
 
-function AppointmentListCard({ data, d, index, user, staffs }) {
+function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
   const [open, setOpen] = useState(false);
   const [p, setPatient] = useState({});
   const [selectedId, setSelectedId] = useState(null);
@@ -113,7 +113,7 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
       body: JSON.stringify({ status: "Done" }),
     };
     const res = fetch(
-      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
       .then((res) => {})
@@ -134,6 +134,7 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
             setSelectedId={setSelectedId}
             course={course}
             close={handleClose}
+            clinic={clinic}
           ></AppointmentModal>
         </Overlay>
       )}
@@ -272,7 +273,7 @@ function AppointmentListCard({ data, d, index, user, staffs }) {
                     />
                   </div>
                   <button
-                    className="w-36 text-sm h-9 rounded-full bg-[#AD8259]/20 text-[#6C5137] hover:bg-[#AD8259] hover:text-white hover:shadow-xl"
+                    className="w-40 text-sm h-9 rounded-full bg-[#AD8259]/20 text-[#6C5137] hover:bg-[#AD8259] hover:text-white hover:shadow-xl"
                     onClick={() =>
                       Swal.fire({
                         title: "เสร็จสิ้นการให้บริการนัดครั้งนี้?",

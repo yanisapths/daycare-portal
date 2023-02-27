@@ -26,7 +26,7 @@ function signIn({ providers }) {
             />
             <p className="xl:text-3xl font-bold text-2xl font-mono">Welcome</p>
 
-            <p className="mt-4 text-gray-800 fonts-mono text-md md:text-xl md:mt-5">
+            <p className="mt-4 text-gray-800 fonts-mono text-lg sm:text-sm md:text-lg lg:text-base md:mt-5 xxl:text-xl">
               เข้าสู่ระบบเพื่อใช้งาน
               <p className="block ">Olive Physiotherapy Clinic Management</p>
             </p>

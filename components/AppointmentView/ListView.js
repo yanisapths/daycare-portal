@@ -12,7 +12,7 @@ const status = [
   { id: 2, label: "ปฏิเสธ/ยกเลิก" },
   { id: 3, label: "เสร็จสิ้น" },
 ];
-const ListView = ({ data, user, events, staffs  }) => {
+const ListView = ({ clinic,data, user, events, staffs  }) => {
   const [result, setResult] = useState("");
   const handleChange = (event) => {
     setResult(event.target.value);
@@ -62,13 +62,7 @@ const ListView = ({ data, user, events, staffs  }) => {
                 <th className="p-4 text-center whitespace-nowrap">
                   <div className="flex justify-center items-center">หมายเลข</div>
                 </th>
-                <th className="p-4 text-center whitespace-nowrap">
-                  <div className="flex justify-center items-center">วันที่</div>
-                </th>
-                <th className="p-4 text-center whitespace-nowrap">
-                  <div className="flex justify-center items-center">เวลา</div>
-                </th>
-                <th className="p-4 text-center whitespace-nowrap">
+                <th className="p-4 text-left whitespace-nowrap">
                   <div className="flex justify-center items-center">ลูกค้า</div>
                 </th>
                 <th className="p-4 text-center whitespace-nowrap">
@@ -95,6 +89,7 @@ const ListView = ({ data, user, events, staffs  }) => {
                     key={d._id}
                     user={user}
                     staffs={staffs}
+                    clinic={clinic}
                   />
                 </tbody>
               ))}
@@ -110,6 +105,7 @@ const ListView = ({ data, user, events, staffs  }) => {
                     key={d._id}
                     user={user}
                     staffs={staffs}
+                    clinic={clinic}
                   />
                 </tbody>
               ) : result == 2 && d.status == "Rejected" ? (
@@ -123,6 +119,7 @@ const ListView = ({ data, user, events, staffs  }) => {
                     key={d._id}
                     user={user}
                     staffs={staffs}
+                    clinic={clinic}
                   />
                 </tbody>
               ) : result == 3 && d.status == "Done" ? (
@@ -136,6 +133,7 @@ const ListView = ({ data, user, events, staffs  }) => {
                     key={d._id}
                     user={user}
                     staffs={staffs}
+                    clinic={clinic}
                   />
                 </tbody>
               ) : (

@@ -1,5 +1,6 @@
 import { getSession, useSession } from "next-auth/react";
 import React, { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 import LinkGridCard from "../../components/LinkGridCard";
 import AmountCard from "../../components/AmountCard";
 import VerifiedIcon from "@mui/icons-material/Verified";
@@ -21,34 +22,60 @@ const CustomTooltip = styled(({ className, ...props }) => (
 
 function Dashboard({ data }) {
   const { data: session, status } = useSession();
+  const [clinic, setData] = useState([]);
   const [requestData, setRequestData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
+  const router = useRouter();
+
+  async function fetchClinic() {
+    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    if (session.user.id) {
+      const res = await fetch(url);
+      try {
+        const clinic = await res.json();
+        if (clinic) {
+          setData(clinic);
+        } else return;
+      } catch (err) {
+        console.log(err);
+        return router.push("/noClinic");
+      }
+    } else {
+    }
+  }
+
+  const fetchData = async () => {
+    let isSubscribed = true;
+    const res = await fetch(
+      `${process.env.url}/appointment/match/${clinic._id}/pending`
+    );
+
+    const approve = await fetch(
+      `${process.env.url}/appointment/match/${clinic._id}/approved`
+    );
+    const requestData = await res.json();
+    const appointmentData = await approve.json();
+
+    if (isSubscribed) {
+      setRequestData(requestData);
+      setAppointmentData(appointmentData);
+    }
+    return () => (isSubscribed = false);
+  };
 
   useEffect(() => {
-    let isSubscribed = true;
-    const fetchRequest = async () => {
-      const res = await fetch(
-        `${process.env.url}/appointment/match/owner/${session.user.id}/pending`
-      );
+    if (status === "unauthenticated") {
+      router.push("/auth/signin/");
+    } else {
+      fetchClinic();
+    }
+  }, [status]);
 
-      const approve = await fetch(
-        `${process.env.url}/appointment/match/owner/${session.user.id}/approved`
-      );
-      const requestData = await res.json();
-      const appointmentData = await approve.json();
-
-      if (isSubscribed) {
-        setRequestData(requestData);
-        setAppointmentData(appointmentData);
-      }
-    };
-
-    fetchRequest().catch(console.error);
-
-    return () => (isSubscribed = false);
-  });
-  
-  
+  useEffect(() => {
+    if (clinic._id) {
+      fetchData();
+    }
+  }, []);
   return (
     <>
       {/* Clinic Hours */}

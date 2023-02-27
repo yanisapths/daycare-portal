@@ -8,11 +8,11 @@ import Head from "next/head";
 import AddPatientForm from "./AddPatientForm";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function Patient() {
+function Patient({ clinicData }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
-  const [clinicData, setData] = useState({});
+  const [patientData, setPatientData] = useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -22,24 +22,15 @@ function Patient() {
       setOpen(false);
     }
   };
-
   async function fetchData() {
-    await delay(1000);
-    if (session.user.id) {
+    if (session && clinicData) {
       const res = await fetch(
-        `${process.env.url}/clinic/owner/${session.user.id}`
+        `${process.env.url}/patient/match/clinic/${clinicData._id}`
       );
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
+      const patientData = await res.json();
+      if (patientData) {
+        setPatientData(patientData);
       }
-    } else {
-      await delay(3000);
     }
   }
 
@@ -47,6 +38,9 @@ function Patient() {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
       fetchData();
     }
   }, [status]);
@@ -70,10 +64,11 @@ function Patient() {
                 open={open}
                 setOpen={setOpen}
                 handleClose={handleClose}
+                clinic={clinicData}
               />
             </div>
             <div className="">
-              <TableView />
+              <TableView patientData={patientData} />
             </div>
           </section>
         </main>
@@ -86,7 +81,27 @@ export default Patient;
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
+  if (session) {
+    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      console.log("error: ", error);
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
+  }
   return {
-    props: { session },
+    props: {
+      error: true,
+    },
   };
 }
