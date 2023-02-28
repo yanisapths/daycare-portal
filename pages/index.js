@@ -48,7 +48,7 @@ function Home() {
           <link rel="icon" href="favicon.ico" />
         </Head>
         <Header />
-        <main className="max-w-screen mb-72 md:px-12 xl:mx-24 ">
+        <main className="max-w-screen mb-72 md:px-12 xl:mx-24">
           <div className="p-3 mx-auto">
             {session ? (
               <BannerCard username={session.user.name} className="static" />

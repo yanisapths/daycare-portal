@@ -16,7 +16,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 
-const Schedule = ({ patient,clinic,user }) => {
+const Schedule = ({ patient, clinic, user }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
   const [course, setCourseData] = useState([]);
@@ -27,22 +27,22 @@ const Schedule = ({ patient,clinic,user }) => {
 
   const fetchData = async () => {
     let isSubscribed = true;
-    if(session){
+    if (session && clinic) {
       const courseurl = `${process.env.dev}/course/match/${clinic._id}`;
       const appointmenturl = `${process.env.dev}/appointment/match/${clinic._id}/approved`;
       const eventurl = `${process.env.dev}/event/match/clinic/${clinic._id}`;
       const staffurl = `${process.env.dev}/staff/match/${clinic._id}`;
-  
+
       const appointments = await fetch(appointmenturl);
       const courses = await fetch(courseurl);
       const events = await fetch(eventurl);
       const staff = await fetch(staffurl);
-  
+
       const appointment = await appointments.json();
       const course = await courses.json();
       const event = await events.json();
       const staffs = await staff.json();
-  
+
       if (isSubscribed) {
         setAppointmentData(appointment);
         setCourseData(course);
@@ -51,16 +51,17 @@ const Schedule = ({ patient,clinic,user }) => {
       }
       return () => (isSubscribed = false);
     }
-    else {
-      router.push("/auth/signin/");
-    }
   };
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if (clinic) {
+        fetchData();
+      } else {
+        router.push("/noClinic");
+      }
     }
   }, [status]);
 
@@ -185,19 +186,20 @@ export async function getServerSideProps(context) {
       if (!clinic) {
         return router.push("/noClinic");
       }
-      return { props: { clinic,user } };
+      return { props: { clinic, user } };
     } catch (error) {
       console.log("error: ", error);
       return {
         props: {
-          error: true,user
+          error: true,
+          user,
         },
       };
     }
   }
   return {
     props: {
-      error: true
+      error: true,
     },
   };
 }
