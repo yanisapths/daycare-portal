@@ -22,42 +22,43 @@ const NoClinic = () => {
         <title>Olive | Physiotherapy Clinic</title>
         <link rel="icon" href="favicon.ico" />
       </Head>
-
-      <div className="divide-y divide-[#A17851] divide-opacity-30">
-        <Header />
-        <main className="main ">
-          <div
-            className="flex space-x-3 justify-center  items-center overflow-scroll scrollbar-hide    
-          "
-          >
+      <Header />
+      <div className="static divide-y divide-[#A17851] divide-opacity-30">
+        <main className="max-w-screen mb-72 md:px-12 xl:mx-24 items-center">
+          <div className="p-3 mx-auto">
             <section
-              className="pt-28 sm:pt-52 sm:landscape:pt-12 sm:landscape:pr-25 md:pt-80
+              className="pt-28 sm:pt-52 sm:landscape:pt-12 sm:landscape:pr-25 
                 lg:pt-24 xl:pt-40 scOne:pt-40 xxxl:pt-56"
             >
               <h2
-                className=" items-center text-5xl py-8 text-black text-opacity-30 
+                className="text-center text-5xl py-8 text-black text-opacity-30 
                   sm:text-2xl sm:pb-2 
-                  md:text-4xl md:pb-3
-                  lg:text-3xl lg:pb-3
-                  xl:text-4xl xl:pb-3
-                  xxl:text-4xl xxl:pb-3 xxxl:text-7xl xxxl:pb-6
+                  md:text-4xl md:pb-10
+                  lg:text-3xl lg:pb-10
+                  xl:text-4xl xl:pb-10
+                  xxl:text-4xl xxl:pb-10 xxxl:text-7xl xxxl:pb-10
                   "
               >
-                You have no Clinic
+                คุณยังไม่มีคลินิก
               </h2>
-              <Link href="/create">
-                
-                <div className="buttonPrimary">
-                  <span
-                    className="text-xl font-medium 
-                      sm:landscape:text-base md:text-base sm:text-base lg:text-base xxl:text-lg xxxl:text-3xl   "
+              <div className="flex justify-center">
+                <Link href="/create">
+                  <div
+                    className="cursor-pointer flex gap-1 sm:w-40 w-60 py-3 md:py-4  justify-center
+    rounded-full hover:border-2  hover:border-[#AD8259] bg-[#ffdf8e] shadow-lg
+    hover:bg-transparent text-[#AD8259] "
                   >
-                    {" "}
-                    Create Clinic{" "}
-                  </span>
-                  <AddHomeIcon className="xxxl:w-10 xxxl:h-10" />
-                </div>
-              </Link>
+                    <span
+                      className="text-xl font-medium 
+                      sm:landscape:text-base md:text-base sm:text-base lg:text-base xxl:text-lg xxxl:text-3xl"
+                    >
+                      {" "}
+                      สร้างคลินิก{" "}
+                    </span>
+                    <AddHomeIcon className="xxxl:w-10 xxxl:h-10" />
+                  </div>
+                </Link>
+              </div>
             </section>
           </div>
         </main>
