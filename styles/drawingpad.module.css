@@ -1,0 +1,8 @@
+.sigPadContainer {
+    background-color: rgb(238, 235, 235);
+    padding: 0 10px 10px;
+  }
+  .sigCanvas{
+    width: 100%;
+    height: 200px;
+  }

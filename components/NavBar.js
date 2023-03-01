@@ -23,11 +23,6 @@ const NavBar = () => {
             <div className="navbarItem">นัดหมายดูแล</div>
           </div>
         </Link>
-        <Link href="schedule">
-          <div className={router.pathname == "/schedule" ? "active" : ""}>
-            <div className="navbarItem">ตารางนัด</div>
-          </div>
-        </Link>
         <Link href="availability">
           <div className={router.pathname == "/availability" ? "active" : ""}>
             <div className="navbarItem">จัดการวันว่าง</div>
