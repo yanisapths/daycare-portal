@@ -11,7 +11,7 @@ import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import CircleIconButton from "../../components/OLButton/CircleIconButton";
 import SimpleChip from "../OLButton/SimpleChip";
 import FormModal from "../../pages/request/FormModal";
-
+import styles from "../../styles/drawingpad.module.css"
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Button } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -30,6 +30,7 @@ import ReactDatePicker from "react-datepicker";
 import CheckIcon from "@mui/icons-material/Check";
 import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
+import SignatureCanvas from "react-signature-canvas";
 import "react-datepicker/dist/react-datepicker.css";
 
 function AppointmentModal({
@@ -45,6 +46,7 @@ function AppointmentModal({
   index,
 }) {
   const [open, setOpen] = useState(false);
+  const [openCanvas, setOpenCanvas] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -630,6 +632,31 @@ function AppointmentModal({
                     handleClose={handleClose}
                     request={data}
                   />
+                  <div className="pt-2">
+                  <button
+                    className="rounded-full border-[0.5px] bg-black/5 border-black px-4 py-[0.5px] w-fit h-fit"
+                    onClick={() => setOpenCanvas(true)}
+                  >
+                    <p className="text-xs">รูปประกอบ</p>
+                  </button>
+                  {openCanvas && (
+                    <div className="fixed w-full h-full flex top-0 bottom-0 left-0 right-0 justify-center align-middle">
+                      <div className="w-5/6 max-w-[500px] border-2 bg-white shadow">
+                        <div className="p-6">
+                          <div className="sigPadContainer">
+                            <SignatureCanvas
+                              penColor="blue"
+                              canvasProps={{ className: "sigCanvas" }}
+                            />
+                          </div>
+                        </div>
+                          <button className="" onClick={() => setOpenCanvas(false)}>
+                            Cancel
+                          </button>
+                      </div>
+                      </div>
+                  )}
+                  </div>
                 </div>
               )}
           </div>
@@ -864,6 +891,7 @@ function AppointmentModal({
                     </p>
                   )}
                 </FormControl>
+
                 <FormControl>
                   <Controller
                     rules={{ required: false }}
@@ -898,14 +926,14 @@ function AppointmentModal({
           ))}
         </motion.div>
         {eventList.length == course.amount - 1 ? (
-          data.status != "Rejected" ? (
+          event.status == "Done" || event.status == "Rejected" ? (
             <motion.div className="text-center pt-4">
               <p className="caption md:h6 xl:h6 pb-2 text-black/50">
                 ไม่สามารถเพิ่มนัดได้เนื่องจากครบจำนวนนัดแล้ว
               </p>
             </motion.div>
           ) : (
-            <motion.div className="text-center pt-4"></motion.div>
+            " "
           )
         ) : data.status == "Rejected" ? (
           " "
