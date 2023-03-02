@@ -11,7 +11,7 @@ import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import CircleIconButton from "../../components/OLButton/CircleIconButton";
 import SimpleChip from "../OLButton/SimpleChip";
 import FormModal from "../../pages/request/FormModal";
-import styles from "../../styles/drawingpad.module.css"
+import styles from "../../styles/drawingpad.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Button } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -633,29 +633,32 @@ function AppointmentModal({
                     request={data}
                   />
                   <div className="pt-2">
-                  <button
-                    className="rounded-full border-[0.5px] bg-black/5 border-black px-4 py-[0.5px] w-fit h-fit"
-                    onClick={() => setOpenCanvas(true)}
-                  >
-                    <p className="text-xs">รูปประกอบ</p>
-                  </button>
-                  {openCanvas && (
-                    <div className="fixed w-full h-full flex top-0 bottom-0 left-0 right-0 justify-center align-middle">
-                      <div className="w-5/6 max-w-[500px] border-2 bg-white shadow">
-                        <div className="p-6">
-                          <div className="sigPadContainer">
-                            <SignatureCanvas
-                              penColor="blue"
-                              canvasProps={{ className: "sigCanvas" }}
-                            />
+                    <button
+                      className="rounded-full border-[0.5px] bg-black/5 border-black px-4 py-[0.5px] w-fit h-fit"
+                      onClick={() => setOpenCanvas(true)}
+                    >
+                      <p className="text-xs">รูปประกอบ</p>
+                    </button>
+                    {openCanvas && (
+                      <div className="fixed w-full h-full flex top-0 bottom-0 left-0 right-0 justify-center align-middle">
+                        <div className="w-5/6 max-w-[500px] border-2 bg-white shadow">
+                          <div className="p-6">
+                            <div className="sigPadContainer">
+                              <SignatureCanvas
+                                penColor="blue"
+                                canvasProps={{ className: "sigCanvas" }}
+                              />
+                            </div>
                           </div>
-                        </div>
-                          <button className="" onClick={() => setOpenCanvas(false)}>
+                          <button
+                            className=""
+                            onClick={() => setOpenCanvas(false)}
+                          >
                             Cancel
                           </button>
+                        </div>
                       </div>
-                      </div>
-                  )}
+                    )}
                   </div>
                 </div>
               )}
