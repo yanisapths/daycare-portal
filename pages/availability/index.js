@@ -143,20 +143,24 @@ const Availability = ({ clinicData }) => {
           <div className="text-center">
             <h1 className="pageTitle">จัดการวันว่าง</h1>
 
-            <div className="flex justify-end space-x-10 px-8 lg:px-24 pt-10 lg:py-12">
+            <div className="flex justify-end px-8  ">
               <BtnAdd onClick={handleClickOpen} />
             </div>
-            <div className="pt-12 space-y-12 md:space-y-0 xl:space-y-0 md:pt-10 xl:pt-10 md:flex xl:flex md:gap-10 xl:gap-10 xl:justify-center px-12">
-              <SimpleCalendar
-                className="w-2/6"
+            <div className="space-y-12 px-12 md:space-y-16 md:flex-col md:items-center md:px-0 md:pt-6 lg:pt-7 lg:justify-center lg:gap-10 lg:flex lg:space-y-0 lg:px-0  xxl:pt-4 xl:space-y-0  xl:pt-4 
+     xl:flex xl:gap-10 xl:justify-center sm:space-y-6 sm:pt-4 sm:px-0 sm:mx-6">
+       <div className="md:flex md:justify-center lg:flex lg:justify-center">
+       <SimpleCalendar
+                className="w-2/6 "
                 currentDate={currentDate}
                 today={today}
                 setToday={setToday}
                 selectedDate={selectedDate}
                 setSelectedDate={setSelectedDate}
               />
-              <div className="w-4/6 min-w-full xl:min-w-[750px] md:min-w-[550px]">
-                <p className="text-lg font-semibold pb-2">
+       </div>
+              
+              <div className="flex flex-col justify-start items-center md:px-10  min-w-full lg:min-w-[450px] xxl:min-w-[650px]  xl:min-w-[650px] md:min-w-[550px] ">
+                <p className="text-lg font-semibold pb-2 text-center">
                   {" "}
                   {selectedDate.toDate().toLocaleDateString("th-TH", {
                     day: "numeric",
@@ -172,7 +176,7 @@ const Availability = ({ clinicData }) => {
                     ) {
                       return (
                         <div className="flex justify-center items-center">
-                          <div className="flex justify-between rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-4 px-20 py-6">
+                          <div className="flex justify-between rounded-2xl shadow-lg transition hover:shadow-2xl bg-white my-4 px-20 py-6 sm:px-14">
                             <p className="tracking-wide">
                               {new Date(data.startTime).toLocaleTimeString(
                                 "th-TH",

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSession } from "next-auth/react";
 import { useForm, Controller, useFieldArray } from "react-hook-form";
 import Router, { useRouter } from "next/router";
@@ -11,7 +11,7 @@ import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import CircleIconButton from "../../components/OLButton/CircleIconButton";
 import SimpleChip from "../OLButton/SimpleChip";
 import FormModal from "../../pages/request/FormModal";
-
+import styles from "../../styles/drawingpad.module.css";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Button } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
@@ -30,6 +30,10 @@ import ReactDatePicker from "react-datepicker";
 import CheckIcon from "@mui/icons-material/Check";
 import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import SignatureCanvas from "react-signature-canvas";
 import "react-datepicker/dist/react-datepicker.css";
 
 function AppointmentModal({
@@ -45,8 +49,27 @@ function AppointmentModal({
   index,
 }) {
   const [open, setOpen] = useState(false);
-  let count = [];
-  const event = data.events.length + 1;
+  const [openDialog, setOpenDialog] = useState(false);
+  const [openEventDialog, setOpenEventDialog] = useState(false);
+  const [openCanvas, setOpenCanvas] = useState(false);
+  const [bodyChartURL, setBodyChartURL] = useState(null);
+  const [bodyChartImg, setBodyChartImg] = useState(null);
+  const bodyChart = useRef();
+
+  const handleDialogOpen = () => {
+    setOpenDialog(true);
+  };
+  const handleDialogClose = () => {
+    setOpenDialog(false);
+  };
+
+  const handleEventDialogOpen = () => {
+    setOpenEventDialog(true);
+  };
+  const handleEventDialogClose = () => {
+    setOpenEventDialog(false);
+  };
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -68,11 +91,6 @@ function AppointmentModal({
         toast.error("ไม่สามารถยกเลิกนัดได้");
       });
   }
-
-  for (let i = data.events.length; i < course.amount - 1; i++) {
-    count.push((props) => <div>{props.children}</div>);
-  }
-
   useEffect(() => {
     {
       eventList.map((e, index) => {
@@ -114,7 +132,7 @@ function AppointmentModal({
     req.owner_id = user.id;
     req.course_id = course._id;
     req.patient_id = patient._id;
-    req.cinic_id = clinic._id;
+    req.clinic_id = data.clinic_id;
     const url = `${process.env.url}/event/create/${data._id}`;
     const json = JSON.stringify(req);
     let axiosConfig = {
@@ -171,11 +189,54 @@ function AppointmentModal({
       });
   }
 
+  async function saveChart(appointmentId) {
+    const bodyChartURL = bodyChart.current.toDataURL("image/png");
+    setBodyChartURL(bodyChartURL);
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ bodyChart: bodyChartURL }),
+    };
+    const res = await fetch(
+      `${process.env.dev}/appointment/bodychart/${appointmentId}`,
+      option
+    )
+      .then(async (res) => {
+        toast.success("บันทึกเรียบร้อย");
+        setOpenCanvas(false);
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
+
+  async function saveEventChart(eid) {
+    const bodyChartURL = bodyChart.current.toDataURL("image/png");
+    setBodyChartURL(bodyChartURL);
+    const option = {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ bodyChart: bodyChartURL }),
+    };
+    const res = await fetch(`${process.env.dev}/event/bodychart/${eid}`, option)
+      .then(async (res) => {
+        toast.success("บันทึกเรียบร้อย");
+        setOpenCanvas(false);
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  }
+
   return (
     <AnimatePresence>
       <motion.div
         className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll 
-        h-[550px] scrollbar-hide"
+        h-[600px] scrollbar-hide"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -219,7 +280,7 @@ function AppointmentModal({
                     {patient.lastName}
                   </span>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-3 sm:grid-cols-2 xl:h6 md:h6 caption">
+                <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
                   <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
@@ -242,7 +303,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2  text-base sm:pt-4">
+                  <div className="flex items-center col-start-1 align-middle gap-2  text-base sm:pt-4">
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
                       ข้อควรระวัง{" "}
@@ -257,7 +318,7 @@ function AppointmentModal({
                     )}
                   </div>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-3 sm:grid-cols-1 sm:gap-2 xl:h6 md:h6 caption text-base">
+                <motion.h6 className="grid grid-cols-2 gap-2 sm:grid-cols-1 sm:gap-2 xl:h6 md:h6 caption text-base">
                   <div className="flex items-center align-middle gap-2">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
@@ -270,7 +331,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40"> -</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2 text-base">
+                  <div className="flex items-center  align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
@@ -305,7 +366,7 @@ function AppointmentModal({
                     ( {data.nickName} ) {data.firstName} {data.lastName}
                   </span>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-3 sm:grid-cols-2 xl:h6 md:h6 caption">
+                <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
                   <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
@@ -328,7 +389,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-base sm:pt-4">
+                  <div className="flex items-center  col-start-1 gap-2 text-base sm:pt-4">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold xl:w-20">
@@ -344,7 +405,7 @@ function AppointmentModal({
                     )}
                   </div>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-3 sm:grid-cols-1 xl:h6 md:h6 caption  text-base">
+                <motion.h6 className="grid grid-cols-2 sm:grid-cols-1 xl:h6 md:h6 caption  text-base">
                   <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
@@ -450,7 +511,7 @@ function AppointmentModal({
             </Tooltip>
           </div>
           <section className="mb-2 pt-2 text-black/50 border-black/20 border-b-[1px] border-dashed  ">
-            <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
+            <div className="text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2">
               <div className="">
                 <p>ครั้งที่</p>
               </div>
@@ -466,9 +527,12 @@ function AppointmentModal({
               <div>
                 <p></p>
               </div>
+              <div>
+                <p></p>
+              </div>
             </div>
           </section>
-          <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
+          <div className="text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2">
             <div className=" text-lg md:text-base sm:text-xs ">
               <p className="flex justify-center">1</p>
             </div>
@@ -573,6 +637,7 @@ function AppointmentModal({
                 </div>
               </div>
             )}
+
             {data.progressStatus != "Done" &&
               data.status != "Rejected" &&
               data.status != "reviewed" &&
@@ -639,12 +704,102 @@ function AppointmentModal({
                   />
                 </div>
               )}
+            <div className="">
+              {data.bodyChart && (
+                <div>
+                  <button
+                    className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/10 hover:bg-white"
+                    onClick={handleDialogOpen}
+                  >
+                    <p className="text-xs">bodychart</p>
+                  </button>
+                  {openDialog && (
+                    <Dialog
+                      onClose={handleDialogClose}
+                      open={openDialog}
+                      maxWidth="xl"
+                    >
+                      <DialogContent>
+                        <div className="w-full h-[550px] top-0 bottom-0 left-0 right-0 justify-center align-middle">
+                          <div className="border-2 bg-white w-full h-full py-2 rounded-xl">
+                            <div className="w-full h-5/6">
+                              <div className={styles.sigPadContainer}>
+                                <img
+                                  src={data.bodyChart}
+                                  alt="bodyChart"
+                                  className="w-full h-full"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </DialogContent>
+                      <DialogActions
+                        sx={{ justifyContent: "center", p: 2, pb: 4 }}
+                      >
+                        <button
+                          className="cursor-ponter border-2 w-fit h-fit rounded-full p-8 py-2 hover:bg-black/10"
+                          onClick={handleDialogClose}
+                        >
+                          Close
+                        </button>
+                      </DialogActions>
+                    </Dialog>
+                  )}
+                </div>
+              )}
+              {!data.bodyChart && (
+                <button
+                  className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/10 hover:bg-white"
+                  onClick={() => setOpenCanvas(true)}
+                >
+                  <p className="text-xs">bodychart</p>
+                </button>
+              )}
+              {!data.bodyChart && openCanvas && (
+                <div className="fixed w-full h-[550px] top-[-50px] bottom-0 left-0 right-0 justify-center align-middle shadow-3xl shadow-black/5 bg-white rounded-xl">
+                  <div className="border-2 bg-white w-full h-full py-2 rounded-xl">
+                    <div className="w-full h-5/6">
+                      <div className={styles.sigPadContainer}>
+                        <SignatureCanvas
+                          backgroundColor="rgba(255, 255, 255, 0)"
+                          penColor="blue"
+                          canvasProps={{ className: "w-full h-full" }}
+                          ref={bodyChart}
+                        />
+                      </div>
+                    </div>
+                    <div className="flex justify-center gap-2 pt-6">
+                      <button
+                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
+                        onClick={() => setOpenCanvas(false)}
+                      >
+                        Cancel
+                      </button>
+                      <button
+                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
+                        onClick={() => saveChart(data._id)}
+                      >
+                        Save
+                      </button>
+                      <button
+                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
+                        onClick={() => bodyChart.current.clear()}
+                      >
+                        Clear
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
+
           {data.status != "Rejected" &&
             eventList.map((event, index) => {
               return (
                 <div
-                  className="text-[#121212] grid grid-cols-4 text-center items-center text-lg mb-2 caption w-full gap-2"
+                  className="text-[#121212] grid grid-cols-5 text-center items-center text-lg mb-2 caption w-full gap-2"
                   key={index}
                 >
                   <div className="flex justify-center sm:text-xs pt-0.5">
@@ -698,13 +853,14 @@ function AppointmentModal({
                       ""
                     )}
                   </div>
+
                   {event.status == "Done" && (
-                    <div className="items-center">
+                    <div className="static items-center">
                       <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs">
                         {event.status}
                       </p>
                       <div className="flex justify-center items-center">
-                        <div className="sm:hidden flex justify-center items-center">
+                        <div className="static sm:hidden flex justify-center items-center">
                           <StatusCheckIcon
                             icon={<CheckCircleIcon className="w-5 h-5" />}
                             text={event.status}
@@ -807,6 +963,95 @@ function AppointmentModal({
                       </Tooltip>
                     </div>
                   )}
+                  <div className="">
+                    {event.bodyChart && (
+                      <div>
+                        <button
+                          className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/10 hover:bg-white"
+                          onClick={handleEventDialogOpen}
+                        >
+                          <p className="text-xs">bodychart</p>
+                        </button>
+                        {openEventDialog && (
+                          <Dialog
+                            onClose={handleEventDialogClose}
+                            open={openEventDialog}
+                            maxWidth="xl"
+                          >
+                            <DialogContent>
+                              <div className="w-full h-[550px] top-0 bottom-0 left-0 right-0 justify-center align-middle">
+                                <div className="border-2 bg-white w-full h-full py-2 rounded-xl">
+                                  <div className="w-full h-5/6">
+                                    <div className={styles.sigPadContainer}>
+                                      <img
+                                        src={event.bodyChart}
+                                        alt="bodyChart"
+                                        className="w-full h-full"
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </DialogContent>
+                            <DialogActions
+                              sx={{ justifyContent: "center", p: 2, pb: 4 }}
+                            >
+                              <button
+                                className="cursor-ponter border-2 w-fit h-fit rounded-full p-8 py-2 hover:bg-black/10"
+                                onClick={handleEventDialogClose}
+                              >
+                                Close
+                              </button>
+                            </DialogActions>
+                          </Dialog>
+                        )}
+                      </div>
+                    )}
+                    {!event.bodyChart && (
+                      <button
+                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/10 hover:bg-white"
+                        onClick={() => setOpenCanvas(true)}
+                      >
+                        <p className="text-xs">bodychart</p>
+                      </button>
+                    )}
+                    {!event.bodyChart && openCanvas && (
+                      <div className="fixed w-full h-[550px] top-[-50px] bottom-0 left-0 right-0 justify-center align-middle shadow-3xl shadow-black/5 bg-white rounded-xl">
+                        <div className="border-2 bg-white w-full h-full py-2 rounded-xl">
+                          <div className="w-full h-5/6">
+                            <div className={styles.sigPadContainer}>
+                              <SignatureCanvas
+                                backgroundColor="rgba(255, 255, 255, 0)"
+                                penColor="blue"
+                                canvasProps={{ className: "w-full h-full" }}
+                                ref={bodyChart}
+                              />
+                            </div>
+                          </div>
+                          <div className="flex justify-center gap-2 pt-6">
+                            <button
+                              className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
+                              onClick={() => setOpenCanvas(false)}
+                            >
+                              Cancel
+                            </button>
+                            <button
+                              className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
+                              onClick={() => saveEventChart(event._id)}
+                            >
+                              Save
+                            </button>
+                            <button
+                              className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
+                              onClick={() => bodyChart.current.clear()}
+                            >
+                              Clear
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
               );
             })}
@@ -871,6 +1116,7 @@ function AppointmentModal({
                     </p>
                   )}
                 </FormControl>
+
                 <FormControl>
                   <Controller
                     rules={{ required: false }}
@@ -905,20 +1151,19 @@ function AppointmentModal({
           ))}
         </motion.div>
         {eventList.length == course.amount - 1 ? (
-          event.status == "Done" || event.status =="Rejected"?(
+          event.status == "Done" || event.status == "Rejected" ? (
             <motion.div className="text-center pt-4">
-            <p className="caption md:h6 xl:h6 pb-2 text-black/50">
-              ไม่สามารถเพิ่มนัดได้เนื่องจากครบจำนวนนัดแล้ว
-            </p>
-          </motion.div>
-          ):(
+              <p className="caption md:h6 xl:h6 pb-2 text-black/50">
+                ไม่สามารถเพิ่มนัดได้เนื่องจากครบจำนวนนัดแล้ว
+              </p>
+            </motion.div>
+          ) : (
             " "
           )
-          
         ) : data.status == "Rejected" ? (
           " "
         ) : (
-          <motion.div className="flex justify-center pt-16">
+          <motion.div className="flex justify-center pt-4 pb-10">
             {data.status != "reviewed" && data.status != "Rejected" && (
               <CircleIconButton
                 handleClick={() =>
@@ -926,12 +1171,11 @@ function AppointmentModal({
                     date: "",
                     startTime: "",
                     endTime: "",
-                    event: event,
                     status: "Approved",
                     owner_id: user.id,
                     patient_id: patient._id,
                     course_id: course._id,
-                    clinic_id: clinic._id,
+                    clinic_id: data.clinic_id,
                   })
                 }
                 icon={<AddCircleOutlineIcon />}

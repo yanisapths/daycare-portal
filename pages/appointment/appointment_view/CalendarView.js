@@ -61,6 +61,7 @@ function CalendarView({ data, event, user, staffs }) {
                   index={index}
                   data={data}
                   event={event}
+                  user={user}
                   staffs={staffs}
                 />
               ) : (

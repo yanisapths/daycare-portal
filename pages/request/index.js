@@ -15,6 +15,7 @@ const Request = ({clinicData}) => {
   const [selected, setSelected] = useState("");
   const [view, setView] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
+  const [appointmentPendingData, setAppointmentPendingData] = useState([]);
   const [staffs, setStaffs] = useState([]);
 
   const list = [
@@ -55,13 +56,17 @@ const Request = ({clinicData}) => {
   async function fetchDatails() {
     if(session && clinicData){
       const appointmenturl = `${process.env.url}/appointment/match/${clinicData._id}`;
+      const appointmentPendingUrl = `${process.env.url}/appointment/match/${clinicData._id}/pending`;
       const staffurl = `${process.env.url}/staff/match/${clinicData._id}`;
       const appointment = await fetch(appointmenturl);
+      const appointmentPending = await fetch(appointmentPendingUrl);
       const staff = await fetch(staffurl);
       try {
       const appointmentData = await appointment.json();
+      const appointmentPendingData = await appointmentPending.json();
       const staffs = await staff.json();
       setAppointmentData(appointmentData);
+      setAppointmentPendingData(appointmentPendingData);
       setStaffs(staffs);
       } catch (err) {
         console.log(err);
@@ -100,7 +105,7 @@ const Request = ({clinicData}) => {
           {selected == "tableView" ? (
             <TableView data={appointmentData} staffs={staffs} />
           ) : (
-            <ListView data={appointmentData} staffs={staffs}/>
+            <ListView data={appointmentPendingData} staffs={staffs}/>
           )}
         </div>
       </div>

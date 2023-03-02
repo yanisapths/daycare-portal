@@ -6,7 +6,6 @@ import { HomeIcon } from "@heroicons/react/solid";
 import PeopleIcon from "@mui/icons-material/People";
 import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import RateReviewIcon from "@mui/icons-material/RateReview";
-import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import { useRouter } from "next/router";
 import BookOnlineIcon from "@mui/icons-material/BookOnline";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
@@ -97,13 +96,6 @@ const SideBar = () => {
               <div className="sideBarTabContainer2">
                 <BookOnlineIcon className="sideBarTabIcon2" />
                 <h2 className="sideBarTabText2">นัดหมายดูแล</h2>
-              </div>
-            </Link>
-            {/* Appointment */}
-            <Link href="/schedule">
-              <div className="sideBarTabContainer2">
-                <CalendarMonthIcon className=" sideBarTabIcon2" />
-                <h2 className="sideBarTabText2">ตารางนัด</h2>
               </div>
             </Link>
             {/* Appointment */}
