@@ -79,7 +79,7 @@ function AppointmentModal({
   };
 
   async function deleteEvent(eid) {
-    const res = await fetch(`${process.env.url}/event/delete/${eid}`, {
+    const res = await fetch(`${process.env.dev}/event/delete/${eid}`, {
       method: "DELETE",
     })
       .then(async (res) => {
@@ -105,7 +105,7 @@ function AppointmentModal({
       body: JSON.stringify({ status: "Done" }),
     };
     const res = await fetch(
-      `${process.env.url}/appointment/accept/${appointmentId}`,
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {})
@@ -133,7 +133,7 @@ function AppointmentModal({
     req.course_id = course._id;
     req.patient_id = patient._id;
     req.clinic_id = data.clinic_id;
-    const url = `${process.env.url}/event/create/${data._id}`;
+    const url = `${process.env.dev}/event/create/${data._id}`;
     const json = JSON.stringify(req);
     let axiosConfig = {
       headers: {
@@ -159,7 +159,7 @@ function AppointmentModal({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(`${process.env.url}/event/update/${eid}`, option)
+    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
       .then(async (res) => {
         toast.success("สำเร็จ");
         Router.reload();
@@ -176,7 +176,7 @@ function AppointmentModal({
       body: JSON.stringify({ progressStatus: "Done" }),
     };
     const res = await fetch(
-      `${process.env.url}/appointment/markdone/${appointmentId}`,
+      `${process.env.dev}/appointment/markdone/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -198,7 +198,7 @@ function AppointmentModal({
       body: JSON.stringify({ bodyChart: bodyChartURL }),
     };
     const res = await fetch(
-      `${process.env.url}/appointment/bodychart/${appointmentId}`,
+      `${process.env.dev}/appointment/bodychart/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -220,7 +220,7 @@ function AppointmentModal({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ bodyChart: bodyChartURL }),
     };
-    const res = await fetch(`${process.env.url}/event/bodychart/${eid}`, option)
+    const res = await fetch(`${process.env.dev}/event/bodychart/${eid}`, option)
       .then(async (res) => {
         toast.success("บันทึกเรียบร้อย");
         setOpenCanvas(false);

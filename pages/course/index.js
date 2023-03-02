@@ -17,7 +17,7 @@ function Course({ clinicData }) {
 
   async function fetchCourseData() {
     if (session && clinicData) {
-      const url = `${process.env.url}/course/match/${clinicData._id}`;
+      const url = `${process.env.dev}/course/match/${clinicData._id}`;
       const res = await fetch(url, { method: "GET" });
       try {
         const courseData = await res.json();
@@ -77,7 +77,7 @@ export default Course;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   if (session) {
-    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
     try {
       const res = await fetch(url);
       const clinicData = await res.json();

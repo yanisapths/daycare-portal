@@ -41,7 +41,7 @@ const Availability = ({ clinicData }) => {
 
   async function fetchAvailableData() {
     if (session && clinicData) {
-      const url = `${process.env.url}/available/match/${clinicData._id}`;
+      const url = `${process.env.dev}/available/match/${clinicData._id}`;
       const res = await fetch(url);
       try {
         const availableData = await res.json();
@@ -91,7 +91,7 @@ const Availability = ({ clinicData }) => {
   });
   async function deleteAvailable(availableId) {
     const res = await fetch(
-      `${process.env.url}/available/delete/${availableId}`,
+      `${process.env.dev}/available/delete/${availableId}`,
       { method: "DELETE" }
     )
       .then(async (res) => {
@@ -116,7 +116,7 @@ const Availability = ({ clinicData }) => {
     };
     const response = await axios
       .post(
-        `${process.env.url}/available/create/${clinicData._id}`,
+        `${process.env.dev}/available/create/${clinicData._id}`,
         json,
         axiosConfig
       )
@@ -373,7 +373,7 @@ export default Availability;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   if (session) {
-    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
     try {
       const res = await fetch(url);
       const clinicData = await res.json();

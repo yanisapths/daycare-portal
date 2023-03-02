@@ -46,7 +46,7 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
     };
     const response = await axios
       .post(
-        `${process.env.url}/staff/create/${session.user.id}`,
+        `${process.env.dev}/staff/create/${session.user.id}`,
         data,
         axiosConfig
       )

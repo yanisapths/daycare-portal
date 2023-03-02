@@ -28,7 +28,7 @@ function Dashboard({ data }) {
   const router = useRouter();
 
   async function fetchClinic() {
-    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
     if (session.user.id) {
       const res = await fetch(url);
       try {
@@ -47,11 +47,11 @@ function Dashboard({ data }) {
   const fetchData = async () => {
     let isSubscribed = true;
     const res = await fetch(
-      `${process.env.url}/appointment/match/${clinic._id}/pending`
+      `${process.env.dev}/appointment/match/${clinic._id}/pending`
     );
 
     const approve = await fetch(
-      `${process.env.url}/appointment/match/${clinic._id}/approved`
+      `${process.env.dev}/appointment/match/${clinic._id}/approved`
     );
     const requestData = await res.json();
     const appointmentData = await approve.json();

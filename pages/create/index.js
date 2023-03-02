@@ -141,7 +141,7 @@ function Create() {
     await getBase64(data.imageUrl[0], async (result) => {
       data.imageUrl = result;
       const response = await axios
-        .post(`${process.env.url}/clinic/create`, data, axiosConfig)
+        .post(`${process.env.dev}/clinic/create`, data, axiosConfig)
         .then(async (res) => {
           console.log("RESPONSE RECEIVED: ", res.data);
           const { owner } = res.data.owner;

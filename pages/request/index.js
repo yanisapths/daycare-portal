@@ -55,9 +55,9 @@ const Request = ({clinicData}) => {
 
   async function fetchDatails() {
     if(session && clinicData){
-      const appointmenturl = `${process.env.url}/appointment/match/${clinicData._id}`;
-      const appointmentPendingUrl = `${process.env.url}/appointment/match/${clinicData._id}/pending`;
-      const staffurl = `${process.env.url}/staff/match/${clinicData._id}`;
+      const appointmenturl = `${process.env.dev}/appointment/match/${clinicData._id}`;
+      const appointmentPendingUrl = `${process.env.dev}/appointment/match/${clinicData._id}/pending`;
+      const staffurl = `${process.env.dev}/staff/match/${clinicData._id}`;
       const appointment = await fetch(appointmenturl);
       const appointmentPending = await fetch(appointmentPendingUrl);
       const staff = await fetch(staffurl);
@@ -118,7 +118,7 @@ export default Request;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   if (session) {
-    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
     try {
       const res = await fetch(url);
       const clinicData = await res.json();

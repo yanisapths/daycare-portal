@@ -50,10 +50,10 @@ function RequestTableRow({ d, index }) {
   const fetchData = async () => {
     let isSubscribed = true;
     const patientData = await fetch(
-      `${process.env.url}/patient/${d.patient_id}`
+      `${process.env.dev}/patient/${d.patient_id}`
     );
 
-    const courseData = await fetch(`${process.env.url}/course/${d.course_id}`);
+    const courseData = await fetch(`${process.env.dev}/course/${d.course_id}`);
 
     const course = await courseData.json();
     const p = await patientData.json();
@@ -78,7 +78,7 @@ function RequestTableRow({ d, index }) {
       body: JSON.stringify({ status: "Approved" }),
     };
     const res = await fetch(
-      `${process.env.url}/appointment/accept/${appointmentId}`,
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -92,7 +92,7 @@ function RequestTableRow({ d, index }) {
 
   async function deleteRequest(appointmentId) {
     const res = await fetch(
-      `${process.env.url}/appointment/delete/${appointmentId}`,
+      `${process.env.dev}/appointment/delete/${appointmentId}`,
       { method: "DELETE" }
     )
       .then(async (res) => {

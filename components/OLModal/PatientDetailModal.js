@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 
 function PatientDetailModal({ patient, selectedId, setSelectedId }) {
   async function deletePatient(pid) {
-    const res = await fetch(`${process.env.url}/patient/delete/${pid}`, {
+    const res = await fetch(`${process.env.dev}/patient/delete/${pid}`, {
       method: "DELETE",
     })
       .then(async (res) => {

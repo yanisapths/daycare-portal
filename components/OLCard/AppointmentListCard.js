@@ -42,7 +42,7 @@ function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
       body: JSON.stringify({ progressStatus: "Done" }),
     };
     const res = await fetch(
-      `${process.env.url}/appointment/markdone/${appointmentId}`,
+      `${process.env.dev}/appointment/markdone/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -56,9 +56,9 @@ function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
   }
   const fetchData = async () => {
     let isSubscribed = true;
-    const eventUrl = `${process.env.url}/event/match/${d._id}`;
-    const patienturl = `${process.env.url}/patient/${d.patient_id}`;
-    const courseurl = `${process.env.url}/course/${d.course_id}`;
+    const eventUrl = `${process.env.dev}/event/match/${d._id}`;
+    const patienturl = `${process.env.dev}/patient/${d.patient_id}`;
+    const courseurl = `${process.env.dev}/course/${d.course_id}`;
 
     const res = await fetch(eventUrl);
     const patientRes = await fetch(patienturl);
@@ -95,7 +95,7 @@ function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
   }, []);
 
   useEffect(() => {
-    const courseurl = `${process.env.url}/course/${d.course_id}`;
+    const courseurl = `${process.env.dev}/course/${d.course_id}`;
     fetch(courseurl, {
       method: "GET",
     })
@@ -113,7 +113,7 @@ function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
       body: JSON.stringify({ status: "Done" }),
     };
     const res = fetch(
-      `${process.env.url}/appointment/accept/${appointmentId}`,
+      `${process.env.dev}/appointment/accept/${appointmentId}`,
       option
     )
       .then((res) => {})

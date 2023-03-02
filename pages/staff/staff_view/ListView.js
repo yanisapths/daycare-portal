@@ -8,7 +8,7 @@ import toast from "react-hot-toast";
 
 function ListView({ staffData }) {
   async function deleteStaff(sid) {
-    const url = `${process.env.url}/staff/delete/${sid}`;
+    const url = `${process.env.dev}/staff/delete/${sid}`;
     const res = await fetch(url, { method: "DELETE" })
       .then(async (res) => {
         toast.success("ลบพนักงานแล้ว");
