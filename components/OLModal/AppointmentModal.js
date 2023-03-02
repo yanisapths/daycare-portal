@@ -114,7 +114,7 @@ function AppointmentModal({
     req.owner_id = user.id;
     req.course_id = course._id;
     req.patient_id = patient._id;
-    req.cinic_id = clinic._id;
+    req.clinic_id = clinic._id;
     const url = `${process.env.dev}/event/create/${data._id}`;
     const json = JSON.stringify(req);
     let axiosConfig = {
@@ -175,7 +175,7 @@ function AppointmentModal({
     <AnimatePresence>
       <motion.div
         className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll 
-        h-[550px] scrollbar-hide"
+        h-[600px] scrollbar-hide"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -918,7 +918,7 @@ function AppointmentModal({
         ) : data.status == "Rejected" ? (
           " "
         ) : (
-          <motion.div className="flex justify-center pt-16">
+          <motion.div className="flex justify-center pt-4 pb-10">
             {data.status != "reviewed" && data.status != "Rejected" && (
               <CircleIconButton
                 handleClick={() =>
