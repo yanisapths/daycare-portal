@@ -42,7 +42,7 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
     };
     const response = await axios
       .post(
-        `${process.env.dev}/course/create/${clinicData._id}`,
+        `${process.env.url}/course/create/${clinicData._id}`,
         json,
         axiosConfig
       )

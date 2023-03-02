@@ -22,7 +22,7 @@ function DetailView({
   selectedId,
 }) {
   async function deleteCourse(courseId) {
-    const url = `${process.env.dev}/course/delete/${courseId}`;
+    const url = `${process.env.url}/course/delete/${courseId}`;
     const res = await fetch(url, {
       method: "DELETE",
     })

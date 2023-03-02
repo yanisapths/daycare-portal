@@ -22,7 +22,7 @@ const Staff = ({ clinic }) => {
   };
   async function fetchStaff() {
     if (session && clinic) {
-      const res = await fetch(`${process.env.dev}/staff/match/${clinic._id}`);
+      const res = await fetch(`${process.env.url}/staff/match/${clinic._id}`);
       try {
         const staffData = await res.json();
         setStaff(staffData);
@@ -106,7 +106,7 @@ export default Staff;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   if (session) {
-    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
     try {
       const res = await fetch(url);
       const clinic = await res.json();

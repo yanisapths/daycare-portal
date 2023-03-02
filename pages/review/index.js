@@ -11,7 +11,7 @@ const Review = ({ clinic }) => {
   const [reviews, setReviews] = useState([]);
   async function fetchData() {
     if (session && clinic) {
-      const res = await fetch(`${process.env.dev}/review/match/${clinic._id}`);
+      const res = await fetch(`${process.env.url}/review/match/${clinic._id}`);
       const reviews = await res.json();
       if (reviews) {
         setReviews(reviews);
@@ -77,7 +77,7 @@ export default Review;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   if (session) {
-    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
     try {
       const res = await fetch(url);
       const clinic = await res.json();

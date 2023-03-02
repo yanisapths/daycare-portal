@@ -5,7 +5,7 @@ function PatientItemList({ input }) {
 
   const fetchData = async () => {
     let isSubscribed = true;
-    const patienturl = `${process.env.dev}/patient/${input.patient_id}`;
+    const patienturl = `${process.env.url}/patient/${input.patient_id}`;
     const patients = await fetch(patienturl);
     const patient = await patients.json();
     if (isSubscribed) {

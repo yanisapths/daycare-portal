@@ -17,7 +17,7 @@ function Home() {
   async function fetchData() {
     if (session.user.id) {
       const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
+        `${process.env.url}/clinic/owner/${session.user.id}`
       );
       try {
         const clinicData = await res.json();
