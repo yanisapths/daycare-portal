@@ -1,6 +1,9 @@
 .sigPadContainer {
-    background-color: rgb(238, 235, 235);
-    padding: 0 10px 10px;
+    background-image: url('https://centralwestrehab.com.au/images/uploads/Body%20Chart%20Landscape.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    width: 100%;
+    height: 100%;
   }
   .sigCanvas{
     width: 100%;
