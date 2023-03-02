@@ -47,8 +47,6 @@ function AppointmentModal({
 }) {
   const [open, setOpen] = useState(false);
   const [openCanvas, setOpenCanvas] = useState(false);
-  let count = [];
-  const event = data.events.length + 1;
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -70,11 +68,6 @@ function AppointmentModal({
         toast.error("ไม่สามารถยกเลิกนัดได้");
       });
   }
-
-  for (let i = data.events.length; i < course.amount - 1; i++) {
-    count.push((props) => <div>{props.children}</div>);
-  }
-
   useEffect(() => {
     {
       eventList.map((e, index) => {
@@ -116,7 +109,7 @@ function AppointmentModal({
     req.owner_id = user.id;
     req.course_id = course._id;
     req.patient_id = patient._id;
-    req.clinic_id = clinic._id;
+    req.clinic_id = data.clinic_id;
     const url = `${process.env.dev}/event/create/${data._id}`;
     const json = JSON.stringify(req);
     let axiosConfig = {
@@ -936,14 +929,14 @@ function AppointmentModal({
           ))}
         </motion.div>
         {eventList.length == course.amount - 1 ? (
-          event.status == "Done" || event.status == "Rejected" ? (
+          data.status != "Rejected" ? (
             <motion.div className="text-center pt-4">
               <p className="caption md:h6 xl:h6 pb-2 text-black/50">
                 ไม่สามารถเพิ่มนัดได้เนื่องจากครบจำนวนนัดแล้ว
               </p>
             </motion.div>
           ) : (
-            " "
+            <motion.div className="text-center pt-4"></motion.div>
           )
         ) : data.status == "Rejected" ? (
           " "
@@ -956,12 +949,11 @@ function AppointmentModal({
                     date: "",
                     startTime: "",
                     endTime: "",
-                    event: event,
                     status: "Approved",
                     owner_id: user.id,
                     patient_id: patient._id,
                     course_id: course._id,
-                    clinic_id: clinic._id,
+                    clinic_id: data.clinic_id,
                   })
                 }
                 icon={<AddCircleOutlineIcon />}
