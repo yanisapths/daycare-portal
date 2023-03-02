@@ -97,7 +97,7 @@ function Create() {
     control,
     getValues,
     setValue,
-    formState: { errors,isValid },
+    formState: { errors, isValid },
   } = useForm({
     mode: "onSubmit",
     reValidateMode: "onChange",
@@ -140,7 +140,6 @@ function Create() {
     let imgBase64 = "";
     await getBase64(data.imageUrl[0], async (result) => {
       data.imageUrl = result;
-
       const response = await axios
         .post(`${process.env.dev}/clinic/create`, data, axiosConfig)
         .then(async (res) => {
@@ -180,6 +179,9 @@ function Create() {
     if (file) {
       try {
         await reader.readAsDataURL(file);
+        if (file.size > 500000) {
+          toast.error("กรุณาใส่รูปภาพขนาดน้อยกว่า 5 MB");
+        }
         reader.onload = function () {
           cb(reader.result);
         };
