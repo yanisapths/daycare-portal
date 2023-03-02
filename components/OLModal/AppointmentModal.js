@@ -212,7 +212,7 @@ function AppointmentModal({
                     {patient.lastName}
                   </span>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-3 sm:grid-cols-2 xl:h6 md:h6 caption">
+                <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
                   <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
@@ -235,7 +235,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2  text-base sm:pt-4">
+                  <div className="flex items-center col-start-1 align-middle gap-2  text-base sm:pt-4">
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
                       ข้อควรระวัง{" "}
@@ -250,7 +250,7 @@ function AppointmentModal({
                     )}
                   </div>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-3 sm:grid-cols-1 sm:gap-2 xl:h6 md:h6 caption text-base">
+                <motion.h6 className="grid grid-cols-2 gap-2 sm:grid-cols-1 sm:gap-2 xl:h6 md:h6 caption text-base">
                   <div className="flex items-center align-middle gap-2">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
@@ -263,7 +263,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40"> -</span>
                     )}
                   </div>
-                  <div className="flex items-center align-middle gap-2 text-base">
+                  <div className="flex items-center  align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
@@ -298,7 +298,7 @@ function AppointmentModal({
                     ( {data.nickName} ) {data.firstName} {data.lastName}
                   </span>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-3 sm:grid-cols-2 xl:h6 md:h6 caption">
+                <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
                   <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
@@ -321,7 +321,7 @@ function AppointmentModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
-                  <div className="flex items-center gap-2 text-base sm:pt-4">
+                  <div className="flex items-center  col-start-1 gap-2 text-base sm:pt-4">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
                     <span className="body2 text-[#A17851] font-bold xl:w-20">
@@ -337,7 +337,7 @@ function AppointmentModal({
                     )}
                   </div>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-3 sm:grid-cols-1 xl:h6 md:h6 caption  text-base">
+                <motion.h6 className="grid grid-cols-2 sm:grid-cols-1 xl:h6 md:h6 caption  text-base">
                   <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PhoneIcon className="text-sm" />} />
