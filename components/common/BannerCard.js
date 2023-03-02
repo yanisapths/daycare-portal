@@ -8,7 +8,7 @@ function BannerCard({ username }) {
         src="/dashboardBG.jpg"
         className="rounded-2xl object-cover md:flex w-full h-[180px] xl:h-[220px] justify-between shadow-lg shadow-[#A17851]/60 text-[#FFFBF2]"
         alt="Dashbaord bg"
-        objectFit="fill"
+        objectfit="fill"
       />
       <div className="static">
         <div className=" text-[#FFFBF2] -mt-40 px-8">

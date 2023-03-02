@@ -9,7 +9,7 @@ function LargeCard({ img, title, description, buttonText, link }) {
         <Image
           src={img}
           layout="fill"
-          objectFit="cover"
+          objectfit="cover"
           className="rounded-2xl opacity-85 "
         />
       </div>
