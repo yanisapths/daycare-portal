@@ -57,19 +57,19 @@ function EventTableRow({ clinic,event, user }) {
   const fetchData = async () => {
     let isSubscribed = true;
     const patientData = await fetch(
-      `${process.env.dev}/patient/${event.patient_id}`
+      `${process.env.url}/patient/${event.patient_id}`
     );
 
     const courseData = await fetch(
-      `${process.env.dev}/course/${event.course_id}`
+      `${process.env.url}/course/${event.course_id}`
     );
 
     const appointments = await fetch(
-      `${process.env.dev}/appointment/${event.appointment_id}`
+      `${process.env.url}/appointment/${event.appointment_id}`
     );
 
     const events = await fetch(
-      `${process.env.dev}/event/match/${event.appointment_id}`
+      `${process.env.url}/event/match/${event.appointment_id}`
     );
     const course = await courseData.json();
     const p = await patientData.json();
@@ -98,7 +98,7 @@ function EventTableRow({ clinic,event, user }) {
       body: JSON.stringify({ status: "Approved" }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/accept/${appointmentId}`,
+      `${process.env.url}/appointment/accept/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -111,7 +111,7 @@ function EventTableRow({ clinic,event, user }) {
   }
 
   async function deleteEvent(eid) {
-    const res = await fetch(`${process.env.dev}/event/delete/${eid}`, {
+    const res = await fetch(`${process.env.url}/event/delete/${eid}`, {
       method: "DELETE",
     })
       .then(async (res) => {
@@ -129,7 +129,7 @@ function EventTableRow({ clinic,event, user }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ status: "Done" }),
     };
-    const res = await fetch(`${process.env.dev}/event/update/${eid}`, option)
+    const res = await fetch(`${process.env.url}/event/update/${eid}`, option)
       .then(async (res) => {
         Router.reload();
       })

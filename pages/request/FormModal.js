@@ -54,7 +54,7 @@ function FormModal({ request, open, handleClose }) {
     };
     const response = await axios
       .put(
-        `${process.env.dev}/appointment/reject/${request._id}`,
+        `${process.env.url}/appointment/reject/${request._id}`,
         json,
         axiosConfig
       )
