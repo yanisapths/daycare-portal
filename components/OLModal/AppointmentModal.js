@@ -212,7 +212,7 @@ function AppointmentModal({
                     {patient.lastName}
                   </span>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:h6 md:h6 caption">
+                <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
                   <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
@@ -298,7 +298,7 @@ function AppointmentModal({
                     ( {data.nickName} ) {data.firstName} {data.lastName}
                   </span>
                 </motion.h6>
-                <motion.h6 className="grid grid-cols-2 gap-2 sm:grid-cols-2 xl:h6 md:h6 caption">
+                <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
                   <div className="flex items-center align-middle gap-2 text-base">
                     {" "}
                     <CircleIcon icon={<PersonIcon className="text-sm" />} />
