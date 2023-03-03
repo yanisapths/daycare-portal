@@ -1,7 +1,4 @@
-import React,{useRef} from 'react'
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
+import React from 'react'
 import SignatureCanvas from "react-signature-canvas";
 import styles from "../../styles/drawingpad.module.css";
 
