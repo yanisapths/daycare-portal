@@ -1151,7 +1151,7 @@ function AppointmentModal({
           ))}
         </motion.div>
         {eventList.length == course.amount - 1 ? (
-          event.status == "Done" || event.status == "Rejected" ? (
+           data.status == "Rejected" ? (
             <motion.div className="text-center pt-4">
               <p className="caption md:h6 xl:h6 pb-2 text-black/50">
                 ไม่สามารถเพิ่มนัดได้เนื่องจากครบจำนวนนัดแล้ว
