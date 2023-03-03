@@ -27,18 +27,18 @@ function Dashboard({ data }) {
   const router = useRouter();
 
   const fetchData = async () => {
-    if(session && data){
+    if (session && data) {
       let isSubscribed = true;
       const res = await fetch(
         `${process.env.dev}/appointment/match/${data._id}/pending`
       );
-  
+
       const approve = await fetch(
         `${process.env.dev}/appointment/match/${data._id}/approved`
       );
       const requestData = await res.json();
       const appointmentData = await approve.json();
-  
+
       if (isSubscribed) {
         setRequestData(requestData);
         setAppointmentData(appointmentData);
@@ -51,7 +51,7 @@ function Dashboard({ data }) {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      if(!data){
+      if (!data) {
         router.push("/noClinic");
       }
       fetchData();

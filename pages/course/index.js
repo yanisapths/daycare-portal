@@ -34,10 +34,10 @@ function Course({ clinicData }) {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      if(!clinicData){
+      if (!clinicData) {
         return router.push("/noClinic");
-       }
-       fetchCourseData();
+      }
+      fetchCourseData();
     }
   }, [status]);
 

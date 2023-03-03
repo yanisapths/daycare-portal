@@ -14,7 +14,7 @@ function ListView({ data, staffs }) {
         <p className="text-lg font-semibold">คำขอใหม่รอการตอบรับ</p>
         {/*request list */}
         {data ? (
-          data.length > 0 ?(
+          data.length > 0 ? (
             data.map((request) => (
               <div key={request._id} className="mb-6">
                 <div>
@@ -27,19 +27,19 @@ function ListView({ data, staffs }) {
                 </div>
               </div>
             ))
-          ):(
+          ) : (
             <div className="col-span-2 text-center pt-40">
               <div className="h3 font-light sm:h5 text-black/30 ">
                 ไม่มีคำขอรับบริการใหม่
               </div>
             </div>
-          )  
-        ):(
+          )
+        ) : (
           <div className="col-span-2 text-center pt-40">
-              <div className="h3 font-light sm:h5 text-black/30 ">
-                ไม่มีคำขอรับบริการใหม่
-              </div>
+            <div className="h3 font-light sm:h5 text-black/30 ">
+              ไม่มีคำขอรับบริการใหม่
             </div>
+          </div>
         )}
       </div>
     </div>

@@ -1,31 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import Router, { useRouter } from "next/router";
-import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import CircleIcon from "../../components/OLIcon/CircleIcon";
 import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import CircleIconButton from "../../components/OLButton/CircleIconButton";
-import SimpleChip from "../OLButton/SimpleChip";
 import FormModal from "../../pages/request/FormModal";
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton, Button } from "@mui/material";
-import PhoneIcon from "@mui/icons-material/Phone";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
-import WcIcon from "@mui/icons-material/Wc";
-import PersonIcon from "@mui/icons-material/Person";
-import WarningIcon from "@mui/icons-material/Warning";
+import { IconButton } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Tooltip from "@mui/material/Tooltip";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CheckIcon from "@mui/icons-material/Check";
 import Swal from "sweetalert2";
-import "react-datepicker/dist/react-datepicker.css";
 import BodyChartCanvas from "./BodyChartCanvas";
 import BodyChart from "./BodyChart";
 import AddEventForm from "../OLForm/AddEventForm";
@@ -278,10 +266,8 @@ function AppointmentModal({
               <div>
                 <p>สถานะ</p>
               </div>
-              <div>
-              </div>
-              <div>
-              </div>
+              <div></div>
+              <div></div>
             </div>
           </section>
           <div className="text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2">
