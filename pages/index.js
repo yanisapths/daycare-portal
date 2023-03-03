@@ -7,39 +7,19 @@ import Header from "../components/Header";
 import Dashboard from "./dashboard";
 import BannerCard from "../components/common/BannerCard";
 import FooterSocial from "../components/FooterSocial";
-import Image from "next/image";
 
-function Home() {
+function Home({ clinicData }) {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [clinicData, setData] = useState({});
-
-  async function fetchData() {
-    if (session.user.id) {
-      const res = await fetch(
-        `${process.env.dev}/clinic/owner/${session.user.id}`
-      );
-      try {
-        const clinicData = await res.json();
-        if (clinicData) {
-          setData(clinicData);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    } else {
-    }
-  }
-
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchData();
+      if (!clinicData) {
+        router.push("/noClinic");
+      }
     }
   }, [status]);
-
   if (clinicData) {
     return (
       <div>
@@ -61,6 +41,8 @@ function Home() {
         <FooterSocial />
       </div>
     );
+  } else {
+    return <div></div>;
   }
 }
 
@@ -68,8 +50,26 @@ export default withRouter(Home);
 
 export async function getServerSideProps(context) {
   const session = await getSession(context);
-
+  if (session) {
+    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    try {
+      const res = await fetch(url);
+      const clinicData = await res.json();
+      if (!clinicData) {
+        return router.push("/noClinic");
+      }
+      return { props: { clinicData } };
+    } catch (error) {
+      return {
+        props: {
+          error: true,
+        },
+      };
+    }
+  }
   return {
-    props: { session },
+    props: {
+      error: true,
+    },
   };
 }
