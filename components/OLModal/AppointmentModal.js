@@ -1,40 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
-import { useSession } from "next-auth/react";
-import { useForm, Controller, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import Router, { useRouter } from "next/router";
-import Link from "next/link";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { motion, AnimatePresence } from "framer-motion";
-import CircleIcon from "../../components/OLIcon/CircleIcon";
 import StatusCheckIcon from "../../components/OLIcon/StatusCheckIcon";
 import CircleIconButton from "../../components/OLButton/CircleIconButton";
-import SimpleChip from "../OLButton/SimpleChip";
 import FormModal from "../../pages/request/FormModal";
-import styles from "../../styles/drawingpad.module.css";
 import CloseIcon from "@mui/icons-material/Close";
-import { IconButton, Button } from "@mui/material";
-import PhoneIcon from "@mui/icons-material/Phone";
-import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
-import WcIcon from "@mui/icons-material/Wc";
-import PersonIcon from "@mui/icons-material/Person";
-import WarningIcon from "@mui/icons-material/Warning";
+import { IconButton } from "@mui/material";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import Tooltip from "@mui/material/Tooltip";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import FormControl from "@mui/material/FormControl";
-import ReactDatePicker from "react-datepicker";
 import CheckIcon from "@mui/icons-material/Check";
-import DatePicker from "react-datepicker";
 import Swal from "sweetalert2";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import SignatureCanvas from "react-signature-canvas";
-import "react-datepicker/dist/react-datepicker.css";
+import BodyChartCanvas from "./BodyChartCanvas";
+import BodyChart from "./BodyChart";
+import AddEventForm from "../OLForm/AddEventForm";
+import DetailHeader from "../AppointmentView/DetailHeader";
 
 function AppointmentModal({
   clinic,
@@ -53,7 +36,6 @@ function AppointmentModal({
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [openCanvas, setOpenCanvas] = useState(false);
   const [bodyChartURL, setBodyChartURL] = useState(null);
-  const [bodyChartImg, setBodyChartImg] = useState(null);
   const bodyChart = useRef();
 
   const handleDialogOpen = () => {
@@ -62,14 +44,12 @@ function AppointmentModal({
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
-
   const handleEventDialogOpen = () => {
     setOpenEventDialog(true);
   };
   const handleEventDialogClose = () => {
     setOpenEventDialog(false);
   };
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -198,7 +178,7 @@ function AppointmentModal({
       body: JSON.stringify({ bodyChart: bodyChartURL }),
     };
     const res = await fetch(
-      `${process.env.dev}/appointment/bodychart/${appointmentId}`,
+      `${process.env.url}/appointment/bodychart/${appointmentId}`,
       option
     )
       .then(async (res) => {
@@ -220,7 +200,7 @@ function AppointmentModal({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ bodyChart: bodyChartURL }),
     };
-    const res = await fetch(`${process.env.dev}/event/bodychart/${eid}`, option)
+    const res = await fetch(`${process.env.url}/event/bodychart/${eid}`, option)
       .then(async (res) => {
         toast.success("บันทึกเรียบร้อย");
         setOpenCanvas(false);
@@ -271,265 +251,23 @@ function AppointmentModal({
             duration: "0.6",
           }}
         >
-          <div className="pt-4 text-[#121212]">
-            {data.patient_id ? (
-              <div className="h6 space-y-4 font-medium">
-                <motion.h6>
-                  <span className="h4">
-                    ( {patient.nickName} ) {patient.firstName}{" "}
-                    {patient.lastName}
-                  </span>
-                </motion.h6>
-                <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
-                  <div className="flex items-center align-middle gap-2 text-base">
-                    {" "}
-                    <CircleIcon icon={<PersonIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold ">
-                      อายุ{" "}
-                    </span>
-                    {patient.age ? (
-                      patient.age
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                  <div className="flex items-center align-middle gap-2 text-base">
-                    {" "}
-                    <CircleIcon icon={<WcIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">เพศ </span>
-                    {patient.sex ? (
-                      patient.sex
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                  <div className="flex items-center col-start-1 align-middle gap-2  text-base sm:pt-4">
-                    <CircleIcon icon={<WarningIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
-                      ข้อควรระวัง{" "}
-                    </span>
-                    {patient.precaution ? (
-                      <span className="text-[#FF2F3B]">
-                        {" "}
-                        {patient.precaution}
-                      </span>
-                    ) : (
-                      "-"
-                    )}
-                  </div>
-                </motion.h6>
-                <motion.h6 className="grid grid-cols-2 gap-2 sm:grid-cols-1 sm:gap-2 xl:h6 md:h6 caption text-base">
-                  <div className="flex items-center align-middle gap-2">
-                    {" "}
-                    <CircleIcon icon={<PhoneIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
-                      ติดต่อ{" "}
-                    </span>
-                    {patient.phoneNumber ? (
-                      patient.phoneNumber
-                    ) : (
-                      <span className="text-sm text-black/40"> -</span>
-                    )}
-                  </div>
-                  <div className="flex items-center  align-middle gap-2 text-base">
-                    {" "}
-                    <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
-                      LINE ID{" "}
-                    </span>
-                    {patient.lineId ? (
-                      patient.lineId
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                </motion.h6>
-                <motion.h6>
-                  <div className="flex items-start align-start gap-2 xl:h6 md:h6 caption text-base">
-                    {" "}
-                    <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold sm:w-20">
-                      ที่อยู่{" "}
-                    </span>
-                    {patient.address ? (
-                      patient.address
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                </motion.h6>
-              </div>
-            ) : (
-              <div className="h6 space-y-4 font-medium">
-                <motion.h6>
-                  <span className="h4">
-                    ( {data.nickName} ) {data.firstName} {data.lastName}
-                  </span>
-                </motion.h6>
-                <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
-                  <div className="flex items-center align-middle gap-2 text-base">
-                    {" "}
-                    <CircleIcon icon={<PersonIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
-                      อายุ{" "}
-                    </span>
-                    {data.age ? (
-                      data.age
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                  <div className="flex items-center align-middle gap-2 text-base">
-                    {" "}
-                    <CircleIcon icon={<WcIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">เพศ </span>
-                    {data.sex ? (
-                      data.sex
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                  <div className="flex items-center  col-start-1 gap-2 text-base sm:pt-4">
-                    {" "}
-                    <CircleIcon icon={<WarningIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold xl:w-20">
-                      ข้อควรระวัง
-                    </span>
-                    {data.description ? (
-                      <span className="text-[#FF2F3B]  flex items-start justify-start ">
-                        {" "}
-                        {data.description}
-                      </span>
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                </motion.h6>
-                <motion.h6 className="grid grid-cols-2 sm:grid-cols-1 xl:h6 md:h6 caption  text-base">
-                  <div className="flex items-center align-middle gap-2 text-base">
-                    {" "}
-                    <CircleIcon icon={<PhoneIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
-                      ติดต่อ{" "}
-                    </span>
-                    {data.phoneNumber ? (
-                      data.phoneNumber
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                  <div className="flex items-center align-middle gap-2 text-base">
-                    {" "}
-                    <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
-                      LINE ID{" "}
-                    </span>
-                    {data.lineId ? (
-                      data.lineId
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                </motion.h6>
-                <motion.h6>
-                  <div className="flex items-start align-start gap-2 xl:h6 md:h6 caption text-base">
-                    {" "}
-                    <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
-                    <span className="body2 text-[#A17851] font-bold">
-                      ที่อยู่{" "}
-                    </span>
-                    {data.location ? (
-                      data.location
-                    ) : (
-                      <span className="text-sm text-black/40">-</span>
-                    )}
-                  </div>
-                </motion.h6>
-              </div>
-            )}
-            <div className="pt-4 h6">
-              <div className="flex items-center align-middle gap-2 text-base">
-                {" "}
-                <CircleIcon icon={<MeetingRoomIcon className="text-sm" />} />
-                <span className="body2 text-[#A17851] font-bold">
-                  สถานที่นัด{" "}
-                </span>
-                {data.appointmentPlace}
-              </div>
-            </div>
-          </div>
-          <div className="p-2">
-            <Link href="/course">
-              <div className="flex justify-center gap-2 cursor-pointer">
-                <Tooltip placement="top" title="ดูข้อมูล">
-                  <motion.h3 className="h4 text-center">
-                    {course.courseName}
-                  </motion.h3>
-                </Tooltip>
-                <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-center text-xs w-fit h-fit px-4 py-1.5">
-                  {course.type}
-                </div>
-              </div>
-            </Link>
-            <motion.div className=" flex justify-center pt-2 gap-2 ">
-              <div className="grid grid-cols-3 w-fit sm:grid-cols-2 sm:gap-2 ">
-                <div className=" flex justify-center">
-                  <SimpleChip
-                    prefix="จำนวน"
-                    text={course.amount}
-                    quantify="ครั้ง"
-                  />
-                </div>
-                <div className=" flex justify-center">
-                  <SimpleChip
-                    prefix="ราคา"
-                    text={course.totalPrice}
-                    quantify="บาท"
-                  />
-                </div>
-                <div className=" flex justify-center sm:col-span-2">
-                  <SimpleChip
-                    prefix="ครั้งละ"
-                    text={course.duration}
-                    quantify="ชั่วโมง"
-                  />
-                </div>
-              </div>
-            </motion.div>
-          </div>
-          <div className="flex justify-center text-black/60 align-middle gap-2 py-2">
-            <Tooltip placement="top" title="Click To Copy">
-              <Button
-                sx={{ borderRadius: 16, px: 2 }}
-                endIcon={<ContentCopyIcon size="small" />}
-                onClick={() => {
-                  navigator.clipboard.writeText(data._id);
-                }}
-              >
-                <p className="text-xs">No. {data._id}</p>
-              </Button>
-            </Tooltip>
-          </div>
+          <DetailHeader data={data} patient={patient} course={course} />
           <section className="mb-2 pt-2 text-black/50 border-black/20 border-b-[1px] border-dashed  ">
             <div className="text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2">
-              <div className="">
+              <div>
                 <p>ครั้งที่</p>
               </div>
-              <div className="">
+              <div>
                 <p>วันนัด</p>
               </div>
-              <div className="">
+              <div>
                 <p>เวลานัด</p>
               </div>
-              <div className="">
+              <div>
                 <p>สถานะ</p>
               </div>
-              <div>
-                <p></p>
-              </div>
-              <div>
-                <p></p>
-              </div>
+              <div></div>
+              <div></div>
             </div>
           </section>
           <div className="text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2">
@@ -708,89 +446,35 @@ function AppointmentModal({
               {data.bodyChart && (
                 <div>
                   <button
-                    className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/10 hover:bg-white"
+                    className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
                     onClick={handleDialogOpen}
                   >
                     <p className="text-xs">bodychart</p>
                   </button>
                   {openDialog && (
-                    <Dialog
-                      onClose={handleDialogClose}
-                      open={openDialog}
-                      maxWidth="xl"
-                    >
-                      <DialogContent>
-                        <div className="w-full h-[550px] top-0 bottom-0 left-0 right-0 justify-center align-middle">
-                          <div className="border-2 bg-white w-full h-full py-2 rounded-xl">
-                            <div className="w-full h-5/6">
-                              <div className={styles.sigPadContainer}>
-                                <img
-                                  src={data.bodyChart}
-                                  alt="bodyChart"
-                                  className="w-full h-full"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </DialogContent>
-                      <DialogActions
-                        sx={{ justifyContent: "center", p: 2, pb: 4 }}
-                      >
-                        <button
-                          className="cursor-ponter border-2 w-fit h-fit rounded-full p-8 py-2 hover:bg-black/10"
-                          onClick={handleDialogClose}
-                        >
-                          Close
-                        </button>
-                      </DialogActions>
-                    </Dialog>
+                    <BodyChart
+                      data={data}
+                      openDialog={openDialog}
+                      handleDialogClose={handleDialogClose}
+                    />
                   )}
                 </div>
               )}
               {!data.bodyChart && (
                 <button
-                  className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/10 hover:bg-white"
+                  className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
                   onClick={() => setOpenCanvas(true)}
                 >
                   <p className="text-xs">bodychart</p>
                 </button>
               )}
               {!data.bodyChart && openCanvas && (
-                <div className="fixed w-full h-[550px] top-[-50px] bottom-0 left-0 right-0 justify-center align-middle shadow-3xl shadow-black/5 bg-white rounded-xl">
-                  <div className="border-2 bg-white w-full h-full py-2 rounded-xl">
-                    <div className="w-full h-5/6">
-                      <div className={styles.sigPadContainer}>
-                        <SignatureCanvas
-                          backgroundColor="rgba(255, 255, 255, 0)"
-                          penColor="blue"
-                          canvasProps={{ className: "w-full h-full" }}
-                          ref={bodyChart}
-                        />
-                      </div>
-                    </div>
-                    <div className="flex justify-center gap-2 pt-6">
-                      <button
-                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
-                        onClick={() => setOpenCanvas(false)}
-                      >
-                        Cancel
-                      </button>
-                      <button
-                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
-                        onClick={() => saveChart(data._id)}
-                      >
-                        Save
-                      </button>
-                      <button
-                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
-                        onClick={() => bodyChart.current.clear()}
-                      >
-                        Clear
-                      </button>
-                    </div>
-                  </div>
-                </div>
+                <BodyChartCanvas
+                  bodyChart={bodyChart}
+                  saveChart={saveChart}
+                  setOpenCanvas={setOpenCanvas}
+                  data={data}
+                />
               )}
             </div>
           </div>
@@ -967,191 +651,53 @@ function AppointmentModal({
                     {event.bodyChart && (
                       <div>
                         <button
-                          className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/10 hover:bg-white"
+                          className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
                           onClick={handleEventDialogOpen}
                         >
                           <p className="text-xs">bodychart</p>
                         </button>
                         {openEventDialog && (
-                          <Dialog
-                            onClose={handleEventDialogClose}
-                            open={openEventDialog}
-                            maxWidth="xl"
-                          >
-                            <DialogContent>
-                              <div className="w-full h-[550px] top-0 bottom-0 left-0 right-0 justify-center align-middle">
-                                <div className="border-2 bg-white w-full h-full py-2 rounded-xl">
-                                  <div className="w-full h-5/6">
-                                    <div className={styles.sigPadContainer}>
-                                      <img
-                                        src={event.bodyChart}
-                                        alt="bodyChart"
-                                        className="w-full h-full"
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </DialogContent>
-                            <DialogActions
-                              sx={{ justifyContent: "center", p: 2, pb: 4 }}
-                            >
-                              <button
-                                className="cursor-ponter border-2 w-fit h-fit rounded-full p-8 py-2 hover:bg-black/10"
-                                onClick={handleEventDialogClose}
-                              >
-                                Close
-                              </button>
-                            </DialogActions>
-                          </Dialog>
+                          <BodyChart
+                            data={event}
+                            openDialog={openEventDialog}
+                            handleDialogClose={handleEventDialogClose}
+                          />
                         )}
                       </div>
                     )}
                     {!event.bodyChart && (
                       <button
-                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/10 hover:bg-white"
+                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
                         onClick={() => setOpenCanvas(true)}
                       >
                         <p className="text-xs">bodychart</p>
                       </button>
                     )}
                     {!event.bodyChart && openCanvas && (
-                      <div className="fixed w-full h-[550px] top-[-50px] bottom-0 left-0 right-0 justify-center align-middle shadow-3xl shadow-black/5 bg-white rounded-xl">
-                        <div className="border-2 bg-white w-full h-full py-2 rounded-xl">
-                          <div className="w-full h-5/6">
-                            <div className={styles.sigPadContainer}>
-                              <SignatureCanvas
-                                backgroundColor="rgba(255, 255, 255, 0)"
-                                penColor="blue"
-                                canvasProps={{ className: "w-full h-full" }}
-                                ref={bodyChart}
-                              />
-                            </div>
-                          </div>
-                          <div className="flex justify-center gap-2 pt-6">
-                            <button
-                              className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
-                              onClick={() => setOpenCanvas(false)}
-                            >
-                              Cancel
-                            </button>
-                            <button
-                              className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
-                              onClick={() => saveEventChart(event._id)}
-                            >
-                              Save
-                            </button>
-                            <button
-                              className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-1 hover:bg-black/10"
-                              onClick={() => bodyChart.current.clear()}
-                            >
-                              Clear
-                            </button>
-                          </div>
-                        </div>
-                      </div>
+                      <BodyChartCanvas
+                        bodyChart={bodyChart}
+                        saveChart={saveEventChart}
+                        setOpenCanvas={setOpenCanvas}
+                        data={event}
+                      />
                     )}
                   </div>
                 </div>
               );
             })}
           {fields.map((item, index) => (
-            <form
-              className="text-[#121212] grid grid-cols-4 items-center text-center text-lg  w-full  gap-2"
-              key={index}
-              onSubmit={handleSubmit(onSubmit)}
-            >
-              <div className="flex justify-center sm:text-sm">
-                <p>{eventList.length + index + 2}</p>
-              </div>
-              <div className="flex justify-center">
-                <FormControl required>
-                  <Controller
-                    rules={{ required: true }}
-                    control={control}
-                    name="date"
-                    render={({ field: { onChange, value } }) => (
-                      <ReactDatePicker
-                        className="inputOutline sm:text-xs  text-center"
-                        onChange={onChange}
-                        selected={value}
-                        placeholderText="วัน"
-                        error={Boolean(errors?.date)}
-                        helperText="กรุณาเลือกวัน"
-                      />
-                    )}
-                  />
-                  {errors.date?.type === "required" && (
-                    <p role="alert" className="caption text-[#FF2F3B]">
-                      กรุณาเลือกวัน
-                    </p>
-                  )}
-                </FormControl>
-              </div>
-              <div className="flex justify-center sm:flex-col gap-1 ">
-                <FormControl>
-                  <Controller
-                    rules={{ required: true }}
-                    control={control}
-                    name="startTime"
-                    render={({ field: { onChange, value } }) => (
-                      <DatePicker
-                        onChange={onChange}
-                        className="inputOutline sm:text-[9px] md:placeholder:text-[12px] text-center"
-                        selected={value}
-                        showTimeSelect
-                        showTimeSelectOnly
-                        timeIntervals={15}
-                        timeCaption="Time"
-                        dateFormat="h:mm aa"
-                        placeholderText="เวลาเริ่ม"
-                        error={Boolean(errors?.startTime)}
-                        helperText="กรุณาเลือกเวลา"
-                      />
-                    )}
-                  />
-                  {errors.startTime?.type === "required" && (
-                    <p role="alert" className="caption text-[#FF2F3B]">
-                      กรุณาเลือกเวลา
-                    </p>
-                  )}
-                </FormControl>
-
-                <FormControl>
-                  <Controller
-                    rules={{ required: false }}
-                    control={control}
-                    name="endTime"
-                    render={({ field: { onChange, value } }) => (
-                      <DatePicker
-                        onChange={onChange}
-                        className="inputOutline sm:text-[9px] md:placeholder:text-[12px] text-center "
-                        selected={value}
-                        showTimeSelect
-                        showTimeSelectOnly
-                        timeIntervals={15}
-                        timeCaption="Time"
-                        dateFormat="h:mm aa"
-                        placeholderText="เสร็จสิ้น"
-                      />
-                    )}
-                  />
-                </FormControl>
-              </div>
-              <div className="">
-                <button
-                  type="submit"
-                  className="body2 w-fit h-fit px-6 p-1.5 rounded-full border-2 border-[#AD8259]/60 bg-[#AD8259] text-white hover:bg-[#AD8259]/20 hover:text-[#AD8259]
-                  sm:text-sm sm:px-5 sm:p-1 md:text-sm lg:text-sm"
-                >
-                  เพิ่ม
-                </button>
-              </div>
-            </form>
+            <AddEventForm
+              index={index}
+              onSubmit={onSubmit}
+              handleSubmit={handleSubmit}
+              eventList={eventList}
+              control={control}
+              errors={errors}
+            />
           ))}
         </motion.div>
         {eventList.length == course.amount - 1 ? (
-           data.status == "Rejected" ? (
+          data.status == "Rejected" ? (
             <motion.div className="text-center pt-4">
               <p className="caption md:h6 xl:h6 pb-2 text-black/50">
                 ไม่สามารถเพิ่มนัดได้เนื่องจากครบจำนวนนัดแล้ว

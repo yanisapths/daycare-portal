@@ -22,60 +22,42 @@ const CustomTooltip = styled(({ className, ...props }) => (
 
 function Dashboard({ data }) {
   const { data: session, status } = useSession();
-  const [clinic, setData] = useState([]);
   const [requestData, setRequestData] = useState([]);
   const [appointmentData, setAppointmentData] = useState([]);
   const router = useRouter();
 
-  async function fetchClinic() {
-    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
-    if (session.user.id) {
-      const res = await fetch(url);
-      try {
-        const clinic = await res.json();
-        if (clinic) {
-          setData(clinic);
-        } else return;
-      } catch (err) {
-        console.log(err);
-        return router.push("/noClinic");
-      }
-    } else {
-    }
-  }
-
   const fetchData = async () => {
-    let isSubscribed = true;
-    const res = await fetch(
-      `${process.env.url}/appointment/match/${clinic._id}/pending`
-    );
+    if (session && data) {
+      let isSubscribed = true;
+      const res = await fetch(
+        `${process.env.url}/appointment/match/${data._id}/pending`
+      );
 
-    const approve = await fetch(
-      `${process.env.url}/appointment/match/${clinic._id}/approved`
-    );
-    const requestData = await res.json();
-    const appointmentData = await approve.json();
+      const approve = await fetch(
+        `${process.env.url}/appointment/match/${data._id}/approved`
+      );
+      const requestData = await res.json();
+      const appointmentData = await approve.json();
 
-    if (isSubscribed) {
-      setRequestData(requestData);
-      setAppointmentData(appointmentData);
+      if (isSubscribed) {
+        setRequestData(requestData);
+        setAppointmentData(appointmentData);
+      }
+      return () => (isSubscribed = false);
     }
-    return () => (isSubscribed = false);
   };
 
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/auth/signin/");
     } else {
-      fetchClinic();
+      if (!data) {
+        router.push("/noClinic");
+      }
+      fetchData();
     }
   }, [status]);
 
-  useEffect(() => {
-    if (clinic._id) {
-      fetchData();
-    }
-  }, []);
   return (
     <>
       {/* Clinic Hours */}

@@ -196,8 +196,8 @@ function AddAppointmentForm({
                           {patientData.map((input, key) => (
                             <MenuItem key={key} value={input._id}>
                               <span>
-                                ( {input.nickName} ) {input.firstName}
-                                {" "}{input.lastName}
+                                ( {input.nickName} ) {input.firstName}{" "}
+                                {input.lastName}
                               </span>
                             </MenuItem>
                           ))}

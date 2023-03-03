@@ -8,15 +8,13 @@ function ListView({ data, staffs }) {
   const [today, setToday] = useState(currentDate);
   const [selectedDate, setSelectedDate] = useState(currentDate);
 
-  console.log(`this data: ${data}`)
-
   return (
     <div className="flex justify-center">
       <div className="sm:w-full xl:min-w-[950px] lg:w-5/6 md:w-5/6 ">
         <p className="text-lg font-semibold">คำขอใหม่รอการตอบรับ</p>
         {/*request list */}
         {data ? (
-          data.length > 0 ?(
+          data.length > 0 ? (
             data.map((request) => (
               <div key={request._id} className="mb-6">
                 <div>
@@ -29,19 +27,19 @@ function ListView({ data, staffs }) {
                 </div>
               </div>
             ))
-          ):(
+          ) : (
             <div className="col-span-2 text-center pt-40">
               <div className="h3 font-light sm:h5 text-black/30 ">
                 ไม่มีคำขอรับบริการใหม่
               </div>
             </div>
-          )  
-        ):(
+          )
+        ) : (
           <div className="col-span-2 text-center pt-40">
-              <div className="h3 font-light sm:h5 text-black/30 ">
-                ไม่มีคำขอรับบริการใหม่
-              </div>
+            <div className="h3 font-light sm:h5 text-black/30 ">
+              ไม่มีคำขอรับบริการใหม่
             </div>
+          </div>
         )}
       </div>
     </div>
