@@ -84,7 +84,7 @@ a {
   }
 
   .inputLabel {
-    @apply block pb-2 font-medium text-gray-400;
+    @apply block pb-2 font-medium text-black border-[#AD8259];
   }
 
   .inputUnderline {
@@ -92,7 +92,7 @@ a {
   }
 
   .inputOutline {
-    @apply p-3 py-2 rounded-full border-2 mt-1 w-full border-gray-200 bg-white text-sm text-gray-700 shadow-sm focus:outline-[#FFECA7];
+    @apply p-3 py-2 rounded-full border-2 mt-1 w-full border-[#AD8259] bg-white text-sm text-gray-700 shadow-sm focus:outline-black;
   }
 
   /*----------------SideBar--------------*/

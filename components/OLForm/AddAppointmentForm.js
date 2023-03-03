@@ -156,11 +156,12 @@ function AddAppointmentForm({
             mx: 2,
             mt: 2,
             textAlign: "center",
+            fontWeight: "bold",
           }}
         >
           เพิ่มนัดหมาย
         </DialogTitle>
-        <DialogContent>
+        <DialogContent dividers>
           <Box>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="lg:grid lg:grid-cols-12">
@@ -205,8 +206,8 @@ function AddAppointmentForm({
                         ""
                       ) : (
                         <div className="py-4 lg:py-8 xl:py-10">
-                          <div className="text-[#b1c2be] border-b-2 border-dashed">
-                            <p>สำหรับลูกค้าใหม่</p>
+                          <div className="text-[red] border-black/30 border-b-2 border-dashed">
+                            <p>สำหรับลูกค้าใหม่เท่านั้น</p>
                           </div>
                           <div className="py-4 grid grid-cols-6 gap-6">
                             <div className="col-span-3">
@@ -458,8 +459,8 @@ function AddAppointmentForm({
                           ) : (
                             <>
                               <div className="py-4 col-span-6">
-                                <p className="text-[#b1c2be]">ที่อยู่</p>
-                                <div className="text-black/50 border-b-2 border-dashed" />
+                                <p className="">ที่อยู่</p>
+                                <div className="text-black border-black/30 border-b-2 border-dashed" />
                               </div>
                               <div className="col-span-6">
                                 <label
@@ -514,10 +515,10 @@ function AddAppointmentForm({
                             />
                           </FormControl>
                         </div>
-                        <p className="text-black/50">
+                        <p className="text-black">
                           เลือกวันเวลาที่คลินิกว่าง
                         </p>
-                        <div className="border-black/20  border-b-[1px] border-dashed" />
+                        <div className="border-black-30  border-b-[2px] border-dashed" />
                         <div className="pt-10 px-8">
                           <div className="col-span-6 pb-6 flex justify-center">
                             <SmallCalendar
@@ -543,17 +544,19 @@ function AddAppointmentForm({
             </form>
           </Box>
         </DialogContent>
-        <DialogActions sx={{ mx: 4, mb: 4 }}>
-          <button
-            className="hover:shadow-lg 
-                  w-20 h-9 hover:bg-black/5
-                  rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
+        <DialogActions sx={{ mx: 4 }}>
+          <div className="flex gap-4 justify-center items-center my-2 w-full">
+            <div>
+            <button
+            className=" hover:shadow-lg w-20 h-9 hover:bg-black/5 rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
             onClick={handleClose}
             sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
             ยกเลิก
           </button>
-          <button
+            </div>
+            <div>
+            <button
             className="shadow-lg 
                   w-20 h-9 rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg
                   bg-[#FFECA7] hover:bg-[#FFECA7]/70"
@@ -562,6 +565,8 @@ function AddAppointmentForm({
           >
             เพิ่ม
           </button>
+            </div>
+          </div>
         </DialogActions>
       </Dialog>
     </>

@@ -146,19 +146,21 @@ const Availability = ({ clinicData }) => {
             <div className="flex justify-end px-8  ">
               <BtnAdd onClick={handleClickOpen} />
             </div>
-            <div className="space-y-12 px-12 md:space-y-16 md:flex-col md:items-center md:px-0 md:pt-6 lg:pt-7 lg:justify-center lg:gap-10 lg:flex lg:space-y-0 lg:px-0  xxl:pt-4 xl:space-y-0  xl:pt-4 
-     xl:flex xl:gap-10 xl:justify-center sm:space-y-6 sm:pt-4 sm:px-0 sm:mx-6">
-       <div className="md:flex md:justify-center lg:flex lg:justify-center">
-       <SimpleCalendar
-                className="w-2/6 "
-                currentDate={currentDate}
-                today={today}
-                setToday={setToday}
-                selectedDate={selectedDate}
-                setSelectedDate={setSelectedDate}
-              />
-       </div>
-              
+            <div
+              className="space-y-12 px-12 md:space-y-16 md:flex-col md:items-center md:px-0 md:pt-6 lg:pt-7 lg:justify-center lg:gap-10 lg:flex lg:space-y-0 lg:px-0  xxl:pt-4 xl:space-y-0  xl:pt-4 
+     xl:flex xl:gap-10 xl:justify-center sm:space-y-6 sm:pt-4 sm:px-0 sm:mx-6"
+            >
+              <div className="md:flex md:justify-center lg:flex lg:justify-center">
+                <SimpleCalendar
+                  className="w-2/6 "
+                  currentDate={currentDate}
+                  today={today}
+                  setToday={setToday}
+                  selectedDate={selectedDate}
+                  setSelectedDate={setSelectedDate}
+                />
+              </div>
+
               <div className="flex flex-col justify-start items-center md:px-10  min-w-full lg:min-w-[450px] xxl:min-w-[650px]  xl:min-w-[650px] md:min-w-[550px] ">
                 <p className="text-lg font-semibold pb-2 text-center">
                   {" "}
@@ -261,15 +263,16 @@ const Availability = ({ clinicData }) => {
                   mx: 2,
                   mt: 2,
                   textAlign: "center",
+                  fontWeight: "bold",
                 }}
               >
                 เพิ่มวันและเวลาว่าง
               </DialogTitle>
-              <DialogContent>
-                <form onSubmit={handleSubmit(onSubmit)} className="p-8 lg:p-24">
+              <DialogContent dividers>
+                <form onSubmit={handleSubmit(onSubmit)} className="p-8 ">
                   <div>
                     <div className="pb-6">
-                      <InputLabel shrink style={{ fontSize: "24px" }}>
+                      <InputLabel shrink style={{ fontSize: "24px", color:"black" }}>
                         วัน
                       </InputLabel>
                       <FormControl>
@@ -279,7 +282,7 @@ const Availability = ({ clinicData }) => {
                           render={({ field: { onChange, value } }) => (
                             <ReactDatePicker
                               className="rounded-full outline-none border-2
-                         w-full px-16 py-2 focus:border-[#A17851]"
+                         w-full px-16 py-2 focus:border-black border-[#A17851]"
                               onChange={onChange}
                               selected={value}
                             />
@@ -288,7 +291,7 @@ const Availability = ({ clinicData }) => {
                       </FormControl>
                     </div>
                     <div className="pb-6">
-                      <InputLabel shrink style={{ fontSize: "24px" }}>
+                      <InputLabel shrink style={{ fontSize: "24px",color:"black" }}>
                         เวลาเริ่ม
                       </InputLabel>
                       <FormControl>
@@ -298,7 +301,7 @@ const Availability = ({ clinicData }) => {
                               <DatePicker
                                 onChange={onChange}
                                 className="rounded-full outline-none border-2
-                          w-full px-16 py-2 focus:border-[#A17851]"
+                          w-full px-16 py-2 focus:border-black border-[#A17851]"
                                 selected={value}
                                 showTimeSelect
                                 showTimeSelectOnly
@@ -314,7 +317,7 @@ const Availability = ({ clinicData }) => {
                       </FormControl>
                     </div>
                     <div className="pb-6">
-                      <InputLabel shrink style={{ fontSize: "24px" }}>
+                      <InputLabel shrink style={{ fontSize: "24px",color:"black" }}>
                         เวลาสิ้นสุด
                       </InputLabel>
                       <FormControl>
@@ -324,7 +327,7 @@ const Availability = ({ clinicData }) => {
                               <DatePicker
                                 onChange={onChange}
                                 className="rounded-full outline-none border-2
-                          w-full px-16 py-2 focus:border-[#A17851]"
+                          w-full px-16 py-2 focus:border-black border-[#A17851]"
                                 selected={value}
                                 showTimeSelect
                                 showTimeSelectOnly
@@ -342,22 +345,31 @@ const Availability = ({ clinicData }) => {
                   </div>
                 </form>
               </DialogContent>
-              <DialogActions sx={{ mx: 4, mb: 4 }}>
-                <button
+              <DialogActions sx={{ mx: 4,   }}>
+                <div className="flex justify-center gap-4 items-center w-full my-2">
+                  <div>
+                  <button
                   className="body1 lg:h6 rounded-full outline-none border-2 border-black/25 hover:bg-black/10
-                px-6 py-2 mb-4"
+                px-6 py-2 "
                   onClick={handleClose}
                   sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
                 >
                   ยกเลิก
                 </button>
-                <button
+                  </div>
+                  <div>
+                  <button
                   type="submit"
                   onClick={handleSubmit(onSubmit)}
-                  className="body1 text-white lg:h6 rounded-full outline-none border-2 bg-[#A17851] px-6 py-2 hover:bg-[#A17851]/60 mb-4"
+                  className="body1 text-white lg:h6 rounded-full outline-none border-2 bg-[#A17851] px-6 py-2 hover:bg-[#A17851]/60 "
                 >
                   ตกลง
                 </button>
+                  </div>
+                
+               
+                </div>
+                
               </DialogActions>
             </Dialog>
           </div>

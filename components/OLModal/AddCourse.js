@@ -96,7 +96,7 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                     type="text"
                     name="courseName"
                     placeholder="ชื่อคอร์ส"
-                    className="w-2/3 inputOutline text-center  sm:w-48  border-[#7C552F]/50 "
+                    className="w-2/3 inputOutline text-center  sm:w-48  border-[#7C552F]/80 "
                     {...register("courseName", {
                       required: true,
                     })}
@@ -111,10 +111,10 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                 <div className="px-12 py-4 sm:px-2 md:px-0 self-center ">
                   <Stack
                     direction="row"
-                    sx={{ flexWrap: "wrap", "& label": { opacity: 0.6 } }}
+                    sx={{ flexWrap: "wrap" }}
                   >
                     <FormControlLabel
-                      sx={{}}
+                      
                       control={
                         <Checkbox
                           sx={{
@@ -176,14 +176,14 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                     {/* Amount */}
                     <Typography
                       variant="h5"
-                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black"
                     >
                       จำนวน
                     </Typography>
                     <input
                       type="text"
                       name="amount"
-                      className="inputOutline text-center border-[#7C552F]/50"
+                      className="inputOutline text-center border-[#7C552F]/80"
                       {...register("amount", {
                         required: true,
                         pattern: {
@@ -193,7 +193,7 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                     />
                     <Typography
                       variant="h5"
-                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black"
                     >
                       ครั้ง
                     </Typography>
@@ -213,7 +213,7 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                     {/* Duration */}
                     <Typography
                       variant="h5"
-                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black"
                     >
                       เวลา
                     </Typography>
@@ -221,14 +221,14 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                       type="text"
                       name="duration"
                       placeholder=""
-                      className="inputOutline text-center border-[#7C552F]/50"
+                      className="inputOutline text-center border-[#7C552F]/80"
                       {...register("duration", {
                         required: true,
                       })}
                     />
                     <Typography
                       variant="h5"
-                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60 "
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black"
                     >
                       ชั่วโมง/ครั้ง
                     </Typography>
@@ -243,7 +243,7 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                     {/* Price */}
                     <Typography
                       variant="h5 "
-                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black"
                     >
                       ราคา
                     </Typography>
@@ -251,7 +251,7 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                       type="text"
                       name="totalPrice"
                       placeholder=""
-                      className="inputOutline text-center border-[#7C552F]/50"
+                      className="inputOutline text-center border-[#7C552F]/80"
                       {...register("totalPrice", {
                         required: true,
                       })}

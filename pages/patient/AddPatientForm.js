@@ -95,6 +95,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
             mx: 2,
             mt: 2,
             textAlign: "center",
+            fontWeight: "bold",
           }}
         >
           เพิ่มแบบบันทึก
@@ -118,7 +119,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           type="text"
                           id="firstName"
                           name="firstName"
-                          className="inputOutline"
+                          className="inputOutline "
                           {...register("firstName", { required: false })}
                         />
                       </div>
@@ -206,6 +207,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           )}
                           name="sex"
                           control={control}
+                          className="border-[#AD8259]"
                         />
                       </div>
                       <div className="col-span-6">
