@@ -18,6 +18,7 @@ const theme = createTheme({
       light: "#E0B186",
       darker: "#7C552F",
       variant: "#ffe898",
+      black:"##000000"
     },
     secondary: {
       main: "#FFECA7",
@@ -40,6 +41,10 @@ const theme = createTheme({
       main: "#f0f1f2",
     },
   },
+  cssOutlinedInput: {
+    "&:not(hover):not($disabled):not($cssFocused):not($error) $notchedOutline": {
+      borderColor: "#AD8259" 
+    }},
   textField: {
     background: "white",
     border: "2px solid",
