@@ -687,6 +687,7 @@ function AppointmentModal({
             })}
           {fields.map((item, index) => (
             <AddEventForm
+              key={index}
               index={index}
               onSubmit={onSubmit}
               handleSubmit={handleSubmit}

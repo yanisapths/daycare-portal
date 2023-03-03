@@ -77,6 +77,7 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
             mx: 2,
             mt: 2,
             textAlign: "center",
+            fontWeight: "bold",
           }}
         >
           เพิ่มพนักงาน
