@@ -97,20 +97,16 @@ a {
 
   /*----------------SideBar--------------*/
   .sideBarTabContainer2 {
-    @apply flex gap-2 bg-white items-center h-10  
-    cursor-pointer  
-    sm:pr-3 
-    md:h-20 md:w-60 
-    lg:h-16
-    xxxl:h-20 xxxl:px-4;
+    @apply flex gap-2 items-center h-10 cursor-pointer  sm:pr-3 md:h-10  lg:h-10 xl:h-10 xxl:h-10 xxxl:h-20 xxxl:px-4 hover:translate-y-1 hover:scale-105 bg-[#AD8259]/40 rounded-full
+    hover:shadow-xl ;
   }
 
   .sideBarTabIcon2 {
-    @apply text-[#6C5137]  ml-3  w-5 h-5 md:w-7 lg:w-8 lg:h-8 xxxl:w-9 xxxl:h-9;
+    @apply text-[#6C5137]  ml-3  w-5 h-5 md:w-6 md:h-6 lg:w-6 lg:h-6 xl:w-6 xl:h-6 xxl:w-6 xxl:h-6 xxxl:w-9 xxxl:h-9 ;
   }
   .sideBarTabText2 {
-    @apply font-mitr text-sm  text-[#6C5137] hover:text-[#e0b038] 
-    lg:text-lg md:text-xl xxxl:text-2xl;
+    @apply  text-sm  text-[#6C5137] 
+    lg:text-sm md:text-sm xl:text-base xxl:text-base xxxl:text-2xl;
   }
   /*------------------------------------*/
 

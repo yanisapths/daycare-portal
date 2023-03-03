@@ -66,20 +66,19 @@ const SideBar = () => {
 
       {showSidebar && (
         <div
-          className="left-0 md:w-40 absolute bg-white
+          className="left-0  h-screen absolute bg-[#FFFBF2] 
             ease-in-out duration-300 drop-shadow-lg
-            sm:h-screen sm:w-3/5 sm:landscape:w-2/5
-            lg:h-screen t-0 lg:shadow-2xl lg:w-1/4 
+            sm:h-screen sm:w-3/4 sm:landscape:w-2/5
+            lg:h-screen lg:shadow-2xl lg:w-[300px] xl:w-[330px]
+            md:w-[300px] md:h-screen
+            xl:h-screen xxl:h-screen
+            
             "
           ref={sideBar}
         >
-          <div className="divide-y divide-[#AD8259] lg:px-3 xxxl:px-6">
+          <div className="flex flex-col gap-3 sm:px-5 md:px-5 lg:px-5 xxl:px-5 xxxl:px-6 pt-4  ">
             <Link href="/">
-              <div
-                className={
-                  'sideBarTabContainer2 ${currentRoute === "/" ? "active":""}'
-                }
-              >
+              <div className="sideBarTabContainer2 ">
                 <HomeIcon className="sideBarTabIcon2" />
                 <h2 className="sideBarTabText2">หน้าหลัก</h2>
               </div>

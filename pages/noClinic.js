@@ -5,6 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Header from "../components/Header";
 import { getSession, useSession } from "next-auth/react";
+import FooterSocial from "../components/FooterSocial";
 
 const NoClinic = () => {
   const { data: session, status } = useSession();
@@ -23,8 +24,8 @@ const NoClinic = () => {
         <link rel="icon" href="favicon.ico" />
       </Head>
       <Header />
-      <div className="static divide-y divide-[#A17851] divide-opacity-30">
-        <main className="max-w-screen mb-72 md:px-12 xl:mx-24 items-center">
+      <div className="static divide-y h-screen divide-[#A17851] bg-[#FFFBF2] divide-opacity-30">
+        <main className="max-w-screen mb-72 md:px-12 xl:mx-24 items-center bg-[#FFFBF2] ">
           <div className="p-3 mx-auto">
             <section
               className="pt-28 sm:pt-52 sm:landscape:pt-12 sm:landscape:pr-25 
@@ -45,8 +46,8 @@ const NoClinic = () => {
                 <Link href="/create">
                   <div
                     className="cursor-pointer flex gap-1 sm:w-40 w-60 py-3 md:py-4  justify-center
-    rounded-full hover:border-2  hover:border-[#AD8259] bg-[#ffdf8e] shadow-lg
-    hover:bg-transparent text-[#AD8259] "
+                    rounded-full hover:border-2  hover:border-[#AD8259] bg-[#ffdf8e] shadow-lg
+                    hover:bg-transparent text-[#AD8259] "
                   >
                     <span
                       className="text-xl font-medium 
@@ -63,6 +64,7 @@ const NoClinic = () => {
           </div>
         </main>
       </div>
+      <FooterSocial/>
     </>
   );
 };
