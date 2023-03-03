@@ -26,13 +26,13 @@ function signIn({ providers }) {
             />
             <p className="xl:text-3xl font-bold text-2xl font-mono">Welcome</p>
 
-            <p className="mt-4 text-gray-800 fonts-mono text-lg sm:text-sm md:text-lg lg:text-base md:mt-5 xxl:text-lg">
+            <p className="mt-4 text-gray-800 fonts-mono text-lg sm:text-xs md:text-lg lg:text-base md:mt-5 xxl:text-lg">
               เข้าสู่ระบบเพื่อใช้งาน
               <p className="block ">Olive Physiotherapy Clinic Management</p>
             </p>
           </div>
           <div className="mt-8 mb-0 grid grid-rows-3 gap-5 ">
-              <div className="grid grid-col-2 mx-16 lg:mx-14 sm:mx-10 content-center cursor-pointer rounded-full bg-gradient-to-r from-orange-50 via-red-100 to-pink-100
+              <div className="grid grid-col-2 mx-16 lg:mx-14 xl:mx-20 sm:mx-9 xxl:mx-14 content-center cursor-pointer rounded-full bg-gradient-to-r from-orange-50 via-red-100 to-pink-100
                hover:text-red-600 active:text-opacity-75 focus:outline-none focus:ring shadow-gray-200 shadow-xl ">
                 <div><BtnLogin provider={providers.google} /></div>
                 <div className="col-start-2 flex justify-end  items-center"><Image
@@ -42,7 +42,7 @@ function signIn({ providers }) {
                   height={40}
                 /></div>
               </div>
-              <div className="grid grid-col-2 mx-16 lg:mx-14 sm:mx-10 content-center cursor-pointer rounded-full bg-gradient-to-r from-teal-50
+              <div className="grid grid-col-2 mx-16 lg:mx-14 xl:mx-20 sm:mx-9 xxl:mx-14 content-center cursor-pointer rounded-full bg-gradient-to-r from-teal-50
                via-blue-100 to-sky-100 hover:text-blue-600 active:text-opacity-75 focus:outline-none focus:ring shadow-gray-200 shadow-xl ">
                 <div><BtnLogin provider={providers.facebook} /></div>
                 <div className="col-start-2 flex justify-end  items-center">
@@ -54,7 +54,7 @@ function signIn({ providers }) {
                 />
                 </div>
               </div>
-              <div className="grid grid-col-2 mx-16 lg:mx-14 sm:mx-10 content-center cursor-pointer rounded-full bg-gradient-to-r from-green-50
+              <div className="grid grid-col-2 mx-16 lg:mx-14 xl:mx-20 sm:mx-9 xxl:mx-14 content-center cursor-pointer rounded-full bg-gradient-to-r from-green-50
                via-green-100 to-teal-100 hover:text-emerald-600 active:text-opacity-75 focus:outline-none focus:ring shadow-gray-200 shadow-xl">
                 <div><BtnLogin provider={providers.line} /></div>
                 <div className="col-start-2 flex justify-end  items-center">
