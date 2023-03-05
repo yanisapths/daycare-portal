@@ -5,7 +5,7 @@ import DialogContent from "@mui/material/DialogContent";
 import SignatureCanvas from "react-signature-canvas";
 import styles from "../../styles/drawingpad.module.css";
 
-function BodyChartCanvas({openDialog, handleDialogClose,data  }) {
+function BodyChartCanvas({openDialog, handleDialogClose,data}) {
   return (
     <Dialog
     onClose={handleDialogClose}
@@ -22,6 +22,7 @@ function BodyChartCanvas({openDialog, handleDialogClose,data  }) {
                 alt="bodyChart"
                 className="w-full h-full"
               />
+              <p className="text-sm -mt-12 pb-6 px-6">🔖 บันทึก: {data.note}</p>
             </div>
           </div>
         </div>
