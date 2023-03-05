@@ -129,6 +129,7 @@ function Create() {
       openTime: event.target.openTime.value,
       closeTime: event.target.closeTime.value,
       owner_id: session.user.id,
+      ownerImageUrl: session.user.image
     };
     let axiosConfig = {
       headers: {

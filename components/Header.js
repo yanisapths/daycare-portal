@@ -105,6 +105,21 @@ function Header({ placeholder }) {
                     )}
                     {session && (
                       <>
+                       <Menu.Item>
+                          {({ active }) => (
+                            <button
+                              onClick={() => router.push("/profile")}
+                              className={`${
+                                active
+                                  ? "bg-[#A17851] bg-opacity-90 text-white "
+                                  : "text-gray-900 font-noto align-text-center"
+                              } group flex  rounded-md items-center w-full px-4 py-2 text-sm 
+                            md:text-lg`}
+                            >
+                              บัญชีของฉัน
+                            </button>
+                          )}
+                        </Menu.Item>
                         <Menu.Item>
                           {({ active }) => (
                             <button
