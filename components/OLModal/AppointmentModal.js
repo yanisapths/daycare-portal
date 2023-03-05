@@ -18,6 +18,7 @@ import BodyChartCanvas from "./BodyChartCanvas";
 import BodyChart from "./BodyChart";
 import AddEventForm from "../OLForm/AddEventForm";
 import DetailHeader from "../AppointmentView/DetailHeader";
+import EventBodyChart from "./EventBodyChart";
 
 function AppointmentModal({
   clinic,
@@ -33,23 +34,21 @@ function AppointmentModal({
 }) {
   const [open, setOpen] = useState(false);
   const [openDialog, setOpenDialog] = useState(false);
-  const [openEventDialog, setOpenEventDialog] = useState(false);
   const [openCanvas, setOpenCanvas] = useState(false);
   const [bodyChartURL, setBodyChartURL] = useState(null);
   const [information, setInformation] = useState(null);
   const bodyChart = useRef();
-  
+  const [bodyChartId, setBodyChartId] = useState(null);
+
   const handleDialogOpen = () => {
     setOpenDialog(true);
   };
   const handleDialogClose = () => {
     setOpenDialog(false);
   };
-  const handleEventDialogOpen = () => {
-    setOpenEventDialog(true);
-  };
+
   const handleEventDialogClose = () => {
-    setOpenEventDialog(false);
+    setBodyChartId(false);
   };
   const handleClickOpen = () => {
     setOpen(true);
@@ -170,16 +169,16 @@ function AppointmentModal({
       });
   }
   const handleChange = (e) => {
-    setInformation(e.target.value)
+    setInformation(e.target.value);
   };
 
-  async function saveChart(info,appointmentId) {
+  async function saveChart(info, appointmentId) {
     const bodyChartURL = bodyChart.current.toDataURL("image/png");
     setBodyChartURL(bodyChartURL);
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ bodyChart: bodyChartURL,note: info }),
+      body: JSON.stringify({ bodyChart: bodyChartURL, note: info }),
     };
     const res = await fetch(
       `${process.env.dev}/appointment/bodychart/${appointmentId}`,
@@ -196,13 +195,13 @@ function AppointmentModal({
       });
   }
 
-  async function saveEventChart(info,eid) {
+  async function saveEventChart(info, eid) {
     const bodyChartURL = bodyChart.current.toDataURL("image/png");
     setBodyChartURL(bodyChartURL);
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ bodyChart: bodyChartURL,note: info }),
+      body: JSON.stringify({ bodyChart: bodyChartURL, note: info }),
     };
     const res = await fetch(`${process.env.dev}/event/bodychart/${eid}`, option)
       .then(async (res) => {
@@ -457,8 +456,8 @@ function AppointmentModal({
                   </button>
                   {openDialog && (
                     <BodyChart
-                      data={data}
                       openDialog={openDialog}
+                      data={data}
                       handleDialogClose={handleDialogClose}
                     />
                   )}
@@ -467,12 +466,12 @@ function AppointmentModal({
               {!data.bodyChart && (
                 <button
                   className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
-                  onClick={() => setOpenCanvas(true)}
+                  onClick={() => setOpenCanvas(data._id)}
                 >
                   <p className="text-xs">bodychart</p>
                 </button>
               )}
-              {!data.bodyChart && openCanvas && (
+              {!data.bodyChart && openCanvas == data._id && (
                 <BodyChartCanvas
                   bodyChart={bodyChart}
                   saveChart={saveChart}
@@ -481,6 +480,7 @@ function AppointmentModal({
                   register={register}
                   information={information}
                   handleChange={handleChange}
+                  openDialog={openCanvas}
                 />
               )}
             </div>
@@ -659,14 +659,14 @@ function AppointmentModal({
                       <div>
                         <button
                           className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
-                          onClick={handleEventDialogOpen}
+                          onClick={() => setBodyChartId(event._id)}
                         >
                           <p className="text-xs">bodychart</p>
                         </button>
-                        {openEventDialog && (
-                          <BodyChart
+                        {bodyChartId == event._id && (
+                          <EventBodyChart
+                            openDialog={bodyChartId}
                             data={event}
-                            openDialog={openEventDialog}
                             handleDialogClose={handleEventDialogClose}
                           />
                         )}
@@ -675,12 +675,12 @@ function AppointmentModal({
                     {!event.bodyChart && (
                       <button
                         className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
-                        onClick={() => setOpenCanvas(true)}
+                        onClick={() => setOpenCanvas(event._id)}
                       >
                         <p className="text-xs">bodychart</p>
                       </button>
                     )}
-                    {!event.bodyChart && openCanvas && (
+                    {!event.bodyChart && openCanvas == event._id && (
                       <BodyChartCanvas
                         bodyChart={bodyChart}
                         saveChart={saveEventChart}
@@ -689,6 +689,7 @@ function AppointmentModal({
                         register={register}
                         information={information}
                         handleChange={handleChange}
+                        openDialog={openCanvas}
                       />
                     )}
                   </div>
