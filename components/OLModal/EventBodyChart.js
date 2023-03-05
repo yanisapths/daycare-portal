@@ -4,17 +4,9 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import styles from "../../styles/drawingpad.module.css";
 
-function BodyChart({
-  openDialog,
-  handleDialogClose,
-  data,
-}) {
+function EventBodyChart({ openDialog, handleDialogClose, data }) {
   return (
-    <Dialog
-      onClose={handleDialogClose}
-      open={openDialog}
-      maxWidth="md"
-    >
+    <Dialog onClose={handleDialogClose} open={openDialog} maxWidth="md">
       <DialogContent>
         <div className="justify-center align-middle scrollbar-hide overflow-hidden">
           <div className="border-2 bg-white w-full h-full rounded-xl">
@@ -28,7 +20,10 @@ function BodyChart({
               </div>
             </div>
           </div>
-          <p className="text-sm py-6 px-2">🔖<span className="text-[#FF2F3B]">บันทึก: </span>{data.note}</p>
+          <p className="text-sm py-6 px-2">
+            🔖<span className="text-[#FF2F3B]">บันทึก: </span>
+            {data.note}
+          </p>
         </div>
       </DialogContent>
       <DialogActions sx={{ justifyContent: "center", p: 1, pb: 4 }}>
@@ -43,4 +38,4 @@ function BodyChart({
   );
 }
 
-export default BodyChart;
+export default EventBodyChart;
