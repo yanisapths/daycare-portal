@@ -36,8 +36,9 @@ function AppointmentModal({
   const [openEventDialog, setOpenEventDialog] = useState(false);
   const [openCanvas, setOpenCanvas] = useState(false);
   const [bodyChartURL, setBodyChartURL] = useState(null);
+  const [information, setInformation] = useState(null);
   const bodyChart = useRef();
-
+  
   const handleDialogOpen = () => {
     setOpenDialog(true);
   };
@@ -168,14 +169,17 @@ function AppointmentModal({
         toast.error("ไม่สำเร็จ");
       });
   }
+  const handleChange = (e) => {
+    setInformation(e.target.value)
+  };
 
-  async function saveChart(appointmentId) {
+  async function saveChart(info,appointmentId) {
     const bodyChartURL = bodyChart.current.toDataURL("image/png");
     setBodyChartURL(bodyChartURL);
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ bodyChart: bodyChartURL }),
+      body: JSON.stringify({ bodyChart: bodyChartURL,note: info }),
     };
     const res = await fetch(
       `${process.env.url}/appointment/bodychart/${appointmentId}`,
@@ -192,13 +196,13 @@ function AppointmentModal({
       });
   }
 
-  async function saveEventChart(eid) {
+  async function saveEventChart(info,eid) {
     const bodyChartURL = bodyChart.current.toDataURL("image/png");
     setBodyChartURL(bodyChartURL);
     const option = {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ bodyChart: bodyChartURL }),
+      body: JSON.stringify({ bodyChart: bodyChartURL,note: info }),
     };
     const res = await fetch(`${process.env.url}/event/bodychart/${eid}`, option)
       .then(async (res) => {
@@ -474,6 +478,9 @@ function AppointmentModal({
                   saveChart={saveChart}
                   setOpenCanvas={setOpenCanvas}
                   data={data}
+                  register={register}
+                  information={information}
+                  handleChange={handleChange}
                 />
               )}
             </div>
@@ -679,6 +686,9 @@ function AppointmentModal({
                         saveChart={saveEventChart}
                         setOpenCanvas={setOpenCanvas}
                         data={event}
+                        register={register}
+                        information={information}
+                        handleChange={handleChange}
                       />
                     )}
                   </div>
