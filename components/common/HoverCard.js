@@ -19,7 +19,6 @@ function HoverCard({
   const [open, setOpen] = useState(false);
   const handleClickOpen = () => {
     setOpen(true);
-    
   };
   const handleClose = (event, reason) => {
     if (reason !== "backdropClick") {
@@ -29,19 +28,18 @@ function HoverCard({
 
   return (
     <>
-        <DetailView
-          open={open}
-          handleClose={handleClose}
-          setOpen={setOpen}
-          id={id}
-          name={name}
-          amount={amount}
-          duration={duration}
-          totalPrice={totalPrice}
-          procedures={procedures}
-          type={type}
-         
-        />
+      <DetailView
+        open={open}
+        handleClose={handleClose}
+        setOpen={setOpen}
+        id={id}
+        name={name}
+        amount={amount}
+        duration={duration}
+        totalPrice={totalPrice}
+        procedures={procedures}
+        type={type}
+      />
 
       <div
         className="group block cursor-pointer scroll-smooth"
@@ -54,7 +52,7 @@ function HoverCard({
           <div className="px-5 pb-3 pt-3">
             <div className=" flex py-2 gap-6">
               <p className=" h2 lg:h3 md:h4 sm:h5 font-medium ">{name}</p>
-              {type!="false" ? (
+              {type != "false" ? (
                 <strong className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] px-2 py-1 text-xs font-medium self-center">
                   {type}
                 </strong>
