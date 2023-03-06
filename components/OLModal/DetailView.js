@@ -1,14 +1,17 @@
-import React from "react";
+import React,{useState} from "react";
+import Router, { useRouter } from "next/router";
+import EditCourseForm from "../OLForm/EditCourseForm";
 import Dialog from "@mui/material/Dialog";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
 import Box from "@mui/material/Box";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
+import Tooltip from "@mui/material/Tooltip";
+import { IconButton } from "@mui/material";
 import { DialogActions, Hidden } from "@mui/material";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
-import Router, { useRouter } from "next/router";
 function DetailView({
   open,
   handleClose,
@@ -21,6 +24,7 @@ function DetailView({
   type,
   selectedId,
 }) {
+  const [openEdit, setOpenEdit] = useState(false);
   async function deleteCourse(courseId) {
     const url = `${process.env.url}/course/delete/${courseId}`;
     const res = await fetch(url, {
@@ -34,6 +38,13 @@ function DetailView({
         console.log("ERROR: ", err);
         toast.error("ลบรายการไม่สำเร็จ");
       });
+  }
+  function handleOpenEdit() {
+    if (openEdit == true) {
+      setOpenEdit(false);
+    } else if (openEdit == false) {
+      setOpenEdit(true);
+    }
   }
 
   return (
@@ -52,6 +63,9 @@ function DetailView({
           },
         }}
       >
+        {openEdit == false && 
+        <div>
+
         <DialogTitle
           sx={{
             fontSize: { sm: 24, md: 26, lg: 28, xl: 28 },
@@ -62,7 +76,7 @@ function DetailView({
           }}
         >
           <div className="flex flex-row sm:grid sm:grid-col-2">
-            <div className="gap-4 basis-1/4 flex md:text-xl md:basis-20 sm:text-lg sm:basis-14 items-center">
+            <div className="gap-4 basis-1/4 flex sm:text-lg sm:basis-14 items-center">
               {name}
               {type != "false" ? (
                 <span className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-4 py-1 w-fit h-fit">
@@ -73,41 +87,58 @@ function DetailView({
               )}
             </div>
             <div className="flex basis-2/6 justify-start items-center text-center w-fit"></div>
-
             <div className="flex basis-5/12 xl:6/12 xl:ml-16 gap-2 justify-end  text-gray-400 cursor-pointer sm:col-start-2 sm:pt-2">
-              <EditIcon />
-              <DeleteIcon
-                onClick={() => {
-                  handleClose();
-                  Swal.fire({
-                    title: "ลบคอร์สนี้?",
-                    text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonText: "ใช่ ลบเลย!",
-                    cancelButtonText: "ยกเลิก",
-                    reverseButtons: true,
-                  }).then((result) => {
-                    if (result.isConfirmed) {
-                      deleteCourse(id).then(() =>
-                        Swal.fire({
-                          title: "ลบคอร์สแล้ว",
-                          showConfirmButton: false,
-                          icon: "success",
-                          timer: 1000,
-                        })
-                      );
-                    } else if (result.dismiss === Swal.DismissReason.cancel) {
-                      Swal.fire({
-                        title: "ลบคอร์สไม่สำเร็จ: )",
-                        showConfirmButton: false,
-                        icon: "error",
-                        timer: 1000,
-                      });
-                    }
-                  });
-                }}
-              />
+            <Tooltip title="แก้ไข" placement="top">
+                    <IconButton
+                      aria-label="edit"
+                      size="small"
+                      onClick={() => handleOpenEdit()}
+                    >
+                      <EditIcon />
+                    </IconButton>
+                  </Tooltip>
+                  <Tooltip title="ลบ" placement="top">
+                    <IconButton
+                      aria-label="edit"
+                      size="small"
+                      onClick={() => handleOpenEdit()}
+                    >
+                      <DeleteIcon
+                        onClick={() => {
+                          handleClose();
+                          Swal.fire({
+                            title: "ลบคอร์สนี้?",
+                            text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
+                            icon: "warning",
+                            showCancelButton: true,
+                            confirmButtonText: "ใช่ ลบเลย!",
+                            cancelButtonText: "ยกเลิก",
+                            reverseButtons: true,
+                          }).then((result) => {
+                            if (result.isConfirmed) {
+                              deleteCourse(id).then(() =>
+                                Swal.fire({
+                                  title: "ลบคอร์สแล้ว",
+                                  showConfirmButton: false,
+                                  icon: "success",
+                                  timer: 1000,
+                                })
+                              );
+                            } else if (
+                              result.dismiss === Swal.DismissReason.cancel
+                            ) {
+                              Swal.fire({
+                                title: "ลบคอร์สไม่สำเร็จ: )",
+                                showConfirmButton: false,
+                                icon: "error",
+                                timer: 1000,
+                              });
+                            }
+                          });
+                        }}
+                      />
+                    </IconButton>
+                  </Tooltip>
             </div>
           </div>
         </DialogTitle>
@@ -154,6 +185,20 @@ function DetailView({
             </div>
           </Box>
         </DialogContent>
+        </div>
+        }
+        {openEdit == true && 
+          <EditCourseForm openEdit={openEdit} setOpenEdit={setOpenEdit}
+          handleOpenEdit={handleOpenEdit}
+          handleClose={handleClose}
+          id={id}
+          name={name}
+          amount={amount}
+          duration={duration}
+          totalPrice={totalPrice}
+          procedures={procedures}
+          type={type}/>
+        }
         <DialogActions sx={{ mx: 4, justifyContent: "center" }}>
           <div className="mx-auto text-center flex flex-row justify-center">
             <button
