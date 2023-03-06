@@ -5,6 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { motion } from "framer-motion";
 import CircleIcon from "../../components/OLIcon/CircleIcon";
 import SimpleChip from "../OLButton/SimpleChip";
+import RoundTextIcon from "../OLIcon/RoundTextIcon";
 import { Button } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
@@ -198,7 +199,7 @@ function DetailHeader({ clinic, data, patient, course }) {
                     })
                   }
                 >
-                  <PersonAddIcon className="cursor-pointer text-[#F3BD33] hover:text-[#7C552F]" />
+                  <RoundTextIcon icon={<PersonAddIcon className="cursor-pointer text-[#F3BD33] hover:text-[#7C552F]" />} text="เพิ่มลงในแบบบันทึก" />
                 </button>
               </Tooltip>
             </motion.h6>
