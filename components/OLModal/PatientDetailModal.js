@@ -8,12 +8,15 @@ import ChatBubbleIcon from "@mui/icons-material/ChatBubble";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import WcIcon from "@mui/icons-material/Wc";
 import PersonIcon from "@mui/icons-material/Person";
+import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Tooltip from "@mui/material/Tooltip";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+import EditPatientForm from "../OLForm/EditPatientForm";
 
 function PatientDetailModal({ patient, selectedId, setSelectedId }) {
+  const [openEdit, setOpenEdit] = useState();
   async function deletePatient(pid) {
     const res = await fetch(`${process.env.dev}/patient/delete/${pid}`, {
       method: "DELETE",
@@ -36,16 +39,22 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="flex justify-between items-center  gap-24">
-          <motion.h6
-            className="body2 pt-4 text-black/50"
-            animate={{ y: -8 }}
-            transition={{
-              duration: "0.3",
-            }}
-          >
-            ข้อมูลผู้ป่วย
-          </motion.h6>
+        <div className="flex justify-between items-center gap-24">
+          <div>
+            <motion.h6
+              className="body2 pt-4 text-black/50"
+              animate={{ y: -8 }}
+              transition={{
+                duration: "0.3",
+              }}
+            >
+              ข้อมูลผู้ป่วย
+            </motion.h6>
+            <p className="text-start text-xs pb-2 text-black/40">
+              เพิ่มวันที่:{" "}
+              {new Date(patient.createdAt).toLocaleDateString("th-TH")}
+            </p>
+          </div>
           <motion.div
             onClick={() => setSelectedId(null)}
             animate={{ y: -8 }}
@@ -69,6 +78,15 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
             <p className="h4">
               คุณ ( {patient.nickName} ) {patient.firstName} {patient.lastName}
             </p>
+            <Tooltip title="แก้ไข" placement="top">
+              <IconButton
+                aria-label="edit"
+                size="small"
+                className="text-[#AD8259]"
+              >
+                <EditIcon />
+              </IconButton>
+            </Tooltip>
             <Tooltip title="ลบ" placement="top">
               <IconButton
                 aria-label="delete"
