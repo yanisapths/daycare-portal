@@ -30,7 +30,7 @@ function Profile({ clinicData }) {
         body: JSON.stringify({ ownerImageUrl: result }),
       };
       const res = await fetch(
-        `${process.env.dev}/clinic/profile/${clinicData._id}`,
+        `${process.env.url}/clinic/profile/${clinicData._id}`,
         option
       )
         .then(async (res) => {
@@ -163,7 +163,7 @@ export default Profile;
 export async function getServerSideProps(context) {
   const session = await getSession(context);
   if (session) {
-    const url = `${process.env.dev}/clinic/owner/${session.user.id}`;
+    const url = `${process.env.url}/clinic/owner/${session.user.id}`;
     try {
       const res = await fetch(url);
       const clinicData = await res.json();

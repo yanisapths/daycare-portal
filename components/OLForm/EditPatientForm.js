@@ -91,7 +91,7 @@ function EditPatientForm({
 
     const response = await axios
       .put(
-        `${process.env.dev}/patient/update/${patient._id}`,
+        `${process.env.url}/patient/update/${patient._id}`,
         json,
         axiosConfig
       )

@@ -64,7 +64,7 @@ function DetailHeader({ clinic, data, patient, course }) {
     };
     const response = await axios
       .post(
-        `${process.env.dev}/patient/create/clinic/${clinic._id}`,
+        `${process.env.url}/patient/create/clinic/${clinic._id}`,
         json,
         axiosConfig
       )
