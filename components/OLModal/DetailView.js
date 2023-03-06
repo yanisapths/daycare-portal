@@ -91,7 +91,6 @@ function DetailView({
                     <IconButton
                       aria-label="edit"
                       size="small"
-                      className="text-[#AD8259]"
                       onClick={() => handleOpenEdit()}
                     >
                       <EditIcon />
@@ -101,7 +100,6 @@ function DetailView({
                     <IconButton
                       aria-label="delete"
                       size="small"
-                      className="text-[#FF2F3B]"
                       onClick={() => handleOpenEdit()}
                     >
                       <DeleteIcon
