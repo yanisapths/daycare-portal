@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import PatientCard from "../../../components/OLCard/PatientCard";
 
-function TableView({patientData}) {
+function TableView({patientData,clinic}) {
   return (
     <div className="mt-12 shadow-xl rounded-2xl">
       <div className="overflow-x-auto rounded-2xl scrollbar-hide">
@@ -35,7 +35,7 @@ function TableView({patientData}) {
 
           <tbody className="divide-y divide-gray-100">
             {patientData?.map((d, index) => (
-              <PatientCard d={d} index={index} key={d._id} />
+              <PatientCard d={d} index={index} key={d._id} clinic={clinic} />
             ))}
           </tbody>
         </table>
