@@ -15,7 +15,7 @@ function BodyChartCanvas({
   openDialog
 }) {
   const [penColor, setPenColor] = useState("#94CDDA");
-  const colors = ["#94CDDA","#2ED477", "#FF2F3B", "#F3BD33"];
+  const colors = ["#94CDDA","#0500FF","#2ED477", "#FF2F3B", "#F3BD33"];
   return (
     <Dialog
     open={openDialog}

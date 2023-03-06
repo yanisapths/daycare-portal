@@ -112,8 +112,12 @@ function AddAppointmentForm({
     data.appointmentDate = appointmentDate;
     data.appointmentTime = appointmentTime;
     data.endTime = endTime;
-    data.patient_id = patient_id;
+    data.patient_id = patient_id._id;
     data.appointmentPlace = appointmentPlace;
+    data.customer_id = patient_id.customer_id;
+    data.phoneNumber = patient_id.phoneNumber;
+    data.clinic_id = clinicData._id;
+    data.clinicName = clinicData.clinic_name;
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {
@@ -179,6 +183,7 @@ function AddAppointmentForm({
                           sx={{
                             borderRadius: "40px",
                             height: "46px",
+                            border: "2px solid #AD8259",
                             "@media (min-width: 780px)": {
                               width: "285px",
                             },
@@ -191,10 +196,10 @@ function AddAppointmentForm({
                             <span>ไม่เลือก</span>
                           </MenuItem>
                           {patientData.map((input, key) => (
-                            <MenuItem key={key} value={input._id}>
+                            <MenuItem key={key} value={input}>
                               <span>
                                 ( {input.nickName} ) {input.firstName}{" "}
-                                {input.lastName}
+                                {input.lastName} 
                               </span>
                             </MenuItem>
                           ))}
@@ -295,6 +300,7 @@ function AddAppointmentForm({
                                         },
                                         px: 2,
                                         mt: 0.5,
+                                        border: "2px solid #AD8259"
                                       }}
                                       {...field}
                                       {...register("sex", { required: false })}
@@ -385,6 +391,7 @@ function AddAppointmentForm({
                                       "@media (min-width: 780px)": {
                                         width: "285px",
                                       },
+                                      border: "2px solid #AD8259"
                                     }}
                                     {...register("course_id", {
                                       required: true,
@@ -434,6 +441,7 @@ function AddAppointmentForm({
                                   "@media (min-width: 780px)": {
                                     width: "285px",
                                   },
+                                  border: "2px solid #AD8259"
                                 }}
                                 {...register("appointmentPlace", {
                                   required: true,

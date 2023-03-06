@@ -54,29 +54,25 @@ function DetailView({
       >
         <DialogTitle
           sx={{
-            fontSize: { sm: 24, md: 26, lg: 32, xl: 30 },
-            mx: 2,
+            fontSize: { sm: 24, md: 26, lg: 28, xl: 28 },
+            mx: 1,
             mt: 2,
             textAlign: "center",
             fontWeight: "bold",
           }}
         >
-          <div className="flex flex-row sm:grid sm:grid-col-2 ">
-            <div className="basis-1/4 flex self-start lg:basis-24 xl:basis-20 xxl:basis-28 xxl:text-3xl md:text-xl md:basis-20 sm:text-lg sm:basis-14">
+          <div className="flex flex-row sm:grid sm:grid-col-2">
+            <div className="gap-4 basis-1/4 flex md:text-xl md:basis-20 sm:text-lg sm:basis-14 items-center">
               {name}
-            </div>
-            {type != "false" ? (
-              <div
-                className="flex basis-2/6 justify-start items-center text-center w-fit xl:pl-4
-                          sm:col-start-2 "
-              >
-                <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-2 py-1 xxl:px-4">
+              {type != "false" ? (
+                <span className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-4 py-1 w-fit h-fit">
                   {type}
-                </div>
-              </div>
-            ) : (
-              ""
-            )}
+                </span>
+              ) : (
+                ""
+              )}
+            </div>
+            <div className="flex basis-2/6 justify-start items-center text-center w-fit"></div>
 
             <div className="flex basis-5/12 xl:6/12 xl:ml-16 gap-2 justify-end  text-gray-400 cursor-pointer sm:col-start-2 sm:pt-2">
               <EditIcon />

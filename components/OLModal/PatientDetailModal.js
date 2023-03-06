@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import Router from "next/router";
 import { motion, AnimatePresence } from "framer-motion";
 import CloseIcon from "@mui/icons-material/Close";
 import { IconButton, Button } from "@mui/material";
@@ -23,6 +24,7 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
     })
       .then(async (res) => {
         toast.success("ลบรายการแล้ว");
+        Router.reload();
       })
       .catch((err) => {
         console.log("ERROR: ", err);
@@ -72,6 +74,7 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
               <CloseIcon className="w-10 h-10" />
             </IconButton>
           </motion.div>
+          
         </div>
         {openEdit == false && (
           <div>

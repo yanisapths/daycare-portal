@@ -6,11 +6,11 @@ import Router from "next/router";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import axios from "axios";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 const education = [
@@ -188,6 +188,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                                   "@media (min-width: 780px)": {
                                     width: "120px",
                                   },
+                                  border: "2px solid #AD8259",
                                   px: 2,
                                 }}
                                 {...field}
@@ -317,6 +318,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                                   "@media (min-width: 780px)": {
                                     width: "255px",
                                   },
+                                  border: "2px solid #AD8259",
                                   px: 2,
                                 }}
                                 {...field}
@@ -356,6 +358,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                                     width: "255px",
                                   },
                                   px: 2,
+                                  border: "2px solid #AD8259",
                                 }}
                                 {...field}
                                 {...register("income", { required: false })}
