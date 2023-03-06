@@ -86,7 +86,7 @@ function Profile({ clinicData }) {
                         alt="/userLoginImage.png"
                         className="rounded-full"
                         src={session.user.image}
-                        width={120}
+                        width={140}
                         height={140}
                       />
                     )}
@@ -95,7 +95,7 @@ function Profile({ clinicData }) {
                         alt="/Avatar.png"
                         className="rounded-full"
                         src={preview}
-                        width={120}
+                        width={140}
                         height={140}
                       />
                     )}
@@ -104,7 +104,7 @@ function Profile({ clinicData }) {
                         alt="/userLoginImage.png"
                         className="rounded-full"
                         src={clinicData.ownerImageUrl}
-                        width={120}
+                        width={140}
                         height={140}
                       />
                     )}
