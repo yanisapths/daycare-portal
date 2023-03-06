@@ -188,6 +188,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                                   "@media (min-width: 780px)": {
                                     width: "120px",
                                   },
+                                  border: "2px solid #AD8259",
                                   px: 2,
                                 }}
                                 {...field}
@@ -317,6 +318,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                                   "@media (min-width: 780px)": {
                                     width: "255px",
                                   },
+                                  border: "2px solid #AD8259",
                                   px: 2,
                                 }}
                                 {...field}
@@ -356,6 +358,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                                     width: "255px",
                                   },
                                   px: 2,
+                                  border: "2px solid #AD8259",
                                 }}
                                 {...field}
                                 {...register("income", { required: false })}

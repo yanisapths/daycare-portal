@@ -171,6 +171,7 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
                                     width: "120px",
                                   },
                                   px: 2,
+                                  border: "2px solid #AD8259",
                                   mt: 0.5,
                                 }}
                                 {...field}

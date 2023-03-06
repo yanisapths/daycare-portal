@@ -179,6 +179,7 @@ function AddAppointmentForm({
                           sx={{
                             borderRadius: "40px",
                             height: "46px",
+                            border: "2px solid #AD8259",
                             "@media (min-width: 780px)": {
                               width: "285px",
                             },
@@ -295,6 +296,7 @@ function AddAppointmentForm({
                                         },
                                         px: 2,
                                         mt: 0.5,
+                                        border: "2px solid #AD8259"
                                       }}
                                       {...field}
                                       {...register("sex", { required: false })}
@@ -385,6 +387,7 @@ function AddAppointmentForm({
                                       "@media (min-width: 780px)": {
                                         width: "285px",
                                       },
+                                      border: "2px solid #AD8259"
                                     }}
                                     {...register("course_id", {
                                       required: true,
@@ -434,6 +437,7 @@ function AddAppointmentForm({
                                   "@media (min-width: 780px)": {
                                     width: "285px",
                                   },
+                                  border: "2px solid #AD8259"
                                 }}
                                 {...register("appointmentPlace", {
                                   required: true,
