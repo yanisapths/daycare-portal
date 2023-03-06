@@ -38,7 +38,8 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="flex justify-between items-center  gap-24">
+        <div className="flex justify-between items-center gap-24">
+          <div>
           <motion.h6
             className="body2 pt-4 text-black/50"
             animate={{ y: -8 }}
@@ -48,6 +49,8 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
           >
             ข้อมูลผู้ป่วย
           </motion.h6>
+          <p className="text-start text-xs pb-2 text-black/40">เพิ่มวันที่: {(new Date(patient.createdAt).toLocaleDateString("th-TH"))}</p>
+          </div>
           <motion.div
             onClick={() => setSelectedId(null)}
             animate={{ y: -8 }}
@@ -59,6 +62,7 @@ function PatientDetailModal({ patient, selectedId, setSelectedId }) {
               <CloseIcon className="w-10 h-10" />
             </IconButton>
           </motion.div>
+          
         </div>
         <p className="text-xs pb-2 text-black/40">HN: {patient.HN}</p>
         <motion.div
