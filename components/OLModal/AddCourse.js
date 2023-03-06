@@ -245,7 +245,7 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                       variant="h5 "
                       className="pt-3 sm:text-sm md:text-base lg:text-xl text-black"
                     >
-                      ราคา
+                      ราคา (รวมทั้งหมด)
                     </Typography>
                     <input
                       type="text"
@@ -258,7 +258,7 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                     />
                     <Typography
                       variant="h5"
-                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black/60"
+                      className="pt-3 sm:text-sm md:text-base lg:text-xl text-black"
                     >
                       บาท
                     </Typography>

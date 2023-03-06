@@ -67,7 +67,6 @@ function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
     const eventList = await res.json();
     const p = await patientRes.json();
     const course = await courses.json();
-
     if (isSubscribed) {
       setEvent(eventList);
       setPatient(p);
@@ -163,7 +162,7 @@ function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
                     <div className="flex gap-4 sm:gap-12 sm:col-start-1 sm:col-span-6">
                       <div className="font-semibold pb-2 text-base xl:text-lg sm:truncate">
                         <span className="text-base">คุณ </span>
-                        {d.firstName ? (
+                        {!d.patient_id ? (
                           <span>
                             ( {d.nickName} ) {d.firstName} {d.lastName}
                           </span>

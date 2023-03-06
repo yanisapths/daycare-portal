@@ -112,8 +112,12 @@ function AddAppointmentForm({
     data.appointmentDate = appointmentDate;
     data.appointmentTime = appointmentTime;
     data.endTime = endTime;
-    data.patient_id = patient_id;
+    data.patient_id = patient_id._id;
     data.appointmentPlace = appointmentPlace;
+    data.customer_id = patient_id.customer_id;
+    data.phoneNumber = patient_id.phoneNumber;
+    data.clinic_id = clinicData._id;
+    data.clinicName = clinicData.clinic_name;
     const json = JSON.stringify(data);
     let axiosConfig = {
       headers: {
@@ -192,10 +196,10 @@ function AddAppointmentForm({
                             <span>ไม่เลือก</span>
                           </MenuItem>
                           {patientData.map((input, key) => (
-                            <MenuItem key={key} value={input._id}>
+                            <MenuItem key={key} value={input}>
                               <span>
                                 ( {input.nickName} ) {input.firstName}{" "}
-                                {input.lastName}
+                                {input.lastName} 
                               </span>
                             </MenuItem>
                           ))}

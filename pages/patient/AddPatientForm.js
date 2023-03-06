@@ -6,11 +6,11 @@ import Router from "next/router";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Box from "@mui/material/Box";
-import axios from "axios";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
+import axios from "axios";
 import toast from "react-hot-toast";
 
 const education = [
