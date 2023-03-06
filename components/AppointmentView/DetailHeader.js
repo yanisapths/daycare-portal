@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import { useForm, Controller } from "react-hook-form";
 import { motion } from "framer-motion";
 import CircleIcon from "../../components/OLIcon/CircleIcon";
 import SimpleChip from "../OLButton/SimpleChip";
@@ -12,9 +14,70 @@ import WcIcon from "@mui/icons-material/Wc";
 import PersonIcon from "@mui/icons-material/Person";
 import WarningIcon from "@mui/icons-material/Warning";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
+import PersonAddIcon from "@mui/icons-material/PersonAdd";
 import Tooltip from "@mui/material/Tooltip";
+import toast from "react-hot-toast";
+import axios from "axios";
+import Swal from "sweetalert2";
+import Router from "next/router";
 
-function DetailHeader({ data, patient, course }) {
+function DetailHeader({ clinic, data, patient, course }) {
+  const { data: session, status } = useSession();
+  const {
+    register,
+    watch,
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    defaultValues: {
+      document: "",
+    },
+  });
+
+  const onSubmit = async (data) => {
+    const info = {
+      owner_id: session.user.id,
+      clinic_id: clinic._id,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      email: data.email,
+      phoneNumber: data.phoneNumber,
+      precaution: data.description,
+      nickName: data.nickName,
+      sex: data.sex,
+      lineId: data.lineId,
+      address: data.location,
+      age: data.age,
+      customer_id: data.customer_id,
+    };
+    const json = JSON.stringify(info);
+    console.log(info)
+    let axiosConfig = {
+      headers: {
+        "Content-Type": "application/json;charset=UTF-8",
+        "Access-Control-Allow-Origin": "*",
+      },
+    };
+    const response = await axios
+      .post(
+        `${process.env.dev}/patient/create/clinic/${clinic._id}`,
+        json,
+        axiosConfig
+      )
+      .then(async (res) => {
+        console.log("RESPONSE RECEIVED: ", res.data);
+        toast.success("เพิ่มแบบบันทึก");
+        Router.reload();
+      })
+      .catch((err) => {
+        console.log("AXIOS ERROR: ", err);
+        toast.error("ไม่สำเร็จ");
+      });
+  };
   return (
     <div>
       <div className="pt-4 text-[#121212]">
@@ -99,10 +162,45 @@ function DetailHeader({ data, patient, course }) {
           </div>
         ) : (
           <div className="h6 space-y-4 font-medium">
-            <motion.h6>
+            <motion.h6 className="flex gap-3">
               <span className="h4">
                 ( {data.nickName} ) {data.firstName} {data.lastName}
               </span>
+              <Tooltip placement="top" title="เพิ่มในแบบบันทึกผู้ป่วย">
+                <button
+                  onClick={() =>
+                    Swal.fire({
+                      title: "เพิ่มในแบบบันทึกผู้ป่วย?",
+                      text: "เพิ่มในบันทึกเพื่อความสะดวกสำหรับนัดหมายครั้งต่อไป",
+                      icon: "success",
+                      showCancelButton: true,
+                      confirmButtonText: "ยอบรับ",
+                      cancelButtonText: "ยกเลิก",
+                      reverseButtons: true,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        onSubmit(data).then(() =>
+                          Swal.fire({
+                            title: "เพิ่มลงในแบบบันทึกผู้ป่วยแล้ว",
+                            showConfirmButton: false,
+                            icon: "success",
+                            timer: 1000,
+                          })
+                        );
+                      } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        Swal.fire({
+                          title: "ยกเลิก",
+                          showConfirmButton: false,
+                          icon: "error",
+                          timer: 1000,
+                        });
+                      }
+                    })
+                  }
+                >
+                  <PersonAddIcon className="cursor-pointer text-[#F3BD33] hover:text-[#7C552F]" />
+                </button>
+              </Tooltip>
             </motion.h6>
             <motion.h6 className="grid grid-cols-2 gap-4 sm:grid-cols-2 xl:h6 md:h6 caption">
               <div className="flex items-center align-middle gap-2 text-base">

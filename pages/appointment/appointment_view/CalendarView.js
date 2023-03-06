@@ -4,7 +4,7 @@ import AppointmentListCard from "../../../components/OLCard/AppointmentListCard"
 import SimpleCalendar from "../../../components/calendar/SimpleCalendar";
 import EventListCard from "../../../components/OLCard/EventListCard";
 
-function CalendarView({ data, event, user, staffs }) {
+function CalendarView({clinic, data, event, user, staffs }) {
   const currentDate = dayjs();
   const [today, setToday] = useState(currentDate);
   const [selectedDate, setSelectedDate] = useState(currentDate);
@@ -44,6 +44,7 @@ function CalendarView({ data, event, user, staffs }) {
                   data={data}
                   user={user}
                   staffs={staffs}
+                  clinic={clinic}
                 />
               ) : (
                 ""

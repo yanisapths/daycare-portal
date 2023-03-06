@@ -254,7 +254,7 @@ function AppointmentModal({
             duration: "0.6",
           }}
         >
-          <DetailHeader data={data} patient={patient} course={course} />
+          <DetailHeader data={data} patient={patient} course={course} clinic={clinic} />
           <section className="mb-2 pt-2 text-black/50 border-black/20 border-b-[1px] border-dashed  ">
             <div className="text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2">
               <div>

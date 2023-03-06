@@ -68,7 +68,7 @@ function Patient({ clinicData }) {
               />
             </div>
             <div className="">
-              <TableView patientData={patientData} />
+              <TableView patientData={patientData}  clinic={clinicData} />
             </div>
           </section>
         </main>

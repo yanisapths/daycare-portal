@@ -3,7 +3,7 @@ import Overlay from "../OLLayout/Overlay";
 import PatientDetailModal from "../OLModal/PatientDetailModal";
 import Tooltip from "@mui/material/Tooltip";
 
-function PatientCard({ d, index }) {
+function PatientCard({ clinic,d, index }) {
   const [selectedId, setSelectedId] = useState(null);
 
   const closeModal = () => {
@@ -18,6 +18,7 @@ function PatientCard({ d, index }) {
             patient={d}
             setSelectedId={setSelectedId}
             close={closeModal}
+            clinic={clinic}
           ></PatientDetailModal>
         </Overlay>
       )}
