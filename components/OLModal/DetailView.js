@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState } from "react";
 import Router, { useRouter } from "next/router";
 import EditCourseForm from "../OLForm/EditCourseForm";
 import Dialog from "@mui/material/Dialog";
@@ -63,35 +63,35 @@ function DetailView({
           },
         }}
       >
-        {openEdit == false && 
-        <div>
-
-        <DialogTitle
-          sx={{
-            fontSize: { sm: 24, md: 26, lg: 28, xl: 28 },
-            mx: 1,
-            mt: 2,
-            textAlign: "center",
-            fontWeight: "bold",
-          }}
-        >
-          <div className="flex flex-row sm:grid sm:grid-col-2">
-            <div className="gap-4 basis-1/4 flex sm:text-lg sm:basis-14 items-center">
-              {name}
-              {type != "false" ? (
-                <span className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-4 py-1 w-fit h-fit">
-                  {type}
-                </span>
-              ) : (
-                ""
-              )}
-            </div>
-            <div className="flex basis-2/6 justify-start items-center text-center w-fit"></div>
-            <div className="flex basis-5/12 xl:6/12 xl:ml-16 gap-2 justify-end  text-gray-400 cursor-pointer sm:col-start-2 sm:pt-2">
-            <Tooltip title="แก้ไข" placement="top">
+        {openEdit == false && (
+          <div>
+            <DialogTitle
+              sx={{
+                fontSize: { sm: 24, md: 26, lg: 28, xl: 28 },
+                mx: 1,
+                mt: 2,
+                textAlign: "center",
+                fontWeight: "bold",
+              }}
+            >
+              <div className="flex flex-row sm:grid sm:grid-col-2">
+                <div className="gap-4 basis-1/4 flex sm:text-lg sm:basis-14 items-center">
+                  {name}
+                  {type != "false" ? (
+                    <span className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-4 py-1 w-fit h-fit">
+                      {type}
+                    </span>
+                  ) : (
+                    ""
+                  )}
+                </div>
+                <div className="flex basis-2/6 justify-start items-center text-center w-fit"></div>
+                <div className="flex basis-5/12 xl:6/12 xl:ml-16 gap-2 justify-end  text-gray-400 cursor-pointer sm:col-start-2 sm:pt-2">
+                  <Tooltip title="แก้ไข" placement="top">
                     <IconButton
                       aria-label="edit"
                       size="small"
+                      className="text-[#AD8259]"
                       onClick={() => handleOpenEdit()}
                     >
                       <EditIcon />
@@ -99,8 +99,9 @@ function DetailView({
                   </Tooltip>
                   <Tooltip title="ลบ" placement="top">
                     <IconButton
-                      aria-label="edit"
+                      aria-label="delete"
                       size="small"
+                      className="text-[#FF2F3B]"
                       onClick={() => handleOpenEdit()}
                     >
                       <DeleteIcon
@@ -139,66 +140,69 @@ function DetailView({
                       />
                     </IconButton>
                   </Tooltip>
-            </div>
-          </div>
-        </DialogTitle>
-        <DialogContent>
-          <Box>
-            {/* type and price */}
-            <div className="flex flex-col text-center rounded-xl mx-5 ">
-              <div className="divide-y-2 divide-dashed">
-                <div className="justify-between flex flex-row text-black/70 sm:text-xs">
-                  <p>การรักษา</p>
-                  <p>ราคา(บาท)</p>
-                </div>
-                <div className="flex flex-col pt-3 space-y-4 text-black/70">
-                  {procedures?.map((procedure) => (
-                    <div
-                      className="flex flex-row justify-between bg-[#ffdf8e]/50 rounded-3xl mx-2 py-2 px-3 sm:px-2 sm:mx-0 sm:text-xs
-                   "
-                      key={procedure}
-                    >
-                      <p>{procedure.procedureName}</p>
-                      <p>{procedure.price}</p>
-                    </div>
-                  ))}
                 </div>
               </div>
+            </DialogTitle>
+            <DialogContent>
+              <Box>
+                {/* type and price */}
+                <div className="flex flex-col text-center rounded-xl mx-5 ">
+                  <div className="divide-y-2 divide-dashed">
+                    <div className="justify-between flex flex-row text-black/70 sm:text-xs">
+                      <p>การรักษา</p>
+                      <p>ราคา(บาท)</p>
+                    </div>
+                    <div className="flex flex-col pt-3 space-y-4 text-black/70">
+                      {procedures?.map((procedure) => (
+                        <div
+                          className="flex flex-row justify-between bg-[#ffdf8e]/50 rounded-3xl mx-2 py-2 px-3 sm:px-2 sm:mx-0 sm:text-xs
+                   "
+                          key={procedure}
+                        >
+                          <p>{procedure.procedureName}</p>
+                          <p>{procedure.price}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
 
-              {/*total time and total price */}
-              <div className="flex flex-col divide-y-2 divide-dashed mt-8 sm:mt-6 text-black/70 sm:text-xs">
-                <div className="flex justify-start sm:justify-center ">
-                  <p className="sm:hidden">ค่าใช้จ่ายและระยะเวลาการรักษา</p>
-                  <p className="text-[15px] md:hidden lg:hidden xl:hidden xxl:hidden xxxl:hidden ">
-                    ค่าใช้จ่ายและระยะเวลา
-                  </p>
-                </div>
+                  {/*total time and total price */}
+                  <div className="flex flex-col divide-y-2 divide-dashed mt-8 sm:mt-6 text-black/70 sm:text-xs">
+                    <div className="flex justify-start sm:justify-center ">
+                      <p className="sm:hidden">ค่าใช้จ่ายและระยะเวลาการรักษา</p>
+                      <p className="text-[15px] md:hidden lg:hidden xl:hidden xxl:hidden xxxl:hidden ">
+                        ค่าใช้จ่ายและระยะเวลา
+                      </p>
+                    </div>
 
-                <div className="flex flex-col justify-start items-start pt-3 text-lg sm:text-sm sm:items-center">
-                  <div>คอร์ส {amount} ครั้ง</div>
-                  <div>{duration} ชั่วโมง / ครั้ง</div>
-                  <div className="flex self-end text-xl font-semibold sm:text-lg sm:self-center sm:pt-5">
-                    รวม {totalPrice} บาท
+                    <div className="flex flex-col justify-start items-start pt-3 text-lg sm:text-sm sm:items-center">
+                      <div>คอร์ส {amount} ครั้ง</div>
+                      <div>{duration} ชั่วโมง / ครั้ง</div>
+                      <div className="flex self-end text-xl font-semibold sm:text-lg sm:self-center sm:pt-5">
+                        รวม {totalPrice} บาท
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-          </Box>
-        </DialogContent>
-        </div>
-        }
-        {openEdit == true && 
-          <EditCourseForm openEdit={openEdit} setOpenEdit={setOpenEdit}
-          handleOpenEdit={handleOpenEdit}
-          handleClose={handleClose}
-          id={id}
-          name={name}
-          amount={amount}
-          duration={duration}
-          totalPrice={totalPrice}
-          procedures={procedures}
-          type={type}/>
-        }
+              </Box>
+            </DialogContent>
+          </div>
+        )}
+        {openEdit == true && (
+          <EditCourseForm
+            openEdit={openEdit}
+            setOpenEdit={setOpenEdit}
+            handleOpenEdit={handleOpenEdit}
+            handleClose={handleClose}
+            id={id}
+            name={name}
+            amount={amount}
+            duration={duration}
+            totalPrice={totalPrice}
+            procedures={procedures}
+            type={type}
+          />
+        )}
         <DialogActions sx={{ mx: 4, justifyContent: "center" }}>
           <div className="mx-auto text-center flex flex-row justify-center">
             <button
