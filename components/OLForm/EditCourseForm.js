@@ -67,7 +67,7 @@ function EditCourseForm({
     };
 
     const response = await axios
-      .put(`${process.env.dev}/course/update/${id}`, json, axiosConfig)
+      .put(`${process.env.url}/course/update/${id}`, json, axiosConfig)
       .then(async (res) => {
         console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("บันทึกเรียบร้อย");
