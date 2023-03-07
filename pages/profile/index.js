@@ -140,7 +140,7 @@ function Profile({ clinicData }) {
                 <div className="relative h-10 w-32">
                   <div className="absolute bottom-0 inset-x-0 h-2">
                     <button
-                      className="bg-[#AD8259] border-[#AD8259] text-white cursor-ponter border-2 w-fit h-fit rounded-full px-10 p-4 py-1 hover:shadow-xl hover:shadow-[#AD8259]/60 hover:bg-[#E0B186] hover:border-[#E0B186]/5"
+                      className="bg-[#AD8259] border-[#AD8259] text-white cursor-pointer border-2 w-fit h-fit rounded-full px-10 p-4 py-1 hover:shadow-xl hover:shadow-[#AD8259]/60 hover:bg-[#E0B186] hover:border-[#E0B186]/5"
                       onClick={() => saveProfile()}
                     >
                       บันทึก

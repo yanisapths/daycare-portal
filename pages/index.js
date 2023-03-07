@@ -36,7 +36,7 @@ function Home({ clinicData }) {
               <></>
             )}
           </div>
-          <Dashboard data={clinicData} />
+          <Dashboard data={clinicData} clinicId={clinicData._id} />
         </main>
         <FooterSocial />
       </div>
