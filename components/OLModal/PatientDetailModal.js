@@ -94,7 +94,6 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
                   <IconButton
                     aria-label="edit"
                     size="small"
-                    className="text-[#AD8259]"
                     onClick={() => handleOpenEdit()}
                   >
                     <EditIcon />
@@ -104,7 +103,6 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
                   <IconButton
                     aria-label="delete"
                     size="small"
-                    className="text-[#FF2F3B]"
                     onClick={() =>
                       Swal.fire({
                         title: "ลบรายการนี้?",

@@ -127,7 +127,7 @@ function EditCourseForm({
               </Tooltip>
               <Tooltip title="ลบ" placement="top">
                 <IconButton
-                  aria-label="edit"
+                  aria-label="delete"
                   size="small"
                   onClick={() => handleOpenEdit()}
                 >

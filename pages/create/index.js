@@ -246,7 +246,6 @@ function Create() {
                     className="inputBox"
                     type="text"
                     id="owner"
-                    value={session.user.name}
                     name="owner"
                     {...register("owner", {
                       required: "Required",
