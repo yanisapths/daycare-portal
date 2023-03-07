@@ -104,7 +104,7 @@ function RequestModal({
             <div className="flex pb-2 gap-4">
               <RoundTextIcon
                 icon={<BookmarksIcon className="w-5 h-5" />}
-                text={course.courseName}
+                text={data.course_id=="ตรวจร่างกาย" ? "ตรวจร่างกาย":course.courseName}
               />
               <Tooltip placement="top" title="สถานที่นัด">
                 <div className="cursor-pointer">

@@ -290,7 +290,7 @@ function DetailHeader({ clinic, data, patient, course }) {
           <div className="flex justify-center gap-2 cursor-pointer">
             <Tooltip placement="top" title="ดูข้อมูล">
               <motion.h3 className="h4 text-center">
-                {course.courseName}
+                {data.course_id=="ตรวจร่างกาย" ? "ตรวจร่างกาย": course.courseName}
               </motion.h3>
             </Tooltip>
             <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-center text-xs w-fit h-fit px-4 py-1.5">

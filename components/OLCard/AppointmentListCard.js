@@ -181,7 +181,7 @@ function AppointmentListCard({ clinic,data, d, index, user, staffs }) {
                       <div className="sm:w-full sm:col-start-1 sm:pb-1">
                         <RoundTextIcon
                           icon={<BookmarksIcon className="w-5 h-5" />}
-                          text={course.courseName}
+                          text={d.course_id=="ตรวจร่างกาย" ? "ตรวจร่างกาย": course.courseName}
                         />
                       </div>
                     </div>
