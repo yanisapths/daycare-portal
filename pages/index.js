@@ -28,7 +28,7 @@ function Home({ clinicData }) {
           <link rel="icon" href="favicon.ico" />
         </Head>
         <Header />
-        <main className="max-w-screen mb-72 md:px-12 xl:mx-24">
+        <main className="max-w-screen mb-72 sm:mx-4 md:px-12 lg:mx-14 xl:mx-24">
           <div className="p-3 mx-auto">
             {session ? (
               <BannerCard username={session.user.name} className="static" />

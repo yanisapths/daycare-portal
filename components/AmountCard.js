@@ -3,7 +3,7 @@ import React from "react";
 function AmountCard({ requests, appointments }) {
   return (
     <div className="pt-4">
-      <dl className="grid gap-4 grid-cols-2 ">
+      <dl className="grid gap-4 grid-cols-2 sm:mx-4  ">
         <div className="flex flex-col rounded-3xl border border-gray-100 px-2 py-6 text-center shadow-lg shadow-[#A17851]/30">
           <dt className="order-last mt-2 tracking-wide text-gray-500 uppercase">
             นัดวันนี้
