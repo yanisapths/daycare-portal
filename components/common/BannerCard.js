@@ -11,7 +11,7 @@ function BannerCard({ username }) {
         objectfit="fill"
       />
       <div className="static">
-        <div className=" text-[#FFFBF2] -mt-40 px-8">
+        <div className=" text-[#FFFBF2] -mt-40 px-8 sm:-mt-[165px]">
           <div className="text-[#FFFBF2] caption">
             {new Date().toLocaleDateString("th-TH", {
               year: "numeric",

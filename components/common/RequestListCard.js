@@ -141,7 +141,7 @@ function RequestListCard({ data, request, staffs }) {
                       <div className="sm:w-full">
                         <RoundTextIcon className="text-sm"
                           icon={<BookmarksIcon className="w-4 h-4" />}
-                          text={course.courseName}
+                          text={request.course_id=="ตรวจร่างกาย" ? "ตรวจร่างกาย": course.courseName}
                         />
                       </div>
                     </div>

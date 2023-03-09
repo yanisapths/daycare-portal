@@ -163,8 +163,8 @@ function DetailHeader({ clinic, data, patient, course }) {
           </div>
         ) : (
           <div className="h6 space-y-4 font-medium">
-            <motion.h6 className="flex gap-3">
-              <span className="h4">
+            <motion.h6 className="md:flex md:gap-3 space-y-1">
+              <span className="h6 font-semibold md:h4 truncate">
                 ( {data.nickName} ) {data.firstName} {data.lastName}
               </span>
               <Tooltip placement="top" title="เพิ่มในแบบบันทึกผู้ป่วย">
@@ -290,7 +290,7 @@ function DetailHeader({ clinic, data, patient, course }) {
           <div className="flex justify-center gap-2 cursor-pointer">
             <Tooltip placement="top" title="ดูข้อมูล">
               <motion.h3 className="h4 text-center">
-                {course.courseName}
+                {data.course_id=="ตรวจร่างกาย" ? "ตรวจร่างกาย": course.courseName}
               </motion.h3>
             </Tooltip>
             <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-center text-xs w-fit h-fit px-4 py-1.5">
