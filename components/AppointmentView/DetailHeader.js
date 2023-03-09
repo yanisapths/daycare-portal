@@ -163,8 +163,8 @@ function DetailHeader({ clinic, data, patient, course }) {
           </div>
         ) : (
           <div className="h6 space-y-4 font-medium">
-            <motion.h6 className="flex gap-3">
-              <span className="h4">
+            <motion.h6 className="md:flex md:gap-3 space-y-1">
+              <span className="h6 font-semibold md:h4 truncate">
                 ( {data.nickName} ) {data.firstName} {data.lastName}
               </span>
               <Tooltip placement="top" title="เพิ่มในแบบบันทึกผู้ป่วย">
