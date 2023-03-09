@@ -56,7 +56,7 @@ function DetailHeader({ clinic, data, patient, course }) {
       customer_id: data.customer_id,
     };
     const json = JSON.stringify(info);
-    console.log(info)
+    console.log(info);
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
@@ -199,7 +199,12 @@ function DetailHeader({ clinic, data, patient, course }) {
                     })
                   }
                 >
-                  <RoundTextIcon icon={<PersonAddIcon className="cursor-pointer text-[#F3BD33] hover:text-[#7C552F]" />} text="เพิ่มลงในแบบบันทึก" />
+                  <RoundTextIcon
+                    icon={
+                      <PersonAddIcon className="cursor-pointer text-[#F3BD33] hover:text-[#7C552F]" />
+                    }
+                    text="เพิ่มลงในแบบบันทึก"
+                  />
                 </button>
               </Tooltip>
             </motion.h6>
@@ -290,12 +295,17 @@ function DetailHeader({ clinic, data, patient, course }) {
           <div className="flex justify-center gap-2 cursor-pointer">
             <Tooltip placement="top" title="ดูข้อมูล">
               <motion.h3 className="h4 text-center">
-                {data.course_id=="ตรวจร่างกาย" ? "ตรวจร่างกาย": course.courseName}
+                {data.course_id == "ตรวจร่างกาย"
+                  ? "ตรวจร่างกาย"
+                  : course.courseName}
               </motion.h3>
             </Tooltip>
-            <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-center text-xs w-fit h-fit px-4 py-1.5">
-              {course.type}
-            </div>
+
+            {course.type != 'false' && (
+              <div className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-center text-xs w-fit h-fit px-4 py-1.5">
+                {course.type}
+              </div>
+            )}
           </div>
         </Link>
         <motion.div className=" flex justify-center pt-2 gap-2 ">
