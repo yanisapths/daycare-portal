@@ -146,7 +146,7 @@ function RequestModal({
                       {patient.sex}
                     </div>
                   </div>
-                  <div className="flex items-center align-middle gap-2 pt-2">
+                  <div className="flex items-center col-span-2 align-middle gap-2 pt-2">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
                     <span className="caption text-[#A17851] font-bold w-20 sm:w-20">
@@ -236,14 +236,14 @@ function RequestModal({
                     </div>
                   </div>
 
-                  <div className="flex items-center align-middle gap-2 pt-2">
+                  <div className="flex items-center col-span-2 align-middle gap-2 pt-2">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
-                    <span className="caption text-[#A17851] font-bold">
+                    <span className="caption  text-[#A17851] font-bold">
                       ข้อควรระวัง
                     </span>
                     {data.description ? (
-                      <span className="text-[#FF2F3B]">{data.description}</span>
+                      <span className="text-[#FF2F3B] ">{data.description}</span>
                     ) : (
                       " -"
                     )}
