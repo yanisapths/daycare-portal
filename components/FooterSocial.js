@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import link from "next/link";
 
 function FooterSocial() {
   return (
@@ -8,24 +9,24 @@ function FooterSocial() {
         <div className="sm:items-center sm:justify-between sm:flex">
           <nav className="flex justify-between items-center text-center space-x-4 text-sm font-medium sm:justify-start">
             <div>
-              <p className="xl:body1 pt-2 text-left">269492 Project</p>
-              <p className="xl:body1">Faculty of Engineering</p>
-              <p className="xl:body1">Chiangmai University</p>
+              <p className="text-base pt-2 text-center font-bold">269492 Project</p>
+              <p className="text-base">Faculty of Engineering</p>
+              <p className="text-base">Chiangmai University</p>
             </div>
-            <div>
+            <div className="text-center">
               <Image
                 src="/asset/OLlogo.png"
                 width="70"
                 height="90"
                 layout="fixed"
               />
-              <p className="xl:h4 font-bold italic">Olive</p>
-              <p className="xl:h6 italic">Made by Happy Elders</p>
+              <p className=" font-bold italic">Olive</p>
+              <p className=" italic">Made by Happy Elders</p>
             </div>
             <div>
-              <p className="font-semibold text-left xl:h4">Contact Us</p>
-              <p className="xl:body1">Yanisa Poongthaisong</p>
-              <p className="xl:body1">Pavinee Suthamjaem</p>
+              <p className="font-semibold text-center text-base">Contact Us</p>
+              <p className="text-base">olive.happyelders@gmail.com</p>
+              
             </div>
           </nav>
         </div>
