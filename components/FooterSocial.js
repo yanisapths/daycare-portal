@@ -1,8 +1,16 @@
 import React from "react";
 import Image from "next/image";
-import link from "next/link";
+
 
 function FooterSocial() {
+
+  const Mailto = ({ email, subject = '', body = '', children }) => {
+    let params = subject || body ? '?' : '';
+    if (subject) params += `subject=${encodeURIComponent(subject)}`;
+    if (body) params += `${subject ? '&' : ''}body=${encodeURIComponent(body)}`;
+  
+    return <a href={`mailto:${email}${params}`}>{children}</a>;
+  };
   return (
     <footer className="bg-[#FFFBF2]  bottom-0 text-[#372B20] py-2 h-auto">
       <div className="max-w-screen px-4 pb-2 mx-auto sm:px-6 lg:px-14">
@@ -20,12 +28,14 @@ function FooterSocial() {
                 height="90"
                 layout="fixed"
               />
-              <p className=" font-bold italic">Olive</p>
-              <p className=" italic">Made by Happy Elders</p>
+              <p className=" font-bold italic text-xl">Olive</p>
+              <p className="text-lg italic">Made by Happy Elders</p>
             </div>
             <div>
               <p className="font-semibold text-center text-base">Contact Us</p>
-              <p className="text-base">olive.happyelders@gmail.com</p>
+              <Mailto email="olive.happyelders@gmail.com" subject="Hello Yanisa, Pavinee!" body="">
+                   <h4 className="text-base">📧 olive.happyelders@gmail.com</h4>
+              </Mailto>
               
             </div>
           </nav>
