@@ -50,9 +50,9 @@ function Course({ clinicData }) {
 
       <div className="divide-y divide-[#A17851] divide-opacity-30">
         <Header />
-        <div className="main ">
+        <div className="main">
           <div className="pageTitle">คอร์ส</div>
-          <div className="overflow-scroll scrollbar-hide ">
+          <div className="overflow-scroll scrollbar-hide scroll-smooth pb-10 ">
               
                 <div className="mx-10 ">
                   <ListView

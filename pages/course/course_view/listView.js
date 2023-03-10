@@ -26,7 +26,7 @@ function ListView({ clinicData, courseData }) {
 
   if (courseData.length >= 1) {
     return (
-      <div className="h-screen w-full ">
+      <div className="h-screen w-full  pb-10 ">
         <div className="flex justify-end">
           <BtnAdd onClick={handleClickOpen} />
           <AddCourse
