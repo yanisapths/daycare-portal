@@ -46,12 +46,12 @@ function HoverCard({
         onClick={handleClickOpen}
       >
         <div
-          className="h-40 rounded-2xl flex transform items-start bg-white xl:h-32 xxl:h-40 sm:h-40 md:h-40 shadow-xl hover:shadow-2xl
+          className="rounded-2xl flex transform items-start bg-white h-fit md:h-32 lg:h-40 lg:items-center xl:h-32 xl:items-center xxl:h-32 xxl:items-center  shadow-xl hover:shadow-2xl
         transition ease-out delay-100 hover:scale-105"
         >
           <div className="px-5 pb-3 pt-3">
             <div className=" flex py-2 gap-6">
-              <p className=" h2 lg:h3 md:h4 sm:h5 font-medium ">{name}</p>
+              <p className=" h2 lg:h3 md:h4 sm:text-2xl font-medium ">{name}</p>
               {type != "false" ? (
                 <strong className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] px-2 py-1 text-xs font-medium self-center">
                   {type}
@@ -74,7 +74,7 @@ function HoverCard({
               ))}
             </div>
 
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2  items-end">
               <Typography className="text-xs tracking-wide md:text-sm sm:text-sm text-center text-black/70 bg-[#ffefb7] rounded-full px-2 py-1">
                 {amount} ครั้ง
               </Typography>

@@ -74,7 +74,7 @@ a {
   /*------------------------------------*/
 
   .main {
-    @apply h-screen overflow-scroll scrollbar-hide bg-[#FFFBF2] md:w-screen;
+    @apply h-screen overflow-scroll scrollbar-hide bg-[#FFFBF2];
   }
 
   /*----------------Input-----------------*/

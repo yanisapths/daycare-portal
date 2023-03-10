@@ -26,7 +26,7 @@ function ListView({ clinicData, courseData }) {
 
   if (courseData.length >= 1) {
     return (
-      <div className="main">
+      <div className="h-screen w-full ">
         <div className="flex justify-end">
           <BtnAdd onClick={handleClickOpen} />
           <AddCourse
@@ -37,9 +37,9 @@ function ListView({ clinicData, courseData }) {
           />
         </div>
 
-        <div className="grid grid-cols-3 my-4 h-fit gap-4 justify-start sm:grid-cols-1 md:grid-cols-2 xxl:grid-cols-4">
+        <div className="grid grid-cols-3  my-4  gap-4  sm:grid-cols-1 md:grid-cols-1  lg:grid-cols-2 ">
           {courseData?.map((course, index) => (
-            <div key={index}>
+            <div key={index} >
               <HoverCard
                 id={course._id}
                 name={course.courseName}
