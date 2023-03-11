@@ -74,8 +74,8 @@ function DetailView({
                 fontWeight: "bold",
               }}
             >
-              <div className="flex flex-row sm:grid sm:grid-col-2">
-                <div className="gap-4 basis-1/4 flex sm:text-lg sm:basis-14 items-center">
+              <div className="flex flex-row justify-between sm:grid sm:grid-col-2">
+                <div className="gap-2 w-fit flex sm:text-lg  items-center">
                   {name}
                   {type != "false" ? (
                     <span className="rounded-full bg-[#A5A6F6]/20 text-[#7879F1] text-xs px-4 py-1 w-fit h-fit">
@@ -85,8 +85,8 @@ function DetailView({
                     ""
                   )}
                 </div>
-                <div className="flex basis-2/6 justify-start items-center text-center w-fit"></div>
-                <div className="flex basis-5/12 xl:6/12 xl:ml-16 gap-2 justify-end  text-gray-400 cursor-pointer sm:col-start-2 sm:pt-2">
+                
+                <div className="flex gap-2 justify-end  text-gray-400 cursor-pointer sm:col-start-2 sm:pt-2">
                   <Tooltip title="แก้ไข" placement="top">
                     <IconButton
                       aria-label="edit"
@@ -106,7 +106,7 @@ function DetailView({
                         onClick={() => {
                           handleClose();
                           Swal.fire({
-                            title: "ลบคอร์สนี้?",
+                            title: `ลบ ${name} นี้?`,
                             text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
                             icon: "warning",
                             showCancelButton: true,
