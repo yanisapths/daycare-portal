@@ -144,7 +144,6 @@ function Create() {
       const response = await axios
         .post(`${process.env.url}/clinic/create`, data, axiosConfig)
         .then(async (res) => {
-          console.log("RESPONSE RECEIVED: ", res.data);
           const { owner } = res.data.owner;
           const { cid } = res.data._id;
 

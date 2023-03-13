@@ -54,7 +54,7 @@ const Staff = ({ clinic }) => {
         <div className="main xl:px-12 md:px-8 px-4 pb-40">
           <h2 className="pageTitle">พนักงาน</h2>
           <div className="flex mx-3 justify-end">
-            <BtnAdd onClick={handleClickOpen} />
+            <BtnAdd click={handleClickOpen} />
             {session && clinic && (
               <AddStaffForm
                 open={open}

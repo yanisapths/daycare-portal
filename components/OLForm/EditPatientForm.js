@@ -96,7 +96,6 @@ function EditPatientForm({
         axiosConfig
       )
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("บันทึกเรียบร้อย");
         Router.reload();
         setOpenEdit(false);

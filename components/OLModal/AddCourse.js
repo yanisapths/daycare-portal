@@ -47,8 +47,6 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
         axiosConfig
       )
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
-
         toast.success("กำลังเพิ่มคอร์ส...🛠️🚧");
         Router.reload();
       })

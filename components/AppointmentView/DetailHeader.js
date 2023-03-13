@@ -70,7 +70,6 @@ function DetailHeader({ clinic, data, patient, course }) {
         axiosConfig
       )
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("เพิ่มแบบบันทึก");
         Router.reload();
       })

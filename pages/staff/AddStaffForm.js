@@ -51,7 +51,6 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
         axiosConfig
       )
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("เพิ่มพนักงาน");
         setOpen(false);
         Router.reload();
