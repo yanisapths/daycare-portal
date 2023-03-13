@@ -289,6 +289,7 @@ const Availability = ({ clinicData }) => {
                               onChange={onChange}
                               selected={value}
                               locale="th"
+                              dateFormat="dd-MM-yyyy"
                             />
                           )}
                         />
