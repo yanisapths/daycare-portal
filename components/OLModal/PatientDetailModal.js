@@ -41,16 +41,17 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-2  pb-6 p-10 py-6 relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto w-[550px] h-[500px] sm:h-[600px] overflow-scroll-hidden scrollbar-hide"
+        className="bg-white mx-2 pb-6 p-10 sm:p-4 py-6 relative shadow-lg shadow-black/5 rounded-3xl overflow-x-auto w-[550px] h-[500px] sm:h-[600px] overflow-scroll-hidden scrollbar-hide"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="flex justify-between items-center gap-24">
-          <div>
+        <div className="flex justify-between items-center gap-24 sm:gap-0">
+          <div className="grid grid-cols-1 ">
+            <div className="text-start flex items-start">
             <motion.h6
-              className="body2 pt-4 text-black/50"
+              className="body2 pt-4 text-black/70 text-start"
               animate={{ y: -8 }}
               transition={{
                 duration: "0.3",
@@ -58,10 +59,13 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
             >
               ข้อมูลผู้ป่วย
             </motion.h6>
-            <p className="text-start text-xs pb-2 text-black/40">
+            </div>
+            <div className="">
+            <p className="text-start text-xs pb-2 text-black/50">
               เพิ่มวันที่:{" "}
               {new Date(patient.createdAt).toLocaleDateString("th-TH")}
             </p>
+            </div>
           </div>
           <motion.div
             onClick={() => setSelectedId(null)}
@@ -84,12 +88,16 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
                 duration: "0.3",
               }}
             >
-              <p className="text-xs pb-2 text-black/40">HN: {patient.HN}</p>
-              <div className="flex items-center align-middle gap-2 pb-4">
-                <p className="h4">
+              <p className="text-xs pb-2 text-black/50 flex text-start">HN: {patient.HN}</p>
+              <div className="flex justify-between items-center align-middle gap-2 pb-4">
+                
+                <div>
+                <p className="h4 sm:text-xl">
                   คุณ ( {patient.nickName} ) {patient.firstName}{" "}
                   {patient.lastName}
                 </p>
+                </div>
+                <div>
                 <Tooltip title="แก้ไข" placement="top">
                   <IconButton
                     aria-label="edit"
@@ -138,6 +146,8 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
                     <DeleteIcon />
                   </IconButton>
                 </Tooltip>
+                </div>
+                
               </div>
             </motion.div>
 
@@ -182,17 +192,17 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
                 </div>
               </motion.div>
               <motion.div>
-                <div className="flex items-start align-start gap-2">
-                  {" "}
+                <div className="flex justify-center items-start text-center gap-2">
                   <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
-                  <span className="caption text-[#A17851] font-bold w-20">
-                    ที่อยู่ปัจุบัน{" "}
+                  <span className="caption text-[#A17851] font-bold w-[100px]">
+                    ที่อยู่ปัจุบัน
                   </span>
-                  {patient.address}
+                  <span className="self-start">{patient.address}</span>
+                  
                 </div>
               </motion.div>
-              <div className="px-8 pt-4 ">
-                <motion.div className="grid grid-cols-2 gap-20 pb-2">
+              <div className="px-4 pt-4 sm:px-2">
+                <motion.div className="grid grid-cols-2 gap-20 sm:gap-5 pb-2">
                   <div className="flex items-center align-middle gap-2 ">
                     {" "}
                     <span className=" caption text-[#A17851]">อาชีพ</span>
@@ -219,26 +229,36 @@ function PatientDetailModal({ clinic, patient, selectedId, setSelectedId }) {
               </div>
             </motion.div>
 
-            <div className="px-2 pt-4">
-              <p className="text-black/40">ข้อมูลด้านสุขภาพ</p>
+            <div className="px-2 pt-4  divide-y divide-dashed divide-black/40 ">
+              <p className="text-black/70 pb-2 ">ข้อมูลด้านสุขภาพ</p>
+              
               <motion.div
                 animate={{ y: -8 }}
                 transition={{
                   duration: "0.3",
                 }}
-                className="pt-2 space-y-4"
+                className="pt-4 grid grid-cols-3 sm:grid-cols-2 "
               >
+                <div>
                 <p className="caption text-[#A17851] font-bold">ข้อควรระวัง</p>
                 <span className="text-[#FF2F3B]">
                   {patient.precaution ? patient.precaution : "-"}
                 </span>
-
+                </div>
+                <div>
                 <p className="caption text-[#A17851] font-bold">
                   Chief Complaint
                 </p>
                 {patient.chiefComplaint}
+                </div>
+                <div className="sm:col-span-2">
                 <p className="caption text-[#A17851] font-bold">PT diagnosis</p>
                 {patient.diagnosis}
+                </div>
+                
+
+                
+                
               </motion.div>
             </div>
           </div>
