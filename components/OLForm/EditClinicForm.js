@@ -55,7 +55,7 @@ function EditClinicForm({ data, handleOpenEdit, setOpenEdit,clinicId }) {
   const [selectedTime, setSelectedTime] = useState("");
   const [daycareImageProfile, setDaycareImageProfile] = useState("");
   const [input, setInput] = useState({});
-  console.log(clinicId)
+
   const uploadToClient = (event) => {
     if (event.target.files && event.target.files[0]) {
       const i = event.target.files[0];

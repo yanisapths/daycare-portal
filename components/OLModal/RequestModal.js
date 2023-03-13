@@ -146,7 +146,7 @@ function RequestModal({
                       {patient.sex}
                     </div>
                   </div>
-                  <div className="flex items-center align-middle gap-2 pt-2">
+                  <div className="flex items-center col-span-2 align-middle gap-2 pt-2">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
                     <span className="caption text-[#A17851] font-bold w-20 sm:w-20">
@@ -236,14 +236,14 @@ function RequestModal({
                     </div>
                   </div>
 
-                  <div className="flex items-center align-middle gap-2 pt-2">
+                  <div className="flex items-center col-span-2 align-middle gap-2 pt-2">
                     {" "}
                     <CircleIcon icon={<WarningIcon className="text-sm" />} />
-                    <span className="caption text-[#A17851] font-bold">
+                    <span className="caption  text-[#A17851] font-bold">
                       ข้อควรระวัง
                     </span>
                     {data.description ? (
-                      <span className="text-[#FF2F3B]">{data.description}</span>
+                      <span className="text-[#FF2F3B] ">{data.description}</span>
                     ) : (
                       " -"
                     )}
@@ -279,10 +279,13 @@ function RequestModal({
                   
                 </motion.h6>
                 <motion.h6>
-                  <div className="flex items-start align-middle gap-2 text-sm ">
+                  {data.appointmentPlace == "คลินิก" ?(
+                    <div className="hidden"></div>
+                  ):(
+                    <div className="flex items-start align-middle gap-2 text-sm ">
                     {" "}
                     <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
-                    <span className="caption text-[#A17851] font-bold sm:w-14">
+                    <span className="caption text-[#A17851] font-bold">
                       ที่อยู่
                     </span>
                     {data.location ? (
@@ -291,6 +294,8 @@ function RequestModal({
                       <span className="text-sm text-black/40">-</span>
                     )}
                   </div>
+                  )}
+                  
                 </motion.h6>
               </div>
             )}

@@ -52,18 +52,16 @@ function Course({ clinicData }) {
         <Header />
         <div className="main">
           <div className="pageTitle">คอร์ส</div>
-          <div className="overflow-scroll scrollbar-hide ">
-            <div className="md:flex gap-5">
-              <div className="= px-10 w-full ">
-                <div className="">
-                  {" "}
+          <div className="overflow-scroll scrollbar-hide scroll-smooth pb-10 ">
+              
+                <div className="mx-10 ">
                   <ListView
                     clinicData={clinicData}
                     courseData={courseData}
-                  />{" "}
+                  />
                 </div>
-              </div>
-            </div>
+              
+            
           </div>
         </div>
         <FooterSocial />
