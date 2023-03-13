@@ -218,14 +218,14 @@ function AppointmentModal({
   return (
     <AnimatePresence>
       <motion.div
-        className="bg-white mx-2 xl:mx-auto p-12 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll 
+        className="bg-white mx-2 xl:mx-auto p-12 sm:p-7 py-6 relative shadow-lg shadow-black/5 rounded-3xl w-[900px] overflow-y-scroll 
         h-[600px] scrollbar-hide"
         layoutId={selectedId}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="flex justify-between items-center xl:gap-60 gap-24">
+        <div className="flex justify-between items-center xl:gap-60 gap-24 ">
           <motion.h6
             className="h6 pt-4 text-black/50"
             animate={{ y: -8 }}
@@ -254,9 +254,14 @@ function AppointmentModal({
             duration: "0.6",
           }}
         >
-          <DetailHeader data={data} patient={patient} course={course} clinic={clinic} />
+          <DetailHeader
+            data={data}
+            patient={patient}
+            course={course}
+            clinic={clinic}
+          />
           <section className="mb-2 pt-2 text-black/50 border-black/20 border-b-[1px] border-dashed  ">
-            <div className="text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2">
+            <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
               <div>
                 <p>ครั้งที่</p>
               </div>
@@ -273,7 +278,7 @@ function AppointmentModal({
               <div></div>
             </div>
           </section>
-          <div className="text-[#121212] grid grid-cols-5 text-center items-center mb-2 caption w-full gap-2">
+          <div className="text-[#121212] grid grid-cols-4 text-center items-center mb-2 caption w-full gap-2">
             <div className=" text-lg md:text-base sm:text-xs ">
               <p className="flex justify-center">1</p>
             </div>
@@ -378,122 +383,123 @@ function AppointmentModal({
                 </div>
               </div>
             )}
-
             {data.progressStatus != "Done" &&
               data.status != "Rejected" &&
               data.status != "reviewed" &&
               data.status != "Done" && (
-                <div className="flex  gap-2  justify-center">
-                  <Tooltip title="เสร็จสิ้นการนัดครั้งนี้" placement="top">
-                    <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
-                      <IconButton
-                        aria-label="delete"
-                        size="small"
-                        className="text-[#0921FF]"
-                        onClick={() =>
-                          Swal.fire({
-                            title: "เสร็จสิ้นนัดครั้งนี้?",
-                            text: "ไม่สามารถย้อนกลับได้",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: "ใช่ เสร็จสิ้น!",
-                            cancelButtonText: "ยกเลิก",
-                            reverseButtons: true,
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              markAsDone(data._id).then(() =>
+                <div className="flex flex-row gap-2 sm:flex sm:flex-col sm:items-center sm:justify-center md:flex md:flex-col md:items-center md:justify-center">
+                  <div className="flex  gap-2  justify-center">
+                    <Tooltip title="เสร็จสิ้นการนัดครั้งนี้" placement="top">
+                      <div className="border-[1px]  rounded-full w-fit h-fit  hover:bg-[#0921FF]/20 border-[#0921FF]">
+                        <IconButton
+                          aria-label="complete"
+                          size="small"
+                          className="text-[#0921FF]"
+                          onClick={() =>
+                            Swal.fire({
+                              title: "เสร็จสิ้นนัดครั้งนี้?",
+                              text: "ไม่สามารถย้อนกลับได้",
+                              icon: "warning",
+                              showCancelButton: true,
+                              confirmButtonText: "ใช่ เสร็จสิ้น!",
+                              cancelButtonText: "ยกเลิก",
+                              reverseButtons: true,
+                            }).then((result) => {
+                              if (result.isConfirmed) {
+                                markAsDone(data._id).then(() =>
+                                  Swal.fire({
+                                    title: "นัดครั้งนี้เสร็จสิ้นแล้ว",
+                                    showConfirmButton: false,
+                                    icon: "success",
+                                    timer: 1000,
+                                  })
+                                );
+                              } else if (
+                                result.dismiss === Swal.DismissReason.cancel
+                              ) {
                                 Swal.fire({
-                                  title: "นัดครั้งนี้เสร็จสิ้นแล้ว",
+                                  title: "ยกเลิก)",
                                   showConfirmButton: false,
-                                  icon: "success",
+                                  icon: "error",
                                   timer: 1000,
-                                })
-                              );
-                            } else if (
-                              result.dismiss === Swal.DismissReason.cancel
-                            ) {
-                              Swal.fire({
-                                title: "ยกเลิก)",
-                                showConfirmButton: false,
-                                icon: "error",
-                                timer: 1000,
-                              });
-                            }
-                          })
-                        }
-                      >
-                        <CheckIcon />
-                      </IconButton>
-                    </div>
-                  </Tooltip>
-                  <Tooltip title="ยกเลิกการนัดครั้งนี้" placement="top">
-                    <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
-                      <IconButton
-                        aria-label="delete"
-                        size="small"
-                        className="text-[#FF2F3B]"
-                        onClick={handleClickOpen}
-                      >
-                        <CloseIcon />
-                      </IconButton>
-                    </div>
-                  </Tooltip>
-                  <FormModal
-                    open={open}
-                    handleClose={handleClose}
-                    request={data}
-                  />
-                </div>
-              )}
-            <div className="">
-              {data.bodyChart && (
-                <div>
-                  <button
-                    className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
-                    onClick={handleDialogOpen}
-                  >
-                    <p className="text-xs">bodychart</p>
-                  </button>
-                  {openDialog && (
-                    <BodyChart
-                      openDialog={openDialog}
-                      data={data}
-                      handleDialogClose={handleDialogClose}
+                                });
+                              }
+                            })
+                          }
+                        >
+                          <CheckIcon />
+                        </IconButton>
+                      </div>
+                    </Tooltip>
+                    <Tooltip title="ยกเลิกการนัดครั้งนี้" placement="top">
+                      <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#FF2F3B]/20 border-[#FF2F3B]">
+                        <IconButton
+                          aria-label="delete"
+                          size="small"
+                          className="text-[#FF2F3B]"
+                          onClick={handleClickOpen}
+                        >
+                          <CloseIcon />
+                        </IconButton>
+                      </div>
+                    </Tooltip>
+                    <FormModal
+                      open={open}
+                      handleClose={handleClose}
+                      request={data}
                     />
-                  )}
+                  </div>
+                  <div className="flex justify-center ">
+                    {data.bodyChart && (
+                      <div>
+                        <button
+                          className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 sm:p-2 sm:py-1 bg-black/5 hover:bg-white"
+                          onClick={handleDialogOpen}
+                        >
+                          <p className="text-xs">bodychart</p>
+                        </button>
+                        {openDialog && (
+                          <BodyChart
+                            openDialog={openDialog}
+                            data={data}
+                            handleDialogClose={handleDialogClose}
+                          />
+                        )}
+                      </div>
+                    )}
+                    {!data.bodyChart && (
+                      <button
+                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 sm:p-2 sm:py-1  bg-black/5 hover:bg-white"
+                        onClick={() => setOpenCanvas(data._id)}
+                      >
+                        <p className="text-xs">bodychart</p>
+                      </button>
+                    )}
+                    {!data.bodyChart && openCanvas == data._id && (
+                      <BodyChartCanvas
+                        bodyChart={bodyChart}
+                        saveChart={saveChart}
+                        setOpenCanvas={setOpenCanvas}
+                        data={data}
+                        register={register}
+                        information={information}
+                        handleChange={handleChange}
+                        openDialog={openCanvas}
+                      />
+                    )}
+                  </div>
                 </div>
               )}
-              {!data.bodyChart && (
-                <button
-                  className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
-                  onClick={() => setOpenCanvas(data._id)}
-                >
-                  <p className="text-xs">bodychart</p>
-                </button>
-              )}
-              {!data.bodyChart && openCanvas == data._id && (
-                <BodyChartCanvas
-                  bodyChart={bodyChart}
-                  saveChart={saveChart}
-                  setOpenCanvas={setOpenCanvas}
-                  data={data}
-                  register={register}
-                  information={information}
-                  handleChange={handleChange}
-                  openDialog={openCanvas}
-                />
-              )}
-            </div>
           </div>
-
+          
+          {/*event*/}
           {data.status != "Rejected" &&
             eventList.map((event, index) => {
               return (
                 <div
-                  className="text-[#121212] grid grid-cols-5 text-center items-center text-lg mb-2 caption w-full gap-2"
-                  key={index}
-                >
-                  <div className="flex justify-center sm:text-xs pt-0.5">
+                  className="text-[#121212] grid grid-cols-4 justify-center text-center items-center text-lg mb-2 caption w-full gap-2"
+                  key={index}>                
+                  <div className="flex justify-center  sm:text-xs pt-0.5">
                     <p>{index + 2}</p>
                   </div>
                   <div className="sm:text-xs flex justify-center items-center ">
@@ -518,7 +524,8 @@ function AppointmentModal({
                       ""
                     )}
                   </div>
-                  <div className="flex justify-center items-center sm:text-xs">
+
+                  <div className="flex justify-center items-center  sm:text-xs">
                     {event.startTime ? (
                       <p>
                         {new Date(event.startTime).toLocaleTimeString("th-TH", {
@@ -546,7 +553,7 @@ function AppointmentModal({
                   </div>
 
                   {event.status == "Done" && (
-                    <div className="static items-center">
+                    <div className="static justify-center items-center">
                       <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs">
                         {event.status}
                       </p>
@@ -567,7 +574,9 @@ function AppointmentModal({
                     </div>
                   )}
                   {event.status != "Done" && (
-                    <div className="flex  gap-2 justify-center ">
+                   
+                    <div className="flex lg:w-fit xxl:w-fit xl:w-fit col-start-4 gap-2 justify-center items-center md:flex-col sm:flex-col ">
+                      <div className="flex gap-2 justify-center items-center ">
                       <Tooltip title="เสร็จสิ้นการนัดครั้งนี้" placement="top">
                         <div className="border-[1px]  rounded-full w-fit h-fit hover:bg-[#0921FF]/20 border-[#0921FF]">
                           <IconButton
@@ -652,13 +661,12 @@ function AppointmentModal({
                           </IconButton>
                         </div>
                       </Tooltip>
-                    </div>
-                  )}
-                  <div className="">
+                      </div>
+                      <div className="">
                     {event.bodyChart && (
                       <div>
                         <button
-                          className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
+                          className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 sm:p-2 sm:py-1 bg-black/5 hover:bg-white"
                           onClick={() => setBodyChartId(event._id)}
                         >
                           <p className="text-xs">bodychart</p>
@@ -674,7 +682,7 @@ function AppointmentModal({
                     )}
                     {!event.bodyChart && (
                       <button
-                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 bg-black/5 hover:bg-white"
+                        className="cursor-ponter border-2 w-fit h-fit rounded-full p-4 py-2 sm:p-2 sm:py-1 bg-black/5 hover:bg-white"
                         onClick={() => setOpenCanvas(event._id)}
                       >
                         <p className="text-xs">bodychart</p>
@@ -693,6 +701,11 @@ function AppointmentModal({
                       />
                     )}
                   </div>
+
+
+                    </div>
+                  )}
+                  
                 </div>
               );
             })}

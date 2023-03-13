@@ -110,7 +110,7 @@ function DetailHeader({ clinic, data, patient, course }) {
                   <span className="text-sm text-black/40">-</span>
                 )}
               </div>
-              <div className="flex items-center col-start-1 align-middle gap-2  text-base sm:pt-4">
+              <div className="flex items-center col-start-1 col-span-2 align-middle gap-2  text-base ">
                 <CircleIcon icon={<WarningIcon className="text-sm" />} />
                 <span className="body2 text-[#A17851] font-bold sm:hidden md:visible lg:visible xl:visible">
                   ข้อควรระวัง{" "}
@@ -163,7 +163,7 @@ function DetailHeader({ clinic, data, patient, course }) {
           </div>
         ) : (
           <div className="h6 space-y-4 font-medium">
-            <motion.h6 className="md:flex md:gap-3 space-y-1">
+            <motion.h6 className="md:flex  space-y-1 space-x-3 sm:space-x-0">
               <span className="h6 font-semibold md:h4 truncate">
                 ( {data.nickName} ) {data.firstName} {data.lastName}
               </span>
@@ -229,7 +229,7 @@ function DetailHeader({ clinic, data, patient, course }) {
                   <span className="text-sm text-black/40">-</span>
                 )}
               </div>
-              <div className="flex items-center  col-start-1 gap-2 text-base sm:pt-4">
+              <div className="flex items-center  col-start-1 col-span-2 gap-2 text-base">
                 {" "}
                 <CircleIcon icon={<WarningIcon className="text-sm" />} />
                 <span className="body2 text-[#A17851] font-bold xl:w-20">
@@ -256,7 +256,7 @@ function DetailHeader({ clinic, data, patient, course }) {
                   <span className="text-sm text-black/40">-</span>
                 )}
               </div>
-              <div className="flex items-center align-middle gap-2 text-base">
+              <div className="flex items-center align-middle gap-2 text-base sm:pt-4">
                 {" "}
                 <CircleIcon icon={<ChatBubbleIcon className="text-sm" />} />
                 <span className="body2 text-[#A17851] font-bold">LINE ID </span>
@@ -268,10 +268,10 @@ function DetailHeader({ clinic, data, patient, course }) {
               </div>
             </motion.h6>
             <motion.h6>
-              <div className="flex items-start align-start gap-2 xl:h6 md:h6 caption text-base">
+              <div className="flex items-start  align-start gap-2 xl:h6 md:h6 caption text-base">
                 {" "}
                 <CircleIcon icon={<LocationOnIcon className="text-sm" />} />
-                <span className="body2 text-[#A17851] font-bold">ที่อยู่ </span>
+                <span className="body2 text-[#A17851] font-bold sm:w-16 ">ที่อยู่ </span>
                 {data.location ? (
                   data.location
                 ) : (
@@ -308,7 +308,7 @@ function DetailHeader({ clinic, data, patient, course }) {
             )}
           </div>
         </Link>
-        <motion.div className=" flex justify-center pt-2 gap-2 ">
+        <motion.div className=" flex justify-center pt-2 gap-2 sm:gap-4 ">
           <div className="grid grid-cols-3 w-fit sm:grid-cols-2 sm:gap-2 ">
             <div className=" flex justify-center">
               <SimpleChip
