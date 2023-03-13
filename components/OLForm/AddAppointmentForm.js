@@ -136,7 +136,6 @@ function AddAppointmentForm({
         axiosConfig
       )
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("กำลังเพิ่มนัด...🛠️🚧");
         Router.reload();
       })

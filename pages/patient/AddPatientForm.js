@@ -69,7 +69,6 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
         axiosConfig
       )
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("เพิ่มแบบบันทึก");
         Router.reload();
         setOpen(false);

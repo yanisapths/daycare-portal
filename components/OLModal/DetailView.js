@@ -54,7 +54,6 @@ function DetailView({
         open={open}
         onClose={handleClose}
         maxWidth="xl"
-        layoutId={selectedId}
         sx={{
           "& .MuiDialog-paper": {
             width: "70%",
@@ -85,7 +84,7 @@ function DetailView({
                     ""
                   )}
                 </div>
-                
+
                 <div className="flex gap-2 justify-end  text-gray-400 cursor-pointer sm:col-start-2 sm:pt-2">
                   <Tooltip title="แก้ไข" placement="top">
                     <IconButton
@@ -100,42 +99,40 @@ function DetailView({
                     <IconButton
                       aria-label="delete"
                       size="small"
-                      onClick={() => handleOpenEdit()}
-                    >
-                      <DeleteIcon
-                        onClick={() => {
-                          handleClose();
-                          Swal.fire({
-                            title: `ลบ ${name} นี้?`,
-                            text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
-                            icon: "warning",
-                            showCancelButton: true,
-                            confirmButtonText: "ใช่ ลบเลย!",
-                            cancelButtonText: "ยกเลิก",
-                            reverseButtons: true,
-                          }).then((result) => {
-                            if (result.isConfirmed) {
-                              deleteCourse(id).then(() =>
-                                Swal.fire({
-                                  title: "ลบคอร์สแล้ว",
-                                  showConfirmButton: false,
-                                  icon: "success",
-                                  timer: 1000,
-                                })
-                              );
-                            } else if (
-                              result.dismiss === Swal.DismissReason.cancel
-                            ) {
+                      onClick={() => {
+                        handleClose();
+                        Swal.fire({
+                          title: `ลบ ${name} นี้?`,
+                          text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
+                          icon: "warning",
+                          showCancelButton: true,
+                          confirmButtonText: "ใช่ ลบเลย!",
+                          cancelButtonText: "ยกเลิก",
+                          reverseButtons: true,
+                        }).then((result) => {
+                          if (result.isConfirmed) {
+                            deleteCourse(id).then(() =>
                               Swal.fire({
-                                title: "ลบคอร์สไม่สำเร็จ: )",
+                                title: "ลบคอร์สแล้ว",
                                 showConfirmButton: false,
-                                icon: "error",
+                                icon: "success",
                                 timer: 1000,
-                              });
-                            }
-                          });
-                        }}
-                      />
+                              })
+                            );
+                          } else if (
+                            result.dismiss === Swal.DismissReason.cancel
+                          ) {
+                            Swal.fire({
+                              title: "ลบคอร์สไม่สำเร็จ: )",
+                              showConfirmButton: false,
+                              icon: "error",
+                              timer: 1000,
+                            });
+                          }
+                        });
+                      }}
+                    >
+                      <DeleteIcon />
                     </IconButton>
                   </Tooltip>
                 </div>
@@ -193,7 +190,7 @@ function DetailView({
             handleOpenEdit={handleOpenEdit}
             handleClose={handleClose}
             id={id}
-            name={name}
+            courseName={name}
             amount={amount}
             duration={duration}
             totalPrice={totalPrice}

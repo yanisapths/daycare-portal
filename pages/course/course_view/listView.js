@@ -28,7 +28,7 @@ function ListView({ clinicData, courseData }) {
     return (
       <div className="h-screen w-full  pb-10 ">
         <div className="flex justify-end">
-          <BtnAdd onClick={handleClickOpen} />
+          <BtnAdd click={handleClickOpen} />
           <AddCourse
             open={open}
             setOpen={setOpen}
@@ -63,7 +63,7 @@ function ListView({ clinicData, courseData }) {
           </p>
         </div>
         <div className="flex justify-center m-6">
-          <BtnAdd onClick={handleClickOpen} />
+          <BtnAdd click={handleClickOpen} />
           <AddCourse
             open={open}
             setOpen={setOpen}

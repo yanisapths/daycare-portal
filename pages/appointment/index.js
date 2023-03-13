@@ -112,7 +112,7 @@ const Appointment = ({ user, clinicData }) => {
           <p className="h4 pageTitle">นัดหมายดูแล</p>
           <div className="font-semibold text-[#6C5137] flex justify-end px-12">
             <div className="pt-2 xl:px-6">
-              <BtnAdd onClick={handleClickOpen} />
+              <BtnAdd click={handleClickOpen} />
               <AddAppointmentForm
                 open={open}
                 setOpen={setOpen}

@@ -19,7 +19,7 @@ import toast from "react-hot-toast";
 
 function EditCourseForm({
   id,
-  name,
+  courseName,
   amount,
   duration,
   totalPrice,
@@ -44,7 +44,7 @@ function EditCourseForm({
     mode: "onSubmit",
     reValidateMode: "onChange",
     defaultValues: {
-      name: name,
+      courseName: courseName,
       amount: amount,
       procedures: procedures,
       type: type,
@@ -59,6 +59,7 @@ function EditCourseForm({
 
   const onSubmit = async (data) => {
     const json = JSON.stringify(data);
+    console.log(json);
     let axiosConfig = {
       headers: {
         "Content-Type": "application/json;charset=UTF-8",
@@ -69,7 +70,6 @@ function EditCourseForm({
     const response = await axios
       .put(`${process.env.dev}/course/update/${id}`, json, axiosConfig)
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("บันทึกเรียบร้อย");
         Router.reload();
         setOpenEdit(false);
@@ -96,7 +96,7 @@ function EditCourseForm({
             <div className="gap-2 w-fit flex md:text-xl sm:text-lg  items-center">
               <input
                 placeholder={name ? name : ""}
-                {...register("name", { required: false })}
+                {...register("courseName", { required: false })}
                 className="border-gray-400 placeholder-gray-800 w-fit outline-none border-[1px] rounded-full px-2"
               />
               {type != "false" ? (
@@ -129,41 +129,41 @@ function EditCourseForm({
                 <IconButton
                   aria-label="delete"
                   size="small"
-                  onClick={() => handleOpenEdit()}
+                  onClick={() => {
+                    handleClose();
+                    Swal.fire({
+                      title: `ลบ ${name} นี้?`,
+                      text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
+                      icon: "warning",
+                      showCancelButton: true,
+                      confirmButtonText: "ใช่ ลบเลย!",
+                      cancelButtonText: "ยกเลิก",
+                      reverseButtons: true,
+                    }).then((result) => {
+                      if (result.isConfirmed) {
+                        deleteCourse(id).then(() =>
+                          Swal.fire({
+                            title: "ลบคอร์สแล้ว",
+                            showConfirmButton: false,
+                            icon: "success",
+                            timer: 1000,
+                          })
+                        );
+                      } else if (
+                        result.dismiss === Swal.DismissReason.cancel
+                      ) {
+                        Swal.fire({
+                          title: "ลบคอร์สไม่สำเร็จ: )",
+                          showConfirmButton: false,
+                          icon: "error",
+                          timer: 1000,
+                        });
+                      }
+                    });
+                  }}
                 >
                   <DeleteIcon
-                    onClick={() => {
-                      handleClose();
-                      Swal.fire({
-                        title: `ลบ ${name} นี้?`,
-                        text: "หากลบแล้วจะไม่สามารถย้อนกลับได้",
-                        icon: "warning",
-                        showCancelButton: true,
-                        confirmButtonText: "ใช่ ลบเลย!",
-                        cancelButtonText: "ยกเลิก",
-                        reverseButtons: true,
-                      }).then((result) => {
-                        if (result.isConfirmed) {
-                          deleteCourse(id).then(() =>
-                            Swal.fire({
-                              title: "ลบคอร์สแล้ว",
-                              showConfirmButton: false,
-                              icon: "success",
-                              timer: 1000,
-                            })
-                          );
-                        } else if (
-                          result.dismiss === Swal.DismissReason.cancel
-                        ) {
-                          Swal.fire({
-                            title: "ลบคอร์สไม่สำเร็จ: )",
-                            showConfirmButton: false,
-                            icon: "error",
-                            timer: 1000,
-                          });
-                        }
-                      });
-                    }}
+                  
                   />
                 </IconButton>
               </Tooltip>
@@ -308,6 +308,7 @@ function EditCourseForm({
           <div className="mx-auto text-center flex flex-row justify-center">
             <button
               type="submit"
+              onClick={handleSubmit(onSubmit)}
               className="bg-[#AD8259] border-[#AD8259] text-white cursor-ponter border-2 w-fit h-fit rounded-full px-8 p-2 py-1 hover:shadow-xl hover:shadow-[#AD8259]/60 hover:bg-[#E0B186] hover:border-[#E0B186]/5"
             >
               บันทึก

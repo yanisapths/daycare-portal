@@ -112,7 +112,6 @@ function EditClinicForm({ data, handleOpenEdit, setOpenEdit,clinicId }) {
     const response = await axios
       .put(`${process.env.dev}/clinic/update/${clinicId}`, json, axiosConfig)
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("บันทึกเรียบร้อย");
         Router.reload();
       })

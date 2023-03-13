@@ -1,10 +1,10 @@
 import React from "react";
 
-function BtnAdd({ onClick }) {
+function BtnAdd({ click }) {
   return (
     <>
       <button
-        onClick={onClick}
+        onClick={click}
         className="w-24  h-8  text-sm border-2 border-[#FFECA7] rounded-full sm:w-20  xxxl:h-11 xxxl:text-lg
       bg-[#FFECA7] hover:bg-[#FFECA7]/70 shadow-lg font-bold text-[#AD8259]"
       >
