@@ -124,7 +124,6 @@ const Availability = ({ clinicData }) => {
         axiosConfig
       )
       .then(async (res) => {
-        console.log("RESPONSE RECEIVED: ", res.data);
         toast.success("เพิ่มวันเวลาว่างสำเร็จ");
         Router.reload();
       })
@@ -147,7 +146,7 @@ const Availability = ({ clinicData }) => {
             <h1 className="pageTitle">จัดการวันว่าง</h1>
 
             <div className="flex justify-end px-8  ">
-              <BtnAdd onClick={handleClickOpen} />
+              <BtnAdd click={handleClickOpen} />
             </div>
             <div
               className="space-y-12 px-12 md:space-y-16 md:flex-col md:items-center md:px-0 md:pt-6 lg:pt-7 lg:justify-center lg:gap-10 lg:flex lg:space-y-0 lg:px-0  xxl:pt-4 xl:space-y-0  xl:pt-4 
