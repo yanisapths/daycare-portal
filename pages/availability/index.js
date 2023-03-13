@@ -11,7 +11,7 @@ import Header from "../../components/Header";
 import FooterSocial from "../../components/FooterSocial";
 import SimpleCalendar from "../../components/calendar/SimpleCalendar";
 
-import DatePicker from "react-datepicker";
+import DatePicker,{ registerLocale } from "react-datepicker";
 import FormControl from "@mui/material/FormControl";
 import { useTheme } from "@mui/material/styles";
 import IconButton from "@mui/material/IconButton";
@@ -26,6 +26,9 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Controller, useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+
+import th from "date-fns/locale/th"; 
+registerLocale("th", th); 
 
 const Availability = ({ clinicData }) => {
   const { data: session, status } = useSession();
@@ -285,6 +288,7 @@ const Availability = ({ clinicData }) => {
                          w-full px-16 py-2 focus:border-black border-[#A17851]"
                               onChange={onChange}
                               selected={value}
+                              locale="th"
                             />
                           )}
                         />
@@ -308,6 +312,7 @@ const Availability = ({ clinicData }) => {
                                 timeIntervals={15}
                                 timeCaption="Time"
                                 dateFormat="h:mm aa"
+                                locale="th"
                               />
                             </>
                           )}
@@ -334,6 +339,7 @@ const Availability = ({ clinicData }) => {
                                 timeIntervals={15}
                                 timeCaption="Time"
                                 dateFormat="h:mm aa"
+                                locale="th"
                               />
                             </>
                           )}
