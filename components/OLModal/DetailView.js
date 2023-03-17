@@ -56,9 +56,12 @@ function DetailView({
         maxWidth="xl"
         sx={{
           "& .MuiDialog-paper": {
-            width: "70%",
+            width: "80%",
             boxShadow: "none",
             borderRadius: "30px",
+            "@media (max-width:600px)":{
+              width:"90%",
+            }
           },
         }}
       >

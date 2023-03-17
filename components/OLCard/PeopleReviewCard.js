@@ -17,7 +17,7 @@ function PeopleReviewCard({
   };
 
   return (
-    <div className="w-full h-[200px] translation hover:shadow-lg rounded-2xl lg:p-8 p-2 pb-4 bg-white lg:w-[450px] lg:h-[250px]">
+    <div className="w-full h-fit translation hover:shadow-lg rounded-2xl lg:p-8 p-2 pb-4 bg-white lg:w-[450px] lg:h-[250px]">
       <div className="flex items-center space-x-4">
         {!imageUrl && (
           <>
