@@ -370,7 +370,7 @@ function AddAppointmentForm({
                 </section>
                 <section className="flex items-center justify-center lg:px-8 py-8 px-12 lg:col-span-12 xl:col-span-6">
                   <div className="max-w-xl lg:max-w-3xl">
-                    <div className="mt-8 grid grid-cols-6 gap-6">
+                    <div className=" grid grid-cols-6 gap-6">
                       <section className="col-span-6 space-y-4">
                         <div className="col-span-6">
                           <label htmlFor="course" className="inputLabel">

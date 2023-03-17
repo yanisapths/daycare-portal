@@ -102,15 +102,14 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
         <DialogContent>
           <Box>
             <form onSubmit={handleSubmit(onSubmit)}>
-              <div className="lg:grid lg:grid-cols-12">
-                <section className="flex justify-center lg:px-8 py-8 px-12 lg:col-span-7 xl:col-span-6">
+              <div className="">
+                <section className="flex justify-center lg:px-8 py-3 px-12 sm:px-0 lg:col-span-6 xl:col-span-6">
                   <div className="max-w-xl lg:max-w-3xl">
-                    <div className="grid grid-cols-6 gap-6">
-                      <div className="col-span-3">
+                    <div className="grid grid-cols-6 sm:flex sm:flex-col sm:gap-3 gap-6">
+                      <div className="col-span-3 sm:col-start-1 ">
                         <label
                           htmlFor="firstName"
-                          className="inputLabel pb-0 text-sm"
-                        >
+                          className="inputLabel pb-0 text-sm sm:w-24" >
                           ชื่อ
                         </label>
 
@@ -122,7 +121,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           {...register("firstName", { required: false })}
                         />
                       </div>
-                      <div className="col-span-3">
+                      <div className="col-span-3  sm:col-span-2">
                         <label
                           htmlFor="lastName"
                           className="inputLabel pb-0 text-sm"
@@ -154,7 +153,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           {...register("nickName", { required: false })}
                         />
                       </div>
-                      <div className="col-span-2">
+                      <div className="col-span-2 sm:col-start-1">
                         <label
                           htmlFor="age"
                           className="inputLabel pb-0 text-sm"
@@ -183,12 +182,15 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                               <Select
                                 sx={{
                                   borderRadius: "40px",
-                                  height: "46px",
-                                  "@media (min-width: 780px)": {
+                                  height: "50px",
+                                  "@media (min-width: 768px)": {
                                     width: "120px",
                                   },
                                   border: "2px solid #AD8259",
                                   px: 2,
+                                  "@media (min-width:320px)":{
+                                    width: "255px",
+                                  },
                                 }}
                                 {...field}
                                 {...register("sex", { required: false })}
@@ -300,7 +302,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           {...register("position", { required: false })}
                         />
                       </div>
-                      <div className="col-span-3">
+                      <div className=" col-span-3">
                         <label
                           htmlFor="education"
                           className="inputLabel pb-0 text-sm"
@@ -319,6 +321,9 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                                   },
                                   border: "2px solid #AD8259",
                                   px: 2,
+                                  "@media (min-width:320px)":{
+                                    width: "255px",
+                                  },
                                 }}
                                 {...field}
                                 {...register("education", { required: false })}
@@ -339,7 +344,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           control={control}
                         />
                       </div>
-                      <div className="col-span-3">
+                      <div className="sm:col-start-1 col-span-3">
                         <label
                           htmlFor="income"
                           className="inputLabel pb-0 text-sm"
@@ -358,6 +363,9 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                                   },
                                   px: 2,
                                   border: "2px solid #AD8259",
+                                  "@media (min-width:320px)":{
+                                    width: "255px",
+                                  },
                                 }}
                                 {...field}
                                 {...register("income", { required: false })}
@@ -381,10 +389,10 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                     </div>
                   </div>
                 </section>
-                <section className="flex items-center justify-center lg:px-8 py-8 px-12 lg:col-span-7 xl:col-span-6">
+                <section className="flex items-center justify-center lg:px-8 py-5 px-10 ">
                   <div className="max-w-xl lg:max-w-3xl">
-                    <div className="mt-8 grid grid-cols-6 gap-6">
-                      <div className="col-span-6">
+                    <div className="mt-8 grid grid-cols-2 sm:grid-cols-1 gap-6 md:px-10">
+                      <div className="">
                         <label htmlFor="HN" className="inputLabel pb-0 text-sm">
                           HN (เลขประจำตัวผู้ป่วย)
                         </label>
@@ -397,7 +405,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           {...register("HN", { required: false })}
                         />
                       </div>
-                      <div className="col-span-6">
+                      <div className="">
                         <label
                           htmlFor="chiefComplaint"
                           className="inputLabel pb-0 text-sm"
@@ -413,7 +421,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           {...register("chiefComplaint", { required: false })}
                         />
                       </div>
-                      <div className="col-span-6">
+                      <div className="">
                         <label
                           htmlFor="diagnosis"
                           className="inputLabel pb-0 text-sm"
@@ -429,7 +437,7 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           {...register("diagnosis", { required: false })}
                         />
                       </div>
-                      <div className="col-span-6">
+                      <div className="">
                         <label
                           htmlFor="precaution"
                           className="inputLabel pb-0 text-sm"

@@ -15,7 +15,7 @@ function AddEventForm({
 }) {
   return (
     <form
-      className="text-[#121212] grid grid-cols-5 items-center text-center text-lg  w-full  gap-2"
+      className="text-[#121212] grid grid-cols-4 items-center text-center text-lg  w-full  gap-2"
       key={index}
       onSubmit={handleSubmit(onSubmit)}
     >
