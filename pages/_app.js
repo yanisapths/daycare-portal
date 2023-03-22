@@ -11,7 +11,7 @@ import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
 import Head from "next/head";
 import ManualButton from "../components/OLButton/ManualButton";
-import Manual from "../components/manual";
+import Manual from "../components/Manual";
 
 const progress = new ProgressBar({
   size: 5,
