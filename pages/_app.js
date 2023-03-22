@@ -10,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../theme";
 import Head from "next/head";
+import ManualButton from "../components/OLButton/ManualButton";
 
 const progress = new ProgressBar({
   size: 5,
@@ -34,6 +35,7 @@ function MyApp({ Component, pageProps: { session, ...pageProps } }) {
         <RecoilRoot>
           <Toaster />
           <Component {...pageProps} />
+          <ManualButton />
         </RecoilRoot>
       </ThemeProvider>
     </SessionProvider>
