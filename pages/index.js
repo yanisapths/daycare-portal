@@ -7,6 +7,7 @@ import Header from "../components/Header";
 import Dashboard from "./dashboard";
 import BannerCard from "../components/common/BannerCard";
 import FooterSocial from "../components/FooterSocial";
+import ManualButton from "../components/OLButton/ManualButton";
 
 function Home({ clinicData }) {
   const { data: session, status } = useSession();
@@ -38,6 +39,7 @@ function Home({ clinicData }) {
           </div>
           <Dashboard data={clinicData} clinicId={clinicData._id} />
         </main>
+        <ManualButton />
         <FooterSocial />
       </div>
     );
