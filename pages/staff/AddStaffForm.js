@@ -81,7 +81,7 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
         >
           เพิ่มพนักงาน
         </DialogTitle>
-        <DialogContent>
+        <DialogContent dividers>
           <Box>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="">
@@ -273,7 +273,8 @@ function AddStaffForm({ id, clinicData, open, handleClose, setOpen }) {
             </form>
           </Box>
         </DialogContent>
-        <DialogActions sx={{ mx: 4, mb: 4, justifyContent: "center" }}>
+        <DialogActions sx={{ mx: 4, my: 2, justifyContent: "center", alignItems:"center" }}>
+          
           <button
             className="hover:shadow-lg 
             w-28 h-10 hover:bg-black/5
