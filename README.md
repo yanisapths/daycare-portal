@@ -1,6 +1,6 @@
 ![Facebook post - 1 (3)](https://user-images.githubusercontent.com/72002605/227770800-4fa8e9a0-59be-4217-afb9-15cc3f4ae41b.png)
 ## About 
-Thiis project is all-in-one platform for customers to have reserve appointment easily and physical therapy businesses with time and cost-effective of routine work into everyday operation by keeping everything in one place.
+This project is all-in-one platform for customers to have reserve appointment easily and physical therapy businesses with time and cost-effective of routine work into everyday operation by keeping everything in one place.
 
  Backend repository: https://github.com/yanisapths/hyp-api
 
