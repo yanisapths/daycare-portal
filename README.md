@@ -2,6 +2,8 @@
 ## About 
 Thiis project is all-in-one platform for customers to have reserve appointment easily and physical therapy businesses with time and cost-effective of routine work into everyday operation by keeping everything in one place.
 
+ Backend repository: https://github.com/yanisapths/hyp-api
+
 ## Getting Started
 This repo is the clinic management appliciation.
  This app included:
@@ -29,7 +31,7 @@ and more
 
 # How to build the project?
 ```bash
-git clone https://github.com/Happy-Elders/daycare-portal.git
+git clone https://github.com/yanisapths/daycare-portal.git
 npm install
 ```
 ### Environment Variables 
