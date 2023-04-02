@@ -318,7 +318,7 @@ function AppointmentModal({
               </p>
             </div>
             {data.progressStatus == "Done" && (
-              <div className="flex flex-col gap-2 sm:gap-0  justify-center items-center">
+              <div className="flex flex-row gap-2 sm:flex sm:flex-col sm:items-center sm:justify-center md:flex md:flex-col md:items-center md:justify-center">
                 <span className=" text-[#2ED477]/80 md:hidden lg:hidden xl:hidden xxl:hidden sm:text-xs flex justify-center">
                   {data.progressStatus ? data.progressStatus : data.status}
                 </span>
@@ -593,7 +593,7 @@ function AppointmentModal({
                   </div>
 
                   {event.status == "Done" && (
-                    <div className="flex flex-col justify-center items-center gap-2 sm:gap-0">
+                    <div className="flex flex-row gap-2 sm:flex sm:flex-col sm:items-center sm:justify-center md:flex md:flex-col md:items-center md:justify-center">
                       <p className=" text-[#2ED477]/80 md:hidden xl:hidden lg:hidden sm:text-xs">
                         {event.status}
                       </p>
