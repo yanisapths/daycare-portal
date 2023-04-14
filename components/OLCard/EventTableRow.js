@@ -156,9 +156,7 @@ function EventTableRow({ clinic,event, user }) {
       )}
       <tr
         key={event._id}
-        layoutId={event._id}
         onClick={() => setSelectedId(event._id)}
-        disable={event.status == "Done" ? true : false}
         className={
           event.status == "Approved"
             ? "bg-[#2ED477]/5 cursor-pointer hover:bg-[#2ED477]/20 text-[#6C5137]"

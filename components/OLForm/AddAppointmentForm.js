@@ -510,7 +510,6 @@ function AddAppointmentForm({
                                       required: false,
                                     })}
                                     onChange={onChange}
-                                    multiline
                                   />
                                 </>
                               )}
@@ -557,7 +556,6 @@ function AddAppointmentForm({
             <button
             className=" hover:shadow-lg w-20 h-9 hover:bg-black/5 rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
             onClick={handleClose}
-            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
             ยกเลิก
           </button>
@@ -568,7 +566,6 @@ function AddAppointmentForm({
                   w-20 h-9 rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg
                   bg-[#FFECA7] hover:bg-[#FFECA7]/70"
             onClick={handleSubmit(onSubmit)}
-            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
             เพิ่ม
           </button>

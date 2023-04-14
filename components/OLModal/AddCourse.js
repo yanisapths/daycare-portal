@@ -85,12 +85,6 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
               <div className="flex flex-col text-center rounded-xl">
                 <div className="px-24 sm:px-0  md:px-10">
                   <input
-                    sx={{
-                      "& label.focused": {
-                        color: theme.palette.primary.main,
-                        borderColor: theme.palette.primary.main,
-                      },
-                    }}
                     type="text"
                     name="courseName"
                     placeholder="ชื่อคอร์ส"
@@ -362,7 +356,6 @@ function AddCourse({ clinicData, open, handleClose, setOpen }) {
                   w-20 h-9  hover:underline
                   rounded-full sm:text-sm md:text-base lg:h-10 lg:text-lg xxl:h-11 xxl:text-xl"
               onClick={handleClose}
-              sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
             >
               ยกเลิก
             </button>

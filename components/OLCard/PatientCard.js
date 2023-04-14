@@ -25,7 +25,6 @@ function PatientCard({ clinic,d, index }) {
        <Tooltip title="ดูรายละเอียด" placement="top">
       <tr
         key={d._id}
-        layoutId={d._id}
         onClick={() => setSelectedId(d._id)}
         className="cursor-pointer hover:bg-[#AD8259]/20 text-[#6C5137]"
       >

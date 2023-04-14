@@ -1,12 +1,14 @@
 FROM node:14
 
-WORKDIR  /olive_frontend
+RUN mkdir /clinic_frontend 
 
-COPY . .
+WORKDIR  /clinic_frontend
+
+COPY ./package.json /clinic_frontend
 
 RUN npm install
 
-COPY . /olive_frontend
+COPY . /clinic_frontend
 
 RUN npm run build 
 

@@ -207,7 +207,6 @@ function DetailView({
               className=" text-[#FF2F3B] w-20 h-9  hover:underline
                   sm:text-sm md:text-base lg:h-10 lg:text-lg xxl:h-11 xxl:text-xl"
               onClick={handleClose}
-              sx={{ fontSize: "18px" }}
             >
               ยกเลิก
             </button>

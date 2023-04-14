@@ -120,9 +120,7 @@ function RequestTableRow({ d, index }) {
       <Tooltip title="ดูรายละเอียด" placement="top">
         <tr
           key={d._id}
-          layoutId={d._id}
           onClick={() => setSelectedId(d._id)}
-          disable={d.status == "Done" ? true : false}
           className={
             d.status == "Approved"
               ? "bg-[#2ED477]/5 cursor-pointer hover:bg-[#2ED477]/20 text-[#6C5137]"

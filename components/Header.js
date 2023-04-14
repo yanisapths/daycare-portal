@@ -9,6 +9,8 @@ import MenuIcon from "@mui/icons-material/Menu";
 import SideBar from "./SideBar";
 import NavBar from "./NavBar";
 import { Dropdown } from "react-multi-select-component";
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+
 function Header({ placeholder }) {
   const { data: session } = useSession();
   const router = useRouter();
@@ -37,10 +39,10 @@ function Header({ placeholder }) {
             </h1>
           </div>
           {/* Right */}
-          <div className="pr-3 pt-1 m-1 ">
-            <Menu as="div" className="inline-block text-left ">
+          <div className="pr-3 pt-1 m-1">
+            <Menu as="div" className="inline-block text-left">
               <div className="relative">
-                <Menu.Button className="flex border-[#6C5137]   border-opacity-70 border-2 p-1 rounded-full items-center">
+                <Menu.Button className="flex border-[#6C5137] border-opacity-70 border-2 p-1 gap-2 rounded-full items-center">
                   {/*Profile Picture */}
                   {!session && (
                     <>
@@ -65,6 +67,8 @@ function Header({ placeholder }) {
                           height="35"
                         />
                       )}
+                      <p className="text-[#6C5137]">{session.user.name}</p>
+                      <ArrowDropDownIcon className="text-[#6C5137]"/>
                     </>
                   )}
                 </Menu.Button>

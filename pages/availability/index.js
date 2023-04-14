@@ -358,7 +358,6 @@ const Availability = ({ clinicData }) => {
                   className="body1 lg:h6 rounded-full outline-none border-2 border-black/25 hover:bg-black/10
                 px-6 py-2 "
                   onClick={handleClose}
-                  sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
                 >
                   ยกเลิก
                 </button>

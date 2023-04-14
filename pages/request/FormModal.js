@@ -155,14 +155,12 @@ function FormModal({ request, open, handleClose }) {
             className="w-20 h-9 hover:bg-black/10
                   rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
             onClick={handleClose}
-            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
             ยกเลิก
           </button>
           <button
             className="hover:shadow-lg bg-[#FF2F3B] text-white w-20 h-9  border-2 border-[#FF2F3B] hover:text-[#FF2F3B] hover:bg-[#FF2F3B]/20 hover:border-transparent rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
             onClick={handleSubmit(onSubmit)}
-            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
             ตกลง
           </button>

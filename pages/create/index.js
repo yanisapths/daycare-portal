@@ -275,7 +275,6 @@ function Create() {
                     id="phoneNumber"
                     name="phoneNumber"
                     className="inputBox"
-                    error={!!errors.phoneNumber}
                     {...register("phoneNumber", {
                       required: false,
                       pattern: {

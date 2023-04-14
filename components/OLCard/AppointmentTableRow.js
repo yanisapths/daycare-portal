@@ -136,7 +136,6 @@ function AppointmentTableRow({ clinic,d, index, event, user }) {
         <Tooltip title="ดูรายละเอียด" placement="top">
           <tr
             key={d._id}
-            layoutid={d._id}
             onClick={() => setSelectedId(d._id)}
             className={
               d.status == "Approved"

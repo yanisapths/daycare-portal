@@ -256,7 +256,6 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
                           id="phoneNumber"
                           name="phoneNumber"
                           className="inputOutline"
-                          error={!!errors.phoneNumber}
                           {...register("phoneNumber", {
                             required: false,
                             pattern: {
@@ -466,7 +465,6 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
             w-28 h-10 hover:bg-black/5
             rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg"
             onClick={handleClose}
-            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
             ยกเลิก
           </button>
@@ -475,7 +473,6 @@ function AddPatientForm({ open, handleClose, setOpen,clinic }) {
             w-28 h-10 rounded-full sm:text-sm lg:h-10 lg:text-base xxxl:h-11 xxxl:text-lg
             bg-[#FFECA7] hover:bg-[#FFECA7]/70"
             onClick={handleSubmit(onSubmit)}
-            sx={{ color: theme.palette.secondary.main, fontSize: "18px" }}
           >
             เพิ่ม
           </button>
