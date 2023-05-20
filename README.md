@@ -57,6 +57,15 @@ GOOGLE_CLIENT_SECRET=
 ```bash
 npm run dev
 ```
+# 🤝 Contribution
+ Most of the features are completed for the requirement of the class project, however this project need improvements to make it more efficient and optimize, so anyone can contribute and improve this project by make pull requests, require review.
+ 
+# Suggestions
+
+- Reservation - In a booking form, everytime user want to make new request from customer app, they have to rewrite their contact infomation everytime.
+- Clinic Registration - On create clinic form, when selecting opening days, it's not clear that user can select multiple days.
+- Reservation - On a calendar, user has to click at the day to know which day they have an appointment.
+- Appointment - New customers are uncertain which courses they should reserve.
 
 # License
 
